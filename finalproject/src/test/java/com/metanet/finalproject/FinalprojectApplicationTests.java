@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.metanet.finalproject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FinalApplicationTests {
+class FinalprojectApplicationTests {
 
 	@Test
 	void contextLoads() {

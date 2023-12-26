@@ -1,13 +1,13 @@
-package com.example.demo;
+package com.metanet.finalproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinalApplication {
+public class FinalprojectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FinalApplication.class, args);
+		SpringApplication.run(FinalprojectApplication.class, args);
 	}
 
 }
