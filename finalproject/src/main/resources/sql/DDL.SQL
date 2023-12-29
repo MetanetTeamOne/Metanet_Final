@@ -343,15 +343,15 @@ VALUES (1, '셔츠', 1, 15000, 1);
 
 -- 회원 (MEMBER) 테이블 예시 데이터
 INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-VALUES (1, '김예시', 'example@example.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1');
+VALUES (1, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
 
 -- 권한 (ROLE) 테이블 예시 데이터
 INSERT INTO ROLE (member_id, role_name)
-VALUES (1, '일반회원');
+VALUES (1, 'ROLE_USER');
 
 -- 주소 (ADDRESS) 테이블 예시 데이터
 INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
-VALUES (1, '12345', '예시로드 1번길', '예시 아파트 101호', '집', '김예시 집', 1);
+VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', 'KOSA 교육장', '최가인 교육장', 1);
 
 -- 주문 (ORDERS) 테이블 예시 데이터
 INSERT INTO ORDERS (orders_id, wash_id, orders_count, orders_price, orders_date, orders_comment, orders_status, member_id, laundry_id)
@@ -363,6 +363,6 @@ VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
 
 -- 파일 (FILES) 테이블 예시 데이터
 INSERT INTO FILES (files_id, files_oname, files_nname, files_path, files_type, orders_id)
-VALUES (1, '세탁전 사진', 'before.jpg', '/path/to/before.jpg', 'jpg', 1);
+VALUES (1, 'before.jpg', '세탁전 사진', '/path/to/before.jpg', 'jpg', 1);
 
 COMMIT;
