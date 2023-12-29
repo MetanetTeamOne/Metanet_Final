@@ -90,7 +90,7 @@ CREATE TABLE ADDRESS (
 	address_zipcode VARCHAR2(10) NOT NULL, /* 배송주소 우편번호 */
 	address_road VARCHAR2(50) NOT NULL, /* 배송주소 도로명 */
 	address_content VARCHAR2(50) NOT NULL, /* 배송주소 상세 주소 */
-	address_category VARCHAR2(4), /* 배송 구분 */
+	address_category VARCHAR2(4), /* 배송 구분 **/
 	address_detail VARCHAR2(150), /* 상세 설명 */
 	member_id NUMBER NOT NULL /* 회원 ID */
 );
@@ -354,8 +354,7 @@ INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content,
 VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', 'KOSA 교육장', '최가인 교육장', 1);
 
 -- 주문 (ORDERS) 테이블 예시 데이터
-INSERT INTO ORDERS (orders_id, wash_id, orders_count, orders_price, orders_date, orders_comment, orders_status, member_id, laundry_id)
-VALUES (1, 1, 2, 30000, TO_DATE('2023-01-20', 'YYYY-MM-DD'), '부드러운 세탁 부탁드려요', '1', 1, 1);
+insert into orders (ORDERS_SEQ, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', 1, 1, 1)
 
 -- 결제 (PAY) 테이블 예시 데이터
 INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
@@ -364,5 +363,36 @@ VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
 -- 파일 (FILES) 테이블 예시 데이터
 INSERT INTO FILES (files_id, files_oname, files_nname, files_path, files_type, orders_id)
 VALUES (1, 'before.jpg', '세탁전 사진', '/path/to/before.jpg', 'jpg', 1);
+
+-- 세탁 카테고리 테이블 예시 데이터
+insert into laundry_category values (LAUNDRY_CATEGORY_SEQ.NEXTVAL, '상의', '정장상의, 셔츠, 블라우스, 맨투맨, 후드티, 코트, 패딩 등');
+insert into laundry_category values (LAUNDRY_CATEGORY_SEQ.NEXTVAL, '하의', '정장하의, 반바지, 바지, 스커트 등');
+insert into laundry_category values (LAUNDRY_CATEGORY_SEQ.NEXTVAL, '신발', '일반 운동화, 가죽 운동화, 골프화, 등산화 등');
+insert into laundry_category values (LAUNDRY_CATEGORY_SEQ.NEXTVAL, '기타', '모자, 넥타이, 목도리 등');
+
+-- 세탁물 테이블 예시 데이터
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '셔츠', 2, 2500, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '블라우스', 2, 4900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '맨투맨', 1, 5900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '후드티', 1, 5900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '조끼', 2, 4900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '원피스', 2, 7900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '정장상의', 2, 2500, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '가디건', 2, 7900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '코트', 2, 13900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '패딩', 2, 15900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '가죽자켓', 2, 17900, 1);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '정장하의', 2, 4900, 2);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '반바지', 1, 3900, 2);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '바지', 1, 2500, 2);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스커트', 1, 5900, 2);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '운동화', 1, 5900, 3);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '캔버스', 1, 5900, 3);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '골프화', 2, 11900, 3);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '등산화', 2, 11900, 3);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '넥타이', 1, 2900, 4);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '모자', 1, 5900, 4);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '목도리', 2, 6900, 4);
+insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 
 COMMIT;
