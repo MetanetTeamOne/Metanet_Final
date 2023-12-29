@@ -1,32 +1,32 @@
-/* íšŒì› */
+/* È¸¿ø */
 DROP TABLE MEMBER 
 	CASCADE CONSTRAINTS;
 
-/* ê¶Œí•œ */
+/* ±ÇÇÑ */
 DROP TABLE ROLE 
 	CASCADE CONSTRAINTS;
 
-/* ì£¼ì†Œ */
+/* ÁÖ¼Ò */
 DROP TABLE ADDRESS 
 	CASCADE CONSTRAINTS;
 
-/* ì£¼ë¬¸ */
+/* ÁÖ¹® */
 DROP TABLE ORDERS 
 	CASCADE CONSTRAINTS;
 
-/* ê²°ì œ */
+/* °áÁ¦ */
 DROP TABLE PAY 
 	CASCADE CONSTRAINTS;
 
-/* íŒŒì¼ */
+/* ÆÄÀÏ */
 DROP TABLE FILES 
 	CASCADE CONSTRAINTS;
 
-/* ì„¸íƒë¬¼ */
+/* ¼¼Å¹¹° */
 DROP TABLE LAUNDRY 
 	CASCADE CONSTRAINTS;
 
-/* ì„¸íƒ ì¹´í…Œê³ ë¦¬ */
+/* ¼¼Å¹ Ä«Å×°í¸® */
 DROP TABLE LAUNDRY_CATEGORY 
 	CASCADE CONSTRAINTS;
     
@@ -40,18 +40,18 @@ DROP SEQUENCE ORDERS_SEQ;
 
 DROP SEQUENCE PAY_SEQ;
 
-/* íšŒì› */
+/* È¸¿ø */
 CREATE TABLE MEMBER (
-	member_id NUMBER NOT NULL, /* íšŒì› ID */
-	member_name VARCHAR2(50) NOT NULL, /* íšŒì›ì´ë¦„ */
-	member_email VARCHAR2(200) NOT NULL, /* ì´ë©”ì¼ */
-	member_phone_number VARCHAR2(50) NOT NULL, /* íœ´ëŒ€í°ë²ˆí˜¸ */
-	member_password VARCHAR2(200) NOT NULL, /* ë¹„ë°€ë²ˆí˜¸ */
-	member_join_date DATE NOT NULL, /* ê°€ì…ë‚ ì§œ */
-	member_join_state VARCHAR2(4) NOT NULL, /* ê°€ì…ìƒíƒœ */
-	member_subscribe VARCHAR2(4) NOT NULL, /* êµ¬ë…ìƒíƒœ */
-	member_subscribe_date DATE, /* êµ¬ë…ë‚ ì§œ */
-	member_card VARCHAR2(4) NOT NULL /* ì¹´ë“œë“±ë¡ìƒíƒœ */
+	member_id NUMBER NOT NULL, /* È¸¿ø ID */
+	member_name VARCHAR2(50) NOT NULL, /* È¸¿øÀÌ¸§ */
+	member_email VARCHAR2(200) NOT NULL, /* ÀÌ¸ŞÀÏ */
+	member_phone_number VARCHAR2(50) NOT NULL, /* ÈŞ´ëÆù¹øÈ£ */
+	member_password VARCHAR2(200) NOT NULL, /* ºñ¹Ğ¹øÈ£ */
+	member_join_date DATE NOT NULL, /* °¡ÀÔ³¯Â¥ */
+	member_join_state VARCHAR2(4) NOT NULL, /* °¡ÀÔ»óÅÂ */
+	member_subscribe VARCHAR2(4) NOT NULL, /* ±¸µ¶»óÅÂ */
+	member_subscribe_date DATE, /* ±¸µ¶³¯Â¥ */
+	member_card VARCHAR2(4) NOT NULL /* Ä«µåµî·Ï»óÅÂ */
 );
 
 CREATE UNIQUE INDEX PK_MEMBER
@@ -64,12 +64,12 @@ ALTER TABLE MEMBER
 		CONSTRAINT PK_MEMBER
 		PRIMARY KEY (
 			member_id
-		)ON DELETE CASCADE;
+		);
 
-/* ê¶Œí•œ */
+/* ±ÇÇÑ */
 CREATE TABLE ROLE (
-	member_id NUMBER NOT NULL, /* íšŒì› ID */
-	role_name VARCHAR2(50) NOT NULL /* ê¶Œí•œì´ë¦„ */
+	member_id NUMBER NOT NULL, /* È¸¿ø ID */
+	role_name VARCHAR2(50) NOT NULL /* ±ÇÇÑÀÌ¸§ */
 );
 
 CREATE UNIQUE INDEX PK_ROLE
@@ -84,15 +84,15 @@ ALTER TABLE ROLE
 			member_id
 		);
 
-/* ì£¼ì†Œ */
+/* ÁÖ¼Ò */
 CREATE TABLE ADDRESS (
-	address_id NUMBER NOT NULL, /* ì£¼ì†Œ ë²ˆí˜¸ */
-	address_zipcode VARCHAR2(10) NOT NULL, /* ë°°ì†¡ì£¼ì†Œ ìš°í¸ë²ˆí˜¸ */
-	address_road VARCHAR2(50) NOT NULL, /* ë°°ì†¡ì£¼ì†Œ ë„ë¡œëª… */
-	address_content VARCHAR2(50) NOT NULL, /* ë°°ì†¡ì£¼ì†Œ ìƒì„¸ ì£¼ì†Œ */
-	address_category VARCHAR2(4), /* ë°°ì†¡ êµ¬ë¶„ */
-	address_detail VARCHAR2(150), /* ìƒì„¸ ì„¤ëª… */
-	member_id NUMBER NOT NULL /* íšŒì› ID */
+	address_id NUMBER NOT NULL, /* ÁÖ¼Ò ¹øÈ£ */
+	address_zipcode VARCHAR2(10) NOT NULL, /* ¹è¼ÛÁÖ¼Ò ¿ìÆí¹øÈ£ */
+	address_road VARCHAR2(50) NOT NULL, /* ¹è¼ÛÁÖ¼Ò µµ·Î¸í */
+	address_content VARCHAR2(50) NOT NULL, /* ¹è¼ÛÁÖ¼Ò »ó¼¼ ÁÖ¼Ò */
+	address_category VARCHAR2(4), /* ¹è¼Û ±¸ºĞ */
+	address_detail VARCHAR2(150), /* »ó¼¼ ¼³¸í */
+	member_id NUMBER NOT NULL /* È¸¿ø ID */
 );
 
 CREATE UNIQUE INDEX PK_ADDRESS
@@ -107,17 +107,17 @@ ALTER TABLE ADDRESS
 			address_id
 		);
 
-/* ì£¼ë¬¸ */
+/* ÁÖ¹® */
 CREATE TABLE ORDERS (
-	orders_id NUMBER NOT NULL, /* ì£¼ë¬¸ ID */
-	wash_id NUMBER NOT NULL, /* ì„¸íƒ ID */
-	orders_count NUMBER NOT NULL, /* ìˆ˜ëŸ‰ */
-	orders_price NUMBER NOT NULL, /* ê¸ˆì•¡ */
-	orders_date DATE NOT NULL, /* ì£¼ë¬¸ë‚ ì§œ */
-	orders_comment VARCHAR2(60), /* ìš”ì²­ì‚¬í•­ */
-	orders_status VARCHAR2(30) NOT NULL, /* ì§„í–‰ìƒíƒœ */
-	member_id NUMBER NOT NULL, /* íšŒì› ID */
-	laundry_id NUMBER /* ì„¸íƒë¬¼ ID */
+	orders_id NUMBER NOT NULL, /* ÁÖ¹® ID */
+	wash_id NUMBER NOT NULL, /* ¼¼Å¹ ID */
+	orders_count NUMBER NOT NULL, /* ¼ö·® */
+	orders_price NUMBER NOT NULL, /* ±İ¾× */
+	orders_date DATE NOT NULL, /* ÁÖ¹®³¯Â¥ */
+	orders_comment VARCHAR2(60), /* ¿äÃ»»çÇ× */
+	orders_status VARCHAR2(30) NOT NULL, /* ÁøÇà»óÅÂ */
+	member_id NUMBER NOT NULL, /* È¸¿ø ID */
+	laundry_id NUMBER /* ¼¼Å¹¹° ID */
 );
 
 CREATE UNIQUE INDEX PK_ORDERS
@@ -132,14 +132,14 @@ ALTER TABLE ORDERS
 			orders_id
 		);
 
-/* ê²°ì œ */
+/* °áÁ¦ */
 CREATE TABLE PAY (
-	pay_id NUMBER NOT NULL, /* ê²°ì œ ID */
-	pay_delivery NUMBER NOT NULL, /* ë°°ì†¡ë¹„ */
-	pay_money NUMBER NOT NULL, /* ê²°ì œ ê¸ˆì•¡ */
-	pay_date DATE NOT NULL, /* ê²°ì œ ì¼ì */
-	pay_state VARCHAR2(4) NOT NULL, /* ê²°ì œ ìƒíƒœ */
-	orders_id NUMBER NOT NULL /* ì£¼ë¬¸ ID */
+	pay_id NUMBER NOT NULL, /* °áÁ¦ ID */
+	pay_delivery NUMBER NOT NULL, /* ¹è¼Ûºñ */
+	pay_money NUMBER NOT NULL, /* °áÁ¦ ±İ¾× */
+	pay_date DATE NOT NULL, /* °áÁ¦ ÀÏÀÚ */
+	pay_state VARCHAR2(4) NOT NULL, /* °áÁ¦ »óÅÂ */
+	orders_id NUMBER NOT NULL /* ÁÖ¹® ID */
 );
 
 CREATE UNIQUE INDEX PK_PAY
@@ -154,14 +154,14 @@ ALTER TABLE PAY
 			pay_id
 		);
 
-/* íŒŒì¼ */
+/* ÆÄÀÏ */
 CREATE TABLE FILES (
-	files_id NUMBER NOT NULL, /* íŒŒì¼ ID */
-	files_oname VARCHAR2(200) NOT NULL, /* ì›ë³¸ì´ë¦„ */
-	files_nname VARCHAR2(200) NOT NULL, /* ì €ì¥ì´ë¦„ */
-	files_path VARCHAR2(200) NOT NULL, /* íŒŒì¼ê²½ë¡œ */
-	files_type VARCHAR2(50) NOT NULL, /* íŒŒì¼íƒ€ì… */
-	orders_id NUMBER NOT NULL /* ì£¼ë¬¸ ID */
+	files_id NUMBER NOT NULL, /* ÆÄÀÏ ID */
+	files_oname VARCHAR2(200) NOT NULL, /* ¿øº»ÀÌ¸§ */
+	files_nname VARCHAR2(200) NOT NULL, /* ÀúÀåÀÌ¸§ */
+	files_path VARCHAR2(200) NOT NULL, /* ÆÄÀÏ°æ·Î */
+	files_type VARCHAR2(50) NOT NULL, /* ÆÄÀÏÅ¸ÀÔ */
+	orders_id NUMBER NOT NULL /* ÁÖ¹® ID */
 );
 
 CREATE UNIQUE INDEX PK_FILES
@@ -176,13 +176,13 @@ ALTER TABLE FILES
 			files_id
 		);
 
-/* ì„¸íƒë¬¼ */
+/* ¼¼Å¹¹° */
 CREATE TABLE LAUNDRY (
-	laundry_id NUMBER NOT NULL, /* ì„¸íƒë¬¼ ID */
-	laundry_name VARCHAR2(30) NOT NULL, /* ì„¸íƒë¬¼ëª… */
-	laundry_category VARCHAR2(4) NOT NULL, /* ì„¸íƒë¬¼ìœ í˜• */
-	laundry_price NUMBER NOT NULL, /* ì„¸íƒë¬¼ê¸ˆì•¡ */
-	laundry_category_id NUMBER NOT NULL /* ìƒí’ˆ ì¹´í…Œê³ ë¦¬ ID */
+	laundry_id NUMBER NOT NULL, /* ¼¼Å¹¹° ID */
+	laundry_name VARCHAR2(30) NOT NULL, /* ¼¼Å¹¹°¸í */
+	laundry_category VARCHAR2(4) NOT NULL, /* ¼¼Å¹¹°À¯Çü */
+	laundry_price NUMBER NOT NULL, /* ¼¼Å¹¹°±İ¾× */
+	laundry_category_id NUMBER NOT NULL /* »óÇ° Ä«Å×°í¸® ID */
 );
 
 CREATE UNIQUE INDEX PK_LAUNDRY
@@ -197,11 +197,11 @@ ALTER TABLE LAUNDRY
 			laundry_id
 		);
 
-/* ì„¸íƒ ì¹´í…Œê³ ë¦¬ */
+/* ¼¼Å¹ Ä«Å×°í¸® */
 CREATE TABLE LAUNDRY_CATEGORY (
-	laundry_category_id NUMBER NOT NULL, /* ìƒí’ˆ ì¹´í…Œê³ ë¦¬ ID */
-	laundry_category_name VARCHAR2(30) NOT NULL, /* ìƒí’ˆ ì¹´í…Œê³ ë¦¬ëª… */
-	laundry_category_description VARCHAR2(100) NOT NULL /* ìƒí’ˆ ì¹´í…Œê³ ë¦¬ ì„¤ëª… */
+	laundry_category_id NUMBER NOT NULL, /* »óÇ° Ä«Å×°í¸® ID */
+	laundry_category_name VARCHAR2(30) NOT NULL, /* »óÇ° Ä«Å×°í¸®¸í */
+	laundry_category_description VARCHAR2(100) NOT NULL /* »óÇ° Ä«Å×°í¸® ¼³¸í */
 );
 
 CREATE UNIQUE INDEX PK_LAUNDRY_CATEGORY
@@ -224,7 +224,7 @@ ALTER TABLE ROLE
 		)
 		REFERENCES MEMBER (
 			member_id
-		);
+		)ON DELETE CASCADE;
 
 ALTER TABLE ADDRESS
 	ADD
@@ -234,7 +234,7 @@ ALTER TABLE ADDRESS
 		)
 		REFERENCES MEMBER (
 			member_id
-		);
+		)ON DELETE CASCADE;
 
 ALTER TABLE ORDERS
 	ADD
@@ -244,7 +244,7 @@ ALTER TABLE ORDERS
 		)
 		REFERENCES MEMBER (
 			member_id
-		);
+		)ON DELETE CASCADE;
 
 ALTER TABLE ORDERS
 	ADD
@@ -254,7 +254,7 @@ ALTER TABLE ORDERS
 		)
 		REFERENCES LAUNDRY (
 			laundry_id
-		);
+		)ON DELETE CASCADE;
 
 ALTER TABLE PAY
 	ADD
@@ -274,7 +274,7 @@ ALTER TABLE FILES
 		)
 		REFERENCES ORDERS (
 			orders_id
-		);
+		)ON DELETE CASCADE;
 
 ALTER TABLE LAUNDRY
 	ADD
@@ -333,36 +333,36 @@ CREATE SEQUENCE FILES_SEQ
        
 COMMIT;
 
--- ì„¸íƒ ì¹´í…Œê³ ë¦¬ (LAUNDRY_CATEGORY) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- ¼¼Å¹ Ä«Å×°í¸® (LAUNDRY_CATEGORY) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO LAUNDRY_CATEGORY (laundry_category_id, laundry_category_name, laundry_category_description)
-VALUES (1, 'ìƒì˜', 'ìƒì˜ ì¹´í…Œê³ ë¦¬');
+VALUES (1, '»óÀÇ', '»óÀÇ Ä«Å×°í¸®');
 
--- ì„¸íƒë¬¼ (LAUNDRY) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- ¼¼Å¹¹° (LAUNDRY) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO LAUNDRY (laundry_id, laundry_name, laundry_category, laundry_price, laundry_category_id)
-VALUES (1, 'ì…”ì¸ ', 1, 15000, 1);
+VALUES (1, '¼ÅÃ÷', 1, 15000, 1);
 
--- íšŒì› (MEMBER) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- È¸¿ø (MEMBER) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-VALUES (1, 'ê¹€ì˜ˆì‹œ', 'example@example.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1');
+VALUES (1, '±è¿¹½Ã', 'example@example.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1');
 
--- ê¶Œí•œ (ROLE) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- ±ÇÇÑ (ROLE) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO ROLE (member_id, role_name)
-VALUES (1, 'ì¼ë°˜íšŒì›');
+VALUES (1, 'ÀÏ¹İÈ¸¿ø');
 
--- ì£¼ì†Œ (ADDRESS) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- ÁÖ¼Ò (ADDRESS) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
-VALUES (1, '12345', 'ì˜ˆì‹œë¡œë“œ 1ë²ˆê¸¸', 'ì˜ˆì‹œ ì•„íŒŒíŠ¸ 101í˜¸', 'ì§‘', 'ê¹€ì˜ˆì‹œ ì§‘', 1);
+VALUES (1, '12345', '¿¹½Ã·Îµå 1¹ø±æ', '¿¹½Ã ¾ÆÆÄÆ® 101È£', 'Áı', '±è¿¹½Ã Áı', 1);
 
--- ì£¼ë¬¸ (ORDERS) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- ÁÖ¹® (ORDERS) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO ORDERS (orders_id, wash_id, orders_count, orders_price, orders_date, orders_comment, orders_status, member_id, laundry_id)
-VALUES (1, 1, 2, 30000, TO_DATE('2023-01-20', 'YYYY-MM-DD'), 'ë¶€ë“œëŸ¬ìš´ ì„¸íƒ ë¶€íƒë“œë ¤ìš”', '1', 1, 1);
+VALUES (1, 1, 2, 30000, TO_DATE('2023-01-20', 'YYYY-MM-DD'), 'ºÎµå·¯¿î ¼¼Å¹ ºÎÅ¹µå·Á¿ä', '1', 1, 1);
 
--- ê²°ì œ (PAY) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- °áÁ¦ (PAY) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
 VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
 
--- íŒŒì¼ (FILES) í…Œì´ë¸” ì˜ˆì‹œ ë°ì´í„°
+-- ÆÄÀÏ (FILES) Å×ÀÌºí ¿¹½Ã µ¥ÀÌÅÍ
 INSERT INTO FILES (files_id, files_oname, files_nname, files_path, files_type, orders_id)
-VALUES (1, 'ì„¸íƒì „ ì‚¬ì§„', 'before.jpg', '/path/to/before.jpg', 'jpg', 1);
+VALUES (1, '¼¼Å¹Àü »çÁø', 'before.jpg', '/path/to/before.jpg', 'jpg', 1);
 
 COMMIT;
