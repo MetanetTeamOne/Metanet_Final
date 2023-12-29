@@ -10,7 +10,7 @@ public class MemberUserDetails extends User{
 
 	private String studentEmail;
 	
-	public MemberUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, String studentEmail) {
+	public MemberUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 
 		this.studentEmail = studentEmail;

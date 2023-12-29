@@ -42,9 +42,9 @@ public class MemberUserDetailsService implements UserDetailsService{
 		
 		System.out.println("authorities : " + authorities);
 		// 암호화되지 않은 pwd를 사용할 경우 "{noop}"+pwd로 표기한다..
-		return new MemberUserDetails(memberInfo.getId()
-				, "{noop}" + memberInfo.getPassword()
-				, authorities, memberInfo.getEmail());
+		return new MemberUserDetails(memberInfo.getMemberEmail()
+				, "{noop}" + memberInfo.getMemberPassword()
+				, authorities);
 	}
 	
 }
