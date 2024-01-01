@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="mypageNav" class="col-sm-6 col-md-5 col-lg-3">
+    <div class="mypage_left">
+        <ul class="sub_menu">
+            <li>내 정보 관리
+                <ul class="sub_depth1">
+                    <li><a th:href="@{/mypageaccount}" class="active">- 계정관리</a></li>
+                    <li><a th:href="@{/mypagepw}">- 비밀번호관리</a></li>
+                    <li><a th:href="@{/mypagesub}">- 구독관리</a></li>
+                    <li><a th:href="@{/mypagecard}">- 카드관리</a></li>
+                    <li><a th:href="@{/mypageaddr}">- 주소관리</a></li>
+                </ul>
+            </li>
+            <li>서비스 관리
+                <ul class="sub_depth1">
+                    <li><a th:href="@{/mypageorder}">- 주문내역</a></li>
+                    <li><a th:href="@{/mypagepay}">- 결제내역</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</html>

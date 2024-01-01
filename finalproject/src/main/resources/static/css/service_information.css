@@ -1,0 +1,238 @@
+.how_use_section1 {
+    width: 100%;
+    background: var(--banner);
+    padding: 60px 0;
+}
+
+.how_use_section2 {
+    width: 100%;
+    padding: 60px 0;
+}
+.how_use_section3 {
+    width: 100%;
+    background: var(--main-gray);
+    padding: 30px 0;
+}
+
+.banner {
+    text-align: center;
+    margin: auto;
+}
+
+.text span {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 400;
+    display: block;
+    color: #898989;
+}
+
+.text strong {
+    font-size: 42px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 700;
+    color: #292929;
+    box-shadow: inset 0 -12px 0 #ffa50066;
+}
+
+.how_use .left {
+    text-align: left;
+    margin: auto;
+}
+
+.how_use .right {
+    text-align: right;
+    margin: auto;
+}
+
+.how_use h1 strong {
+    font-size: 35px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 700;
+    color: var(--how-use-main);
+}
+
+.how_use h2 strong {
+    font-size: 35px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 700;
+    color: var(--how-use-main);
+    box-shadow: inset 0 -12px 0 #ffa50066;
+}
+
+.how_use strong {
+    font-size: 25px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 700;
+    color: var(--how-use-main);
+}
+
+.how_use p {
+    font-size: 20px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 700;
+    color: var(--gray-text);
+}
+
+
+.how_use_img{
+    text-align: center;
+}
+
+
+.how_use_section3 button {
+    margin: 0 10px;
+}
+
+
+.price-table dl dt {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.price-table dl dd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: var(--white-text);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #c6c6c6;
+}
+
+.price-table dl dd:hover {
+    background: var(--banner);
+
+}
+
+.price-table dl dd label {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.price-table dl dd strong {
+    font-size: 16px;
+}
+
+.service_info_section1 {
+    width: 100%;
+    background: var(--service-info-banner);
+}
+
+.service_info_section1 h2 {
+    font-size: 42px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 500;
+    color: #292929;
+}
+
+.service_info_section1 strong {
+    font-size: 35px;
+    line-height: 1.6;
+    position: relative;
+    font-weight: 700;
+    color: var(--how-use-main);
+    box-shadow: inset 0 -12px 0 #ffa50066;
+}
+
+.service_info_section3 {
+    background-color: var(--sub-gray);
+    padding: 20px;
+}
+
+.service_info_section3 .service_info_map {
+    margin: 50px 0;
+}
+
+.service_info_section3 .service_info_map h2{
+    color: #0d74cb;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.service_info_section3 .service_info_map h3{
+    color: red;
+    font-size: 27px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.service_info_section3 .service_info_map p{
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    display: block;
+    color: #545454;
+    padding: 0 10px;
+    padding-left: 10px;
+}
+
+.service_info_section3 .text span {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 400;
+    display: block;
+    color: #898989;
+    padding: 0 10px;
+}
+
+.service_info_section2 .image1 {
+    display: flex;
+    justify-content: center;
+    background: #98c0ff;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 20px 20px 0 20px;
+    height: 300px;
+}
+
+.service_info_section2 .image2 {
+    display: flex;
+    justify-content: center;
+    background: #f5f5f7;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 20px 20px 0 20px;
+    height: 300px;
+}
+
+.service_info_section2 h1 {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.5em;
+    font-size: 43px;
+    margin: 15px 0;
+}
+
+.service_info_section3 h1 {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.5em;
+    font-size: 43px;
+    margin-top: 5px;
+}
+
+.service_info_text h2 {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.5em;
+    font-size: 32px;
+    margin: 15px 0;
+}
+
+.service_info_text p {
+    text-align: left;
+    font-size: 20px;
+    line-height: 1.8em;
+    letter-spacing: -0.04em;
+    height: 27%;
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/include/head :: head}"></head>
+<body>
+	<!--Header -->
+	<div th:replace="~{/include/header :: header}"></div>
+
+    <!-- Main -->
+    <div id="main">
+        <!-- Carousel -->
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img th:src="@{/img/test1.jpg}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img th:src="@{/img/test2.jpg}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img th:src="@{/img/test3.jpg}" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        
+        <!-- Section1 -->
+        <div class="main_section1 text_center">
+            <div class="inner">
+                <h1 class="fs-1 fw-bold mb-4">혁신의 세탁 서비스</h1>
+                <p class="fs-4">때 묻은 옷, 시커먼 걱정도 모두 문 앞에 꺼내 두세요. 
+                    당신이 잠든 사이 깨끗이 세탁할게요.</p>
+            </div>
+        </div>
+
+        <div class="section-background section-cover"></div>
+
+        <!-- Section2 -->
+        <div class="inner">
+            <div class="text_center">
+                <p class="fs-1"><strong>세탁소도 세탁기도 필요 없어요</strong></p>
+                <span class="fs-3">오직 당신을 위한 맞춤 세탁 서비스</span>
+            </div>
+            <div class="home_image">
+                <img th:src="@{/img/dryclean.png}">
+            </div>
+        </div>
+        
+        <!-- Section3 -->
+        <div class="inner">
+            <div class="main_section2">
+                <div class="text_center">
+                    <p class="fs-1" style="color : var(--main)"><strong>어떤 종류든 OK</strong></p>
+                    <span class="fs-3">생활빨래부터 개별 클리닝까지 모두 가능한 서비스</span>
+                </div>
+                <div class="row category_circle">
+                    <div class="col-lg-2 col-md-2 col-sm-2 text_center">
+                        <img th:src="@{/img/shirts.png}"></img>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 text_center">
+                        <img th:src="@{/img/pants.png}"></img>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 text_center">
+                        <img th:src="@{/img/shoes.png}"></img>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 text_center">
+                        <img th:src="@{/img/scarf.png}"></img>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-background section-cover"></div>
+
+        <!-- Section4 -->
+        <div class="inner">
+            <div class="section">
+                <div class="text_center">
+                    <p class="fs-1"><strong>All In One</strong></p>
+                    <span class="fs-3">비대면으로 수거부터 배달까지</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <div class="item">
+                            <div class="home_image">
+                                <img th:src="@{/img/pickup.png}"></div>
+                                <div class="line">
+                                    <div class="bar sa sa-left-bar show"></div>
+                                </div>
+                                <dl>
+                                    <dt>
+                                        <strong>수거</strong>
+                                        <span>1</span>
+                                    </dt>
+                                    <dd> 박스나 비닐을 이용해 집앞에 세탁물을 놓아주시면 기사님이 픽업합니다 </dd>
+                                </dl>
+                            </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="item">
+                                    <div class="home_image">
+                                        <img th:src="@{/img/dryclean.png}">
+                                    </div>
+                                    <div class="line">
+                                        <div class="bar sa sa-left-bar show"></div>
+                                    </div>
+                                    <dl>
+                                        <dt>
+                                            <strong>검수/세탁</strong>
+                                            <span>2</span>
+                                        </dt>
+                                        <dd> 데일리세탁소에서 꼼꼼한 검수와 함께 세탁이 진행됩니다. </dd>
+                                    </dl>
+                                </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="item">
+                            <div class="home_image">
+                                <img th:src="@{/img/delivery.png}"></div>
+                                <div class="line">
+                                    <div class="bar sa sa-left-bar show"></div>
+                                </div>
+                            <dl>
+                                <dt>
+                                    <strong>배달</strong>
+                                    <span>3</span>
+                                </dt>
+                                <dd>고객님이 집앞까지 세탁물을 안전하게 배송해드립니다</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-background section-cover"></div>
+
+        <!-- Section5 -->
+        <div class="main_section1">
+            <div class="inner">
+                <div class="section">
+                    <div class="how-to-use">
+                        <div class="row">
+                            <div class="col-md-7 col-12">
+                                <strong class="fs-3"> 더 많은 정보를 알고싶다면, 연락주세요</strong>
+                                <div>
+                                    <dl><dd></dd></dl>
+                                    <dl class="fs-5">
+                                        <dd><strong>고객센터 : 070-4709-1003</strong></dd>
+                                        
+                                    </dl>
+                                    <dl><dd></dd></dl>
+                                    <dl>
+                                        <dt>평일 11:00 ~ 18:00</dt>
+                                        <span>점심 12:30 ~ 13:30</span>
+                                        <dd>주말, 공휴일 제외</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-12">
+                                <div class="cs_image"><img th:src="@{/img/main_person.png}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+	<div th:replace="~{/include/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+	<div th:replace="~{/include/footer :: footer}"></div>
+    
+</body>
+</html>
