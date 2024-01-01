@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Body Header -->
+<div th:fragment="header" class="header_wrap">
+	<div id="header">
+        <div class="hcon1090">
+        	<div id="global" class="hglobal">
+		        <ul><li class="storageClear"><a th:href="@{/login}" title="로그인 새창 열림">로그인</a></li>
+		            <li class="join">
+		            <a th:href="@{/signup}">회원가입</a>
+		            </li>
+		        <!-- <li><a href="#">고객센터</a></li> -->
+		        <li class="l"><a href="#" class="redzone">레드존</a></li>
+		        </ul>
+	        </div>
+	        <h1 class="hlogo chuchew">
+	            <a th:href="@{/}" title="츄츄" class="chulogo"><span class="blind">츄츄</span></a>
+	        </h1>	        
+	        <div class="mydongwon_cart_grp">
+	            <div class="mydongwonmall">
+	            	<a th:href="@{/mypage}" class="my_dongwonmall"><img th:src="@{/img/my.png}"></a>
+	            </div>
+	        </div>
+		</div>
+		
+	    <!-- navbar -->
+	    <div id="chu_gnb" class="hgnb">
+            <span class="back_layer" style="display: none;"></span>
+            <ul class="gnbls">                  
+            	<li>
+                    <div id="menuClickChu" title="전체 카테고리 화면 열기">
+                        <div class="chu_cate" style="display: none;">
+                            <ul class="chu_content">
+                                <li>
+                                    <div class="gnb_list_sub">
+                                            <ul class="cate_pet">
+                                                <li class="cate_depth cat">
+                                                    <p class="cate_name">
+                                                        <img th:src="@{/img/laundry-machine.png}" alt="세탁기">
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                            <div class="menu_list">   
+											    <div class="cate_list">
+                                                    <h3 class="cate_feed"><a th:href="@{/}">홈</a></h3>
+                                                </div>
+                                                <div class="cate_list">
+                                                    <h3 class="cate_feed"><a th:href="@{/service_information}">서비스 안내</a></h3>
+                                                    <ul>
+                                                        <li><a href="#">서비스 소개</a></li>
+                                                        <li><a href="#">서비스 종류</a></li>
+                                                        <li><a href="#">서비스 지역</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="cate_list">
+                                                    <h3 class="cate_feed"><a th:href="@{/how_use}">이용 방법</a></h3>
+                                                    <ul>
+                                                        <li><a href="#">이용 안내</a></li>
+                                                        <li><a href="#">가격 정보</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="cate_list">
+                                                    <h3 class="cate_feed"><a th:href="@{/register}">세탁 신청</a></h3>
+                                                </div>
+                                            </div>  	
+                                        </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <span class="bl"></span>
+                        <span class="txt">카테고리</span>
+                    </div>
+                </li>
+                <li><a th:href="@{/}" title="홈">홈</a></li>
+                <li><a th:href="@{/svcinfo}" title="서비스안내">서비스 안내</a></li>
+                <li><a th:href="@{/howuse}" title="이용방법">이용 방법</a></li>
+                <li><a th:href="@{/register}" title="세탁신청">세탁 신청</a></li>
+            </ul>
+		</div>
+	</div>
+</div>
+</html>

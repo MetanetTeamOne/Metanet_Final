@@ -1,0 +1,92 @@
+.main_section1 {
+    width: 100%;
+    background: var(--banner);
+    padding: 60px 0;
+}
+
+.main_section2 {
+    width: 100%;
+    background: var(--sub-gray);
+    padding: 60px 0;
+    border-radius: 30px;
+}
+
+.section {
+    padding: 0 30px;
+}
+
+.inner .home_image {
+    text-align: center;
+}
+
+.inner .home_image img {
+    max-width: 50%;
+}
+
+.line {
+    height: 6px;
+    margin-bottom: 30px;
+    border-radius: 3px;
+    background: #0e8ff2;
+}
+
+.line .bar {
+    border-radius: 3px;
+}
+
+#main dl dt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#main dl dt strong {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#main dl dt span {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--sub-gray);
+    border-radius: 15px;
+}
+
+#main dl dd {
+    font-size: 18px;
+    margin-top: 15px;
+    color: var(--gray-text);
+}
+
+#main .how-to-use {
+    background-color: var(--banner);
+    border: 30px;
+}
+
+#main .cs_image {
+    text-align: center;
+}
+
+#main .cs_image img{
+    max-width: 60%;
+}
+
+#main .category_circle {
+    margin-top: 50px;
+    justify-content: center;
+}
+
+#main .category_circle img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    box-shadow: 5px 5px 15px rgba(0,0,0,.05);
+    background-color: #ffffff;
+    object-fit: none
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/include/head :: head}"></head>
+<body>
+	<!--Header -->
+	<div th:replace="~{/include/header :: header}"></div>
+
+
+    <!-- Main -->
+    <div class="container">
+        <div id="contents">
+        <!-- 본문 시작 -->
+            <!-- //location_wrap -->
+            <div class="sub_content">
+                <!-- //side_cont -->
+                <div class="content_box">
+                    <div class="join_base_wrap">
+                        <div class="member_tit">
+                            <h2>회원가입</h2>
+                            <ol>
+                                
+                                <li class="page_on"><span>01</span> 정보입력<span><img src="https://apslovtr2600.cdn-nhncommerce.com/data/skin/front/wg-210803/img/member/icon_join_step_on.png" alt=""></span></li>
+                                <li><span>02</span> 가입완료</li>
+                            </ol>
+                        </div>
+                        <!-- //member_tit -->
+                        <div class="member_cont">
+                            <form id="formJoin" name="formJoin" action="https://www.apslove.com/member/member_ps.php" method="post" novalidate="novalidate">
+                                <input type="hidden" name="rncheck" value="none">
+                                <input type="hidden" name="dupeinfo" value="">
+                                <input type="hidden" name="pakey" value="">
+                                <input type="hidden" name="foreigner" value="">
+                                <input type="hidden" name="adultFl" value="">
+                                <input type="hidden" name="mode" value="join">
+
+                                <!-- 회원가입/정보 기본정보 --><div class="base_info_box">
+                    <h3>기본정보</h3>
+                    <span class="important">표시는 반드시 입력하셔야 하는 항목입니다.</span>
+                    <div class="base_info_sec">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="75%">
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th><span class="important">아이디</span></th>
+                                <td>
+                                    <div class="member_warning">
+                                        <input type="text" id="memId" name="memId" data-pattern="gdMemberId">
+                                    </div>
+                                </td>
+
+                            </tr>
+                            <tr class="">
+                                <th><span class="important">비밀번호</span></th>
+                                <td class="member_password">
+                                    <div class="member_warning">
+                                        <input type="password" id="newPassword" name="memPw" autocomplete="off" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <th><span class="important">비밀번호 확인</span></th>
+                                <td>
+                                    <div class="member_warning">
+                                        <input type="password" class="check-id" name="memPwRe" autocomplete="off">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="important">이름</span></th>
+                                <td>
+                                    <div class="member_warning">
+                                        <input type="text" name="memNm" data-pattern="gdMemberNmGlobal" value="" maxlength="30">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="important">이메일</span></th>
+                                <td class="member_email">
+                                    <div class="member_warning">
+                                        <input type="text" name="email" id="email" value="" tabindex="-1">
+                                    </div>
+                                    <div class="member_warning js_email"></div>
+                                    <div class="form_element">
+                                        <input type="checkbox" id="maillingFl" name="maillingFl" value="y">
+                                        <label for="maillingFl" class="check_box">정보/이벤트 메일 수신에 동의합니다.</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="important">휴대폰번호</span></th>
+                                <td class="member_address">
+                                    <div class="address_postcode">
+                                        <input type="text" id="cellPhone" name="cellPhone" maxlength="12" placeholder="- 없이 입력하세요." data-pattern="gdNum" value="">
+                                    </div>
+                                    <div class="form_element">
+                                        <input type="checkbox" id="smsFl" name="smsFl" value="y">
+                                        <label for="smsFl" class="check_box ">정보/이벤트 SMS 수신에 동의합니다.</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="important">주소</span></th>
+                                <td class="member_address">
+                                    <div class="address_postcode">
+                                        <input type="text" name="zonecode" readonly="readonly" value="">
+                                        <button type="button" id="btnPostcode" class="btn_post_search">우편번호검색</button>
+                                        <input type="hidden" name="zipcode" value="">
+                                    </div>
+                                    <div class="address_input">
+                                        <div class="member_warning">
+                                            <input type="text" name="address" readonly="readonly" value="">
+                                        </div>
+                                        <div class="member_warning js_address_sub">
+                                            <input type="text" name="addressSub" value="">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- //base_info_sec -->
+                </div>
+
+                                <div class="btn_center_box">
+                                    <button type="button" id="btnCancel" class="btn_member_cancel">취소</button>
+									<button type="button" class="btn_comfirm js_btn_join" th:text="${'회원가입'}" th:onclick="|javascript:location.href='/signupok'|">회원가입</button>
+                                </div>
+                                <!-- //btn_center_box -->
+                            </form>
+                        </div>
+                        <!-- //member_cont -->
+                    </div>
+                    <!-- //join_base_wrap -->
+                </div>
+            </div>
+            <!-- //sub_content -->
+        </div>
+        <!-- //본문 끝 contents -->
+    </div>
+
+
+    <!-- Top Button -->
+	<div th:replace="~{/include/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+	<div th:replace="~{/include/footer :: footer}"></div>
+    
+</body>
+</html>

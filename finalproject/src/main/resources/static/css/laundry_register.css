@@ -1,0 +1,27 @@
+.laundry-register-section {
+    width: 100%;
+    padding: 0 30px;
+}
+
+.laundry-register-section .section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.laundry-register-section .section .content_box {
+    font-size: 17px;
+    margin: 20px 0;
+    color: #000000;
+    border: var(--gray-box) 1px solid;
+    border-radius: 20px;
+}
+
+.laundry-register-section .content textarea {
+    overflow-y: scroll; 
+    overflow-x:hidden; 
+    resize: none;
+}
+
+.form_element label.check_s{min-width:13px;padding:0 28px;background:none;}
+
