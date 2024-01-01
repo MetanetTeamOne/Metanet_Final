@@ -1,10 +1,9 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/header :: header}"></head> 
+<head th:replace="~{/include/head :: head}"></head> 
 <body>
-<div th:replace="~{/include/body-header :: bodyHeader}"></div>
-<div class="container">
-<div class="content">
+<div th:replace="~{/include/header :: Header}"></div>
+<div class="inner">
 	<div class="jumbotron">
 		<h2 style="color:red;">[[${exception}]]</h2>
 		<p>Failed URL: [[${url}]]</p>
@@ -13,7 +12,6 @@
 		<p><a class="btn btn-primary" th:href="@{/}">Home</a></p>
 	</div>
 </div>
-</div>
 <footer th:replace="~{/include/footer :: footer}"></footer> 
 </body>
-</html>-->
+</html>

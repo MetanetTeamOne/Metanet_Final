@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/head :: head}"></head>
+<head th:replace="~{/include/member/head :: head}"></head>
 <body>
 	<!--Header -->
-	<div th:replace="~{/include/header :: header}"></div>
+	<div th:replace="~{/include/member/header :: header}"></div>
 
 
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
             <!-- Section left -->
-            <div th:replace="~{/include/mypageNav :: mypageNav}"></div>
+            <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
             
             <!-- Section right -->
             <div class="col-sm-6 col-md-7 col-lg-9">
@@ -70,10 +70,10 @@
     </div>
 
     <!-- Top Button -->
-	<div th:replace="~{/include/topButton :: topButton}"></div>
+	<div th:replace="~{/include/member/topButton :: topButton}"></div>
     
     <!-- Footer -->
-	<div th:replace="~{/include/footer :: footer}"></div>
+	<div th:replace="~{/include/member/footer :: footer}"></div>
     
 </body>
 </html>
