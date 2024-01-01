@@ -8,7 +8,7 @@
 
     <div class="inner">
         <div>
-            <div class="py-5">
+            <div class="service_info_text my-5 py-1" style="border-bottom: 1px solid #929292;">
                 <h2>세탁신청</h2>
               </div>
           
@@ -205,8 +205,8 @@
               </div>
         </div>
         <div class="btn_center_box">
-            <button type="button" id="btnCancel" class="btn_member_cancel">취소</button>
-            <button type="button" class="btn_comfirm js_btn_join" value="" onclick="location.href ='#'">완료</button>
+            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">취소</button>
+			<button type="button" class="btn_comfirm js_btn_join" th:onclick="|javascript:location.href='/login'|">신청</button>
         </div>
     </div>
 

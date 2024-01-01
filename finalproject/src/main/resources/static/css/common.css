@@ -189,7 +189,7 @@ input[placeholder] {color: #aaa;}
 
 #header .hgnb .gnbls {
     margin: 0 auto;
-    width: 1200px;
+    width: 70%;
     height: 48px;
     display: flex;
     justify-content: flex-start;
@@ -546,7 +546,7 @@ input[placeholder] {color: #aaa;}
 #header .hcon1090 {
     position: relative;
     margin: 0 auto;
-    width: 1200px;
+    width: 70%;
     height: 117px;
     background-color: #fff
 }
@@ -805,7 +805,7 @@ input[placeholder] {color: #aaa;}
 /* Footer */
 *:focus {outline: none !important;}
 
-.inner_cont {position: relative; width: 1200px; margin: 0 auto;}
+.inner_cont {position: relative; max-width: 80%; margin: 0 auto;}
 .flex_wrap {display: flex; flex-wrap: wrap; align-items: center}
 .flex_wrap.align-top {align-items:baseline}
 .flex_wrap.between {justify-content: space-between;}
@@ -834,6 +834,7 @@ input[placeholder] {color: #aaa;}
     position: fixed;
     bottom: 60px;
     right: 60px;
+    z-index: 9999;
 }
 
 .side_button .top_btn {

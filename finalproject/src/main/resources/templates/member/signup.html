@@ -15,7 +15,10 @@
                 <!-- //side_cont -->
                 <div class="content_box">
                     <div class="join_base_wrap">
-                        <div class="member_tit">
+						
+					<div class="section-background section-cover"></div>
+
+                        <div class="member_tit inner">
                             <h2>회원가입</h2>
                             <ol>
                                 
@@ -126,20 +129,20 @@
                 </div>
 
                                 <div class="btn_center_box">
-                                    <button type="button" id="btnCancel" class="btn_member_cancel">취소</button>
+                                    <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">홈</button>
 									<button type="button" class="btn_comfirm js_btn_join" th:text="${'회원가입'}" th:onclick="|javascript:location.href='/signupok'|">회원가입</button>
                                 </div>
-                                <!-- //btn_center_box -->
+
                             </form>
                         </div>
-                        <!-- //member_cont -->
+
                     </div>
-                    <!-- //join_base_wrap -->
+
                 </div>
             </div>
-            <!-- //sub_content -->
+
         </div>
-        <!-- //본문 끝 contents -->
+
     </div>
 
 

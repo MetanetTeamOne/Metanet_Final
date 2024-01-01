@@ -27,7 +27,6 @@ public class HomeController {
 		return "member/signup";
 	}
 	
-	
 	// 회원가입 완료
 	@GetMapping("/signupok")
 	public String signupOk() {

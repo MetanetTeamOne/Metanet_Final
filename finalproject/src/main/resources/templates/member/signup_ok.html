@@ -47,11 +47,9 @@
                             <p><span>김혜원</span>님의 회원가입을 축하합니다. <br> 알차고 실속있는 서비스로 찾아뵙겠습니다.</p>
                         </div>
                         <!-- //join_ok_tit -->
-                        <div class="btn_member_sec">
-                            <ul>
-                                <li><button id="btnHome" th:onclick="|javascript:location.href='/'|">홈으로</button></li>
-                                <li><button class="btn_login" th:onclick="|javascript:location.href='/login'|">로그인</button></li>
-                            </ul>
+                        <div class="btn_center_box">
+                            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">홈</button>
+							<button type="button" class="btn_comfirm js_btn_join" th:onclick="|javascript:location.href='/login'|">로그인</button>
                         </div>
                         <!-- //btn_member_sec -->
                     </div>
@@ -61,11 +59,7 @@
             </div>
             <!-- //member_wrap -->
         </div>
-            
 
-        <!-- Facebook Pixel Code --><script>
-                fbq('track', 'CompleteRegistration');
-                </script><!-- End Facebook Pixel Code -->
                     </div>
                     <!-- //sub_content -->
                 </div>
