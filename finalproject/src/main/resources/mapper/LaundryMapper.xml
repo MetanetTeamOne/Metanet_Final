@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.metanet.finalproject.laundry.repository.ILaundryRepository">
+	<select id="getLaundry" parameterType="int" resultType="com.metanet.finalproject.laundry.model.Laundry">
+		SELECT 
+			laundry_id AS laundryId,     
+			laundry_name AS laundryName,
+			laundry_category AS laundryCategory,
+			laundry_price AS laundryPrice,      
+			laundry_category_id AS laundryCategoryId
+		FROM laundry
+		<if test="laundryId != null">
+		WHERE laundry_id = #{laundryId}
+		</if>
+		ORDER BY laundry_id
+	</select>
+	<select id="getLaundryCategory" parameterType="int" resultType="com.metanet.finalproject.laundry.model.Laundry">
+		SELECT 
+			laundry_id AS laundryId,     
+			laundry_name AS laundryName,
+			laundry_category AS laundryCategory,
+			laundry_price AS laundryPrice,      
+			laundry_category_id AS laundryCategoryId
+		FROM laundry
+		<if test="laundryCategoryId != null">
+		WHERE laundry_category_id = #{laundryCategoryId}
+		</if>
+		ORDER BY laundry_category_id
+	</select>
+</mapper>

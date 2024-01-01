@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.metanet.finalproject.address.repository.IAddressRepository">
+	<select id="getAddress" parameterType="int" resultType="com.metanet.finalproject.address.model.Address">
+		SELECT 
+			address_id AS addressId,
+			address_zipcode AS addressZipcode,
+			address_road AS addressRoad,
+			address_content AS addressContent,
+			address_category AS addressCategory,
+			address_detail AS addressDetail,
+			member_id AS memberId
+		FROM address
+		<if test="memberId != null">WHERE member_id = #{memberId}</if>
+		ORDER BY address_id
+	</select>
+	<insert id="insertAddress" parameterType="com.metanet.finalproject.address.model.Address">
+		<selectKey resultType="int" keyProperty="addressId" order="BEFORE">
+		    SELECT NVL(MAX(address_id), 0) + 1 AS addressId FROM address
+		</selectKey>
+		INSERT INTO address (
+			address_id,
+			address_zipcode,
+			address_road,
+			address_content,
+			address_category,
+			address_detail,
+			member_id
+		)
+		VALUES(
+			#{addressId},
+			#{addressZipcode},
+			#{addressRoad},
+			#{addressContent},
+			#{addressCategory},
+			#{addressDetail},
+			#{memberId}
+		)		
+	</insert>
+	<update id="updateAddress" parameterType="com.metanet.finalproject.address.model.Address">
+	    UPDATE address
+	    <set>
+	        <if test="addressZipcode != null">address_zipcode = #{addressZipcode},</if>
+	        <if test="addressRoad != null">address_road = #{addressRoad},</if>
+	        <if test="addressContent != null">address_content = #{addressContent},</if>
+	        <if test="addressCategory != null">address_category = #{addressCategory},</if>
+	        <if test="addressDetail != null">address_detail = #{addressDetail}</if>
+	    </set>
+	    WHERE address_id = #{addressId}
+	</update>
+	<delete id="deleteAddress" parameterType="com.metanet.finalproject.address.model.Address">
+		DELETE FROM address 
+		WHERE address_id = #{addressId}
+	</delete>
+</mapper>
