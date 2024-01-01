@@ -5,17 +5,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-	// 홈
-		@GetMapping("/admin")
-		public String admin() {
-			System.out.println("admin");
-			return "admin/index";
-		}
+
 	// 홈
 	@GetMapping("/")
 	public String home() {
 		System.out.println("home");
 		return "member/home";
+	}
+	
+	// 관리자 홈
+	@GetMapping("/admin")
+	public String admin() {
+		System.out.println("admin");
+		return "admin/index";
 	}
 	
 	// 로그인
