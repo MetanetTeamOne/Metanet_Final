@@ -351,14 +351,19 @@ VALUES (1, 'ROLE_USER');
 
 -- 주소 (ADDRESS) 테이블 예시 데이터
 INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
-VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', 'KOSA 교육장', '최가인 교육장', 1);
+VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', '3', '최가인 교육장', 1);
+
+desc orders;
 
 -- 주문 (ORDERS) 테이블 예시 데이터
-insert into orders (ORDERS_SEQ, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', 1, 1, 1)
+insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1);
 
 -- 결제 (PAY) 테이블 예시 데이터
 INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
 VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
+
+INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
+VALUES (2, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
 
 -- 파일 (FILES) 테이블 예시 데이터
 INSERT INTO FILES (files_id, files_oname, files_nname, files_path, files_type, orders_id)

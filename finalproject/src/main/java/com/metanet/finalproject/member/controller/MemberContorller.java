@@ -31,101 +31,101 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@Controller
-@RequestMapping("/")
-public class MemberContorller {
-	@Autowired
-	IMemberService studentService;	
-
-	private static Logger logger = LoggerFactory.getLogger(MemberContorller.class.getName());
+//@Controller
+//@RequestMapping("/")
+//public class MemberContorller {
+//	@Autowired
+//	IMemberService studentService;	
+//
+//	private static Logger logger = LoggerFactory.getLogger(MemberContorller.class.getName());
+//	
+//	// 회원 로그인
+//	@Operation(summary="비회원 로그인")
+//	@GetMapping("/login")
+//	public String login() {
+//		return "member/login";
+//	}
+//	
+//	@Operation(summary="비회원 로그인")
+//	@GetMapping("/login")
+//	public String login(@RequestParam tempParam tempParam) {
+//		return null;
+//	}
+//	
+//	@Autowired
+//	PasswordEncoder passwordEncoder;
+//
+//
+//	
+////	   @GetMapping("/test_jwt")
+////	   public String testJwt(HttpServletRequest request) {//나는 헤더에서 뽑을 거라서
+////	      String token = tokenProvider.resolveToken(request);//요청헤더에 있는 토큰 읽기
+////	      log.info("token {}",token); //권장
+////	      //log.info("token"+token);//이건 xx
+////	      
+////	      Authentication auth = tokenProvider.getAuthentication(token);
+////	      log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
+////	      log.info("isValid {}", tokenProvider.validateToken(token));
+////	      return tokenProvider.getUserId(token);
+////	   }
+//	   
+//	// 회원 조회
+//	@Operation(summary="일반 회원용 회원 조회")
+//	@GetMapping("/")
+//	public String getMember() {
+//		return null;
+//	}
+//	
+//	// 회원 가입
+//	@Operation(summary="일반 회원용 회원 가입	")
+//	@PostMapping("/insert")
+//	public String insertMember() {
+//		return null;
+//	}
+//	
+//	@Operation(summary="일반 회원용 회원 가입	")
+//	@GetMapping("/insert")
+//	public String insertMember(@RequestBody tempParam tempParam) {
+//		return null;
+//	}
+//	
+//	// 회원 수정
+//	@Operation(summary="일반 회원용 회원 수정")
+//	@GetMapping("/update")
+//	public String updateMember() {
+//		return null;
+//	}
+//	
+//	@Operation(summary="일반 회원용 회원 수정")
+//	@PostMapping("/update")
+//	public String updateMember(@RequestBody tempParam tempParam) {
+//		return null;
+//	}
+//	
+//	// 회원 삭제
+//	@Operation(summary="일반 회원용 회원 삭제")
+//	@GetMapping("/delete")
+//	public String deleteMember() {
+//		return null;
+//	}
+//	
+//	@Operation(summary="일반 회원용 회원 삭제")
+//	@PostMapping("/delete")
+//	public String deleteMember(@RequestBody tempParam tempParam) {
+//		return null;
+//	}
+//	
+//	// 회원 신고
+//	@Operation(summary="일반 회원용 회원 신고")
+//	@GetMapping("/report")
+//	public String reportMember() {
+//		return null;
+//	}
+//	
+//	@Operation(summary="일반 회원용 회원 신고")
+//	@PostMapping("/report")
+//	public String reportMember(@RequestBody tempParam tempParam) {
+//		return null;
+//	}
 	
-	// 회원 로그인
-	@Operation(summary="비회원 로그인")
-	@GetMapping("/login")
-	public String login() {
-		return "member/login";
-	}
-	
-	@Operation(summary="비회원 로그인")
-	@GetMapping("/login")
-	public String login(@RequestParam tempParam tempParam) {
-		return null;
-	}
-	
-	@Autowired
-	PasswordEncoder passwordEncoder;
-
-
-	
-//	   @GetMapping("/test_jwt")
-//	   public String testJwt(HttpServletRequest request) {//나는 헤더에서 뽑을 거라서
-//	      String token = tokenProvider.resolveToken(request);//요청헤더에 있는 토큰 읽기
-//	      log.info("token {}",token); //권장
-//	      //log.info("token"+token);//이건 xx
-//	      
-//	      Authentication auth = tokenProvider.getAuthentication(token);
-//	      log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
-//	      log.info("isValid {}", tokenProvider.validateToken(token));
-//	      return tokenProvider.getUserId(token);
-//	   }
-	   
-	// 회원 조회
-	@Operation(summary="일반 회원용 회원 조회")
-	@GetMapping("/")
-	public String getMember() {
-		return null;
-	}
-	
-	// 회원 가입
-	@Operation(summary="일반 회원용 회원 가입	")
-	@PostMapping("/insert")
-	public String insertMember() {
-		return null;
-	}
-	
-	@Operation(summary="일반 회원용 회원 가입	")
-	@GetMapping("/insert")
-	public String insertMember(@RequestBody tempParam tempParam) {
-		return null;
-	}
-	
-	// 회원 수정
-	@Operation(summary="일반 회원용 회원 수정")
-	@GetMapping("/update")
-	public String updateMember() {
-		return null;
-	}
-	
-	@Operation(summary="일반 회원용 회원 수정")
-	@PostMapping("/update")
-	public String updateMember(@RequestBody tempParam tempParam) {
-		return null;
-	}
-	
-	// 회원 삭제
-	@Operation(summary="일반 회원용 회원 삭제")
-	@GetMapping("/delete")
-	public String deleteMember() {
-		return null;
-	}
-	
-	@Operation(summary="일반 회원용 회원 삭제")
-	@PostMapping("/delete")
-	public String deleteMember(@RequestBody tempParam tempParam) {
-		return null;
-	}
-	
-	// 회원 신고
-	@Operation(summary="일반 회원용 회원 신고")
-	@GetMapping("/report")
-	public String reportMember() {
-		return null;
-	}
-	
-	@Operation(summary="일반 회원용 회원 신고")
-	@PostMapping("/report")
-	public String reportMember(@RequestBody tempParam tempParam) {
-		return null;
-	}
-	
-}
+//}
