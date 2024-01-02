@@ -41,4 +41,29 @@ public class MemberService implements IMemberService{
     public void deleteMember(String password) {
         memberRepository.deleteMember(password);
     }
+    
+    @Override
+	public Member selectMember(String memberEmail) {
+		return memberRepository.selectMember(memberEmail);
+	}
+    
+    @Override
+	public void insertSubscribe(Member member) {
+		memberRepository.insertSubscribe(member);	}
+
+	@Override
+	public void updateSubscribe(Member member) {
+		memberRepository.updateSubscribe(member);
+	}
+
+	@Override
+	public String selectSubscribe(String memberEmail) {
+		return memberRepository.selectSubscribe(memberEmail);
+	}
+	
+	@Override
+	public void insertCard(String memberEmail) {
+		memberRepository.insertCard(memberEmail);
+	}
+
 }

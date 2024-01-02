@@ -40,4 +40,59 @@
         delete from member
         where member_password = #{password}
     </delete>
+    
+	<select id="selectMember" parameterType="string" resultType="com.metanet.finalproject.member.model.Member">
+		select MEMBER_ID,
+				MEMBER_NAME,
+				MEMBER_EMAIL,
+				MEMBER_PHONE_NUMBER,
+				MEMBER_PASSWORD,
+				MEMBER_JOIN_DATE,
+				MEMBER_JOIN_STATE,
+				MEMBER_SUBSCRIBE,
+				MEMBER_SUBSCRIBE_DATE,
+				MEMBER_CARD
+		from member 
+		<if test="memberEmail != null">
+			where MEMBER_EMAIL=#{memberEmail}
+		</if>
+	</select>
+
+	<!-- 구독신청) MEMBER_SUBSCRIBE : 1, MEMBER_SUBSCRIBE_DATE:sysdate로 update -->
+	<update id="insertSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
+			update member
+			set MEMBER_SUBSCRIBE='1',
+				MEMBER_SUBSCRIBE_DATE=sysdate
+		<if test="memberEmail != null">
+			where MEMBER_EMAIL=#{memberEmail};
+		</if>
+	</update>
+	
+	<!-- 구독해지) MEMBER_SUBSCRIBE : 0으로 update -->
+	<update id="updateSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
+		update member
+		set member_subscribe='0'
+		<if test="memberEmail != null">
+			where MEMBER_EMAIL=#{memberEmail}
+		</if>
+	</update>
+	
+	<!-- 구독 상태 조회 -->
+	<select id="selectSubscribe" parameterType="string" resultType="string">
+		select MEMBER_SUBSCRIBE
+		from member 
+		<if test="memberEmail != null">
+			where MEMBER_EMAIL=#{memberEmail}
+		</if>
+	</select>
+	
+	<!-- 카드등록) MEMBER_CARD : 1로 update -->
+	<update id="insertCard" parameterType="string">
+		update member
+		set MEMBER_CARD='1'
+		<if test="memberEmail != null">
+			where MEMBER_EMAIL=#{memberEmail}
+		</if>
+	</update>
+	
 </mapper>
