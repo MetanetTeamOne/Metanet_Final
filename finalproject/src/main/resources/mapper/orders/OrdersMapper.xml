@@ -3,10 +3,76 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
-	<insert id="insertMember" parameterType="com.example.myapp.member.model.Member">
-	<![CDATA[
-		INSERT INTO member (userid, name, password, phone, email) 
-		VALUES (#{userid}, #{name}, #{password}, #{phone}, #{email})
-	]]>
+
+	<select id="searchOrder" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT
+	        orders_id as ordersId,
+	        wash_id as washId,
+	        orders_count as ordersCount,
+	        orders_price as ordersPrice,
+	        orders_date as ordersDate,
+	        orders_status as OrdersStatus,
+	        member_id as memberId,
+	        laundry_id as laundryId
+	    FROM ORDERS
+	    
+	    WHERE member_id = #{memberId}
+	    
+	    <if test="washId >= 0">
+	        AND wash_id = #{washId}
+	    </if>
+	    
+	    ORDER BY orders_id
+	</select>
+	
+	<insert id="insertOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
+	INSERT INTO ORDERS (
+		orders_id,
+		wash_id,
+		orders_count,
+		orders_price,
+		orders_date,
+		orders_comment,
+		orders_status,
+		orders_image_data,
+		member_id,
+		laundry_id
+	)
+	VALUES (
+		ORDERS_SEQ.NEXTVAL,
+		#{washId},
+		#{ordersCount},
+		#{ordersPrice},
+		#{ordersDate},
+		#{ordersComment},
+		#{ordersStatus},
+		#{ordersImageData, jdbcType=BLOB},
+		#{memberId},
+		#{laundryId}
+	)
 	</insert>
+	
+	<update id="updateOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
+		UPDATE ORDERS
+		<set>
+			<if test="washId != null">wash_id = #{washId},</if>
+			<if test="ordersCount != null">orders_count = #{ordersCount},</if>
+			<if test="ordersPrice != null">orders_price = #{ordersPrice},</if>
+			<if test="ordersDate != null">orders_date = #{ordersDate},</if>
+			<if test="ordersComment != null">orders_comment = #{ordersComment},</if>
+			<if test="ordersStatus != null">orders_status = #{ordersStatus},</if>
+			<if test="memberId != null">member_id = #{memberId},</if>
+			<if test="laundryId != null">laundry_id = #{laundryId}</if>
+		</set>
+		WHERE orders_id = #{ordersId}
+	</update>
+	
+	<delete id="deleteOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
+		DELETE FROM ORDERS
+		WHERE orders_id = #{ordersId}
+	</delete>
+	
+<!-- 	<![CDATA[ -->
+<!-- 	]]> -->
+	
 </mapper>
