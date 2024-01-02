@@ -2,6 +2,9 @@ package com.metanet.finalproject.member.controller;
 
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
+
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,47 +17,69 @@ public class MemberController {
     @Autowired
     IMemberService memberService;
 
-    @GetMapping("/home")
-	public String home() {
-		return "member/home";
-	}
-    
-    @GetMapping("/{memberId}")
-    public String getMember(@PathVariable("memberId") int memberId, Model model){
-        Member member = memberService.getMember(memberId);
+    @GetMapping("")
+    public String getMember(Principal principal, Model model){
+        Member member = memberService.getMember(1);
         model.addAttribute("member", member);
 
-        return "member_view";
+        return "member/member_view";
     }
 
     @GetMapping("/insert")
-    public String memberInsertForm(){
+    public String insertMember(){
 
-        return "signup";
+        return "member/signup";
     }
 
     @PostMapping("/insert")
     public String insertMember(@ModelAttribute Member member) {
         memberService.insertMember(member);
 
-        return "redirct:/login";
+        return "redirct:/insertok";
+    }
+    
+    @GetMapping("/insertok")
+    public String insertOkMember(@ModelAttribute Member member) {
+
+        return "member/signup_ok";
     }
 
-    @GetMapping("/update/{memberId}")
-    public String memberUpdateForm(@PathVariable("memberId") int memberId, Model model) {
-        Member member = memberService.getMember(memberId);
+    @GetMapping("/update")
+    public String updateMember(Principal principal, Model model) {
+        Member member = memberService.getMember(1);
         model.addAttribute("member", member);
-        return "member_update";
+        return "member/member_update";
     }
-
-/*    @PostMapping("/update") 이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
+    
+    @PostMapping("/update")
+    public String updateMember(Model model) {
+        Member member = memberService.getMember(1);
+        model.addAttribute("member", member);
+        return "redirect:/member";
+    }
+    
+    /*    @PostMapping("/update") 이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
     public String updateMember(@ModelAttribute MemberUpdateDto updateDto){
         memberService.updateMember(updateDto);
     }*/
+    
+    @GetMapping("/password")
+    public String updatePasswordMember(Principal principal, Model model) {
+        Member member = memberService.getMember(1);
+        model.addAttribute("member", member);
+        return "member/member_password";
+    }
+    
+    @PostMapping("/password")
+    public String updatePasswordMember(Model model) {
+        Member member = memberService.getMember(1);
+        model.addAttribute("member", member);
+        return "redirect:/member";
+    }
 
-    @GetMapping("/delete/{memberId}")
-    public String memberDeleteForm(@PathVariable("memberId") int memberId, Model model){
-        Member member = memberService.getMember(memberId);
+    @GetMapping("/delete")
+    public String memberDeleteForm(Model model){
+        Member member = memberService.getMember(1);
         model.addAttribute("member", member);
 
         return "signout";
@@ -64,8 +89,20 @@ public class MemberController {
     public String deleteMember(@RequestParam String memberPassword){
         memberService.deleteMember(memberPassword);
 
-        return "redirect:/";
+        return "redirect:/member";
     }
+    
+  	//구독 상태 조회
+  	@GetMapping("/subscribe")
+  	public String selectSubscribe(Model model, String memberEmail) {
+//  		if(memberEmail != null && !memberEmail.equals("")) {
+  		System.out.println("===구독 상태 조회===");
+  		memberService.selectSubscribe(memberEmail);
+  		return "member/subscribe_view";
+//  		}else {
+//  			return "member/login";
+//  		}
+  }
     
   //구독 신청 폼
   	@GetMapping("/subscribe/insert")
@@ -73,7 +110,7 @@ public class MemberController {
 //  	if(memberEmail != null && !memberEmail.equals("")) {
 		Member member = memberService.selectMember(memberEmail);
 		model.addAttribute("member", member);
-		return "member/subscribe_insert";
+		return "member/subscribe";
 //  	}else {
 //  		return "member/login";
 //  	}
@@ -85,7 +122,7 @@ public class MemberController {
   		memberService.insertSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독신청 완료===");
-  		return "redirect:/member/home";
+  		return "redirect:/subscribe";
   	}
   	
   	//구독 해지 폼
@@ -107,19 +144,19 @@ public class MemberController {
   		memberService.updateSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독해지 완료===");
-  		return "redirect:/member/home";
+  		return "redirect:/subscribe";
   	}
   	
-  	//구독 상태 조회
-  	@GetMapping("/subscribe/select")
-  	public String selectSubscribe(Model model, String memberEmail) {
-//  		if(memberEmail != null && !memberEmail.equals("")) {
-  		System.out.println("===구독 상태 조회===");
-  		return memberService.selectSubscribe(memberEmail);
-//  		}else {
-//  			return "member/login";
-//  		}
-  }
+  	@GetMapping("/card")
+  	public String getCard(Model model, String memberEmail) {
+//  			if(memberEmail != null && !memberEmail.equals("")) {
+  			Member member = memberService.selectMember(memberEmail);
+  			model.addAttribute("member", member);
+  			return "member/card_view";
+//  			}else {
+//  				return "member/login";
+//  			}
+  	}
   	
   	//카드 등록 폼
   	@GetMapping("/card/insert")
@@ -139,8 +176,17 @@ public class MemberController {
   		memberService.insertCard(memberEmail);
   		model.addAttribute("member", member);
   		System.out.println("===카드 등록 완료===");
-  		return "redirect:/home";
+  		return "redirect:/card";
   	}
-    
+
+  	//카드 해지 구현 필요
+  	//카드 등록 처리
+  	@PostMapping("/card/delete")
+  	public String deleteCard(Member member, Model model) {
+  		// 카드 해지 서비스 로직 필요
+  		model.addAttribute("member", member);
+  		System.out.println("===카드 해지 완료===");
+  		return "redirect:/card";
+  	}
     
 }
