@@ -5,16 +5,15 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class MemberDto {
-	private String memberEmail;
+public class Member {
+	private int memberId;
 	private String memberName;
+	private String memberEmail;
 	private String memberPhoneNumber;
 	private String memberPassword;
-	private String memberSex;
-	private String memberAge;
 	private Date memberJoinDate;
-	private String memberAddress;
-	private String memberState;
-	private Date memberBanState;
-	private int memberPoint;
+	private String memberJoinState;
+	private String memberSubscribe;
+	private Date memberSubscribeDate;
+	private String memberCard;
 }
