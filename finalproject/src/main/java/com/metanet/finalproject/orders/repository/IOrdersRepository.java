@@ -14,11 +14,11 @@ public interface IOrdersRepository {
 	// 회원
 	List<Orders> searchOrder(@Param("memberId") int memberId);
 	List<Orders> searchOrder(@Param("memberId") int memberId, @Param("washId") int washId); 
-	String insertOrder(@Param("orders") Orders orders);
-	String updateOrder(@Param("orders") Orders orders);
-	String deleteOrder(@Param("orders") Orders orders);
+	void insertOrder(Orders orders);
+	void updateOrder(Orders orders);
+	void deleteOrder(Orders orders);
 	
 	// 관리자
 	List<Orders> searchOrdersList();
-	List<Orders> searchOrdersList(@Param("ordersDate") Orders orders);
+	List<Orders> searchOrdersList(Orders orders);
 }
