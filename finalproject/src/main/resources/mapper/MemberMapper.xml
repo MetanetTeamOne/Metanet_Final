@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.metanet.finalproject.member.repository.IMemberRepository">
+    <select id="getMember" resultType="com.metanet.finalproject.member.model.Member">
+        select member_id as memberId, member_name as memberName, member_email as memberEmail,
+               member_phone_number as memberPhoneNumber, member_password as memberPassword,
+               member_join_date as memberJoinDate, member_join_state as memberJoinState,
+               member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
+               member_card as memberCard
+        from member
+        where member_id = #{memberId}
+    </select>
+
+    <select id="getMemberList" resultType="com.metanet.finalproject.member.model.Member">
+        select member_id as memberId, member_name as memberName, member_email as memberEmail,
+               member_phone_number as memberPhoneNumber, member_password as memberPassword,
+               member_join_date as memberJoinDate, member_join_state as memberJoinState,
+               member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
+               member_card as memberCard
+        from member
+    </select>
+
+    <insert id="insertMember">
+        <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
+            select nvl(max(member_id), 0) + 1 as memberId from member
+        </selectKey>
+        insert into member(member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
+            values (#{memberId}, #{member.memberName}, #{member.memberEmail}, #{member.memberPhoneNumber}, #{member.memberPassword}, sysdate, #{member.memberJoinState}, #{member.memberSubscribe}, #{member.memberSubscribeDate}, #{member.memberCard})
+    </insert>
+
+    <update id="updateMember">
+        update member
+        set member_password = #{member.memberPassword},
+            member_phone_number = #{member.memberPhoneNumber}
+        where member_email = #{email}
+    </update>
+
+    <delete id="deleteMember">
+        delete from member
+        where member_password = #{password}
+    </delete>
+</mapper>
