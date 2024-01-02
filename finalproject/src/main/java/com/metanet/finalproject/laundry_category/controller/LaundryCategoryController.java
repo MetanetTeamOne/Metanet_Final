@@ -23,6 +23,11 @@ public class LaundryCategoryController {
 	@GetMapping("")
 	public String getLaundryCategory(Model model) {
 		List<LaundryCategory> getLaundryCategory = laundryCategoryService.getLaundryCategory();
+		
+		LaundryCategory g = new LaundryCategory();
+		
+		System.out.println(g.getLaundryCategoryId());
+		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("세탁물 카테고리 전체 조회 : " + getLaundryCategory);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
