@@ -516,10 +516,10 @@ input[placeholder] {color: #aaa;}
 }
 
 
-/* 츄츄 헤더 */
+/* 헤더 */
 #header .hlogo.chuchew a.chulogo{
     width:230px;
-    background:url(/img/member/logo.png) no-repeat center center / 100%;
+    background:url(/img/logo.png) no-repeat center center / 100%;
     margin-top:8px;
 }
 

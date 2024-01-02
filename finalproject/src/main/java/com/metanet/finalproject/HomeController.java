@@ -13,13 +13,6 @@ public class HomeController {
 		return "member/home";
 	}
 	
-	// 관리자 홈
-	@GetMapping("/admin")
-	public String admin() {
-		System.out.println("admin");
-		return "admin/index";
-	}
-	
 	// 로그인
 	@GetMapping("/login")
 	public String login() {
@@ -116,6 +109,58 @@ public class HomeController {
 	public String mypagePay() {
 		System.out.println("mypagePay");
 		return "member/mypage_pay";
+	}
+	
+	
+	/* 관리자 */
+	
+	// 관리자 홈
+	@GetMapping("/admin")
+	public String adminHome() {
+		System.out.println("admin");
+		return "admin/adminHome";
+	}
+	
+	// 회원 관리
+	@GetMapping("/admin/member")
+	public String adminMember() {
+		System.out.println("adminMember");
+		return "admin/adminMember";
+	}
+	
+	// 게시판 관리
+	@GetMapping("/admin/board")
+	public String adminBoard() {
+		System.out.println("adminBoard");
+		return "admin/adminBoard";
+	}
+	
+	// 세탁물 관리
+	@GetMapping("/admin/laundry")
+	public String adminLaundry() {
+		System.out.println("adminLaundry");
+		return "admin/adminLaundry";
+	}
+	
+	// 주문 관리
+	@GetMapping("/admin/order")
+	public String adminOrder() {
+		System.out.println("adminOrder");
+		return "admin/adminOrder";
+	}
+	
+	// 결제 관리
+	@GetMapping("/admin/pay")
+	public String getPay() {
+		System.out.println("getPay");
+		return "admin/adminPay";
+	}
+	
+	// 매출 관리
+	@GetMapping("/admin/chart")
+	public String getCharts() {
+		System.out.println("getCharts");
+		return "admin/adminChart";
 	}
 
 }
