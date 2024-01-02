@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.member.service.IMemberService;
@@ -15,6 +16,7 @@ import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
 @Controller
+@RequestMapping("/pay")
 public class PayController {
 
 	@Autowired
@@ -26,18 +28,23 @@ public class PayController {
 //	@Autowired
 //	IOrderService ordersService;
 	
+	@GetMapping("")
+	public String getpay() {
+		return "member/pay_view";
+	}
+	
 	//pay_ok 폼
-	@GetMapping("/pay/pay_ok")
+	@GetMapping("/pay_ok")
 	public String payOk() {
-		return "pay/pay_ok";
+		return "member/pay_ok";
 	}
 	
 	//결제 상세 조회
-	@GetMapping("/pay/{payId}")
+	@GetMapping("/{payId}")
 	public String getPay(@PathVariable int payId, Model model) {
 		Pay pay = payService.getPay(payId);
 		model.addAttribute("pay", pay);
-		return "pay/pay_view";
+		return "member/pay_view";
 	}
 	
 	//결제 상태 조회

@@ -8,32 +8,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 
 @Controller
+@RequestMapping("/member/address")
 public class AddressController {
 	
 	@Autowired IAddressService addressService;
 
 	// 사용자 주소 조회	
-	@GetMapping("/member/address/{memberId}")
-	public String getAddress(Model model, @PathVariable int memberId) {
-		List<Address> getAddress = addressService.getAddress(memberId);
+	@GetMapping("")
+	public String getAddress(Model model) {
+		List<Address> getAddress = addressService.getAddress(1);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 조회 : " + getAddress);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		return "member/home";
+		return "member/address_view";
 	}
 	
 	// 사용자 주소 입력
-	@GetMapping("/member/address/insert")
+	@GetMapping("/insert")
 	public String insetAddress(Model model) {
 		return "member/home";
 	}
 	
-	@PostMapping("/member/address/insert")
+	@PostMapping("/insert")
 	public String insetAddress(Model model, Address address) {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 입력 : " + address);
@@ -43,11 +45,12 @@ public class AddressController {
 	}
 	
 	// 사용자 주소 수정
-	@GetMapping("/member/address/update")
+	@GetMapping("/update")
 	public String updateAddress(Model model) {
-		return "member/home";
+		return "member/address_update";
 	}
-	@PostMapping("/member/address/update")
+	
+	@PostMapping("/update")
 	public String updateAddress(Model model, Address address) {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 수정 : "+ address);
@@ -56,7 +59,7 @@ public class AddressController {
 		return "member/home";
 	}
 	
-	@PostMapping("/member/address/delete")
+	@PostMapping("/delete")
 	public String deleteAddress(Model model, Address address) {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 삭제 : "+ address);
