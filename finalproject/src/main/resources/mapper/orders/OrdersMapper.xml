@@ -3,10 +3,5 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
-	<insert id="insertMember" parameterType="com.example.myapp.member.model.Member">
-	<![CDATA[
-		INSERT INTO member (userid, name, password, phone, email) 
-		VALUES (#{userid}, #{name}, #{password}, #{phone}, #{email})
-	]]>
-	</insert>
+
 </mapper>

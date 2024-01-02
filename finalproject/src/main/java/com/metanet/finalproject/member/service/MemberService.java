@@ -1,50 +1,44 @@
 package com.metanet.finalproject.member.service;
 
-import javax.security.auth.Subject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberUpdateDto;
+import com.metanet.finalproject.member.repository.IMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.metanet.finalproject.member.model.MemberDto;
-import com.metanet.finalproject.member.repository.IMemberRepository;
+import java.util.List;
 
 @Service
-public class MemberService implements IMemberService {
-	@Autowired
-	IMemberRepository memberRepository;
-	private static Logger logger = LoggerFactory.getLogger(MemberService.class.getName());
-	
+public class MemberService implements IMemberService{
+    @Autowired
+    IMemberRepository memberRepository;
 
-	public MemberDto findStudentById(String memberId) {
-		logger.info("서비스");
-		logger.info("studentId {}",memberId);
-		System.out.println("service" + memberId);
-		return memberRepository.findStudentById(memberId);
-	}
-	
-	public void insertStudent(MemberDto member) {
-		memberRepository.insertStudent(member);
-	}
-	
-	public void deleteStudent(String email) {
-		memberRepository.deleteStudent(email);
-	}
-	
-	public void updateStudent(MemberDto member) {
-		logger.info("회원정보 수정중...");
-		memberRepository.updateStudent(member);
-	}
+    @Override
+    public Member getMember(int memberId) {
+        return memberRepository.getMember(memberId);
+    }
 
-	@Override
-	public MemberDto getStudentInfo(String memberId) {
-		return memberRepository.getStudentInfo(memberId);
-	}
+    @Override
+    public List<Member> getMemberList() {
+        return memberRepository.getMemberList();
+    }
 
-	@Override
-	public String getPassword(String memberId) {
-		return memberRepository.getPassword(memberId);
-	}
+    @Override
+    @Transactional
+    public void insertMember(Member member) {
+        memberRepository.insertMember(member);
+    }
 
+    @Override
+    @Transactional
+    public void updateMember(MemberUpdateDto member, String email) {
+        memberRepository.updateMember(member, email);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMember(String password) {
+        memberRepository.deleteMember(password);
+    }
 }
