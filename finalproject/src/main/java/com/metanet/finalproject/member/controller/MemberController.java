@@ -17,12 +17,6 @@ public class MemberController {
     @Autowired
     IMemberService memberService;
 
-//    @GetMapping("/home")
-//	public String home() {
-//		return "member/home";
-//	}
-    
-
     @GetMapping("")
     public String getMember(Principal principal, Model model){
         Member member = memberService.getMember(1);
@@ -41,7 +35,7 @@ public class MemberController {
     public String insertMember(@ModelAttribute Member member) {
         memberService.insertMember(member);
 
-        return "redirct:/login";
+        return "redirct:/insertok";
     }
     
     @GetMapping("/insertok")
@@ -51,10 +45,17 @@ public class MemberController {
     }
 
     @GetMapping("/update")
-    public String updateMember(Model model) {
+    public String updateMember(Principal principal, Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
         return "member/member_update";
+    }
+    
+    @PostMapping("/update")
+    public String updateMember(Model model) {
+        Member member = memberService.getMember(1);
+        model.addAttribute("member", member);
+        return "redirect:/member";
     }
     
     /*    @PostMapping("/update") 이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
@@ -62,14 +63,14 @@ public class MemberController {
         memberService.updateMember(updateDto);
     }*/
     
-    @GetMapping("/password/update")
+    @GetMapping("/password")
     public String updatePasswordMember(Principal principal, Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
         return "member/member_password";
     }
     
-    @PostMapping("/password/update")
+    @PostMapping("/password")
     public String updatePasswordMember(Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
@@ -88,8 +89,20 @@ public class MemberController {
     public String deleteMember(@RequestParam String memberPassword){
         memberService.deleteMember(memberPassword);
 
-        return "redirect:/";
+        return "redirect:/member";
     }
+    
+  	//구독 상태 조회
+  	@GetMapping("/subscribe")
+  	public String selectSubscribe(Model model, String memberEmail) {
+//  		if(memberEmail != null && !memberEmail.equals("")) {
+  		System.out.println("===구독 상태 조회===");
+  		memberService.selectSubscribe(memberEmail);
+  		return "member/subscribe_view";
+//  		}else {
+//  			return "member/login";
+//  		}
+  }
     
   //구독 신청 폼
   	@GetMapping("/subscribe/insert")
@@ -109,7 +122,7 @@ public class MemberController {
   		memberService.insertSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독신청 완료===");
-  		return "redirect:/member/home";
+  		return "redirect:/subscribe";
   	}
   	
   	//구독 해지 폼
@@ -131,20 +144,8 @@ public class MemberController {
   		memberService.updateSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독해지 완료===");
-  		return "redirect:/member/home";
+  		return "redirect:/subscribe";
   	}
-  	
-  	//구독 상태 조회
-  	@GetMapping("/subscribe")
-  	public String selectSubscribe(Model model, String memberEmail) {
-//  		if(memberEmail != null && !memberEmail.equals("")) {
-  		System.out.println("===구독 상태 조회===");
-  		memberService.selectSubscribe(memberEmail);
-  		return "member/subscribe_view";
-//  		}else {
-//  			return "member/login";
-//  		}
-  }
   	
   	@GetMapping("/card")
   	public String getCard(Model model, String memberEmail) {
@@ -175,8 +176,17 @@ public class MemberController {
   		memberService.insertCard(memberEmail);
   		model.addAttribute("member", member);
   		System.out.println("===카드 등록 완료===");
-  		return "redirect:/home";
+  		return "redirect:/card";
   	}
-    
+
+  	//카드 해지 구현 필요
+  	//카드 등록 처리
+  	@PostMapping("/card/delete")
+  	public String deleteCard(Member member, Model model) {
+  		// 카드 해지 서비스 로직 필요
+  		model.addAttribute("member", member);
+  		System.out.println("===카드 해지 완료===");
+  		return "redirect:/card";
+  	}
     
 }

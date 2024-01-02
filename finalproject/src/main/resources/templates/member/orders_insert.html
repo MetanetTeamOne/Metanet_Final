@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-7 col-lg-8">
                   <h4 class="mb-3">Billing address</h4>
-                  <form class="needs-validation was-validated" novalidate="">
+                  <form class="needs-validation was-validated" method="post">
                     <div class="row g-3">
                       <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
@@ -200,19 +200,20 @@
                       </div>
                     </div>
                     <hr class="my-4">
+                    <div class="btn_center_box">
+			            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">취소</button>
+						<button type="submit" class="btn_comfirm js_btn_join" th:onclick="|javascript:location.href='/orders/insert'|">신청</button>
+			        </div>
                   </form>
                 </div>
               </div>
         </div>
-        <div class="btn_center_box">
-            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">취소</button>
-			<button type="submit" class="btn_comfirm js_btn_join" th:onclick="|javascript:location.href='/orders/insert'|">신청</button>
-        </div>
+        
     </div>
 
     <div class="section-background section-cover"></div>
 
-    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
@@ -236,7 +237,7 @@
             </div>
           </div>
         </div>
-      </div>  
+      </div>  -->
 
     <!-- Top Button -->
 	<div th:replace="~{/include/member/topButton :: topButton}"></div>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,10 @@ public class OrdersController {
 	
 	@Operation(summary = "회원별 주문 조회")
 	@GetMapping("")
-	public String getOrder(){
+	public String getOrder(Model model, Principal principal){
+//		List<Orders> orderList = ordersService.searchOrder(1);
+//		model.addAttribute("orderList", orderList);
+//		System.out.println(orderList);
 //	List<Orders> searchOrder(HttpServletRequest request){
 //	String token = tokenProvider.resolveToken(request);
 //  log.info("token {}",token); //권장
@@ -49,31 +53,34 @@ public class OrdersController {
 	
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
-	public String insertOrder(Principal principal) {
-		return "redirect:/orders/insertOk";
+	public String insertOrder(Principal principal, Orders orders) {
+		System.out.println(orders);
+//		ordersService.insertOrder(orders);
+		return "redirect:/orders/insertok";
 	}
 	
 	@Operation(summary = "주문 입력 view")
-	@GetMapping("/insertOk")
+	@GetMapping("/insertok")
 	public String insertOkOrder() {
 		return "member/orders_insert_ok";
 	}
 	
 	@Operation(summary = "주문 수정 view")
 	@GetMapping("/update/{ordersId}")
-	public String updateOrder() {
-		return "dd";
+	public String updateOrder(Model model) {
+		return "member/orders_view";
 	}
 	
 	@Operation(summary = "주문 수정")
-	@GetMapping("/update")
-	public String updateOrder(Principal principal) {
-		return "ok";
+	@PostMapping("/update")
+	public String updateOrder(Principal principal, Orders orders) {
+		ordersService.updateOrder(orders);
+		return "redirect:/orders";
 	}
 	
 	@Operation(summary = "주문 삭제")
 	@PostMapping("/delete")
 	public String deleteOrder() {
-		return "ok";
+		return "redirect:/orders";
 	}
 }

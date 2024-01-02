@@ -34,7 +34,7 @@ public class PayController {
 	}
 	
 	//pay_ok 폼
-	@GetMapping("/pay_ok")
+	@GetMapping("/payok")
 	public String payOk() {
 		return "member/pay_ok";
 	}
@@ -90,7 +90,7 @@ public class PayController {
 	        payService.insertPay(pay);
 	        model.addAttribute("pay", pay);
 	        System.out.println("==결제완료==");
-	        return "redirect:/pay/pay_ok";
+	        return "redirect:/pay/payok";
 	    } catch (NumberFormatException e) {
 	        // ordersId가 정수로 변환할 수 없는 경우의 예외 처리
 	        e.printStackTrace(); // 또는 로깅
