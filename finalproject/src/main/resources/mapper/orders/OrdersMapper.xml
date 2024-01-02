@@ -4,8 +4,5 @@
 
 <mapper namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
 
-<<<<<<< HEAD
 </mapper>
-=======
-</mapper>
->>>>>>> branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git
+

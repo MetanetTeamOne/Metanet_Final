@@ -104,8 +104,6 @@
 			  <version>0.12.3</version>
 		 </dependency>
 
-<<<<<<< HEAD
-=======
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter-test</artifactId>
@@ -113,8 +111,6 @@
 			<scope>test</scope>
 		</dependency>
 
-
->>>>>>> branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git
 	</dependencies>
 
 	<build>
