@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.metanet.finalproject.pay.repository.IPayRepository">
+
+	<select id="getPay" parameterType="int" resultType="com.metanet.finalproject.pay.model.Pay">
+		select PAY_ID as payId, 
+	        	PAY_DELIVERY as payDelivery, 
+	        	PAY_MONEY as payMoney, 
+	        	PAY_DATE as payDate, 
+	        	PAY_STATE as payState, 
+	        	ORDERS_ID as ordersId
+	    from pay
+	    <if test="payId != null">
+			where PAY_ID=#{payId}
+		</if>
+	</select>
+	
+	<select id="getPayState" parameterType="int" resultType="com.metanet.finalproject.pay.model.Pay">
+		select PAY_ID as payId, 
+	        	PAY_DELIVERY as payDelivery, 
+	        	PAY_MONEY as payMoney, 
+	        	PAY_DATE as payDate, 
+	        	PAY_STATE as payState, 
+	        	ORDERS_ID as ordersId
+	    from pay
+	    <if test="payState != null">
+			where PAY_STATE=#{payState}
+		</if>
+	</select>
+
+	<insert id="insertPay" parameterType="com.metanet.finalproject.pay.model.Pay">
+	    <selectKey order="BEFORE" keyProperty="payId" resultType="int">
+	    	select PAY_SEQ.nextval from dual
+	    </selectKey>
+	    
+	    insert into 
+	        pay (
+		        	PAY_ID, 
+		        	PAY_DELIVERY, 
+		        	PAY_MONEY, 
+		        	PAY_DATE, 
+		        	PAY_STATE, 
+		        	ORDERS_ID
+		        )
+	    values
+	        (
+	            #{payId},
+	            #{payDelivery},
+	            #{payMoney},
+	            sysdate,
+	            #{payState},
+        	    <if test="ordersId != null">
+	            #{ordersId}
+	        	</if>
+	        )
+	    
+	</insert>
+	<!-- insert into 
+			pay (PAY_ID, PAY_DELIVERY, PAY_MONEY, PAY_DATE, PAY_STATE, ORDERS_ID)
+		values
+			(4, #{payDelivery}, 5000, sysdate,1,1) -->
+	
+</mapper>

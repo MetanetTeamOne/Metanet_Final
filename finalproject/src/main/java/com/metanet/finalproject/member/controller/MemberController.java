@@ -14,6 +14,11 @@ public class MemberController {
     @Autowired
     IMemberService memberService;
 
+    @GetMapping("/home")
+	public String home() {
+		return "member/home";
+	}
+    
     @GetMapping("/{memberId}")
     public String getMember(@PathVariable("memberId") int memberId, Model model){
         Member member = memberService.getMember(memberId);
@@ -61,4 +66,81 @@ public class MemberController {
 
         return "redirect:/";
     }
+    
+  //구독 신청 폼
+  	@GetMapping("/subscribe/insert")
+  	public String insertSubscribe(Model model, String memberEmail) {
+//  	if(memberEmail != null && !memberEmail.equals("")) {
+		Member member = memberService.selectMember(memberEmail);
+		model.addAttribute("member", member);
+		return "member/subscribe_insert";
+//  	}else {
+//  		return "member/login";
+//  	}
+  	}
+  	
+  	//구독 신청 처리
+  	@PostMapping("/subscribe/insert")
+  	public String insertSubscribe(Member member, Model model) {
+  		memberService.insertSubscribe(member);
+  		model.addAttribute("member", member);
+  		System.out.println("===구독신청 완료===");
+  		return "redirect:/member/home";
+  	}
+  	
+  	//구독 해지 폼
+  	@GetMapping("/subscribe/update")
+  	public String updateSubscribe(Model model, String memberEmail) {
+//  	if(memberEmail != null && !memberEmail.equals("")) {
+  			Member member = memberService.selectMember(memberEmail);
+  			model.addAttribute("member", member);
+  			return "member/subscribe_update";
+//  		}else {
+//  			return "member/login";
+//  		}
+  	}
+  	
+  	//구독 해지 처리
+  	@PostMapping("/subscribe/update")
+  	public String updateSubscribe(Member member, Model model) {
+  		//member.setMemberSubscribe("0");
+  		memberService.updateSubscribe(member);
+  		model.addAttribute("member", member);
+  		System.out.println("===구독해지 완료===");
+  		return "redirect:/member/home";
+  	}
+  	
+  	//구독 상태 조회
+  	@GetMapping("/subscribe/select")
+  	public String selectSubscribe(Model model, String memberEmail) {
+//  		if(memberEmail != null && !memberEmail.equals("")) {
+  		System.out.println("===구독 상태 조회===");
+  		return memberService.selectSubscribe(memberEmail);
+//  		}else {
+//  			return "member/login";
+//  		}
+  }
+  	
+  	//카드 등록 폼
+  	@GetMapping("/card/insert")
+  	public String insertCard(Model model, String memberEmail) {
+//  			if(memberEmail != null && !memberEmail.equals("")) {
+  			Member member = memberService.selectMember(memberEmail);
+  			model.addAttribute("member", member);
+  			return "member/card_insert";
+//  			}else {
+//  				return "member/login";
+//  			}
+  	}
+  	
+  	//카드 등록 처리
+  	@PostMapping("/card/insert")
+  	public String insertCard(Member member, Model model, String memberEmail) {
+  		memberService.insertCard(memberEmail);
+  		model.addAttribute("member", member);
+  		System.out.println("===카드 등록 완료===");
+  		return "redirect:/home";
+  	}
+    
+    
 }
