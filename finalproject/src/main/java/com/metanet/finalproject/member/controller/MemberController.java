@@ -1,24 +1,26 @@
 package com.metanet.finalproject.member.controller;
 
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberInsertDto;
-import com.metanet.finalproject.member.service.IMemberService;
-
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-
 import java.security.Principal;
-
+import java.sql.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.util.UUID;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.service.IMemberService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -27,7 +29,7 @@ public class MemberController {
 
     @Autowired
     IMemberService memberService;
-
+    
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -40,7 +42,6 @@ public class MemberController {
     public String getMember(Principal principal, Model model){
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
-
         return "member/member_view";
     }
 
@@ -141,14 +142,11 @@ public class MemberController {
     
   	//구독 상태 조회
   	@GetMapping("/subscribe")
-  	public String selectSubscribe(Model model, String memberEmail) {
-//  		if(memberEmail != null && !memberEmail.equals("")) {
-  		System.out.println("===구독 상태 조회===");
-  		memberService.selectSubscribe(memberEmail);
+  	public String selectSubscribe(Model model) {
+  		Member member = memberService.selectSubscribe(memberEmail);
+  		model.addAllAttributes("memberId",)
   		return "member/subscribe_view";
-//  		}else {
-//  			return "member/login";
-//  		}
+
   }
     
   //구독 신청 폼
@@ -157,7 +155,7 @@ public class MemberController {
 //  	if(memberEmail != null && !memberEmail.equals("")) {
 		Member member = memberService.selectMember(memberEmail);
 		model.addAttribute("member", member);
-		return "member/subscribe";
+		return "member/subscribe_view";
 //  	}else {
 //  		return "member/login";
 //  	}
@@ -178,7 +176,7 @@ public class MemberController {
 //  	if(memberEmail != null && !memberEmail.equals("")) {
   			Member member = memberService.selectMember(memberEmail);
   			model.addAttribute("member", member);
-  			return "member/subscribe_update";
+  			return "member/subscribe_view";
 //  		}else {
 //  			return "member/login";
 //  		}
@@ -191,7 +189,7 @@ public class MemberController {
   		memberService.updateSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독해지 완료===");
-  		return "redirect:/member/subscribe";
+  		return "redirect:/member/subscribe_view";
   	}
   	
 

@@ -22,7 +22,7 @@
                     
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>계정관리</h3>
+                            <h3>계정 관리</h3>
                             <div class="my_page_form">
                                 <div class="base_info_sec">
                                     <table>
@@ -31,7 +31,7 @@
                                                 <th><span class="important">아이디</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberId" class="inputData" readonly>
+                                                        <input type="text" id="memberEmail" th:value="${member.memberEmail}" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -39,15 +39,7 @@
                                                 <th><span class="important">이름</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberName" maxlength="30" class="inputData" readonly>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th><span class="important">이메일</span></th>
-                                                <td class="member_email">
-                                                    <div class="member_warning">
-                                                        <input type="email" id="memberEmail" tabindex="-1" class="inputData" readonly>
+                                                        <input type="text" id="memberName" maxlength="30" th:value="${member.memberName}" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -55,26 +47,11 @@
                                                 <th><span class="important">휴대폰번호</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="memberPhoneNumber" maxlength="12" placeholder="- 없이 입력하세요." class="inputData" readonly>
+                                                        <input type="text" id="memberPhoneNumber" maxlength="12" placeholder="- 없이 입력하세요." th:value="${member.memberPhoneNumber}" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <th><span class="important">주소</span></th>
-                                                <td class="member_address">
-                                                    <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" placeholder="우편번호" class="inputData" readonly>
-                                                    </div>
-                                                    <div class="address_input">
-                                                        <div class="member_warning">
-                                                            <input type="text" id="addressRoad" name="addressRoad" placeholder="도로명/지번주소" class="inputData" readonly>
-                                                        </div>
-                                                        <div class="member_warning js_address_sub">
-                                                            <input type="text" id="addressContent" name="addressContent" placeholder="상세주소" class="inputData" readonly>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">

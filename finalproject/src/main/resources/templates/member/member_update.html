@@ -4,6 +4,8 @@
 <head th:replace="~{/include/member/head :: head}"></head>
 
 <body>
+		<p th:text="${member}"></p>
+
 	<!-- JS -->
     <script th:src="@{/js/member/searchPost.js}"></script>
 	
@@ -25,7 +27,7 @@
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>계정관리</h3>
+                            <h3>계정 수정</h3>
                             <form class="my_page_form" method="post" action="/member/update">
                                 <!-- Add 'action' attribute with the endpoint where you want to submit the form -->
                                 <div class="base_info_sec">
@@ -35,7 +37,7 @@
                                                 <th><span class="important">아이디</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberId" class="inputData" readonly>
+                                                        <input type="text" id="memberId" name="memberId" th:value="${member.memberId}" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -43,48 +45,24 @@
                                                 <th><span class="important">이름</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberName" maxlength="30" required>
+                                                        <input type="text" id="memberName" name="memberName" maxlength="30" th:value="${member.memberName}" required>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <th><span class="important">이메일</span></th>
-                                                <td class="member_email">
-                                                    <div class="member_warning">
-                                                        <input type="email" id="memberEmail" tabindex="-1" required>
-                                                        <button type="button" class="btn_post_search" onclick="daumPostcode()">이메일 확인</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                           
                                             <tr>
                                                 <th><span class="important">휴대폰번호</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="memberPhoneNumber" maxlength="12" placeholder="- 없이 입력하세요." required>
+                                                        <input type="text" id="memberPhoneNumber" name="memberPhoneNumber" maxlength="12" th:value="${member.memberPhoneNumber}" required>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <th><span class="important">주소</span></th>
-                                                <td class="member_address">
-                                                    <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" placeholder="우편번호" class="inputData" readonly>
-                                                        <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
-                                                    </div>
-                                                    <div class="address_input">
-                                                        <div class="member_warning">
-                                                            <input type="text" id="addressRoad" name="addressRoad" placeholder="도로명주소" class="inputData" readonly>
-                                                        </div>
-                                                        <div class="member_warning js_address_sub">
-                                                            <input type="text" id="addressContent" name="addressContent" placeholder="상세주소" required>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-										<button type="reset" id="btnCancel" class="btn_member_cancel">취소</button>
+										<button type="button" id="btnCancel" class="btn_member_cancel" onclick="location.href ='/member'">취소</button>
                                         <button type="submit" class="btn_comfirm js_btn_join">완료</button>
                                     </div>
                                 </div>

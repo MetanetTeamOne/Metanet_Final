@@ -4,7 +4,7 @@
 <head th:replace="~{/include/member/head :: head}"></head>
 
 <body>
-
+	<p th:text="${orders}"></p>
     <!-- Header -->
     <div th:replace="~{/include/member/header :: header}"></div>
 
@@ -22,43 +22,37 @@
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>주문 내역</h3>
+                            <h3>주문 관리</h3>
                             <!-- Content -->
                             <div class="my_page_form">
                                 <form class="base_info_sec" action="" method="">
                                     <table>
                                         <tbody>
-                                            <tr>
-                                                <th><span>2023-12-11</span></th>
+                                            <tr th:each="order : ${orders}">
+                                                <th><p th:text="${order.ordersDate}"></p></th>
                                                 <td>
                                                     <div class="member_warning">
-                                                        <input type="hidden" id="memberId" name="memberId">
-                                                        <span class="mylist">
-                                                            진행상황 : 배송 완료<br>
-                                                            상의 1벌, 하의 1벌
+														<strong style="font-weight: bold; color: black;">진행상황 : </strong>
+                                                        <span class="mylist" th:if="${order.ordersStatus == '1'}">
+                                                            수거 진행
                                                         </span>
+                                                        <span class="mylist" th:if="${order.ordersStatus == '2'}">
+                                                            세탁 진행
+                                                        </span>
+                                                        <span class="mylist" th:if="${order.ordersStatus == '3'}">
+                                                            배송 진행
+                                                        </span>
+                                                        <br>
+                                                            <p>
+																<span>총 수량 : <strong th:text="${order.ordersCount}"></strong> </span>아우터 1벌, 상의 2벌</p>
                                                     </div>
                                                 </td>
                                                 <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
-                                                    <div class="member_warning">
-                                                        <a href="#" id="order_detail_list">내역보기</a>
+                                                    <div class="member_warning mb-3">
+                                                        <a th:href="@{/member/address/update}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">수정</a>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th><span>2023-12-30</span></th>
-                                                <td>
                                                     <div class="member_warning">
-                                                        <input type="hidden" id="memberId" name="memberId">
-                                                        <span class="mylist">
-                                                            진행상황 : 배송 중<br>
-                                                            아우터 1벌, 상의 2벌
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
-                                                    <div class="member_warning">
-                                                        <a href="" id="order_detail_list">수정</a>
+                                                        <a th:href="@{/member/orders/delete/__${ordersId}__}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">취소</a>
                                                     </div>
                                                 </td>
                                             </tr>

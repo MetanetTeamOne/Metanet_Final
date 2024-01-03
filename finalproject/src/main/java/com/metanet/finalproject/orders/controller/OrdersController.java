@@ -40,6 +40,9 @@ public class OrdersController {
 	@Operation(summary = "주문")
 	@GetMapping("")
 	public String getOrder(Model model) {
+		List<Orders> orders = ordersService.searchOrder(1);
+		System.out.println(orders);
+		model.addAttribute("orders", orders);
 		return "member/orders_view";
 	}
 	

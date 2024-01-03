@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
+	<!-- JS -->
+    <script th:src="@{/js/member/searchPost.js}"></script>
+	
     <!--Header -->
     <div th:replace="~{/include/member/header :: header}"></div>
 
@@ -19,25 +22,25 @@
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>배송지 관리</h3>
+                            <h3>배송지 수정</h3>
                             <!-- Content -->
                             <div class="my_page_form">
-                                <form class="base_info_sec" method="post">
+                                <form class="base_info_sec" method="post" action="/member/address/update">
                                     <table>
                                         <tbody>
-                                            <tr>
+                                           	<tr>
                                                 <th><span class="important">기본 주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" name="zonecode" readonly="readonly" value="">
-                                                        <input type="hidden" name="zipcode" value="">
+                                                        <input type="text" id="addressZipcode" class="inputData" readonly required>
+                                                        <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            <input type="text" name="address" readonly="readonly" value="">
+                                                            <input type="text" id="addressRoad" name="addressRoad" class="inputData" readonly required>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            <input type="text" name="addressSub" value="">
+                                                            <input type="text" id="addressContent" name="addressContent" required>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -45,8 +48,8 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="reset" class="btn_member_cancel">취소</button>
-                                        <button type="submit" class="btn_comfirm js_btn_join" onclick="location.href ='/'">완료</button>
+                                        <button type="button" class="btn_member_cancel" onclick="location.href ='/member/address'">취소</button>
+                                        <button type="submit" class="btn_comfirm js_btn_join" >완료</button>
                                     </div>
                                 </form>
                             </div>
