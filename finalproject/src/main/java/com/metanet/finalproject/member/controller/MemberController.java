@@ -1,18 +1,6 @@
 package com.metanet.finalproject.member.controller;
 
-<<<<<<< HEAD
-=======
-import com.metanet.finalproject.address.model.Address;
-import com.metanet.finalproject.address.service.IAddressService;
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberInsertDto;
-import com.metanet.finalproject.member.model.MemberUpdateDto;
-import com.metanet.finalproject.member.service.IMemberService;
 
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-
->>>>>>> branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git
 import java.security.Principal;
 import java.sql.Date;
 import java.util.UUID;
@@ -28,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.metanet.finalproject.address.model.Address;
+import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberInsertDto;
 import com.metanet.finalproject.member.service.IMemberService;
