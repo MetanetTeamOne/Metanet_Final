@@ -907,3 +907,9 @@ input[type="checkbox"]{width:13px;height:13px;vertical-align:top;}
 input[type="image"]{vertical-align:top;border:none;cursor:pointer;}
 input[type="button"]{border:none;background:none;cursor:pointer;}
 input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
+
+
+.inputData{
+    font-size: 14px;
+    background-color: var(--sub-gray);
+} 

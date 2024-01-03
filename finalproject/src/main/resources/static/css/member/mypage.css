@@ -167,15 +167,17 @@
     font-size: 14px;
 } 
 
-.mypage_right tbody td input[id="memId"]{
-    font-size: 14px;
-    background-color: var(--sub-gray);
-} 
-
 .btn_post_search {
     margin: 0 0 0 5px;
     padding: 5px 10px 5px 10px;
     border: 1px solid #989898;
+}
+
+.btn_post_search:hover {
+    margin: 0 0 0 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #989898;
+    background-color: #dcdcdc;
 }
 
 .mypage_right tbody tr .member_address .address_input .member_warning {

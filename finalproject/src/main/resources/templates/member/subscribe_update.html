@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/member/head :: head}"></head>
-<body>
-	<!--Header -->
-	<div th:replace="~{/include/member/header :: header}"></div>
 
+<head th:replace="~{/include/member/head :: head}"></head>
+
+<body>
+    <!--Header -->
+    <div th:replace="~{/include/member/header :: header}"></div>
 
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
             <!-- Section left -->
             <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
-            
+
             <!-- Section right -->
             <div class="col-sm-6 col-md-7 col-lg-9">
                 <div class="mypage_right">
@@ -27,13 +28,10 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <th><span>아이디</span>
-                                                </th>
+                                                <th><span>아이디</span></th>
                                                 <td>
                                                     <div class="member_warning">
-                                                        <input type="text"
-                                                            id="memId"
-                                                            name="memId" readonly>
+                                                        <input type="text" id="memId" name="memId" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -54,7 +52,9 @@
                                                         <input type="hidden">
                                                         등록된 카드로 월 4900원 정기결제를 진행합니다.<br>
                                                         워시플러스 구독 신청을 하시고 배송비 무료 혜택을 경험해보세요!<br>
-                                                        결제수단 등록은 <span style="color: #0e8ff2; padding-left: 3px;padding-right: 5px;">마이페이지 > 내 정보 관리 > 카드 관리</span>에서 관리하실 수 있습니다.
+                                                        결제수단 등록은 <span
+                                                            style="color: #0e8ff2; padding-left: 3px;padding-right: 5px;">마이페이지 > 내 정보 관리 > 카드 관리</span>에서
+                                                        관리하실 수 있습니다.
                                                     </div>
                                                 </td>
                                             </tr>
@@ -62,7 +62,8 @@
                                     </table>
                                     <div class="btn_right_box">
                                         <button type="button" id="btnCancel" class="btn_member_cancel">수정</button>
-                                        <button type="button" class="btn_comfirm js_btn_join" value="" onclick="location.href ='#'">추가</button>
+                                        <button type="button" class="btn_comfirm js_btn_join" value=""
+                                            onclick="location.href ='#'">추가</button>
                                     </div>
                                 </form>
                             </div>
@@ -74,10 +75,11 @@
     </div>
 
     <!-- Top Button -->
-	<div th:replace="~{/include/member/topButton :: topButton}"></div>
-    
+    <div th:replace="~{/include/member/topButton :: topButton}"></div>
+
     <!-- Footer -->
-	<div th:replace="~{/include/member/footer :: footer}"></div>
-    
+    <div th:replace="~{/include/member/footer :: footer}"></div>
+
 </body>
+
 </html>
