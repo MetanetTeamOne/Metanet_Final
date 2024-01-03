@@ -45,7 +45,7 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "회원별 주문 조회")
-	@GetMapping("")
+	@GetMapping("/{memberId}")
 	@ResponseBody
 	public List<Orders> searchOrder(Model model, @PathVariable int memberId){
 //	List<Orders> searchOrder(HttpServletRequest request){
@@ -78,7 +78,7 @@ public class OrdersController {
 	@Operation(summary = "주문 입력 view")
 	@GetMapping("/insert")
 	public String insertOrder(Model model) {
-		return "member/mypage_order";
+		return "member/orders_insert";
 	}
 	
 	@Operation(summary = "주문 입력")
@@ -95,7 +95,14 @@ public class OrdersController {
 			ordersService.insertOrder(orders);
 		}
 		
-		return "member/mypage_order";
+		return "redirect:/insertok";
+	}
+	
+	@Operation(summary = "주문 완료 view")
+	@GetMapping("/insertok")
+	public String insertOkOrder(Model model) {
+		System.out.println("======================");
+		return "member/orders_insert_ok";
 	}
 	
 	@Operation(summary = "주문 수정 view")
