@@ -46,12 +46,13 @@ class MemberServiceTest {
     @Transactional
     public void updateMember(){
 
-        MemberUpdateDto dto = new MemberUpdateDto();
-        dto.setMemberPassword("123");
-        dto.setMemberPhoneNumber("010-0000-0000");
-        memberRepository.updateMember(dto, "chlrkdls1269@gmail.com");
+        Member member = new Member();
+        member.setMemberName("최가인인");
+        member.setMemberPhoneNumber("010-0000-0000");
+        member.setMemberPassword("123123123");
+        memberRepository.updateMember(member, "chlrkdls1269@gmail.com");
 
-        assertThat(memberRepository.getMember(1).getMemberPassword()).isEqualTo("123");
+        assertThat(memberRepository.getMember(1).getMemberPassword()).isEqualTo("123123123");
         assertThat(memberRepository.getMember(1).getMemberPhoneNumber()).isEqualTo("010-0000-0000");
     }
 

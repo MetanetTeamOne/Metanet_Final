@@ -26,13 +26,13 @@ public class MemberService implements IMemberService{
 
     @Override
     @Transactional
-    public int insertMember(Member member) {
-        return memberRepository.insertMember(member);
+    public void insertMember(Member member) {
+        memberRepository.insertMember(member);
     }
 
     @Override
     @Transactional
-    public void updateMember(MemberUpdateDto member, String email) {
+    public void updateMember(Member member, String email) {
         memberRepository.updateMember(member, email);
     }
 
