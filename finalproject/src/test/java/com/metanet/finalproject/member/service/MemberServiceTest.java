@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
@@ -15,7 +16,7 @@ import java.sql.Date;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@MybatisTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class MemberServiceTest {
 
@@ -68,7 +69,8 @@ class MemberServiceTest {
         member.setMemberSubscribeDate(new Date(0));
         member.setMemberCard("0");
 
-        memberRepository.insertMember(member);
+        int id = memberRepository.insertMember(member);
+        assertThat(id).isEqualTo(7);
         assertThat(memberRepository.getMemberList().size()).isEqualTo(2);
         assertThat(memberRepository.getMemberList().get(1).getMemberName()).isEqualTo("최동연");
 //        assertThat(memberRepository.getMember(2).getMemberName()).isEqualTo("최동연");
