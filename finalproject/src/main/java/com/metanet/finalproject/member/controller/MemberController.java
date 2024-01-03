@@ -1,5 +1,7 @@
 package com.metanet.finalproject.member.controller;
 
+import com.metanet.finalproject.address.model.Address;
+import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberInsertDto;
 import com.metanet.finalproject.member.model.MemberUpdateDto;
@@ -30,6 +32,9 @@ public class MemberController {
     IMemberService memberService;
 
 	@Autowired
+	IAddressService addressService;
+
+	@Autowired
 	PasswordEncoder passwordEncoder;
 
     @GetMapping("/home")
@@ -58,6 +63,7 @@ public class MemberController {
     public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
 		log.info("회원가입 진행중...");
 		Member member = new Member();
+		Address address = new Address();
 		log.info("dto: {}", dto);
 
 		/*String sessionToken = (String) session.getAttribute("csrfToken");
@@ -67,16 +73,29 @@ public class MemberController {
 
 
 		try {
-			String encodedPw = passwordEncoder.encode(dto.getPassword());
-			member.setMemberName(dto.getName());
-			member.setMemberEmail(dto.getEmail());
+			String encodedPw = passwordEncoder.encode(dto.getMemberPassword());
+			member.setMemberName(dto.getMemberName());
+			member.setMemberEmail(dto.getMemberEmail());
 			member.setMemberPassword(encodedPw);
-			member.setMemberPhoneNumber(dto.getPhoneNumber());
+			member.setMemberPhoneNumber(dto.getMemberPhoneNumber());
 			member.setMemberJoinState("1");
 			member.setMemberSubscribe("0");
 			member.setMemberSubscribeDate(new Date(0));
 			member.setMemberCard("0");
 			memberService.insertMember(member);
+
+			int memberId = memberService.getMemberId(dto.getMemberEmail());
+			log.info("memberId: {}", memberId);
+
+			address.setAddressZipcode(dto.getAddressZipcode());
+			address.setAddressRoad(dto.getAddressRoad());
+			address.setAddressContent(dto.getAddressContent());
+			address.setAddressCategory("3");
+			address.setAddressDetail("null");
+			address.setMemberId(memberId);
+
+			log.info("address: {}", address);
+			addressService.insertAddress(address);
 		} catch (DuplicateKeyException e) {
 			member.setMemberEmail(null);
 			model.addAttribute("member", member);
@@ -84,7 +103,7 @@ public class MemberController {
 			return "member/signup";
 		}
 		session.invalidate();
-        return "redirect:/insertok";
+        return "redirect:member/signup_ok";
     }
     
     @GetMapping("/insertok")
@@ -106,10 +125,10 @@ public class MemberController {
         return "redirect:/member";
     }*/
     
-	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
+	/*@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
     public String updateMember(@ModelAttribute MemberUpdateDto updateDto){
         memberService.updateMember(updateDto);
-    }
+    }*/
     
     @GetMapping("/password")
     public String updatePasswordMember(Principal principal, Model model) {

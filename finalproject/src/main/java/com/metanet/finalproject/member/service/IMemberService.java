@@ -8,9 +8,10 @@ import com.metanet.finalproject.member.model.MemberUpdateDto;
 public interface IMemberService {
     public Member getMember(int memberId);
     public List<Member> getMemberList();
-    public void insertMember(Member member);
+    public int insertMember(Member member);
     public void updateMember(MemberUpdateDto member, String email);
     public void deleteMember(String password);
+	public int getMemberId(String email);
     //이메일로 특정 회원조회
   	Member selectMember(String memberEmail);
     // 구독신청 -> 구독o : 1
