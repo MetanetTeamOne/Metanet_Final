@@ -66,6 +66,12 @@ public class MemberController {
 		Address address = new Address();
 		log.info("dto: {}", dto);
 
+		Member findMember = memberService.selectMember(dto.getMemberEmail());
+		if (findMember != null) {
+			log.info("같은 아이디가 있습니다");
+			model.addAttribute("dto", dto);
+			return "member/signup";
+		}
 		/*String sessionToken = (String) session.getAttribute("csrfToken");
 		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
 			throw new RuntimeException("CSRF Token Error.");
@@ -106,10 +112,10 @@ public class MemberController {
         return "redirect:member/signup_ok";
     }
     
-    @GetMapping("/insertok")
+  /*  @GetMapping("/insertok")
     public String insertOkMember(@ModelAttribute Member member) {
         return "member/signup_ok";
-    }
+    }*/
 
     @GetMapping("/update")
     public String updateMember(Principal principal, Model model) {
@@ -125,10 +131,12 @@ public class MemberController {
         return "redirect:/member";
     }*/
     
-	/*@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
-    public String updateMember(@ModelAttribute MemberUpdateDto updateDto){
-        memberService.updateMember(updateDto);
-    }*/
+	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
+    public String updateMember(@ModelAttribute Member updateDto){
+        memberService.updateMember(updateDto, "chlrkdls12269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
+
+		return "redirect:/member";
+    }
     
     @GetMapping("/password")
     public String updatePasswordMember(Principal principal, Model model) {

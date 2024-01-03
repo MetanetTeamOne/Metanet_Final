@@ -34,9 +34,12 @@
 
     <update id="updateMember">
         update member
-        set member_password = #{member.memberPassword},
-            member_phone_number = #{member.memberPhoneNumber}
-        where member_email = #{email}
+        <set>
+			<if test="member.memberName != null">member_name = #{member.memberName},</if>
+			<if test="member.memberPhoneNumber != null">member_phone_number = #{member.memberPhoneNumber},</if>
+			<if test="member.memberPassword != null">member_password = #{member.memberPassword},</if>
+		</set>
+		where member_email = #{email}
     </update>
 
     <delete id="deleteMember">

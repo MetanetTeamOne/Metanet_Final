@@ -14,7 +14,7 @@ public interface IMemberRepository {
     public Member getMember(@Param("memberId") int memberId);
     public List<Member> getMemberList();
     public int insertMember(@Param("member") Member member);
-    public void updateMember(@Param("member") MemberUpdateDto member, @Param("email") String email);
+    public void updateMember(@Param("member") Member member, @Param("email") String email);
     public void deleteMember(@Param("password") String password);
 	public int getMemberId(@Param("email") String email);
     
