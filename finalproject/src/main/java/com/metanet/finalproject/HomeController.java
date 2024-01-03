@@ -15,15 +15,7 @@ public class HomeController {
 	
 
 
-	
-	// 회원가입
-	//@GetMapping("/signup")
-	public String signup() {
-		System.out.println("signup");
-		return "member/signup";
-	}
 
-	
 	// 서비스 안내
 	@GetMapping("/svcinfo")
 	public String serviceInformaion() {
@@ -37,69 +29,8 @@ public class HomeController {
 		System.out.println("howuse");
 		return "member/how_use";
 	}
-
-	// 세탁 신청
-	@GetMapping("/register")
-	public String register() {
-		System.out.println("register");
-		return "member/laundry_register";
-	}
-	
-	// 마이페이지
-	@GetMapping("/mypage")
-	public String mypage() {
-		System.out.println("mypage");
-		return "member_view";
-	}
-	
-	// 마이페이지_계정관리
-		@GetMapping("/mypageaccount")
-		public String mypageAccount() {
-			System.out.println("mypageAccount");
-			return "member_view";
-		}
-	
-	// 마이페이지_비밀번호 관리
-
-	
-	// 마이페이지_구독관리
-	@GetMapping("/mypagesub")
-	public String mypageSubscribe() {
-		System.out.println("mypageSubscribe");
-		return "subscribe";
-	}
-	
-	// 마이페이지_카드관리
-	@GetMapping("/mypagecard")
-	public String mypageCard() {
-		System.out.println("mypageCard");
-		return "member/mypage_card";
-	}
-	
-	// 마이페이지_주소관리
-	@GetMapping("/mypageaddr")
-	public String mypageAddress() {
-		System.out.println("mypageAddress");
-		return "member/mypage_address";
-	}
-	
-	// 마이페이지_주문내역
-	@GetMapping("/mypageorder")
-	public String mypageOrder() {
-		System.out.println("mypageOrder");
-		return "member/mypage_order";
-	}
-	
-	// 마이페이지_결제내역
-	@GetMapping("/mypagepay")
-	public String mypagePay() {
-		System.out.println("mypagePay");
-		return "member/mypage_pay";
-	}
-	
 	
 	/* 관리자 */
-	
 	// 관리자 홈
 	@GetMapping("/admin")
 	public String adminHome() {

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/include/member/head :: head}"></head>
+<body>
+	<!--Header -->
+	<div th:replace="~{/include/member/header :: header}"></div>
+
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+            <!-- Section left -->
+            <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
+            
+            <!-- Section right -->
+            <div class="col-sm-6 col-md-7 col-lg-9">
+                <div class="mypage_right">
+                    <div class="row">
+                        <h2>서비스 관리</h2>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3>주문 내역</h3>
+                            <!-- Content -->
+                            <div class="my_page_form">
+                                <form class="base_info_sec" action="" method="">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th><span>2023-12-11</span></th>
+                                                <td>
+                                                    <div class="member_warning">
+                                                        <input type="hidden"
+                                                            id="memberId"
+                                                            name="memberId">
+                                                            <span class="mylist">
+                                                                진행상황 : 배송 완료<br>
+                                                                상의 1벌, 하의 1벌
+                                                            </span>
+                                                    </div>
+                                                </td>
+                                                <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
+                                                    <div class="member_warning">
+                                                        <a href="#" id="order_detail_list">내역보기</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span>2023-12-30</span>
+                                                </th>
+                                                <td>
+                                                    <div class="member_warning">
+                                                        <input type="hidden"
+                                                            id="memberId"
+                                                            name="memberId">
+                                                            <span class="mylist">
+                                                                진행상황 : 배송 중<br>
+                                                                아우터 1벌, 상의 2벌
+                                                            </span>
+                                                    </div>
+                                                </td>
+                                                <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
+                                                    <div class="member_warning">
+                                                        <a href="" id="order_detail_list">수정</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+	<div th:replace="~{/include/member/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+	<div th:replace="~{/include/member/footer :: footer}"></div>
+    
+</body>
+</html>

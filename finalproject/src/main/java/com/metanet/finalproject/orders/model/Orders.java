@@ -10,7 +10,7 @@ public class Orders {
 	private int ordersId;
 	
 	// 세탁 ID
-	private int wishId;
+	private int washId;
 	
 	// 수량
 	private int ordersCount;
@@ -26,4 +26,13 @@ public class Orders {
 	
 	// 진행상태
 	private String ordersStatus;
+	
+	// 이미지 데이터
+	private byte[] ordersImageData;
+	
+	// 유저 ID
+	private int memberId;
+	
+	// 세탁 ID
+	private int laundryId;
 }

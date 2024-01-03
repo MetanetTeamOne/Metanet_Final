@@ -23,7 +23,7 @@
                         <div class="mypage_header">
                             <h3>계정관리</h3>
                             <div class="my_page_form">
-                                <div class="base_info_sec">
+                                <form class="base_info_sec" method="post">
                                     <table>
                                         <tbody>
                                         <tr>
@@ -90,10 +90,10 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <!--<button type="button" id="btnCancel" class="btn_member_cancel">수정</button>-->
-                                        <button type="button" class="btn_comfirm js_btn_join" value="" onclick="location.href ='/member/update'">수정</button>
+                                        <button type="button" id="btnCancel" class="btn_member_cancel" onclick="location.href ='/member'">취소</button>
+                                        <button type="submit" class="btn_comfirm js_btn_join" onclick="location.href ='/member/update'">완료</button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

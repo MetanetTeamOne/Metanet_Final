@@ -25,18 +25,18 @@ public class OrdersService implements IOrdersService{
 	}
 
 	@Override
-	public String insertOrder(Orders orders) {
-		return ordersRepository.insertOrder(orders);
+	public void insertOrder(Orders orders) {
+		ordersRepository.insertOrder(orders);
 	}
 
 	@Override
-	public String updateOrder(Orders orders) {
-		return ordersRepository.updateOrder(orders);
+	public void updateOrder(Orders orders) {
+		ordersRepository.updateOrder(orders);
 	}
 
 	@Override
-	public String deleteOrder(Orders orders) {
-		return ordersRepository.deleteOrder(orders);
+	public void deleteOrder(Orders orders) {
+		ordersRepository.deleteOrder(orders);
 	}
 
 	// 관리자
