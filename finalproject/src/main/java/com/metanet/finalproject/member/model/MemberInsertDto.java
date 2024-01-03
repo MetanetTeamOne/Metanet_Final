@@ -4,8 +4,11 @@ import lombok.Data;
 
 @Data
 public class MemberInsertDto {
-    private String name;
-    private String email;
-    private String password;
-    private String phoneNumber;
+    private String memberName;
+    private String memberEmail;
+    private String memberPassword;
+    private String memberPhoneNumber;
+    private String addressZipcode;
+    private String addressRoad;
+    private String addressContent;
 }

@@ -13,9 +13,10 @@ import java.util.List;
 public interface IMemberRepository {
     public Member getMember(@Param("memberId") int memberId);
     public List<Member> getMemberList();
-    public void insertMember(@Param("member") Member member);
-    public void updateMember(@Param("member") MemberUpdateDto member, @Param("email") String email);
+    public int insertMember(@Param("member") Member member);
+    public void updateMember(@Param("member") Member member, @Param("email") String email);
     public void deleteMember(@Param("password") String password);
+	public int getMemberId(@Param("email") String email);
     
     //이메일로 특정 회원조회
   	Member selectMember(@Param("memberEmail") String memberEmail);

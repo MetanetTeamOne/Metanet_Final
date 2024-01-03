@@ -1,5 +1,18 @@
 package com.metanet.finalproject.member.controller;
 
+<<<<<<< HEAD
+=======
+import com.metanet.finalproject.address.model.Address;
+import com.metanet.finalproject.address.service.IAddressService;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.model.MemberUpdateDto;
+import com.metanet.finalproject.member.service.IMemberService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
+>>>>>>> branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git
 import java.security.Principal;
 import java.sql.Date;
 import java.util.UUID;
@@ -29,7 +42,10 @@ public class MemberController {
 
     @Autowired
     IMemberService memberService;
-    
+
+	@Autowired
+	IAddressService addressService;
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -42,6 +58,7 @@ public class MemberController {
     public String getMember(Principal principal, Model model){
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
+
         return "member/member_view";
     }
 
@@ -58,8 +75,15 @@ public class MemberController {
     public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
 		log.info("회원가입 진행중...");
 		Member member = new Member();
+		Address address = new Address();
 		log.info("dto: {}", dto);
 
+		Member findMember = memberService.selectMember(dto.getMemberEmail());
+		if (findMember != null) {
+			log.info("같은 아이디가 있습니다");
+			model.addAttribute("dto", dto);
+			return "member/signup";
+		}
 		/*String sessionToken = (String) session.getAttribute("csrfToken");
 		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
 			throw new RuntimeException("CSRF Token Error.");
@@ -67,16 +91,29 @@ public class MemberController {
 
 
 		try {
-			String encodedPw = passwordEncoder.encode(dto.getPassword());
-			member.setMemberName(dto.getName());
-			member.setMemberEmail(dto.getEmail());
+			String encodedPw = passwordEncoder.encode(dto.getMemberPassword());
+			member.setMemberName(dto.getMemberName());
+			member.setMemberEmail(dto.getMemberEmail());
 			member.setMemberPassword(encodedPw);
-			member.setMemberPhoneNumber(dto.getPhoneNumber());
+			member.setMemberPhoneNumber(dto.getMemberPhoneNumber());
 			member.setMemberJoinState("1");
 			member.setMemberSubscribe("0");
 			member.setMemberSubscribeDate(new Date(0));
 			member.setMemberCard("0");
 			memberService.insertMember(member);
+
+			int memberId = memberService.getMemberId(dto.getMemberEmail());
+			log.info("memberId: {}", memberId);
+
+			address.setAddressZipcode(dto.getAddressZipcode());
+			address.setAddressRoad(dto.getAddressRoad());
+			address.setAddressContent(dto.getAddressContent());
+			address.setAddressCategory("3");
+			address.setAddressDetail("null");
+			address.setMemberId(memberId);
+
+			log.info("address: {}", address);
+			addressService.insertAddress(address);
 		} catch (DuplicateKeyException e) {
 			member.setMemberEmail(null);
 			model.addAttribute("member", member);
@@ -84,13 +121,13 @@ public class MemberController {
 			return "member/signup";
 		}
 		session.invalidate();
-        return "redirect:/member/insertok";
+        return "redirect:member/signup_ok";
     }
     
-    @GetMapping("/insertok")
+  /*  @GetMapping("/insertok")
     public String insertOkMember(@ModelAttribute Member member) {
         return "member/signup_ok";
-    }
+    }*/
 
     @GetMapping("/update")
     public String updateMember(Principal principal, Model model) {
@@ -99,17 +136,19 @@ public class MemberController {
         return "member/member_update";
     }
     
-    @PostMapping("/update")
+    /*@PostMapping("/update")
     public String updateMember(Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
         return "redirect:/member";
-    }
-    
-    /*    @PostMapping("/update") 이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
-    public String updateMember(@ModelAttribute MemberUpdateDto updateDto){
-        memberService.updateMember(updateDto);
     }*/
+    
+	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
+    public String updateMember(@ModelAttribute Member updateDto){
+        memberService.updateMember(updateDto, "chlrkdls12269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
+
+		return "redirect:/member";
+    }
     
     @GetMapping("/password")
     public String updatePasswordMember(Principal principal, Model model) {
@@ -142,11 +181,14 @@ public class MemberController {
     
   	//구독 상태 조회
   	@GetMapping("/subscribe")
-  	public String selectSubscribe(Model model) {
-  		Member member = memberService.selectSubscribe(memberEmail);
-  		model.addAllAttributes("memberId",)
+  	public String selectSubscribe(Model model, String memberEmail) {
+//  		if(memberEmail != null && !memberEmail.equals("")) {
+  		System.out.println("===구독 상태 조회===");
+  		memberService.selectSubscribe(memberEmail);
   		return "member/subscribe_view";
-
+//  		}else {
+//  			return "member/login";
+//  		}
   }
     
   //구독 신청 폼
@@ -176,7 +218,7 @@ public class MemberController {
 //  	if(memberEmail != null && !memberEmail.equals("")) {
   			Member member = memberService.selectMember(memberEmail);
   			model.addAttribute("member", member);
-  			return "member/subscribe_view";
+  			return "member/subscribe_update";
 //  		}else {
 //  			return "member/login";
 //  		}
@@ -235,5 +277,6 @@ public class MemberController {
   		System.out.println("===카드 해지 완료===");
   		return "redirect:/member/card";
   	}
+
     
 }
