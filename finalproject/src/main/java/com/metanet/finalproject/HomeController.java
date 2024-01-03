@@ -13,13 +13,9 @@ public class HomeController {
 		return "member/home";
 	}
 	
-	// 로그인
-	@GetMapping("/login")
-	public String login() {
-		System.out.println("login");
-		return "member/login";
-	}
-	
+
+
+
 	// 서비스 안내
 	@GetMapping("/svcinfo")
 	public String serviceInformaion() {
@@ -33,7 +29,6 @@ public class HomeController {
 		System.out.println("howuse");
 		return "member/how_use";
 	}
-
 	
 	/* 관리자 */
 	// 관리자 홈

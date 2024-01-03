@@ -1,15 +1,26 @@
 package com.metanet.finalproject.member.controller;
 
 import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberInsertDto;
 import com.metanet.finalproject.member.service.IMemberService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.Principal;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.util.UUID;
+
+@Slf4j
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -17,6 +28,14 @@ public class MemberController {
     @Autowired
     IMemberService memberService;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+    @GetMapping("/home")
+	public String home() {
+		return "member/home";
+	}
+    
     @GetMapping("")
     public String getMember(Principal principal, Model model){
         Member member = memberService.getMember(1);
@@ -26,21 +45,49 @@ public class MemberController {
     }
 
     @GetMapping("/insert")
-    public String insertMember(){
-
-        return "member/signup";
+    public String insertMember(HttpSession session){
+		String csrfToken = UUID.randomUUID().toString();
+		session.setAttribute("csrfToken", csrfToken);
+		log.info("/member/insert, GET {}", csrfToken);
+		return "member/signup";
     }
 
-    @PostMapping("/insert")
-    public String insertMember(@ModelAttribute Member member) {
-        memberService.insertMember(member);
 
-        return "redirct:/insertok";
+    @PostMapping("/insert")
+    public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
+		log.info("회원가입 진행중...");
+		Member member = new Member();
+		log.info("dto: {}", dto);
+
+		/*String sessionToken = (String) session.getAttribute("csrfToken");
+		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
+			throw new RuntimeException("CSRF Token Error.");
+		}*/
+
+
+		try {
+			String encodedPw = passwordEncoder.encode(dto.getPassword());
+			member.setMemberName(dto.getName());
+			member.setMemberEmail(dto.getEmail());
+			member.setMemberPassword(encodedPw);
+			member.setMemberPhoneNumber(dto.getPhoneNumber());
+			member.setMemberJoinState("1");
+			member.setMemberSubscribe("0");
+			member.setMemberSubscribeDate(new Date(0));
+			member.setMemberCard("0");
+			memberService.insertMember(member);
+		} catch (DuplicateKeyException e) {
+			member.setMemberEmail(null);
+			model.addAttribute("member", member);
+			model.addAttribute("message", "id가 이미 있습니다.");
+			return "member/signup";
+		}
+		session.invalidate();
+        return "redirect:/insertok";
     }
     
     @GetMapping("/insertok")
     public String insertOkMember(@ModelAttribute Member member) {
-
         return "member/signup_ok";
     }
 
@@ -147,6 +194,7 @@ public class MemberController {
   		return "redirect:/subscribe";
   	}
   	
+
   	@GetMapping("/card")
   	public String getCard(Model model, String memberEmail) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
@@ -157,6 +205,7 @@ public class MemberController {
 //  				return "member/login";
 //  			}
   	}
+
   	
   	//카드 등록 폼
   	@GetMapping("/card/insert")
