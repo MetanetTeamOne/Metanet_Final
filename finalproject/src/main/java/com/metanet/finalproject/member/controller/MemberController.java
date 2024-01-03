@@ -121,7 +121,7 @@ public class MemberController {
     public String updatePasswordMember(Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
-        return "redirect:/member/member";
+        return "redirect:/member";
     }
 
     @GetMapping("/delete")
