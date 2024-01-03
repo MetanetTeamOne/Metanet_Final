@@ -5,7 +5,13 @@
 <mapper namespace="com.metanet.finalproject.address.repository.IAddressRepository">
 	<select id="getAddress" parameterType="int" resultType="com.metanet.finalproject.address.model.Address">
 		SELECT 
-			*
+			address_id AS addressId,
+			address_zipcode AS addressZipcode,
+			address_road AS addressRoad,
+			address_content AS addressContent,
+			address_category AS addressCategory,
+			address_detail AS addressDetail,
+			member_id AS memberId
 		FROM address
 		<if test="memberId != null">WHERE member_id = #{memberId}</if>
 		ORDER BY address_id
