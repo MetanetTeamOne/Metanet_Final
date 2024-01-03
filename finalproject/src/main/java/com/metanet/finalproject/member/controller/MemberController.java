@@ -2,6 +2,7 @@ package com.metanet.finalproject.member.controller;
 
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -98,17 +99,17 @@ public class MemberController {
         return "member/member_update";
     }
     
-    @PostMapping("/update")
+    /*@PostMapping("/update")
     public String updateMember(Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
         return "redirect:/member";
-    }
+    }*/
     
-    /*    @PostMapping("/update") 이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
+	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
     public String updateMember(@ModelAttribute MemberUpdateDto updateDto){
         memberService.updateMember(updateDto);
-    }*/
+    }
     
     @GetMapping("/password")
     public String updatePasswordMember(Principal principal, Model model) {
