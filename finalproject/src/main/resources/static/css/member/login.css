@@ -100,12 +100,27 @@
     color: #fff;
     font-weight: 700;
     background: var(--sub);
-    box-sizing: border-box
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.login_page a.btn_login_cont:hover {
+    width: 100%;
+    display: block;
+    height: 70px;
+    line-height: 65px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 700;
+    background: var(--main);
+    box-sizing: border-box;
+    text-decoration: none;
 }
 
 .login_page .chks {
     font-size: 15px;
-    display: inline
+    display: inline;
 }
 
 .login_page .chks label {

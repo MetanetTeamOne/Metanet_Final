@@ -39,7 +39,7 @@
 			<if test="member.memberPhoneNumber != null">member_phone_number = #{member.memberPhoneNumber},</if>
 			<if test="member.memberPassword != null">member_password = #{member.memberPassword},</if>
 		</set>
-		where member_email = #{email}
+		where member_email = #{member.memberEmail}
     </update>
 
     <delete id="deleteMember">

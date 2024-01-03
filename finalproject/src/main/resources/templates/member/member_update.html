@@ -29,7 +29,6 @@
                         <div class="mypage_header">
                             <h3>계정 수정</h3>
                             <form class="my_page_form" method="post" action="/member/update">
-                                <!-- Add 'action' attribute with the endpoint where you want to submit the form -->
                                 <div class="base_info_sec">
                                     <table>
                                         <tbody>
@@ -37,7 +36,7 @@
                                                 <th><span class="important">아이디</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberId" name="memberId" th:value="${member.memberId}" class="inputData" readonly>
+                                                        <input type="text" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -54,7 +53,7 @@
                                                 <th><span class="important">휴대폰번호</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="memberPhoneNumber" name="memberPhoneNumber" maxlength="12" th:value="${member.memberPhoneNumber}" required>
+                                                        <input type="text" id="memberPhoneNumber" name="memberPhoneNumber" maxlength="13" th:value="${member.memberPhoneNumber}" required>
                                                     </div>
                                                 </td>
                                             </tr>

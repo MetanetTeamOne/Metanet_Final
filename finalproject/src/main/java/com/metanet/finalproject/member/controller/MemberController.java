@@ -48,7 +48,6 @@ public class MemberController {
     public String getMember(Principal principal, Model model){
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
-
         return "member/member_view";
     }
 
@@ -110,6 +109,7 @@ public class MemberController {
 			model.addAttribute("message", "id가 이미 있습니다.");
 			return "member/signup";
 		}
+		// 수정 필요		
 		session.invalidate();
         return "redirect:member/signup_ok";
     }
@@ -120,7 +120,7 @@ public class MemberController {
     }*/
 
     @GetMapping("/update")
-    public String updateMember(Principal principal, Model model) {
+    public String updateMember(Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
         return "member/member_update";
@@ -133,10 +133,17 @@ public class MemberController {
         return "redirect:/member";
     }*/
     
+//	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
+//    public String updateMember(@ModelAttribute Member updateDto){
+//        memberService.updateMember(updateDto, "chlrkdls12269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
+//
+//		return "redirect:/member";
+//    }
+    
 	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
-    public String updateMember(@ModelAttribute Member updateDto){
-        memberService.updateMember(updateDto, "chlrkdls12269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
-
+    public String updateMember(@ModelAttribute Member member){
+		System.out.println(">>>>>>>>>>" + member);
+        memberService.updateMember(member, "chlrkdls12269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
 		return "redirect:/member";
     }
     
