@@ -1,6 +1,7 @@
 package com.metanet.finalproject.orders.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,19 +84,20 @@ public class OrdersController {
 	
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
-	public String insertOrder(Model model, Orders orders, @RequestParam MultipartFile file) throws IOException {
-		System.out.println(orders);
+	public String insertOrder(Model model, Principal principal) throws IOException {
+//		System.out.println(orders);
+//		
+//		if (!file.isEmpty()) {
+//			orders.setOrdersImageData(file.getBytes());
+//			ordersService.insertOrder(orders);
+//		}
+//		else {
+//			orders.setOrdersImageData(null);
+//			ordersService.insertOrder(orders);
+//		}
+		System.out.println("=============================");
 		
-		if (!file.isEmpty()) {
-			orders.setOrdersImageData(file.getBytes());
-			ordersService.insertOrder(orders);
-		}
-		else {
-			orders.setOrdersImageData(null);
-			ordersService.insertOrder(orders);
-		}
-		
-		return "redirect:/insertok";
+		return "redirect:/orders/insertok";
 	}
 	
 	@Operation(summary = "주문 완료 view")
