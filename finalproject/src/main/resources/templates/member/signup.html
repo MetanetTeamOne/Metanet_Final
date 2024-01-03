@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{/include/member/head :: head}">
-    <!-- JS -->
-    <script th:src="@{/js/member/searchPost.js}"></script>
-</head>
+<head th:replace="~{/include/member/head :: head}"></head>
 
 <body>
+	<!-- JS -->
+    <script th:src="@{/js/member/searchPost.js}"></script>
+    
     <!--Header -->
     <div th:replace="~{/include/member/header :: header}"></div>
 
@@ -17,151 +17,141 @@
             <!-- //location_wrap -->
             <div class="sub_content">
                 <!-- //side_cont -->
-                <div class="content_box">
-                    <div class="join_base_wrap">
-                        <div class="section-background section-cover"></div>
+                <div class="inner">
+                    <div class="section-background section-cover"></div>
 
-                        <div class="member_tit inner">
-                            <h2>회원가입</h2>
-                            <ol>
-                                <li class="page_on"><span>01</span> 정보입력<span><img
-                                            src="https://apslovtr2600.cdn-nhncommerce.com/data/skin/front/wg-210803/img/member/icon_join_step_on.png"
-                                            alt=""></span></li>
-                                <li><span>02</span> 가입완료</li>
-                            </ol>
-                        </div>
-                        <!-- //member_tit -->
-                        <div class="member_cont">
-                            <form method="post">
-                                <input type="hidden" name="rncheck" value="none">
-                                <input type="hidden" name="dupeinfo" value="">
-                                <input type="hidden" name="pakey" value="">
-                                <input type="hidden" name="foreigner" value="">
-                                <input type="hidden" name="adultFl" value="">
-                                <input type="hidden" name="mode" value="join">
-
-                                <!-- 회원가입/정보 기본정보 -->
-                                <div class="base_info_box">
-                                    <h3>기본정보</h3>
-                                    <span class="important">표시는 반드시 입력하셔야 하는 항목입니다.</span>
-                                    <div class="base_info_sec">
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <colgroup>
-                                                <col width="25%">
-                                                <col width="75%">
-                                            </colgroup>
-                                            <tbody>
-                                                <tr>
-                                                    <th><span class="important">아이디</span></th>
-                                                    <td>
+                    <div class="member_tit inner">
+                        <h2>회원가입</h2>
+                        <ol>
+                            <li class="page_on"><span>01</span> 정보입력<span><img
+                                        src="https://apslovtr2600.cdn-nhncommerce.com/data/skin/front/wg-210803/img/member/icon_join_step_on.png"
+                                        alt=""></span></li>
+                            <li><span>02</span> 가입완료</li>
+                        </ol>
+                    </div>
+                    <!-- //member_tit -->
+                    <div class="member_cont">
+                        <form method="post" action="/member/insert">
+                            <!-- 회원가입/정보 기본정보 -->
+                            <div class="base_info_box">
+                                <h3>기본정보</h3>
+                                <span class="important">표시는 반드시 입력하셔야 하는 항목입니다.</span>
+                                <div class="base_info_sec">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                        <colgroup>
+                                            <col width="25%">
+                                            <col width="75%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <th><span class="important">아이디</span></th>
+                                                <td>
+                                                    <div class="member_warning">
+                                                        <input type="text" id="memId" name="memId" data-pattern="gdMemberId"
+                                                            required>
+                                                        <button type="button" class="btn_post_search"
+                                                            onclick="#">아이디 중복 확인</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="">
+                                                <th><span class="important">비밀번호</span></th>
+                                                <td class="member_password">
+                                                    <div class="member_warning">
+                                                        <input type="password" id="newPassword" name="memPw"
+                                                            autocomplete="off" required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="">
+                                                <th><span class="important">비밀번호 확인</span></th>
+                                                <td>
+                                                    <div class="member_warning">
+                                                        <input type="password" class="check-id" name="memPwRe"
+                                                            autocomplete="off" required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span class="important">이름</span></th>
+                                                <td>
+                                                    <div class="member_warning">
+                                                        <input type="text" name="memNm" data-pattern="gdMemberNmGlobal"
+                                                            value="" maxlength="30" required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span class="important">이메일</span></th>
+                                                <td class="member_email">
+                                                    <div class="member_warning">
+                                                        <input type="text" name="email" id="email" value=""
+                                                            tabindex="-1" required>
+                                                        <button type="button" class="btn_post_search"
+                                                            onclick="#">이메일 확인</button>
+                                                    </div>
+                                                    <div class="member_warning js_email"></div>
+                                                    <div class="form_element">
+                                                        <input type="checkbox" id="maillingFl" name="maillingFl"
+                                                            value="y" required>
+                                                        <label for="maillingFl"
+                                                            class="check_box">정보/이벤트 메일 수신에 동의합니다.</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span class="important">휴대폰번호</span></th>
+                                                <td class="member_address">
+                                                    <div class="address_postcode">
+                                                        <input type="text" id="cellPhone" name="cellPhone"
+                                                            maxlength="12" placeholder="- 없이 입력하세요."
+                                                            data-pattern="gdNum" value="" required>
+                                                    </div>
+                                                    <div class="form_element">
+                                                        <input type="checkbox" id="smsFl" name="smsFl" value="y"
+                                                            required>
+                                                        <label for="smsFl" class="check_box ">정보/이벤트 SMS 수신에
+                                                            동의합니다.</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span class="important">주소</span></th>
+                                                <td class="member_address">
+                                                    <div class="address_postcode">
+                                                        <input type="text" id="addressZipcode" placeholder="우편번호"
+                                                            class="inputData" readonly>
+                                                        <button type="button" class="btn_post_search"
+                                                            onclick="daumPostcode()">우편번호 찾기</button>
+                                                    </div>
+                                                    <div class="address_input">
                                                         <div class="member_warning">
-                                                            <input type="text" id="memId" name="memId" data-pattern="gdMemberId"
+                                                            <input type="text" id="addressRoad" name="addressRoad"
+                                                                placeholder="도로명/지번주소" class="inputData" readonly>
+                                                        </div>
+                                                        <div class="member_warning js_address_sub">
+                                                            <input type="text" id="addressContent"
+                                                                name="addressContent" placeholder="상세주소"
                                                                 required>
-                                                            <button type="button" class="btn_post_search"
-                                                                onclick="#">아이디 중복 확인</button>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                <tr class="">
-                                                    <th><span class="important">비밀번호</span></th>
-                                                    <td class="member_password">
-                                                        <div class="member_warning">
-                                                            <input type="password" id="newPassword" name="memPw"
-                                                                autocomplete="off" placeholder="" th:required="true">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr class="">
-                                                    <th><span class="important">비밀번호 확인</span></th>
-                                                    <td>
-                                                        <div class="member_warning">
-                                                            <input type="password" class="check-id" name="memPwRe"
-                                                                autocomplete="off" th:required="true">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><span class="important">이름</span></th>
-                                                    <td>
-                                                        <div class="member_warning">
-                                                            <input type="text" name="memNm" data-pattern="gdMemberNmGlobal"
-                                                                value="" maxlength="30" th:required="true">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><span class="important">이메일</span></th>
-                                                    <td class="member_email">
-                                                        <div class="member_warning">
-                                                            <input type="text" name="email" id="email" value=""
-                                                                tabindex="-1" th:required="true">
-                                                            <button type="button" class="btn_post_search"
-                                                                onclick="#">이메일 확인</button>
-                                                        </div>
-                                                        <div class="member_warning js_email"></div>
-                                                        <div class="form_element">
-                                                            <input type="checkbox" id="maillingFl" name="maillingFl"
-                                                                value="y" th:required="true">
-                                                            <label for="maillingFl"
-                                                                class="check_box">정보/이벤트 메일 수신에 동의합니다.</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><span class="important">휴대폰번호</span></th>
-                                                    <td class="member_address">
-                                                        <div class="address_postcode">
-                                                            <input type="text" id="cellPhone" name="cellPhone"
-                                                                maxlength="12" placeholder="- 없이 입력하세요."
-                                                                data-pattern="gdNum" value="" th:required="true">
-                                                        </div>
-                                                        <div class="form_element">
-                                                            <input type="checkbox" id="smsFl" name="smsFl" value="y"
-                                                                th:required="true">
-                                                            <label for="smsFl" class="check_box ">정보/이벤트 SMS 수신에
-                                                                동의합니다.</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th><span class="important">주소</span></th>
-                                                    <td class="member_address">
-                                                        <div class="address_postcode">
-                                                            <input type="text" id="addressZipcode" placeholder="우편번호"
-                                                                class="inputData" readonly>
-                                                            <button type="button" class="btn_post_search"
-                                                                onclick="daumPostcode()">우편번호 찾기</button>
-                                                        </div>
-                                                        <div class="address_input">
-                                                            <div class="member_warning">
-                                                                <input type="text" id="addressRoad" name="addressRoad"
-                                                                    placeholder="도로명주소" class="inputData" readonly>
-                                                            </div>
-                                                            <div class="member_warning js_address_sub">
-                                                                <input type="text" id="addressContent"
-                                                                    name="addressContent" placeholder="상세주소"
-                                                                    th:required="true">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- //base_info_sec -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                                <!-- //base_info_sec -->
+                            </div>
 
-                                <div class="btn_center_box">
-                                    <button type="button" class="btn_member_cancel"
-                                        th:onclick="|javascript:location.href='/'|">홈</button>
-                                    <button type="submit" class="btn_comfirm js_btn_join"
-                                        th:text="${'회원가입'}" th:onclick="|javascript:location.href='/member/insertok'|">회원가입</button>
-                                </div>
-
-                            </form>
-                        </div>
+                            <div class="btn_center_box">
+                                <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">홈</button>
+                                <button type="submit" class="btn_comfirm js_btn_join">회원가입</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+                <div class="section-background section-cover"></div>
+
             </div>
         </div>
     </div>

@@ -83,7 +83,7 @@ public class MemberController {
 			return "member/signup";
 		}
 		session.invalidate();
-        return "redirect:/insertok";
+        return "redirect:/member/insertok";
     }
     
     @GetMapping("/insertok")
@@ -121,7 +121,7 @@ public class MemberController {
     public String updatePasswordMember(Model model) {
         Member member = memberService.getMember(1);
         model.addAttribute("member", member);
-        return "redirect:/member";
+        return "redirect:/member/member";
     }
 
     @GetMapping("/delete")
@@ -169,7 +169,7 @@ public class MemberController {
   		memberService.insertSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독신청 완료===");
-  		return "redirect:/subscribe";
+  		return "redirect:/member/subscribe";
   	}
   	
   	//구독 해지 폼
@@ -191,7 +191,7 @@ public class MemberController {
   		memberService.updateSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독해지 완료===");
-  		return "redirect:/subscribe";
+  		return "redirect:/member/subscribe";
   	}
   	
 
@@ -225,7 +225,7 @@ public class MemberController {
   		memberService.insertCard(memberEmail);
   		model.addAttribute("member", member);
   		System.out.println("===카드 등록 완료===");
-  		return "redirect:/card";
+  		return "redirect:/member/card";
   	}
 
   	//카드 해지 구현 필요
@@ -235,7 +235,7 @@ public class MemberController {
   		// 카드 해지 서비스 로직 필요
   		model.addAttribute("member", member);
   		System.out.println("===카드 해지 완료===");
-  		return "redirect:/card";
+  		return "redirect:/member/card";
   	}
     
 }

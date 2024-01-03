@@ -19,6 +19,7 @@
                     <div class="row">
                         <h2>내 정보 관리</h2>
                     </div>
+                    
                     <div class="row">
                         <div class="mypage_header">
                             <h3>계정관리</h3>
@@ -28,17 +29,17 @@
                                         <tbody>
                                             <tr>
                                                 <th><span class="important">아이디</span></th>
-                                                <td>
+                                                <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memId" readonly>
+                                                        <input type="text" id="memberId" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th><span class="important">이름</span></th>
-                                                <td>
+                                                <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="" value="" maxlength="30">
+                                                        <input type="text" id="memberName" maxlength="30" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -46,12 +47,7 @@
                                                 <th><span class="important">이메일</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="email" id="" value="" tabindex="-1">
-                                                    </div>
-                                                    <div class="member_warning js_email"></div>
-                                                    <div class="form_element">
-                                                        <input type="checkbox" id="maillingFl">
-                                                        <label for="maillingFl" class="check_box">정보/이벤트 메일 수신에 동의합니다.</label>
+                                                        <input type="email" id="memberEmail" tabindex="-1" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -59,11 +55,7 @@
                                                 <th><span class="important">휴대폰번호</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="" maxlength="12" placeholder="- 없이 입력하세요." value="">
-                                                    </div>
-                                                    <div class="form_element">
-                                                        <input type="checkbox" id="smsFl">
-                                                        <label for="smsFl" class="check_box ">정보/이벤트 SMS 수신에 동의합니다.</label>
+                                                        <input type="text" id="memberPhoneNumber" maxlength="12" placeholder="- 없이 입력하세요." class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -71,14 +63,14 @@
                                                 <th><span class="important">주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" placeholder="우편번호">
+                                                        <input type="text" id="addressZipcode" placeholder="우편번호" class="inputData" readonly>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            <input type="text" id="addressRoad" name="addressRoad" placeholder="도로명주소">
+                                                            <input type="text" id="addressRoad" name="addressRoad" placeholder="도로명/지번주소" class="inputData" readonly>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            <input type="text" id="addressContent" name="addressContent" placeholder="상세주소">
+                                                            <input type="text" id="addressContent" name="addressContent" placeholder="상세주소" class="inputData" readonly>
                                                         </div>
                                                     </div>
                                                 </td>
