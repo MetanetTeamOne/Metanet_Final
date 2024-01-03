@@ -331,14 +331,6 @@ CREATE SEQUENCE FILES_SEQ
        NOCACHE
        NOORDER;
 
-CREATE SEQUENCE MEMBER_SEQ
-    INCREMENT BY 1
-    START WITH 1
-    MINVALUE 1
-    MAXVALUE 9999 NOCYCLE
-       NOCACHE
-       NOORDER;
-       
 COMMIT;
 
 -- 세탁 카테고리 (LAUNDRY_CATEGORY) 테이블 예시 데이터
@@ -351,7 +343,10 @@ VALUES (1, '셔츠', 1, 15000, 1);
 
 -- 회원 (MEMBER) 테이블 예시 데이터
 INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-VALUES (1, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
+VALUES (2, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
+
+insert into member (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
+values (1, 'admin', 'admin', 'admin', 'admin123', sysdate, '0', '0', sysdate, '0');
 
 -- 권한 (ROLE) 테이블 예시 데이터
 INSERT INTO ROLE (member_id, role_name)

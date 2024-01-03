@@ -13,26 +13,16 @@ public class HomeController {
 		return "member/home";
 	}
 	
-	// 로그인
-	@GetMapping("/login")
-	public String login() {
-		System.out.println("login");
-		return "member/login";
-	}
+
+
 	
 	// 회원가입
-	@GetMapping("/signup")
+	//@GetMapping("/signup")
 	public String signup() {
 		System.out.println("signup");
 		return "member/signup";
 	}
-	
-	// 회원가입 완료
-	@GetMapping("/signupok")
-	public String signupOk() {
-		System.out.println("signupok");
-		return "member/signup_ok";
-	}
+
 	
 	// 서비스 안내
 	@GetMapping("/svcinfo")
@@ -59,28 +49,24 @@ public class HomeController {
 	@GetMapping("/mypage")
 	public String mypage() {
 		System.out.println("mypage");
-		return "member/mypage_account";
+		return "member_view";
 	}
 	
 	// 마이페이지_계정관리
 		@GetMapping("/mypageaccount")
 		public String mypageAccount() {
 			System.out.println("mypageAccount");
-			return "member/mypage_account";
+			return "member_view";
 		}
 	
 	// 마이페이지_비밀번호 관리
-	@GetMapping("/mypagepw")
-	public String mypagePassword() {
-		System.out.println("mypagePassword");
-		return "member/mypage_password";
-	}
+
 	
 	// 마이페이지_구독관리
 	@GetMapping("/mypagesub")
 	public String mypageSubscribe() {
 		System.out.println("mypageSubscribe");
-		return "member/mypage_subscribe";
+		return "subscribe";
 	}
 	
 	// 마이페이지_카드관리

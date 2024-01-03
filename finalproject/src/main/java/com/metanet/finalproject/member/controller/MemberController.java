@@ -1,18 +1,30 @@
 package com.metanet.finalproject.member.controller;
 
 import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberInsertDto;
 import com.metanet.finalproject.member.service.IMemberService;
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.util.UUID;
+
+@Slf4j
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 
     @Autowired
     IMemberService memberService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
     @GetMapping("/home")
 	public String home() {
@@ -24,21 +36,56 @@ public class MemberController {
         Member member = memberService.getMember(memberId);
         model.addAttribute("member", member);
 
-        return "member_view";
+        return "member/member_view";
     }
 
     @GetMapping("/insert")
-    public String memberInsertForm(){
-
-        return "signup";
+    public String insertMember(HttpSession session){
+		String csrfToken = UUID.randomUUID().toString();
+		session.setAttribute("csrfToken", csrfToken);
+		log.info("/member/insert, GET {}", csrfToken);
+		return "member/signup";
     }
+
 
     @PostMapping("/insert")
-    public String insertMember(@ModelAttribute Member member) {
-        memberService.insertMember(member);
+    public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
+		log.info("회원가입 진행중...");
+		Member member = new Member();
+		log.info("dto: {}", dto);
 
-        return "redirct:/login";
+		/*String sessionToken = (String) session.getAttribute("csrfToken");
+		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
+			throw new RuntimeException("CSRF Token Error.");
+		}*/
+
+		try {
+			String encodedPw = passwordEncoder.encode(dto.getPassword());
+			member.setMemberName(dto.getName());
+			member.setMemberEmail(dto.getEmail());
+			member.setMemberPassword(encodedPw);
+			member.setMemberPhoneNumber(dto.getPhoneNumber());
+			member.setMemberJoinState("1");
+			member.setMemberSubscribe("0");
+			member.setMemberSubscribeDate(new Date(0));
+			member.setMemberCard("0");
+			memberService.insertMember(member);
+		} catch (DuplicateKeyException e) {
+			member.setMemberEmail(null);
+			model.addAttribute("member", member);
+			model.addAttribute("message", "id가 이미 있습니다.");
+			return "member/signup";
+		}
+		session.invalidate();
+        return "redirect:/login";
     }
+
+	// 회원가입 완료
+	@GetMapping("/signupok")
+	public String signupOk() {
+		System.out.println("signupok");
+		return "member/signup_ok";
+	}
 
     @GetMapping("/update/{memberId}")
     public String memberUpdateForm(@PathVariable("memberId") int memberId, Model model) {
@@ -46,6 +93,12 @@ public class MemberController {
         model.addAttribute("member", member);
         return "member_update";
     }
+
+	@GetMapping("/mypagepw")
+	public String mypagePassword() {
+		System.out.println("mypagePassword");
+		return "member/mypage_password";
+	}
 
 /*    @PostMapping("/update") 이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
     public String updateMember(@ModelAttribute MemberUpdateDto updateDto){
@@ -115,7 +168,9 @@ public class MemberController {
   	public String selectSubscribe(Model model, String memberEmail) {
 //  		if(memberEmail != null && !memberEmail.equals("")) {
   		System.out.println("===구독 상태 조회===");
-  		return memberService.selectSubscribe(memberEmail);
+		String status = memberService.selectSubscribe(memberEmail);
+		model.addAttribute("status", status);
+		return "member/subscribe";
 //  		}else {
 //  			return "member/login";
 //  		}
