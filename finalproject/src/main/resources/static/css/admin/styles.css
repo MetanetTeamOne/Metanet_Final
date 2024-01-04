@@ -84,6 +84,10 @@
 *::after {
   box-sizing: border-box;
 }
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   :root {
@@ -11244,8 +11248,13 @@ body {
 
 #admin_logo {
 	width: 230px;
-    background: url(/img/logo.png) no-repeat center center / 77%;
+   /* background: url(/img/logo.png) no-repeat center center / 77%;*/
+/*   background-image: url("https://github.com/KHaeWon/MetanetWebJSP_EL_JSTL/assets/127920368/3a30ece8-4105-4da6-93f3-b19f832e08c3");
+*/   
+
+   background: url(/img/logo.png) no-repeat center center / 85%;
+
     margin-top: 8px;
     display: block;
-    height: 70px;	
+    height: 80px;	
 }

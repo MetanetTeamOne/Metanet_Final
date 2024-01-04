@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/include/member/head :: head}"></head>
+<body>
+	<!--Header -->
+	<div th:replace="~{/include/member/header :: header}"></div>
+
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+		
+            <!-- Section left -->
+            <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
+            
+            <!-- Section right -->
+            <div class="col-sm-6 col-md-7 col-lg-9">
+                <div class="mypage_right">
+                    <div class="row">
+                        <h2>내 정보 관리</h2>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3>계정관리</h3>
+                            <div class="my_page_form">
+                                <div class="base_info_sec">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <th><span class="important">아이디</span></th>
+                                            <td>
+                                                <div class="member_warning">
+                                                    <input type="text" id="memId" readonly>
+                                                </div>
+                                            </td>
+            
+                                        </tr>
+                                        <tr>
+                                            <th><span class="important">이름</span></th>
+                                            <td>
+                                                <div class="member_warning">
+                                                    <input type="text" id="" value="" maxlength="30">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><span class="important">이메일</span></th>
+                                            <td class="member_email">
+                                                <div class="member_warning">
+                                                    <input type="email" id="" value="" tabindex="-1">
+                                                </div>
+                                                <div class="member_warning js_email"></div>
+                                                <div class="form_element">
+                                                    <input type="checkbox" id="maillingFl">
+                                                    <label for="maillingFl" class="check_box">정보/이벤트 메일 수신에 동의합니다.</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><span class="important">휴대폰번호</span></th>
+                                            <td class="member_address">
+                                                <div class="address_postcode">
+                                                    <input type="text" id="" maxlength="12" placeholder="- 없이 입력하세요." value="">
+                                                </div>
+                                                <div class="form_element">
+                                                    <input type="checkbox" id="smsFl">
+                                                    <label for="smsFl" class="check_box ">정보/이벤트 SMS 수신에 동의합니다.</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th><span class="important">주소</span></th>
+                                            <td class="member_address">
+                                                <div class="address_postcode">
+                                                    <input type="text" id="" value="">
+                                                    <button type="button" id="" class="btn_post_search">우편번호검색</button>
+                                                    <input type="hidden" id="" value="">
+                                                </div>
+                                                <div class="address_input">
+                                                    <div class="member_warning">
+                                                        <input type="text" id="" value="">
+                                                    </div>
+                                                    <div class="member_warning js_address_sub">
+                                                        <input type="text" id="" value="">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                    <div class="btn_right_box">
+                                        <!--<button type="button" id="btnCancel" class="btn_member_cancel">수정</button>-->
+                                        <button type="button" class="btn_comfirm js_btn_join" value="" onclick="location.href ='/member/update'">수정</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+	<div th:replace="~{/include/member/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+	<div th:replace="~{/include/member/footer :: footer}"></div>
+    
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/include/member/head :: head}"></head>
+<body>
+	<!--Header -->
+	<div th:replace="~{/include/member/header :: header}"></div>
+
+
+    <!-- Main -->
+    <div class="body-member body-join-ok pc">
+        <div class="top_area"></div>
+        <div id="wrap">
+        
+            <div id="header_warp">
+        <style>
+        .content_box {float:none;}
+        </style>
+    
+        
+        <!-- //header -->
+            </div>
+            <!-- //header_warp -->
+        
+            <div class="inner">
+                <div id="contents">
+                <!-- 본문 시작 -->
+                    <!-- //location_wrap -->
+        
+                    <div class="sub_content">
+        
+                        <!-- //side_cont -->
+        <div class="content_box">
+            <div class="member_wrap">
+                <div class="member_tit">
+                    <h2>회원가입</h2>
+                    <ol>
+                        <li class="page_on"><span>01</span> 정보입력<span><img src="https://apslovtr2600.cdn-nhncommerce.com/data/skin/front/wg-210803/img/member/icon_join_step_on.png" alt=""></span></li>
+                        <li><span>02</span> 가입완료</li>
+                    </ol>
+                </div>
+                <!-- //member_tit -->
+                <div class="member_cont">
+                    <div class="join_ok_box">
+                        <div class="join_ok_tit">
+                            <img src="https://github.com/KHaeWon/aaa/assets/127920368/4c4bbb2d-f56e-4d7c-898a-bca7a8ebc7ad" alt="">
+                            <p class="complete">회원가입이 <strong>완료</strong> 되었습니다.</p>
+                            <p><span>김혜원</span>님의 회원가입을 축하합니다. <br> 알차고 실속있는 서비스로 찾아뵙겠습니다.</p>
+                        </div>
+                        <!-- //join_ok_tit -->
+                        <div class="btn_center_box">
+                            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">홈</button>
+							<button type="button" class="btn_comfirm js_btn_join" th:onclick="|javascript:location.href='/login'|">로그인</button>
+                        </div>
+                        <!-- //btn_member_sec -->
+                    </div>
+                    <!-- //join_ok_box -->
+                </div>
+                <!-- //member_cont -->
+            </div>
+            <!-- //member_wrap -->
+        </div>
+
+                    </div>
+                    <!-- //sub_content -->
+                </div>
+                <!-- //본문 끝 contents -->
+            </div>
+            <!-- //container -->
+        
+
+        </div>
+
+    </div>
+
+
+    <!-- Top Button -->
+	<div th:replace="~{/include/member/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+	<div th:replace="~{/include/member/footer :: footer}"></div>
+    
+</body>
+</html>

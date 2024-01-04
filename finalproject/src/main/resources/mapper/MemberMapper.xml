@@ -23,23 +23,35 @@
 
     <insert id="insertMember">
         <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
-            select nvl(max(member_id), 0) + 1 as memberId from member
-        </selectKey>
-        insert into member(member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-            values (#{memberId}, #{member.memberName}, #{member.memberEmail}, #{member.memberPhoneNumber}, #{member.memberPassword}, sysdate, #{member.memberJoinState}, #{member.memberSubscribe}, #{member.memberSubscribeDate}, #{member.memberCard})
+			select nvl(max(member_id), 0) + 1 from member
+		</selectKey>
+		insert into member(member_id, member_name, member_email, member_phone_number, member_password, member_join_date,
+		member_join_state, member_subscribe, member_subscribe_date, member_card)
+		values (#{memberId}, #{member.memberName}, #{member.memberEmail}, #{member.memberPhoneNumber},
+		#{member.memberPassword}, sysdate, #{member.memberJoinState}, #{member.memberSubscribe},
+		#{member.memberSubscribeDate}, #{member.memberCard})
     </insert>
 
     <update id="updateMember">
         update member
-        set member_password = #{member.memberPassword},
-            member_phone_number = #{member.memberPhoneNumber}
-        where member_email = #{email}
+        <set>
+			<if test="member.memberName != null">member_name = #{member.memberName},</if>
+			<if test="member.memberPhoneNumber != null">member_phone_number = #{member.memberPhoneNumber},</if>
+			<if test="member.memberPassword != null">member_password = #{member.memberPassword},</if>
+		</set>
+		where member_email = #{email}
     </update>
 
     <delete id="deleteMember">
         delete from member
         where member_password = #{password}
     </delete>
+
+	<select id="getMemberId" resultType="int">
+		select member_id
+		from member
+		where member_email = #{email}
+	</select>
     
 	<select id="selectMember" parameterType="string" resultType="com.metanet.finalproject.member.model.Member">
 		select MEMBER_ID,

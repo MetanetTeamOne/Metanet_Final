@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface IRoleRepository {
-    public String getRoleName(@Param("memberId") String memberId);
+    public String getRoleName(@Param("memberId") int memberId);
 
     public void deleteRole(@Param("memberId") String memberId);
 

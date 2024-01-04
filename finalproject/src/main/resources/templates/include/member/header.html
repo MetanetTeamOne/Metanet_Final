@@ -7,7 +7,7 @@
         	<div id="global" class="hglobal">
 		        <ul><li class="storageClear"><a th:href="@{/login}" title="로그인 새창 열림">로그인</a></li>
 		            <li class="join">
-		            <a th:href="@{/signup}">회원가입</a>
+		            <a th:href="@{/member/insert}">회원가입</a>
 		            </li>
 		        <!-- <li><a href="#">고객센터</a></li> -->
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
@@ -18,7 +18,8 @@
 	        </h1>	        
 	        <div class="mydongwon_cart_grp">
 	            <div class="mydongwonmall">
-	            	<a th:href="@{/mypage}" class="my_dongwonmall"><img th:src="@{/img/member/my.png}"></a>
+					<!--여기 security에서 정보 가져가도록 변경 필요-->
+	            	<a th:href="@{/member}" class="my_dongwonmall"><img th:src="@{/img/member/my.png}"></a>
 	            </div>
 	        </div>
 		</div>
@@ -45,7 +46,7 @@
                                                     <h3 class="cate_feed"><a th:href="@{/}">홈</a></h3>
                                                 </div>
                                                 <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/service_information}">서비스 안내</a></h3>
+                                                    <h3 class="cate_feed"><a th:href="@{/svcinfo}">서비스 안내</a></h3>
                                                     <ul>
                                                         <li><a href="#">서비스 소개</a></li>
                                                         <li><a href="#">서비스 종류</a></li>
@@ -53,14 +54,14 @@
                                                     </ul>
                                                 </div>
                                                 <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/how_use}">이용 방법</a></h3>
+                                                    <h3 class="cate_feed"><a th:href="@{/howuse}">이용 방법</a></h3>
                                                     <ul>
                                                         <li><a href="#">이용 안내</a></li>
                                                         <li><a href="#">가격 정보</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/register}">세탁 신청</a></h3>
+                                                    <h3 class="cate_feed"><a th:href="@{/orders/insert}">세탁 신청</a></h3>
                                                 </div>
                                             </div>  	
                                         </div>
@@ -74,7 +75,7 @@
                 <li><a th:href="@{/}" title="홈">홈</a></li>
                 <li><a th:href="@{/svcinfo}" title="서비스안내">서비스 안내</a></li>
                 <li><a th:href="@{/howuse}" title="이용방법">이용 방법</a></li>
-                <li><a th:href="@{/register}" title="세탁신청">세탁 신청</a></li>
+                <li><a th:href="@{/orders/insert}" title="세탁신청">세탁 신청</a></li>
             </ul>
 		</div>
 	</div>

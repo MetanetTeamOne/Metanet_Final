@@ -32,7 +32,7 @@ public class MemberService implements IMemberService{
 
     @Override
     @Transactional
-    public void updateMember(MemberUpdateDto member, String email) {
+    public void updateMember(Member member, String email) {
         memberRepository.updateMember(member, email);
     }
 
@@ -40,6 +40,12 @@ public class MemberService implements IMemberService{
     @Transactional
     public void deleteMember(String password) {
         memberRepository.deleteMember(password);
+    }
+
+    @Override
+    @Transactional
+    public int getMemberId(String email){
+       return memberRepository.getMemberId(email);
     }
     
     @Override

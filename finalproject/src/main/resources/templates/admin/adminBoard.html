@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
     <!--Header -->
 	<div th:replace="~{/include/admin/head :: head}"></div>
 
@@ -77,28 +77,28 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                문의내역
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple">
+                                <table id="datatablesSimple" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>회원ID</th>
+                                            <th>이메일</th>
+                                            <th>이름</th>
+                                            <th>구독상태</th>
+                                            <th>구독날짜</th>
+                                            <th>누적구독액</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>회원ID</th>
+                                            <th>이메일</th>
+                                            <th>이름</th>
+                                            <th>구독상태</th>
+                                            <th>구독날짜</th>
+                                            <th>누적구독액</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
