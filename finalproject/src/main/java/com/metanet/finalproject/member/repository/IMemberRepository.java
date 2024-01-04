@@ -1,12 +1,12 @@
 package com.metanet.finalproject.member.repository;
 
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberUpdateDto;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.metanet.finalproject.member.model.Member;
 
 @Repository
 @Mapper
@@ -15,7 +15,7 @@ public interface IMemberRepository {
     public List<Member> getMemberList();
     public int insertMember(@Param("member") Member member);
     public void updateMember(@Param("member") Member member, @Param("email") String email);
-    public void deleteMember(@Param("password") String password);
+    public void deleteMember(@Param("memberEmail") String memberEmail, @Param("memberPassword") String memberPassword);
 	public int getMemberId(@Param("email") String email);
     
     //이메일로 특정 회원조회

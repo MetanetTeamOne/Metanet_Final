@@ -4,21 +4,20 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberUserDetailsService;
 import com.metanet.finalproject.role.repository.IRoleRepository;
-import io.jsonwebtoken.security.MacAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * JWT를 생성하고 검증하는 서비스를 제공

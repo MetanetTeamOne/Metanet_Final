@@ -15,14 +15,14 @@
                 <div class="login_form">
                     <fieldset>
                         <legend></legend>
-                        <form id="frma" name="frm" method="post">
+                        <form method="post" action="/login">
                             <div class="ipt_wrap">
                                 <legend for="userid">아이디</legend>
-                                <input type="email" id="userid" name="userid" class="input_text rounded" placeholder="아이디">
+                                <input type="email" id="memberEmail" name="memberEmail" class="input_text rounded" placeholder="아이디">
                             </div>
                             <div class="ipt_wrap">
                                 <legend for="userpw">패스워드</legend>
-                                <input type="password" id="userpw" name="userpw" class="input_text rounded" placeholder="패스워드">
+                                <input type="password" id="memberPassword" name="memberPassword" class="input_text rounded" placeholder="패스워드">
                             </div>
                             <div class="ipt_wrap">
                                 <div class="chks chk_agree fl">
@@ -35,9 +35,9 @@
                                 <div class="btns_wrap">
                                     <a th:href="@{/member/insert}" class="small">회원가입</a>
                                 </div>
-                            </div>
+                            </div> 
+                            <button type="submit" class=" btn_login_cont">로그인</button>
                         </form>
-                        <a class="btn_login_cont btn_gologin_now" th:href="@{/}">로그인</a>
                     </fieldset>
                 </div>
             </div>
