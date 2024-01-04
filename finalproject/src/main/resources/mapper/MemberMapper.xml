@@ -54,17 +54,12 @@
 	</select>
     
 	<select id="selectMember" parameterType="string" resultType="com.metanet.finalproject.member.model.Member">
-		select MEMBER_ID,
-				MEMBER_NAME,
-				MEMBER_EMAIL,
-				MEMBER_PHONE_NUMBER,
-				MEMBER_PASSWORD,
-				MEMBER_JOIN_DATE,
-				MEMBER_JOIN_STATE,
-				MEMBER_SUBSCRIBE,
-				MEMBER_SUBSCRIBE_DATE,
-				MEMBER_CARD
-		from member 
+		select member_id as memberId, member_name as memberName, member_email as memberEmail,
+		member_phone_number as memberPhoneNumber, member_password as memberPassword,
+		member_join_date as memberJoinDate, member_join_state as memberJoinState,
+		member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		from member
 		<if test="memberEmail != null">
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>
