@@ -39,6 +39,8 @@ public class SecurityConfig {
    JwtAuthenticationFilter authenticationFilter() {
       return new JwtAuthenticationFilter(jwtTokenProvider());
    }
+
+
    /*@Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
       http.csrf((csrfConfig) -> csrfConfig.disable());
