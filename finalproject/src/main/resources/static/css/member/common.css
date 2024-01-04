@@ -896,9 +896,9 @@ input {height:31px; padding:0 5px; color:#333333; border:1px solid #d6d6d6; line
 
 /* 취소*/
 .btn_member_cancel{width:150px; height:45px; color:#3e3d3c; font-weight:bold; font-size:13px; border:1px solid #cccccc; background:#fff; cursor:pointer;}
-.btn_member_cancel:hover{color:#333333; border:1px solid #bbbbbb;}
+.btn_member_cancel:hover{color:#333333; border:1px solid #bbbbbb; background-color: #dcdcdc;}
 .btn_comfirm{width:150px; height:45px; margin:0; color:#ffffff; font-size:14px; border:1px solid var(--sub); background:var(--sub); cursor:pointer; font-weight:bold;}
-.btn_comfirm:hover{border:1px solid var(--sub); color: #fff; background:var(--sub);}
+.btn_comfirm:hover{border:1px solid var(--sub); color: #fff; background:var(--main);}
 
 input[type="radio"]{width:13px; height:13px; vertical-align:top;}
 input[type="text"],

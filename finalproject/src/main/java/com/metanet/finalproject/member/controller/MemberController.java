@@ -3,6 +3,7 @@ package com.metanet.finalproject.member.controller;
 
 import java.security.Principal;
 import java.sql.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,9 +22,11 @@ import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -141,9 +145,8 @@ public class MemberController {
 //    }
     
 	@PostMapping("/update") //이메일 처리가 좋은지 id로 처리하는게 좋은지 고민
-    public String updateMember(@ModelAttribute Member member){
-		System.out.println(">>>>>>>>>>" + member);
-        memberService.updateMember(member, "chlrkdls12269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
+    public String updateMember(@ModelAttribute MemberUpdateDto member){
+        memberService.updateMember(member, "chlrkdls1269@gmail.com"); // 추후 시큐리티 적용 후 변경 예정
 		return "redirect:/member";
     }
     
@@ -155,10 +158,16 @@ public class MemberController {
     }
     
     @PostMapping("/password")
-    public String updatePasswordMember(Model model) {
-        Member member = memberService.getMember(1);
-        model.addAttribute("member", member);
-        return "redirect:/member";
+    public String updatePasswordMember(Model model, MemberUpdateDto member) {
+    	Member dbMember = memberService.getMember(1);
+    	// password가 맞지 않다면 예외 처리 입력 필요
+    	if (member.getMemberPassword().equals(dbMember.getMemberPassword())) {
+    		memberService.updateMember(member, member.getNewPassword());
+            return "redirect:/member";
+    	}
+    	// 오류 발생 시 어떻게 할지 고민 필요 ExceptionHandler로 처리??    	
+    	return null;
+    	
     }
 
     @GetMapping("/delete")
@@ -181,54 +190,49 @@ public class MemberController {
   	public String selectSubscribe(Model model, String memberEmail) {
 //  		if(memberEmail != null && !memberEmail.equals("")) {
   		System.out.println("===구독 상태 조회===");
-  		memberService.selectSubscribe(memberEmail);
+  		String subscribeState = memberService.selectSubscribe(memberEmail);
+  		model.addAttribute("subscribeState",subscribeState);
   		return "member/subscribe_view";
 //  		}else {
 //  			return "member/login";
 //  		}
   }
     
-  //구독 신청 폼
-  	@GetMapping("/subscribe/insert")
-  	public String insertSubscribe(Model model, String memberEmail) {
-//  	if(memberEmail != null && !memberEmail.equals("")) {
-		Member member = memberService.selectMember(memberEmail);
-		model.addAttribute("member", member);
-		return "member/subscribe_view";
-//  	}else {
-//  		return "member/login";
+//  //구독 신청 폼
+//  	@GetMapping("/subscribe/insert")
+//  	public String insertSubscribe(Model model, String memberEmail) {
+////  	if(memberEmail != null && !memberEmail.equals("")) {
+//		Member member = memberService.selectMember(memberEmail);
+//		model.addAttribute("member", member);
+//		return "member/subscribe_view";
+////  	}else {
+////  		return "member/login";
+////  	}
 //  	}
-  	}
   	
-  	//구독 신청 처리
-  	@PostMapping("/subscribe/insert")
-  	public String insertSubscribe(Member member, Model model) {
-  		memberService.insertSubscribe(member);
-  		model.addAttribute("member", member);
-  		System.out.println("===구독신청 완료===");
-  		return "redirect:/member/subscribe";
-  	}
   	
-  	//구독 해지 폼
-  	@GetMapping("/subscribe/update")
-  	public String updateSubscribe(Model model, String memberEmail) {
-//  	if(memberEmail != null && !memberEmail.equals("")) {
-  			Member member = memberService.selectMember(memberEmail);
-  			model.addAttribute("member", member);
-  			return "member/subscribe_update";
-//  		}else {
-//  			return "member/login";
-//  		}
-  	}
+//  	//구독 해지 폼
+//  	@GetMapping("/subscribe/update")
+//  	public String updateSubscribe(Model model, String memberEmail) {
+////  	if(memberEmail != null && !memberEmail.equals("")) {
+//  			Member member = memberService.selectMember(memberEmail);
+//  			model.addAttribute("member", member);
+//  			return "member/subscribe_update";
+////  		}else {
+////  			return "member/login";
+////  		}
+//  	}
   	
-  	//구독 해지 처리
+  	//구독 처리
   	@PostMapping("/subscribe/update")
   	public String updateSubscribe(Member member, Model model) {
   		//member.setMemberSubscribe("0");
+  		member.setMemberEmail("chlrkdls1269@gmail.com");
+  		System.out.println(">>>>>>>>" + member);
   		memberService.updateSubscribe(member);
-  		model.addAttribute("member", member);
-  		System.out.println("===구독해지 완료===");
-  		return "redirect:/member/subscribe_view";
+//  		model.addAttribute("member", member);
+//  		System.out.println("===구독해지 완료===");
+  		return "redirect:/member/subscribe";
   	}
   	
 

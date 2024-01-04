@@ -14,7 +14,7 @@
             <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
 
             <!-- Section right -->
-            <div class="col-sm-6 col-md-7 col-lg-9">
+            <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
                         <h2>내 정보 관리</h2>
@@ -23,8 +23,10 @@
                         <div class="mypage_header">
                             <h3>구독 관리</h3>
                             <!-- Content -->
-                            <div class="my_page_form">
-                                <form class="base_info_sec" action="" method="">
+                            <!--해지 폼-->
+                            <div th:if="${subscribeState=='1'}" class="my_page_form">
+                                <form class="base_info_sec" method="post" action="/member/subscribe/update" >
+									<input type="hidden" id="memberSubscribe" name="memberSubscribe" value="0">
                                     <table>
                                         <tbody>
                                             <tr>
@@ -61,15 +63,14 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="button" class="btn_member_cancel js_btn_join" value=""
-                                            onclick="location.href ='#'">취소</button>
-                                        <button type="button" class="btn_comfirm js_btn_join" value=""
-                                            onclick="location.href ='#'">해지하기</button>
+                                        <button type="submit" class="btn_comfirm js_btn_join" >구독 해지</button>
                                     </div>
                                 </form>
                             </div>
-                            <div class="my_page_form">
-                                <form class="base_info_sec" action="" method="">
+                            <!--신청 폼-->
+                            <div th:if="${subscribeState=='0'}" class="my_page_form">
+                                <form class="base_info_sec"  method="post" action="/member/subscribe/update" >
+									<input type="hidden" id="memberSubscribe" name="memberSubscribe" value="1">
                                     <table>
                                         <tbody>
                                             <tr>
@@ -106,8 +107,7 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="button" class="btn_comfirm js_btn_join" value=""
-                                            onclick="location.href ='#'">구독 신청</button>
+                                        <button type="submit" class="btn_comfirm js_btn_join">구독 신청</button>
                                     </div>
                                 </form>
                             </div>
