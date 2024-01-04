@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.metanet.finalproject.member.service.MemberService;
 import com.metanet.finalproject.role.repository.IRoleRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-
+@Slf4j
 @Component
 public class MemberUserDetailsService implements UserDetailsService {
 
@@ -28,7 +29,9 @@ public class MemberUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		log.info("loadUserByUsername....");
 		Member memberInfo = memberService.selectMember(email);
+		log.info("memberinfo: {}", memberInfo);
 		if (memberInfo == null) {
 			throw new UsernameNotFoundException("[" + email + "] 사용자를 찾을 수 없습니다.");
 		}

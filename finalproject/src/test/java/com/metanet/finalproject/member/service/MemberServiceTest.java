@@ -3,6 +3,7 @@ package com.metanet.finalproject.member.service;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.repository.IMemberRepository;
+import com.metanet.finalproject.role.model.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -70,10 +71,20 @@ class MemberServiceTest {
         member.setMemberSubscribeDate(new Date(0));
         member.setMemberCard("0");
 
+
+
         int id = memberRepository.insertMember(member);
         assertThat(id).isEqualTo(7);
         assertThat(memberRepository.getMemberList().size()).isEqualTo(2);
         assertThat(memberRepository.getMemberList().get(1).getMemberName()).isEqualTo("최동연");
 //        assertThat(memberRepository.getMember(2).getMemberName()).isEqualTo("최동연");
+    }
+
+    @Test
+    @Transactional
+    public void selectMember(){
+        String email = "email@com22333";
+        Member member = memberRepository.selectMember(email);
+        assertThat(member).isNull();
     }
 }

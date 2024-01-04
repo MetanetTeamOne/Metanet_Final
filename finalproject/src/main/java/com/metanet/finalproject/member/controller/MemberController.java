@@ -1,6 +1,5 @@
 package com.metanet.finalproject.member.controller;
 
-
 import java.security.Principal;
 import java.sql.Date;
 import java.util.UUID;
@@ -35,6 +34,9 @@ public class MemberController {
 
 	@Autowired
 	IAddressService addressService;
+
+	@Autowired
+	IRoleRepository roleRepository;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -81,6 +83,7 @@ public class MemberController {
 
 
 		try {
+			//회원 정보 저장
 			String encodedPw = passwordEncoder.encode(dto.getMemberPassword());
 			member.setMemberName(dto.getMemberName());
 			member.setMemberEmail(dto.getMemberEmail());
@@ -95,6 +98,14 @@ public class MemberController {
 			int memberId = memberService.getMemberId(dto.getMemberEmail());
 			log.info("memberId: {}", memberId);
 
+			//권한 부여
+			Role role = new Role();
+			role.setMemberId(memberId);
+			role.setRoleName("ROLE_USER");
+			roleRepository.insertRole(role);
+
+
+			//주소 저장
 			address.setAddressZipcode(dto.getAddressZipcode());
 			address.setAddressRoad(dto.getAddressRoad());
 			address.setAddressContent(dto.getAddressContent());
