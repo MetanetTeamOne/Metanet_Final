@@ -1,29 +1,28 @@
 package com.metanet.finalproject.member.controller;
 
-import com.metanet.finalproject.address.model.Address;
-import com.metanet.finalproject.address.service.IAddressService;
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberInsertDto;
-import com.metanet.finalproject.member.model.MemberUpdateDto;
-import com.metanet.finalproject.member.service.IMemberService;
-
-import com.metanet.finalproject.role.model.Role;
-import com.metanet.finalproject.role.repository.IRoleRepository;
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-
 import java.security.Principal;
-
+import java.sql.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Date;
-import java.util.UUID;
+import com.metanet.finalproject.address.model.Address;
+import com.metanet.finalproject.address.service.IAddressService;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.service.IMemberService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -199,7 +198,7 @@ public class MemberController {
 //  	if(memberEmail != null && !memberEmail.equals("")) {
 		Member member = memberService.selectMember(memberEmail);
 		model.addAttribute("member", member);
-		return "member/subscribe";
+		return "member/subscribe_view";
 //  	}else {
 //  		return "member/login";
 //  	}
@@ -211,7 +210,7 @@ public class MemberController {
   		memberService.insertSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독신청 완료===");
-  		return "redirect:/subscribe";
+  		return "redirect:/member/subscribe";
   	}
   	
   	//구독 해지 폼
@@ -233,7 +232,7 @@ public class MemberController {
   		memberService.updateSubscribe(member);
   		model.addAttribute("member", member);
   		System.out.println("===구독해지 완료===");
-  		return "redirect:/subscribe";
+  		return "redirect:/member/subscribe_view";
   	}
   	
 
@@ -267,7 +266,7 @@ public class MemberController {
   		memberService.insertCard(memberEmail);
   		model.addAttribute("member", member);
   		System.out.println("===카드 등록 완료===");
-  		return "redirect:/card";
+  		return "redirect:/member/card";
   	}
 
   	//카드 해지 구현 필요
@@ -277,7 +276,8 @@ public class MemberController {
   		// 카드 해지 서비스 로직 필요
   		model.addAttribute("member", member);
   		System.out.println("===카드 해지 완료===");
-  		return "redirect:/card";
+  		return "redirect:/member/card";
   	}
+
     
 }

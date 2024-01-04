@@ -2,8 +2,6 @@ package com.metanet.finalproject.orders.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.metanet.finalproject.orders.model.Orders;
 
 public interface IOrdersService {
