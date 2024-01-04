@@ -44,7 +44,7 @@
 
     <delete id="deleteMember">
         delete from member
-        where member_password = #{password}
+        where member_email = #{memberEmail} and member_password = #{memberPassword}
     </delete>
 
 	<select id="getMemberId" resultType="int">
@@ -54,15 +54,19 @@
 	</select>
     
 	<select id="selectMember" parameterType="string" resultType="com.metanet.finalproject.member.model.Member">
-		select member_id as memberId, member_name as memberName, member_email as memberEmail,
-		member_phone_number as memberPhoneNumber, member_password as memberPassword,
-		member_join_date as memberJoinDate, member_join_state as memberJoinState,
-		member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
-		member_card as memberCard
+		select 
+			member_id as memberId,
+			member_name as memberName, 
+			member_email as memberEmail,
+			member_phone_number as memberPhoneNumber, 
+			member_password as memberPassword,
+			member_join_date as memberJoinDate, 
+			member_join_state as memberJoinState,
+			member_subscribe as memberSubscribe,
+			member_subscribe_date as memberSubScribeDate,
+			member_card as memberCard
 		from member
-		<if test="memberEmail != null">
-			where MEMBER_EMAIL=#{memberEmail}
-		</if>
+		where member_email=#{memberEmail}
 	</select>
 
 	<!-- 구독신청) MEMBER_SUBSCRIBE : 1, MEMBER_SUBSCRIBE_DATE:sysdate로 update -->

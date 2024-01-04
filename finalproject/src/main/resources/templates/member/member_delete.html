@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/member/head :: head}"></head>
+<head th:replace="~{/include/member/head :: head}">
+</head>
 <body>
     <!-- Header -->
     <div th:replace="~{/include/member/header :: header}"></div>
@@ -8,23 +9,34 @@
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
+        
             <!-- Section left -->
             <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
-
+            
             <!-- Section right -->
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
                         <h2>내 정보 관리</h2>
                     </div>
+                    
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>비밀번호 변경</h3>
-                            <!-- Content -->
+                            <h3>회원 탈퇴</h3>
                             <div class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/password">
+                                <form class="base_info_sec" method="post" action="/member/delete">
                                     <table>
                                         <tbody>
+											<tr>
+                                                <th><span>주의사항</span></th>
+                                                <td>
+                                                    <div class="member_warning">
+                                                        회원탈퇴 시 재 가입이 어려우니 신중하게 선택해 주시길 바랍니다.<br>
+                                                        <span
+                                                            style="color: #0e8ff2;">해지를 원하시면, 탈퇴 버튼을 눌러주세요.</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <th><span>아이디</span></th>
                                                 <td class="member_email">
@@ -34,25 +46,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th><span>현재 비밀번호</span></th>
+                                                <th><span>비밀번호 입력</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
                                                         <input type="text" id="memberPassword" name="memberPassword" maxlength="30" required>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <th><span>신규 비밀번호</span></th>
-                                                <td class="member_email">
-                                                    <div class="member_warning">
-                                                        <input type="text" id="newPassword" name="newPassword" maxlength="30" required>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="submit" class="btn_comfirm js_btn_join">완료</button>
+                                        <button type="submit" class="btn_comfirm js_btn_join">회원 탈퇴</button>
                                     </div>
                                 </form>
                             </div>
@@ -65,7 +70,7 @@
 
     <!-- Top Button -->
     <div th:replace="~{/include/member/topButton :: topButton}"></div>
-
+    
     <!-- Footer -->
     <div th:replace="~{/include/member/footer :: footer}"></div>
 

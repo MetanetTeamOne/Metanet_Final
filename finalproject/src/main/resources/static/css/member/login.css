@@ -90,7 +90,7 @@
     padding-left: 15px
 }
 
-.login_page a.btn_login_cont {
+.login_page button.btn_login_cont {
     width: 100%;
     display: block;
     height: 70px;
@@ -104,7 +104,7 @@
     text-decoration: none;
 }
 
-.login_page a.btn_login_cont:hover {
+.login_page button.btn_login_cont:hover {
     width: 100%;
     display: block;
     height: 70px;

@@ -47,10 +47,10 @@
                                                 <th><span class="important">아이디</span></th>
                                                 <td>
                                                     <div class="member_warning">
-                                                        <input type="text" id="memId" name="memId" data-pattern="gdMemberId"
-                                                            required>
+                                                        <input type="email" id="memberEmail" name="memberEmail" data-pattern="memberEmail"
+                                                            placeholder="이메일" required>
                                                         <button type="button" class="btn_post_search"
-                                                            onclick="#">아이디 중복 확인</button>
+                                                            onclick="#">아이디 확인</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -58,8 +58,8 @@
                                                 <th><span class="important">비밀번호</span></th>
                                                 <td class="member_password">
                                                     <div class="member_warning">
-                                                        <input type="password" id="newPassword" name="memPw"
-                                                            autocomplete="off" required>
+                                                        <input type="password" id="memberPassword" name="memberPassword"
+                                                            autocomplete="off" placeholder="비밀번호" required>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -67,8 +67,8 @@
                                                 <th><span class="important">비밀번호 확인</span></th>
                                                 <td>
                                                     <div class="member_warning">
-                                                        <input type="password" class="check-id" name="memPwRe"
-                                                            autocomplete="off" required>
+                                                        <input type="password" class="check-id" id="reMemberPassword"
+                                                            autocomplete="off" placeholder="비밀번호 재입력" required>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -76,26 +76,8 @@
                                                 <th><span class="important">이름</span></th>
                                                 <td>
                                                     <div class="member_warning">
-                                                        <input type="text" name="memNm" data-pattern="gdMemberNmGlobal"
-                                                            value="" maxlength="30" required>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th><span class="important">이메일</span></th>
-                                                <td class="member_email">
-                                                    <div class="member_warning">
-                                                        <input type="text" name="email" id="email" value=""
-                                                            tabindex="-1" required>
-                                                        <button type="button" class="btn_post_search"
-                                                            onclick="#">이메일 확인</button>
-                                                    </div>
-                                                    <div class="member_warning js_email"></div>
-                                                    <div class="form_element">
-                                                        <input type="checkbox" id="maillingFl" name="maillingFl"
-                                                            value="y" required>
-                                                        <label for="maillingFl"
-                                                            class="check_box">정보/이벤트 메일 수신에 동의합니다.</label>
+                                                        <input type="text" id="memberName" name="memberName" data-pattern="memberName"
+                                                            value="" maxlength="30" placeholder="이름" required>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -103,7 +85,7 @@
                                                 <th><span class="important">휴대폰번호</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="cellPhone" name="cellPhone"
+                                                        <input type="text" id="memberPhoneNumber" name="memberPhoneNumber"
                                                             maxlength="12" placeholder="- 없이 입력하세요."
                                                             data-pattern="gdNum" value="" required>
                                                     </div>
@@ -119,7 +101,7 @@
                                                 <th><span class="important">주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" placeholder="우편번호"
+                                                        <input type="text" id="addressZipcode" name="addressZipcode" placeholder="우편번호"
                                                             class="inputData" readonly>
                                                         <button type="button" class="btn_post_search"
                                                             onclick="daumPostcode()">우편번호 찾기</button>
