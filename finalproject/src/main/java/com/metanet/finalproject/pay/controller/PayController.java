@@ -15,8 +15,12 @@ import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @Controller
 @RequestMapping("/pay")
+@Tag(name = "Pay", description = "결제 관리 API")
 public class PayController {
 
 	@Autowired
@@ -28,18 +32,21 @@ public class PayController {
 //	@Autowired
 //	IOrderService ordersService;
 	
+	@Operation(summary = "결제 정보 조회 view")
 	@GetMapping("")
 	public String getpay() {
 		return "member/pay_view";
 	}
 	
 	//pay_ok 폼
+	@Operation(summary = "결제 완료 view")
 	@GetMapping("/payok")
 	public String payOk() {
 		return "member/pay_ok";
 	}
 	
 	//결제 상세 조회
+	@Operation(summary = "결제 상세 정보 조회")
 	@GetMapping("/{payId}")
 	public String getPay(@PathVariable int payId, Model model) {
 		Pay pay = payService.getPay(payId);
@@ -48,6 +55,7 @@ public class PayController {
 	}
 	
 	//결제 상태 조회
+	@Operation(summary = "결제 상태 정보 조회")
 	@GetMapping("/pay/search/{payState}")
 	@ResponseBody
 	public List<Pay> getPayState(@PathVariable String payState, Model model){
@@ -67,6 +75,7 @@ public class PayController {
 //	}
 	
 	//결제 진행 처리
+	@Operation(summary = "결제 정보 진행 처리")
 	@PostMapping("/pay/do/{ordersId}")
 	public String insertPay(@PathVariable int ordersId, Pay pay, Model model) {
 		//int ordersId = pay.getOrdersId();

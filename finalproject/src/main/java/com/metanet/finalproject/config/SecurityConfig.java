@@ -79,6 +79,7 @@ public class SecurityConfig {
 //              .requestMatchers("/file/**").hasRole("ADMIN")
 //              .requestMatchers("/board/**").hasAnyRole("USER", "ADMIN")
               .requestMatchers("/**", "/css/**", "/js/**", "/images/**").permitAll()
+              .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
               .requestMatchers("/").permitAll());
 
       // Session 기반의 인증기반을 사용하지 않고 추후 JWT를 이용하여서 인증 예정

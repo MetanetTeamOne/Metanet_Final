@@ -13,14 +13,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.service.ILaundryService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @Controller
 @RequestMapping("/laundry")
+@Tag(name = "Laundry", description = "세탁물 관리 API")
 public class LaundryController {
 	
 	@Autowired
 	ILaundryService laundryService;
 	
 	// 세탁물 전체 조회
+	@Operation(summary = "세탁물 전체 조회")
 	@GetMapping("")
 	public String getLaundry(Model model) {
 		List<Laundry> getLaundry = laundryService.getLaundry();
@@ -32,6 +37,7 @@ public class LaundryController {
 	
 	// 세탁물 카테고리별 조회
 	// return : JSON
+	@Operation(summary = "세탁물 카테고리별 조회")
 	@GetMapping("/{laundryCategoryId}")
 	@ResponseBody
 	public List<Laundry> getLaundryCategory(Model model, @PathVariable int laundryCategoryId) {

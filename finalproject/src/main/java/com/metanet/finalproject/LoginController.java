@@ -17,6 +17,8 @@ import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+@Tag(name = "Login", description = "로그인 API")
 public class LoginController {
     @Autowired
     IMemberService memberService;
@@ -35,12 +38,14 @@ public class LoginController {
     PasswordEncoder passwordEncoder;
 
     // 로그인
+    @Operation(summary = "로그인 view")
     @GetMapping("/login")
     public String loginPage() {
         System.out.println("login");
         return "member/login";
     }
 
+    @Operation(summary = "로그인")
     @PostMapping("/login")
     public String login(Member loginMember,HttpServletResponse response){
 //        log.info("로그인 진행중...");
@@ -67,6 +72,7 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @Operation(summary = "Jwt 테스트")
     @GetMapping("/test_jwt")
     @ResponseBody
     public String testJwt(HttpServletRequest request) {
