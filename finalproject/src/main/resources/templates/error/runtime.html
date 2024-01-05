@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/head :: head}"></head> 
+<head th:replace="~{include/head :: head}"></head> 
 <body>
-<div th:replace="~{/include/header :: Header}"></div>
+<div th:replace="~{include/header :: Header}"></div>
 <div class="inner">
 	<div class="jumbotron">
 		<h2 style="color:red;">[[${exception}]]</h2>
@@ -12,6 +12,6 @@
 		<p><a class="btn btn-primary" th:href="@{/}">Home</a></p>
 	</div>
 </div>
-<footer th:replace="~{/include/footer :: footer}"></footer> 
+<footer th:replace="~{include/footer :: footer}"></footer> 
 </body>
 </html>

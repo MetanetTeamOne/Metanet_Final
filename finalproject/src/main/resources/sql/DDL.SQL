@@ -334,14 +334,6 @@ CREATE SEQUENCE FILES_SEQ
 
 COMMIT;
 
--- 세탁 카테고리 (LAUNDRY_CATEGORY) 테이블 예시 데이터
-INSERT INTO LAUNDRY_CATEGORY (laundry_category_id, laundry_category_name, laundry_category_description)
-VALUES (1, '상의', '상의 카테고리');
-
--- 세탁물 (LAUNDRY) 테이블 예시 데이터
-INSERT INTO LAUNDRY (laundry_id, laundry_name, laundry_category, laundry_price, laundry_category_id)
-VALUES (1, '셔츠', 1, 15000, 1);
-
 -- 회원 (MEMBER) 테이블 예시 데이터
 INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
 VALUES (2, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
@@ -356,20 +348,6 @@ VALUES (1, 'ROLE_USER');
 -- 주소 (ADDRESS) 테이블 예시 데이터
 INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
 VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', '3', '최가인 교육장', 1);
-
--- 주문 (ORDERS) 테이블 예시 데이터
-insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1);
-
--- 결제 (PAY) 테이블 예시 데이터
-INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
-VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
-
-INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
-VALUES (2, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
-
--- 파일 (FILES) 테이블 예시 데이터
-INSERT INTO FILES (files_id, files_oname, files_nname, files_path, files_type, orders_id)
-VALUES (1, 'before.jpg', '세탁전 사진', '/path/to/before.jpg', 'jpg', 1, 'data');
 
 -- 세탁 카테고리 테이블 예시 데이터
 insert into laundry_category values (LAUNDRY_CATEGORY_SEQ.NEXTVAL, '상의', '정장상의, 셔츠, 블라우스, 맨투맨, 후드티, 코트, 패딩 등');
@@ -402,6 +380,15 @@ insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '모자', 1, 5900, 4);
 insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '목도리', 2, 6900, 4);
 insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 
-COMMIT;
 
-select * from orders order by 1;
+-- 주문 (ORDERS) 테이블 예시 데이터
+insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1);
+
+-- 결제 (PAY) 테이블 예시 데이터
+INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
+VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
+
+INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id)
+VALUES (2, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1);
+
+COMMIT;
