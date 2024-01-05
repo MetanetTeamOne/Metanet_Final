@@ -20,18 +20,18 @@ class MemberServiceTest {
     IMemberRepository memberRepository;
 
     @Test
-    public void getMember(){
+    public void getMember() {
         assertThat(memberRepository.getMember(1).getMemberName()).isEqualTo("최가인");
     }
 
     @Test
-    public void getAllMember(){
+    public void getAllMember() {
         assertThat(memberRepository.getMemberList().size()).isEqualTo(1);
     }
 
-    @Test
-    @Transactional
-    public void deleteMember(){
+//    @Test
+//    @Transactional
+//    public void deleteMember(){
 //        memberRepository.deleteMember("password123");
 //        assertThat(memberRepository.getMember(1).getMemberName()).isEqualTo("최가인");
 //    }
@@ -95,3 +95,4 @@ class MemberServiceTest {
 //        assertThat(member).isNull();
 //    }
 //}
+}
