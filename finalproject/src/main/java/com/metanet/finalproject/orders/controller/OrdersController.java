@@ -85,7 +85,7 @@ public class OrdersController {
 		return "member/orders_insert";
 	}
 	
-	@Operation(summary = "주문 입력")
+	/*@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
 	public String insertOrder(Model model, Principal principal) throws IOException {
 		System.out.println(orders);
@@ -101,7 +101,7 @@ public class OrdersController {
 		System.out.println("=============================");
 		
 		return "redirect:/orders/insertok";
-	}
+	}*/
 	
 	@Operation(summary = "주문 완료 view")
 	@GetMapping("/insertok")

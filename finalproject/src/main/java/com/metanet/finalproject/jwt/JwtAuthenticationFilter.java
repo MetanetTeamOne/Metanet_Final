@@ -34,13 +34,19 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
             // 쿠키 가져오기
             Cookie[] cookies = httpRequest.getCookies();
-            
-            for (Cookie cookie : cookies) {
+
+            if (cookies != null){
+                for (Cookie cookie : cookies) {
 //            	System.out.println("쿠키 이름 Key : " + cookie.getName());
 //            	System.out.println("쿠키 데이터 : " + cookie.getValue());
-            	
-            	Jwt_value = cookie.getValue();
+
+                    Jwt_value = cookie.getValue();
+                }
             }
+            else{
+                System.out.println("token 없음");
+            }
+
         }
         
 //        System.out.println("쿠키 데이터 : " + Jwt_value);
