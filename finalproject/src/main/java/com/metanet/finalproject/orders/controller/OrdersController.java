@@ -88,16 +88,16 @@ public class OrdersController {
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
 	public String insertOrder(Model model, Principal principal) throws IOException {
-//		System.out.println(orders);
-//		
-//		if (!file.isEmpty()) {
-//			orders.setOrdersImageData(file.getBytes());
-//			ordersService.insertOrder(orders);
-//		}
-//		else {
-//			orders.setOrdersImageData(null);
-//			ordersService.insertOrder(orders);
-//		}
+		System.out.println(orders);
+		
+		if (!file.isEmpty()) {
+			orders.setOrdersImageData(file.getBytes());
+			ordersService.insertOrder(orders);
+		}
+		else {
+			orders.setOrdersImageData(null);
+			ordersService.insertOrder(orders);
+		}
 		System.out.println("=============================");
 		
 		return "redirect:/orders/insertok";
