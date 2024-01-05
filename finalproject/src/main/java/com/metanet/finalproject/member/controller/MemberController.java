@@ -1,10 +1,7 @@
 package com.metanet.finalproject.member.controller;
 
-import java.security.Principal;
 import java.sql.Date;
-import java.util.UUID;
 
-import com.metanet.finalproject.role.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +19,7 @@ import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberInsertDto;
 import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
+import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -103,7 +101,7 @@ public class MemberController {
 		if (findMember != null) {
 			log.info("같은 아이디가 있습니다");
 			model.addAttribute("dto", dto);
-			return "redirect:/member/signup";
+			return "member/signup";
 		}
 		/*String sessionToken = (String) session.getAttribute("csrfToken");
 		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
@@ -148,20 +146,18 @@ public class MemberController {
 			member.setMemberEmail(null);
 			model.addAttribute("member", member);
 			model.addAttribute("message", "id가 이미 있습니다.");
-			return "member/signup";
+			return "redirect:/member/insert";
 		}
 		// 수정 필요
 		session.invalidate();
-        return "redirect:/member/signup_ok";
-    }
-    
-	@Operation(summary = "회원 가입 완료 view")
-    @GetMapping("/signup_ok")
-    public String insertOkMember(HttpServletRequest request, Model model) {
-    	Member member = memberService.selectMember(getTokenUserEmail(request));
-    	model.addAttribute("member",member);
         return "member/signup_ok";
     }
+    
+//	@Operation(summary = "회원 가입 완료 view")
+//    @GetMapping("/signup_ok")
+//    public String insertOkMember() {
+//        return "member/signup_ok";
+//    }
 
 	@Operation(summary = "회원 정보 수정 view")
     @GetMapping("/update")
