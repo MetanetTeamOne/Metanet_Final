@@ -58,6 +58,7 @@ public class JwtTokenProvider {
                 .build();
         Date now = new Date();
         return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
                 .claims(claims) // sub, iss, roles
                 .issuedAt(now) // iat
                 .expiration(new Date(now.getTime() + tokenValidTime))

@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.metanet.finalproject.role.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,8 +56,8 @@ public class MemberController {
     
 	//	Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
+		log.info("토큰 찾는중...");
         String token = "";
-
         try {
             Cookie[] cookies = request.getCookies();
         	for (Cookie cookie : cookies) {
@@ -67,17 +68,29 @@ public class MemberController {
         } catch(Exception e) {
         	e.getMessage();
         }
-        
+		if (token.isEmpty()) {
+			log.info("토큰이 없어요...");
+			return "/";
+		}
         return jwtTokenProvider.getUserId(token);
 	}
 	
 	@Operation(summary = "회원 정보 조회")
     @GetMapping("")
-    public String getMember(Model model,HttpServletRequest request){
+    public String getMember(Model model, HttpServletRequest request){
+		log.info("회원 정보 조회중...");
+		String token = getTokenUserEmail(request);
+		log.info("token: {}", token);
+		if(token.isEmpty()){
+			log.info("토큰이 널입니다.");
+			return "/";
+		}
         Member member = memberService.selectMember(getTokenUserEmail(request));
+		log.info("============");
         if (member == null) {
         	return "member/login";
         }
+
         model.addAttribute("member", member);
         return "member/member_view";
     }
@@ -154,13 +167,12 @@ public class MemberController {
 		// 수정 필요
 		session.invalidate();
         return "redirect:/member/signup_ok";
+//		return "redirect:/";
     }
     
 	@Operation(summary = "회원 가입 완료 view")
     @GetMapping("/signup_ok")
-    public String insertOkMember(HttpServletRequest request, Model model) {
-    	Member member = memberService.selectMember(getTokenUserEmail(request));
-    	model.addAttribute("member",member);
+    public String insertOkMember() {
         return "member/signup_ok";
     }
 
