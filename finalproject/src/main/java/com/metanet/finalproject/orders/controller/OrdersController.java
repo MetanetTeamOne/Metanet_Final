@@ -19,11 +19,13 @@ import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.service.IOrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("/orders")
+@Tag(name = "Orders", description = "주문 관리 API")
 public class OrdersController {
 	
 //	@Value("${file.upload.directory}")
