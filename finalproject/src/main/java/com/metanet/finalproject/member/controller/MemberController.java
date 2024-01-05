@@ -1,8 +1,12 @@
 package com.metanet.finalproject.member.controller;
 
+import java.security.Principal;
+import java.sql.Date;
 import java.util.UUID;
 
+import com.metanet.finalproject.role.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,9 +84,9 @@ public class MemberController {
 	@Operation(summary = "회원 가입 view")
     @GetMapping("/insert")
     public String insertMember(HttpSession session){
-		String csrfToken = UUID.randomUUID().toString();
+		/*String csrfToken = UUID.randomUUID().toString();
 		session.setAttribute("csrfToken", csrfToken);
-		log.info("/member/insert, GET {}", csrfToken);
+		log.info("/member/insert, GET {}", csrfToken);*/
 		return "member/signup";
     }
 
@@ -107,47 +111,47 @@ public class MemberController {
 		}*/
 
 
-//		try {
-//			//회원 정보 저장
-//			String encodedPw = passwordEncoder.encode(dto.getMemberPassword());
-//			member.setMemberName(dto.getMemberName());
-//			member.setMemberEmail(dto.getMemberEmail());
-//			member.setMemberPassword(encodedPw);
-//			member.setMemberPhoneNumber(dto.getMemberPhoneNumber());
-//			member.setMemberJoinState("1");
-//			member.setMemberSubscribe("0");
-//			member.setMemberSubscribeDate(new Date(0));
-//			member.setMemberCard("0");
-//			memberService.insertMember(member);
-//
-//			int memberId = memberService.getMemberId(dto.getMemberEmail());
-//			log.info("memberId: {}", memberId);
-//
-//			//권한 부여
-//			Role role = new Role();
-//			role.setMemberId(memberId);
-//			role.setRoleName("ROLE_USER");
-//			roleRepository.insertRole(role);
-//
-//
-//			//주소 저장
-//			address.setAddressZipcode(dto.getAddressZipcode());
-//			address.setAddressRoad(dto.getAddressRoad());
-//			address.setAddressContent(dto.getAddressContent());
-//			address.setAddressCategory("3");
-//			address.setAddressDetail("null");
-//			address.setMemberId(memberId);
-//
-//			log.info("address: {}", address);
-//			addressService.insertAddress(address);
-//		} catch (DuplicateKeyException e) {
-//			member.setMemberEmail(null);
-//			model.addAttribute("member", member);
-//			model.addAttribute("message", "id가 이미 있습니다.");
-//			return "member/signup";
-//		}
-//		// 수정 필요		
-//		session.invalidate();
+		try {
+			//회원 정보 저장
+			String encodedPw = passwordEncoder.encode(dto.getMemberPassword());
+			member.setMemberName(dto.getMemberName());
+			member.setMemberEmail(dto.getMemberEmail());
+			member.setMemberPassword(encodedPw);
+			member.setMemberPhoneNumber(dto.getMemberPhoneNumber());
+			member.setMemberJoinState("1");
+			member.setMemberSubscribe("0");
+			member.setMemberSubscribeDate(new Date(0));
+			member.setMemberCard("0");
+			memberService.insertMember(member);
+
+			int memberId = memberService.getMemberId(dto.getMemberEmail());
+			log.info("memberId: {}", memberId);
+
+			//권한 부여
+			Role role = new Role();
+			role.setMemberId(memberId);
+			role.setRoleName("ROLE_USER");
+			roleRepository.insertRole(role);
+
+
+			//주소 저장
+			address.setAddressZipcode(dto.getAddressZipcode());
+			address.setAddressRoad(dto.getAddressRoad());
+			address.setAddressContent(dto.getAddressContent());
+			address.setAddressCategory("3");
+			address.setAddressDetail("null");
+			address.setMemberId(memberId);
+
+			log.info("address: {}", address);
+			addressService.insertAddress(address);
+		} catch (DuplicateKeyException e) {
+			member.setMemberEmail(null);
+			model.addAttribute("member", member);
+			model.addAttribute("message", "id가 이미 있습니다.");
+			return "member/signup";
+		}
+		// 수정 필요
+		session.invalidate();
         return "redirect:/member/signup_ok";
     }
     
@@ -214,7 +218,6 @@ public class MemberController {
     	}
     	
         memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
-        System.out.println(">>>>>>>>>>>>>>>>>>>>");
         return "redirect:/logout";
     }
     

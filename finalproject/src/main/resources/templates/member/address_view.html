@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/member/head :: head}"></head>
+<head th:replace="~{include/member/head :: head}"></head>
 <body>
-    <!-- Header -->
-    <div th:replace="~{/include/member/header :: header}"></div>
+    <!--Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
 
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
             <!-- Section left -->
-            <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
+            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
 
             <!-- Section right -->
             <div class="col-sm-9 col-md-9 col-lg-9">
@@ -20,7 +20,6 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>배송지 관리</h3>
-
                             <!-- Content -->
                             <div class="my_page_form">
                                 <div class="base_info_sec">
@@ -36,7 +35,6 @@
                                             </tr>
                                             <tr th:if="${address != null}">
                                                 <th><span class="important">기본 주소</span></th>
-                                                <input type="hidden" id="addressId" name="addressId" th:value="${address.addressId}">
                                                 <td class="member_address">
                                                     <div class="address_postcode">
                                                         우편번호 : <input type="text" name="addressZipcode" id="addressZipcode" th:value="${address.addressZipcode}" class="inputData" readonly>
@@ -70,12 +68,12 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Top Button -->
-    <div th:replace="~{/include/member/topButton :: topButton}"></div>
-    
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+
     <!-- Footer -->
-    <div th:replace="~{/include/member/footer :: footer}"></div>
+    <div th:replace="~{include/member/footer :: footer}"></div>
 
 
 	<script>

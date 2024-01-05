@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--Header -->
-<div th:replace="~{/include/admin/head :: head}"></div>
+<div th:replace="~{include/admin/head :: head}"></div>
 
 <body class="sb-nav-fixed">
-	<nav th:replace="~{/include/admin/header :: header}"></nav>
+	<nav th:replace="~{include/admin/header :: header}"></nav>
 
 	<div id="layoutSidenav">
-		<div th:replace="~{/include/admin/nav :: navbar}"></div>
+		<div th:replace="~{include/admin/nav :: navbar}"></div>
 
 		<div id="layoutSidenav_content">
 			<main>
@@ -587,7 +587,7 @@
 					</div>
 				</div>
 			</main>
-			<footer th:replace="~{/include/admin/footer :: footer}"></footer>
+			<footer th:replace="~{include/admin/footer :: footer}"></footer>
 		</div>
 	</div>
 </body>
