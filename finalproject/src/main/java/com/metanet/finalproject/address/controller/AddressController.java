@@ -19,13 +19,18 @@ import com.metanet.finalproject.member.service.IMemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @Controller
 @RequestMapping("/member/address")
+@Tag(name = "Address", description = "주소 관리 API")
 public class AddressController {
 	
 	@Autowired IAddressService addressService;
 	
 	@Autowired IMemberService memberService;
+
 
 	@Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -49,6 +54,8 @@ public class AddressController {
 	}
 	
 
+
+	@Operation(summary = "사용자 주소 조회")
 	@GetMapping("")
 	public String getAddress(HttpServletRequest request, Model model) {
 		String userEmail = getTokenUserEmail(request);
@@ -58,12 +65,13 @@ public class AddressController {
 		return "member/address_view";
 	}
 	
-	// 사용자 주소 입력
+	@Operation(summary = "사용자 주소 입력 view")
 	@GetMapping("/insert")
 	public String insetAddress(Model model) {
 		return "member/address_insert";
 	}
 	
+	@Operation(summary = "사용자 주소 입력")
 	@PostMapping("/insert")
 	public String insetAddress(HttpServletRequest request, Model model, Address address) {
 		String userEmail = getTokenUserEmail(request);
@@ -75,12 +83,13 @@ public class AddressController {
 		return "redirect:/member/address";
 	}
 	
-	// 사용자 주소 수정
+	@Operation(summary = "사용자 주소 수정 view")
 	@GetMapping("/update")
 	public String updateAddress(Model model) {
 		return "member/address_update";
 	}
 	
+	@Operation(summary = "사용자 주소 수정")
 	@PostMapping("/update")
 	public String updateAddress(Model model, Address address) {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
@@ -90,9 +99,11 @@ public class AddressController {
 		return "redirect:/member/address";
 	}
 	
+
 	@PostMapping("/delete/{addressId}")
 	public String deleteAddress(@PathVariable int addressId, Model model, Address address) {
 //		addressService.deleteAddress(addressId);
+
 		return "redirect:/member/address";
 	}
 }

@@ -20,6 +20,8 @@ import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/member")
+@Tag(name = "Member", description = "회원 관리 API")
 public class MemberController {
 
     @Autowired
@@ -63,6 +66,7 @@ public class MemberController {
         return jwtTokenProvider.getUserId(token);
 	}
 	
+	@Operation(summary = "회원 정보 조회")
     @GetMapping("")
     public String getMember(Model model,HttpServletRequest request){
         Member member = memberService.selectMember(getTokenUserEmail(request));
@@ -73,6 +77,7 @@ public class MemberController {
         return "member/member_view";
     }
 
+	@Operation(summary = "회원 가입 view")
     @GetMapping("/insert")
     public String insertMember(HttpSession session){
 		String csrfToken = UUID.randomUUID().toString();
@@ -82,6 +87,7 @@ public class MemberController {
     }
 
 
+	@Operation(summary = "회원 가입")
     @PostMapping("/insert")
     public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
 		log.info("회원가입 진행중...");
@@ -145,6 +151,7 @@ public class MemberController {
         return "redirect:/member/signup_ok";
     }
     
+	@Operation(summary = "회원 가입 완료 view")
     @GetMapping("/signup_ok")
     public String insertOkMember(HttpServletRequest request, Model model) {
     	Member member = memberService.selectMember(getTokenUserEmail(request));
@@ -152,6 +159,7 @@ public class MemberController {
         return "member/signup_ok";
     }
 
+	@Operation(summary = "회원 정보 수정 view")
     @GetMapping("/update")
     public String updateMember(Model model, HttpServletRequest request) {
         Member member = memberService.selectMember(getTokenUserEmail(request));
@@ -159,12 +167,14 @@ public class MemberController {
         return "member/member_update";
     }
     
+	@Operation(summary = "회원 정보 수정")
 	@PostMapping("/update")
     public String updateMember(@ModelAttribute MemberUpdateDto member, HttpServletRequest request){
         memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
     }
     
+	@Operation(summary = "회원 비밀번호 수정 view")
     @GetMapping("/password")
     public String updatePasswordMember(HttpServletRequest request, Model model) {
         Member member = memberService.selectMember(getTokenUserEmail(request));
@@ -172,6 +182,7 @@ public class MemberController {
         return "member/member_password";
     }
     
+	@Operation(summary = "회원 비밀번호 수정")
     @PostMapping("/password")
     public String updatePasswordMember(HttpServletRequest request, Model model, MemberUpdateDto member) {
     	Member dbMember = memberService.selectMember(getTokenUserEmail(request));
@@ -185,6 +196,7 @@ public class MemberController {
     	
     }
 
+	@Operation(summary = "회원 삭제 view")
     @GetMapping("/delete")
     public String memberDeleteForm(HttpServletRequest request, Model model){
         Member member = memberService.selectMember(getTokenUserEmail(request));
@@ -192,6 +204,7 @@ public class MemberController {
         return "member/member_delete";
     }
 
+	@Operation(summary = "회원 삭제")
     @PostMapping("/delete")
     public String deleteMember(HttpServletRequest request, Member member, Model model){
     	Member dbMember = memberService.selectMember(getTokenUserEmail(request));
@@ -204,6 +217,7 @@ public class MemberController {
         return "redirect:/logout";
     }
     
+	@Operation(summary = "회원 구독 view")
   	@GetMapping("/subscribe")
   	public String selectSubscribe(HttpServletRequest request, Model model) {
   		Member member = memberService.selectMember(getTokenUserEmail(request));
@@ -211,6 +225,7 @@ public class MemberController {
   		return "member/subscribe_view";
   	}
   	
+	@Operation(summary = "회원 구독")
   	@PostMapping("/subscribe")
   	public String updateSubscribe(HttpServletRequest request, Member member, Model model) {
   		member.setMemberEmail(getTokenUserEmail(request));
