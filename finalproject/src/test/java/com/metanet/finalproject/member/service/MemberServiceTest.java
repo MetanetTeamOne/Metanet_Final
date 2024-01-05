@@ -1,31 +1,38 @@
-//package com.metanet.finalproject.member.service;
-//
-//import com.metanet.finalproject.member.model.Member;
-//import com.metanet.finalproject.member.model.MemberUpdateDto;
-//import com.metanet.finalproject.member.repository.IMemberRepository;
-//import com.metanet.finalproject.role.model.Role;
-//import org.assertj.core.api.Assertions;
-//import org.junit.jupiter.api.Test;
-//import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.sql.Date;
-//
-//import static org.assertj.core.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//@SpringBootTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//class MemberServiceTest {
-//
-//    @Autowired
-//    IMemberRepository memberRepository;
-//
-//    @Test
-//    public void getMember(){
+package com.metanet.finalproject.member.service;
+
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.repository.IMemberRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Date;
+
+import static org.assertj.core.api.Assertions.*;
+
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class MemberServiceTest {
+
+    @Autowired
+    IMemberRepository memberRepository;
+
+    @Test
+    public void getMember(){
+        assertThat(memberRepository.getMember(1).getMemberName()).isEqualTo("최가인");
+    }
+
+    @Test
+    public void getAllMember(){
+        assertThat(memberRepository.getMemberList().size()).isEqualTo(1);
+    }
+
+    @Test
+    @Transactional
+    public void deleteMember(){
+//        memberRepository.deleteMember("password123");
 //        assertThat(memberRepository.getMember(1).getMemberName()).isEqualTo("최가인");
 //    }
 //
