@@ -1,8 +1,6 @@
 package com.metanet.finalproject.member.controller;
 
-import java.security.Principal;
 import java.sql.Date;
-import java.util.UUID;
 
 import com.metanet.finalproject.role.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -55,6 +52,7 @@ public class MemberController {
     
 	//	Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
+		log.info("이메일로 토큰 받는중...");
         String token = "";
 
         try {
@@ -159,8 +157,8 @@ public class MemberController {
 	@Operation(summary = "회원 가입 완료 view")
     @GetMapping("/signup_ok")
     public String insertOkMember(HttpServletRequest request, Model model) {
-    	Member member = memberService.selectMember(getTokenUserEmail(request));
-    	model.addAttribute("member",member);
+//    	Member member = memberService.selectMember(getTokenUserEmail(request)); 회원가입 완료 페이지는 회원정보 안뿌리고 그냥 가입확인만 하기로함
+//    	model.addAttribute("member",member);
         return "member/signup_ok";
     }
 
