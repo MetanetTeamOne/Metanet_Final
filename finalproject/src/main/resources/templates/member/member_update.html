@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="~{/include/member/head :: head}"></head>
-
+<head th:replace="~{/include/member/head :: head}">
+</head>
 <body>
 	<!-- JS -->
     <script th:src="@{/js/member/searchPost.js}"></script>
@@ -55,12 +54,11 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
 										<button type="button" id="btnCancel" class="btn_member_cancel" onclick="location.href ='/member'">취소</button>
-                                        <button type="submit" class="btn_comfirm js_btn_join">완료</button>
+                                    	<button type="submit" id="btnUpdate" class="btn_comfirm js_btn_join">수정</button>
                                     </div>
                                 </div>
                             </form>
@@ -76,6 +74,19 @@
     
     <!-- Footer -->
     <div th:replace="~{/include/member/footer :: footer}"></div>
+    
+    <script>
+    $().ready(function() {
+        $('#btnUpdate').on('click', function() {
+            swal("수정 완료", "회원 정보가 수정되었습니다.", "success")
+            .then((result) => {
+                if (result) {
+                    document.getElementsByTagName('form').submit();
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

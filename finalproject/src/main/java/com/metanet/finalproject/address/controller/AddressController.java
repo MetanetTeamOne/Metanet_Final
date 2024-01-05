@@ -1,7 +1,5 @@
 package com.metanet.finalproject.address.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +14,10 @@ import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/member/address")
@@ -60,8 +57,8 @@ public class AddressController {
 	public String getAddress(HttpServletRequest request, Model model) {
 		String userEmail = getTokenUserEmail(request);
 		Member member = memberService.selectMember(userEmail);
-		List<Address> addressList = addressService.getAddress(member.getMemberId());
-		model.addAttribute("addressList", addressList);
+		Address address = addressService.getAddress(member.getMemberId());
+		model.addAttribute("address", address);
 		return "member/address_view";
 	}
 	
@@ -84,26 +81,24 @@ public class AddressController {
 	}
 	
 	@Operation(summary = "사용자 주소 수정 view")
-	@GetMapping("/update")
-	public String updateAddress(Model model) {
+	@GetMapping("/update/{addressId}")
+	public String updateAddress(@PathVariable int addressId, Model model) {
+		Address address = addressService.getOneAddress(addressId);
+		model.addAttribute("address", address);
 		return "member/address_update";
 	}
 	
 	@Operation(summary = "사용자 주소 수정")
 	@PostMapping("/update")
 	public String updateAddress(Model model, Address address) {
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("사용자 주소 수정 : "+ address);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		addressService.updateAddress(address);
 		return "redirect:/member/address";
 	}
 	
 
-	@PostMapping("/delete/{addressId}")
-	public String deleteAddress(@PathVariable int addressId, Model model, Address address) {
-//		addressService.deleteAddress(addressId);
-
+	@PostMapping("/delete")
+	public String deleteAddress(Address address, Model model) {
+		addressService.deleteAddress(address.getAddressId());
 		return "redirect:/member/address";
 	}
 }

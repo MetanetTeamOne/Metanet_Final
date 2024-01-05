@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
-	<p th:text="${address}"></p>
-    <!--Header -->
+    <!-- Header -->
     <div th:replace="~{/include/member/header :: header}"></div>
 
     <!-- Main -->
@@ -21,50 +20,47 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>배송지 관리</h3>
+
                             <!-- Content -->
                             <div class="my_page_form">
                                 <div class="base_info_sec">
                                     <table>
                                         <tbody>
-											<!-- 반복 돌면 됨 -->
-                                            <tr th:each="address : ${addressList}">
-                                                <th><span class="important">배송주소</span></th>
+                                            <tr th:if="${address == null}">
+                                                <td class="member_address" style="text-align: center;">
+                                                    <p style="font-size: 20px;">배송 및 수거 주소를 입력하세요<p><br>
+                                                    <a th:href="@{/member/address/insert}">
+														<i class="bi bi-truck plusButton"></i>
+                                                    </a>	
+                                                </td>
+                                            </tr>
+                                            <tr th:if="${address != null}">
+                                                <th><span class="important">기본 주소</span></th>
                                                 <input type="hidden" id="addressId" name="addressId" th:value="${address.addressId}">
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        우편번호 <input type="text" name="addressZipcode" id="addressZipcode" th:value="${address.addressZipcode}" class="inputData" readonly>
+                                                        우편번호 : <input type="text" name="addressZipcode" id="addressZipcode" th:value="${address.addressZipcode}" class="inputData" readonly>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            지번주소 <input type="text" name="addressRoad" id="addressRoad" th:value="${address.addressRoad}" class="inputData" readonly>
+                                                            지번주소 : <input type="text" name="addressRoad" id="addressRoad" th:value="${address.addressRoad}" class="inputData" readonly>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            상세주소 <input type="text" name="addressContent" id="addressContent" th:value="${address.addressContent}" class="inputData" readonly>
+                                                            상세주소 : <input type="text" name="addressContent" id="addressContent" th:value="${address.addressContent}" class="inputData" readonly>
                                                         </div>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            요청사항 <input type="text" name="addressRoad" id="addressRoad" th:value="${address.addressDetail}" class="inputData" readonly>
+                                                            요청사항 : <input type="text" name="addressRoad" id="addressRoad" th:value="${address.addressDetail}" class="inputData" readonly>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
-                                                    <div class="member_warning mb-3">
-                                                        <button th:href="@{/member/address/update}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">수정</a>
-                                                    </div>
-                                                    <div class="member_warning">
-														<form method="post" action="">
-															
-															<button th:href="@{/member/address/delete/__${address.addressId}__}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">삭제</button>
-														</form>
-                                                    </div>
-                                                </td>
-                                      
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="btn_right_box">
-                                        <button type="button" class="btn_comfirm js_btn_join" onclick="location.href ='/member/address/insert'">추가</button>
+                                    <div th:if="${address != null}" class="btn_right_box">
+                                        <a id="btnUpdate" class="btn_member_cancel" th:href="@{/member/address/update/__${address.addressId}__}">주소 수정</a>
+                                    	<button type="submit" id="btnCancel" class="btn_comfirm js_btn_join">주소 삭제</button>
                                     </div>
                                 </div>
                             </div>
@@ -74,12 +70,37 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Top Button -->
     <div th:replace="~{/include/member/topButton :: topButton}"></div>
-
+    
     <!-- Footer -->
     <div th:replace="~{/include/member/footer :: footer}"></div>
+
+
+	<script>
+	    $().ready(function() {
+	        $('#btnCancel').on('click', function() {
+	            swal("삭제 완료", "주소가 삭제되었습니다.", "success")
+	            .then((result) => {
+	                if (result) {
+	                    let form = document.createElement('form');
+	                    form.action = '/member/address/delete';
+	                    form.method = 'POST';
+	
+	                    let input = document.createElement('input');
+	                    input.type = 'hidden';
+	                    input.name = 'addressId';
+	                    input.value = document.getElementById('addressId').value;
+	                    form.appendChild(input);
+	
+	                    document.body.appendChild(form);
+	                    form.submit();
+	                }
+	            });
+	        });
+	    });
+	</script>
 
 </body>
 </html>

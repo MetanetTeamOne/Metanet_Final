@@ -24,7 +24,7 @@
                         <div class="mypage_header">
                             <h3>회원 탈퇴</h3>
                             <div class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/delete">
+                                <div class="base_info_sec">
                                     <table>
                                         <tbody>
 											<tr>
@@ -49,7 +49,7 @@
                                                 <th><span>비밀번호 입력</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberPassword" name="memberPassword" maxlength="30" required>
+                                                        <input type="password" id="memberPassword" name="memberPassword" maxlength="30" required>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -57,9 +57,9 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="submit" class="btn_comfirm js_btn_join">회원 탈퇴</button>
+                                    	<button type="submit" id="btnCancel" class="btn_comfirm js_btn_join">회원 탈퇴</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,12 +67,37 @@
             </div>
         </div>
     </div>
+    
 
     <!-- Top Button -->
     <div th:replace="~{/include/member/topButton :: topButton}"></div>
     
     <!-- Footer -->
     <div th:replace="~{/include/member/footer :: footer}"></div>
+    
+    <script>
+	    $().ready(function() {
+	        $('#btnCancel').on('click', function() {
+	            swal("탈퇴 완료", "회원 탈퇴되었습니다.", "success")
+	            .then((result) => {
+	                if (result) {
+	                    let form = document.createElement('form');
+	                    form.action = '/member/delete';
+	                    form.method = 'POST';
+	                    
+	                    let input = document.createElement('input');
+	                    input.type = 'hidden';
+	                    input.name = 'memberPassword';
+	                    input.value = document.getElementById('memberPassword').value;
+	                    form.appendChild(input);
+	
+	                    document.body.appendChild(form);
+	                    form.submit();
+	                }
+	            });
+	        });
+	    });
+	</script>
 
 </body>
 </html>

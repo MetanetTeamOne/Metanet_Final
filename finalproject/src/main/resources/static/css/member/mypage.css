@@ -187,3 +187,15 @@
 .mypage_right tbody tr .member_address .address_postcode input {
     width: 190px;
 }
+
+.plusButton {
+	color: var(--sub); 
+	font-size: 45px;
+}
+
+.plusButton:hover {
+	color: var(--main); 
+}
+
+a.btn_member_cancel{width:150px; height:45px; color:#3e3d3c; font-weight:bold; font-size:13px; border:1px solid #cccccc; background:#fff; cursor:pointer;}
+a.btn_member_cancel:hover{color:#333333; border:1px solid #bbbbbb; background-color: #dcdcdc;}

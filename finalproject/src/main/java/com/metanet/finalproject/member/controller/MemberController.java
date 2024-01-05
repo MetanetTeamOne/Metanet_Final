@@ -214,6 +214,7 @@ public class MemberController {
     	}
     	
         memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>");
         return "redirect:/logout";
     }
     
@@ -236,26 +237,20 @@ public class MemberController {
 
   	@GetMapping("/card")
   	public String getCard(Model model, String memberEmail) {
-//  			if(memberEmail != null && !memberEmail.equals("")) {
-  			Member member = memberService.selectMember(memberEmail);
-  			model.addAttribute("member", member);
-  			return "member/card_view";
-//  			}else {
-//  				return "member/login";
-//  			}
+		Member member = memberService.selectMember(memberEmail);
+		model.addAttribute("member", member);
+		return "member/card_view";
+
   	}
 
   	
   	//카드 등록 폼
   	@GetMapping("/card/insert")
   	public String insertCard(Model model, String memberEmail) {
-//  			if(memberEmail != null && !memberEmail.equals("")) {
-  			Member member = memberService.selectMember(memberEmail);
-  			model.addAttribute("member", member);
-  			return "member/card_insert";
-//  			}else {
-//  				return "member/login";
-//  			}
+		Member member = memberService.selectMember(memberEmail);
+		model.addAttribute("member", member);
+		return "member/card_insert";
+
   	}
   	
   	//카드 등록 처리
