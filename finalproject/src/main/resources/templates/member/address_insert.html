@@ -22,25 +22,27 @@
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>배송지 수정</h3>
+                            <h3>배송지 추가</h3>
                             <!-- Content -->
                             <div class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/address/update">
+                                <form class="base_info_sec" method="post" action="/member/address/insert">
+									<input type="hidden" id="addressId" name="addressId" value="">
+									<input type="hidden" id="" name="" value="">
                                     <table>
                                         <tbody>
-                                           	<tr>
-                                                <th><span class="important">기본 주소</span></th>
+                                            <tr>
+                                                <th><span class="important">새로운 주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" class="inputData" readonly required>
+                                                        <input type="text" id="addressZipcode" placeholder="우편번호" class="inputData" required readonly>
                                                         <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            <input type="text" id="addressRoad" name="addressRoad" class="inputData" readonly required>
+                                                            <input type="text" id="addressRoad" name="addressRoad" placeholder="도로명주소" class="inputData" required readonly>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            <input type="text" id="addressContent" name="addressContent" required>
+                                                            <input type="text" id="addressContent" name="addressContent" placeholder="상세주소" required>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -48,8 +50,8 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="button" class="btn_member_cancel" onclick="location.href ='/member/address'">취소</button>
-                                        <button type="submit" class="btn_comfirm js_btn_join" >완료</button>
+										<button type="button" id="btnCancel" class="btn_member_cancel" onclick="location.href ='/member/address'">취소</button>
+                                        <button type="submit" class="btn_comfirm js_btn_join">완료</button>
                                     </div>
                                 </form>
                             </div>

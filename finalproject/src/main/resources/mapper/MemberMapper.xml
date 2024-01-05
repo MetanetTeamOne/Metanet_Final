@@ -37,14 +37,14 @@
         <set>
 			<if test="member.memberName != null">member_name = #{member.memberName},</if>
 			<if test="member.memberPhoneNumber != null">member_phone_number = #{member.memberPhoneNumber},</if>
-			<if test="member.memberPassword != null">member_password = #{member.memberPassword},</if>
+			<if test="member.newPassword != null">member_password = #{member.newPassword},</if>
 		</set>
-		where member_email = #{email}
+		where member_email = #{member.memberEmail}
     </update>
 
     <delete id="deleteMember">
         delete from member
-        where member_password = #{password}
+        where member_email = #{memberEmail} and member_password = #{memberPassword}
     </delete>
 
 	<select id="getMemberId" resultType="int">
@@ -54,39 +54,36 @@
 	</select>
     
 	<select id="selectMember" parameterType="string" resultType="com.metanet.finalproject.member.model.Member">
-		select MEMBER_ID,
-				MEMBER_NAME,
-				MEMBER_EMAIL,
-				MEMBER_PHONE_NUMBER,
-				MEMBER_PASSWORD,
-				MEMBER_JOIN_DATE,
-				MEMBER_JOIN_STATE,
-				MEMBER_SUBSCRIBE,
-				MEMBER_SUBSCRIBE_DATE,
-				MEMBER_CARD
-		from member 
-		<if test="memberEmail != null">
-			where MEMBER_EMAIL=#{memberEmail}
-		</if>
+		select 
+			member_id as memberId,
+			member_name as memberName, 
+			member_email as memberEmail,
+			member_phone_number as memberPhoneNumber, 
+			member_password as memberPassword,
+			member_join_date as memberJoinDate, 
+			member_join_state as memberJoinState,
+			member_subscribe as memberSubscribe,
+			member_subscribe_date as memberSubScribeDate,
+			member_card as memberCard
+		from member
+		where member_email=#{memberEmail}
 	</select>
 
 	<!-- 구독신청) MEMBER_SUBSCRIBE : 1, MEMBER_SUBSCRIBE_DATE:sysdate로 update -->
-	<update id="insertSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
+<!-- 	<update id="insertSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
 			update member
 			set MEMBER_SUBSCRIBE='1',
 				MEMBER_SUBSCRIBE_DATE=sysdate
 		<if test="memberEmail != null">
 			where MEMBER_EMAIL=#{memberEmail};
 		</if>
-	</update>
+	</update> -->
 	
 	<!-- 구독해지) MEMBER_SUBSCRIBE : 0으로 update -->
 	<update id="updateSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
 		update member
-		set member_subscribe='0'
-		<if test="memberEmail != null">
-			where MEMBER_EMAIL=#{memberEmail}
-		</if>
+		set member_subscribe=#{memberSubscribe}
+		where member_email=#{memberEmail}
 	</update>
 	
 	<!-- 구독 상태 조회 -->

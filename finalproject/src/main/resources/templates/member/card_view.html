@@ -2,18 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
-	<!--Header -->
-	<div th:replace="~{/include/member/header :: header}"></div>
-
+    <!-- Header -->
+    <div th:replace="~{/include/member/header :: header}"></div>
 
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
             <!-- Section left -->
             <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
-            
+
             <!-- Section right -->
-            <div class="col-sm-6 col-md-7 col-lg-9">
+            <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
                         <h2>내 정보 관리</h2>
@@ -27,19 +26,15 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <th><span>아이디</span>
-                                                </th>
+                                                <th><span>아이디</span></th>
                                                 <td>
                                                     <div class="member_warning">
-                                                        <input type="text"
-                                                            id="memId"
-                                                            name="memId" readonly>
+                                                        <input type="text" id="memId" name="memId" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th><span>결제</span>
-                                                </th>
+                                                <th><span>결제</span></th>
                                                 <td>
                                                     <div class="member_warning">
                                                         <span style="font-weight: bold;">1. 워시플러스 구독 신청 시</span><br>
@@ -48,12 +43,11 @@
                                                         결제수단 등록은 <span style="color: #0e8ff2; padding-left: 3px;padding-right: 5px;">마이페이지 > 내 정보 관리 > 카드 관리</span>에서 관리하실 수 있습니다.<br><br>
                                                         <span style="font-weight: bold;">2. 직접 결제 시</span><br>
                                                         등록된 카드로 세탁물 직접 결제를 진행합니다.<br>
-                                                        이떄는 등록된 결제수단 이외의 결제수단 선택 역시 가능합니다.<br>
+                                                        이때는 등록된 결제수단 이외의 결제수단 선택 역시 가능합니다.<br>
                                                         결제수단을 등록하시면, 조금 더 편하게 워시워시를 이용하실 수 있습니다.<br>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
@@ -70,10 +64,10 @@
     </div>
 
     <!-- Top Button -->
-	<div th:replace="~{/include/member/topButton :: topButton}"></div>
-    
+    <div th:replace="~{/include/member/topButton :: topButton}"></div>
+
     <!-- Footer -->
-	<div th:replace="~{/include/member/footer :: footer}"></div>
-    
+    <div th:replace="~{/include/member/footer :: footer}"></div>
+
 </body>
 </html>

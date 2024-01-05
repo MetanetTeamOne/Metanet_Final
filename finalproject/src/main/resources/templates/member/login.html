@@ -2,50 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
-	<!--Header -->
-	<div th:replace="~{/include/member/header :: header}"></div>
-
+    <!-- Header -->
+    <div th:replace="~{/include/member/header :: header}"></div>
 
     <!-- Main -->
     <div class="login_page">
-    <div id="content">
-        <div id="login_tab" class="tab_con" style="display: block;">
-            <div class="top">
-                <h3><strong class="txt_blue">츄츄</strong> 로그인</h3>
+        <div id="content">
+            <div id="login_tab" class="tab_con" style="display: block;">
+                <div class="top">
+                    <h3><strong class="txt_blue">츄츄</strong> 로그인</h3>
                 </div>
-            <div class="login_form">
-                <fieldset>
-                    <legend></legend>
-                    <form id="frma" name="frm" method="post">
-                        <div class="ipt_wrap">
-                            <legend for="userid">아이디</legend>
-                            <input type="email" id="userid" name="userid" class="input_text rounded" placeholder="아이디" >
-                        </div>
-                        <div class="ipt_wrap">
-                            <legend for="userpw">패스워드</legend>
-                            <input type="password" id="userpw" name="userpw" class="input_text rounded" placeholder="패스워드" >
-                        </div>
-                        <div class="ipt_wrap">
-                            <div class="chks chk_agree fl">
-                                <label class="chkcon" id="chk_saveid"><input type="checkbox" title="아이디저장" name="saveid" value="Y"> <span class="txt">아이디저장</span><span class="bl"></span></label>
+                <div class="login_form">
+                    <fieldset>
+                        <legend></legend>
+                        <form method="post" action="/login">
+                            <div class="ipt_wrap">
+                                <legend for="userid">아이디</legend>
+                                <input type="email" id="memberEmail" name="memberEmail" class="input_text rounded" placeholder="아이디">
                             </div>
-                            <div class="btns_wrap">
-                                <a th:href="@{/member/insert}" class="small">회원가입</a>
+                            <div class="ipt_wrap">
+                                <legend for="userpw">패스워드</legend>
+                                <input type="password" id="memberPassword" name="memberPassword" class="input_text rounded" placeholder="패스워드">
                             </div>
-                        </div>
-                    </form>
-                    <a class="btn_login_cont btn_gologin_now" th:href="@{/}">로그인</a>
-                </fieldset>
+                            <div class="ipt_wrap">
+                                <div class="chks chk_agree fl">
+                                    <label class="chkcon" id="chk_saveid">
+                                        <input type="checkbox" title="아이디저장" name="saveid" value="Y">
+                                        <span class="txt">아이디저장</span>
+                                        <span class="bl"></span>
+                                    </label>
+                                </div>
+                                <div class="btns_wrap">
+                                    <a th:href="@{/member/insert}" class="small">회원가입</a>
+                                </div>
+                            </div> 
+                            <button type="submit" class=" btn_login_cont">로그인</button>
+                        </form>
+                    </fieldset>
+                </div>
             </div>
         </div>
-        </div>
-	</div>
+    </div>
 
     <!-- Top Button -->
-	<div th:replace="~{/include/member/topButton :: topButton}"></div>
-    
+    <div th:replace="~{/include/member/topButton :: topButton}"></div>
+
     <!-- Footer -->
-	<div th:replace="~{/include/member/footer :: footer}"></div>
-    
+    <div th:replace="~{/include/member/footer :: footer}"></div>
+
 </body>
 </html>

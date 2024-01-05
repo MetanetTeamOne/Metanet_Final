@@ -2,18 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
-	<!--Header -->
-	<div th:replace="~{/include/member/header :: header}"></div>
-
+    <!--Header -->
+    <div th:replace="~{/include/member/header :: header}"></div>
 
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
             <!-- Section left -->
             <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
-            
+
             <!-- Section right -->
-            <div class="col-sm-6 col-md-7 col-lg-9">
+            <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
                         <h2>내 정보 관리</h2>
@@ -23,33 +22,40 @@
                             <h3>배송지 관리</h3>
                             <!-- Content -->
                             <div class="my_page_form">
-                                <form class="base_info_sec" action="" method="">
+                                <div class="base_info_sec">
                                     <table>
                                         <tbody>
+											<!-- 반복 돌면 됨 -->
                                             <tr>
                                                 <th><span class="important">기본 주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" name="zonecode" readonly="readonly" value="">
-                                                        <input type="hidden" name="zipcode" value="">
+                                                        <input type="text" name="addressZipcode" id="addressZipcode" class="inputData" readonly>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            <input type="text" name="address" readonly="readonly" value="">
+                                                            <input type="text" name="addressRoad" id="addressRoad" class="inputData" readonly>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            <input type="text" name="addressSub" value="">
+                                                            <input type="text" name="addressContent" id="addressContent" class="inputData" readonly>
                                                         </div>
+                                                    </div>
+                                                </td>
+                                                <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
+                                                    <div class="member_warning mb-3">
+                                                        <a th:href="@{/member/address/update}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">수정</a>
+                                                    </div>
+                                                    <div class="member_warning">
+                                                        <a th:href="@{/member/address/delete/__${addressId}__}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">삭제</a>
                                                     </div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="button" class="btn_member_cancel" onclick="location.href ='/member/address/update'">수정</button>
-                                        <button type="button" class="btn_comfirm js_btn_join" onclick="location.href ='/'">추가</button>
+                                        <button type="button" class="btn_comfirm js_btn_join" onclick="location.href ='/member/address/insert'">추가</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -59,10 +65,10 @@
     </div>
 
     <!-- Top Button -->
-	<div th:replace="~{/include/member/topButton :: topButton}"></div>
-    
+    <div th:replace="~{/include/member/topButton :: topButton}"></div>
+
     <!-- Footer -->
-	<div th:replace="~{/include/member/footer :: footer}"></div>
-    
+    <div th:replace="~{/include/member/footer :: footer}"></div>
+
 </body>
 </html>

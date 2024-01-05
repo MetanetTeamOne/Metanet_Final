@@ -31,7 +31,7 @@ public class AddressController {
 	// 사용자 주소 입력
 	@GetMapping("/insert")
 	public String insetAddress(Model model) {
-		return "member/home";
+		return "member/address_insert";
 	}
 	
 	@PostMapping("/insert")
@@ -39,8 +39,8 @@ public class AddressController {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 입력 : " + address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		addressService.insertAddress(address);
-		return "member/home";
+//		addressService.insertAddress(address);
+		return "redirect:/member/address";
 	}
 	
 	// 사용자 주소 수정
@@ -55,7 +55,7 @@ public class AddressController {
 		System.out.println("사용자 주소 수정 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		addressService.updateAddress(address);
-		return "member/home";
+		return "redirect:/member/address";
 	}
 	
 	@PostMapping("/delete")
@@ -64,6 +64,6 @@ public class AddressController {
 		System.out.println("사용자 주소 삭제 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		addressService.deleteAddress(address);
-		return "member/home";
+		return "redirect:/member/address";
 	}
 }
