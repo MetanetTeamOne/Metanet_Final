@@ -30,7 +30,7 @@ public class AddressService implements IAddressService{
 	}
 
 	@Override
-	public void deleteAddress(Address address) {
+	public void deleteAddress(int address) {
 		addressRepository.deleteAddress(address);
 	}
 

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
+	<p th:text="${address}"></p>
     <!--Header -->
     <div th:replace="~{/include/member/header :: header}"></div>
 
@@ -26,29 +27,39 @@
                                     <table>
                                         <tbody>
 											<!-- 반복 돌면 됨 -->
-                                            <tr>
-                                                <th><span class="important">기본 주소</span></th>
+                                            <tr th:each="address : ${addressList}">
+                                                <th><span class="important">배송주소</span></th>
+                                                <input type="hidden" id="addressId" name="addressId" th:value="${address.addressId}">
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" name="addressZipcode" id="addressZipcode" class="inputData" readonly>
+                                                        우편번호 <input type="text" name="addressZipcode" id="addressZipcode" th:value="${address.addressZipcode}" class="inputData" readonly>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            <input type="text" name="addressRoad" id="addressRoad" class="inputData" readonly>
+                                                            지번주소 <input type="text" name="addressRoad" id="addressRoad" th:value="${address.addressRoad}" class="inputData" readonly>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            <input type="text" name="addressContent" id="addressContent" class="inputData" readonly>
+                                                            상세주소 <input type="text" name="addressContent" id="addressContent" th:value="${address.addressContent}" class="inputData" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="address_input">
+                                                        <div class="member_warning">
+                                                            요청사항 <input type="text" name="addressRoad" id="addressRoad" th:value="${address.addressDetail}" class="inputData" readonly>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td style="background: #fbfbfb; text-align: center; padding-right: 15px;">
                                                     <div class="member_warning mb-3">
-                                                        <a th:href="@{/member/address/update}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">수정</a>
+                                                        <button th:href="@{/member/address/update}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">수정</a>
                                                     </div>
                                                     <div class="member_warning">
-                                                        <a th:href="@{/member/address/delete/__${addressId}__}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">삭제</a>
+														<form method="post" action="">
+															
+															<button th:href="@{/member/address/delete/__${address.addressId}__}" id="order_detail_list" class="btn_post_search" style="text-decoration-line: none">삭제</button>
+														</form>
                                                     </div>
                                                 </td>
+                                      
                                             </tr>
                                         </tbody>
                                     </table>

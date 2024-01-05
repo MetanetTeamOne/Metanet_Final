@@ -8,5 +8,5 @@ public interface IAddressService {
 	List<Address> getAddress(int memberId);
 	void insertAddress(Address address);
 	void updateAddress(Address address);
-	void deleteAddress(Address address);
+	void deleteAddress(int address);
 }

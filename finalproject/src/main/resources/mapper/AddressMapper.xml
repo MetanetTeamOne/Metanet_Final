@@ -50,7 +50,7 @@
 	    </set>
 	    WHERE address_id = #{addressId}
 	</update>
-	<delete id="deleteAddress" parameterType="com.metanet.finalproject.address.model.Address">
+	<delete id="deleteAddress" parameterType="int">
 		DELETE FROM address 
 		WHERE address_id = #{addressId}
 	</delete>
