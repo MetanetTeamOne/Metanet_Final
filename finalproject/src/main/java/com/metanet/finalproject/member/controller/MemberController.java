@@ -2,16 +2,14 @@ package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
 
+import com.metanet.finalproject.member.model.ResponseDto;
 import com.metanet.finalproject.role.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -82,10 +80,12 @@ public class MemberController {
 
 	@Operation(summary = "회원 가입 view")
     @GetMapping("/insert")
-    public String insertMember(HttpSession session){
+    public String insertMember(HttpSession session, Model model){
+		MemberInsertDto member = new MemberInsertDto();
 		/*String csrfToken = UUID.randomUUID().toString();
 		session.setAttribute("csrfToken", csrfToken);
 		log.info("/member/insert, GET {}", csrfToken);*/
+		model.addAttribute("member", member);
 		return "member/signup";
     }
 
@@ -153,6 +153,22 @@ public class MemberController {
 		session.invalidate();
         return "redirect:/member/signup_ok";
     }
+
+	@GetMapping("/emailCheck")
+	@ResponseBody
+	public ResponseDto<?> emailCheck(String email){
+		if (email == null || email.isEmpty()) {
+			return new ResponseDto<>(-1, "이메일을 입력해주세요", null);
+		}
+
+		Member member = memberService.selectMember(email);
+		if (member != null) {
+			return new ResponseDto<>(1, "같은 이메일이 존재합니다.", false);
+		} else {
+			return new ResponseDto<>(1, "회원가입 가능한 이메일입니다.", true);
+		}
+	}
+
     
 	@Operation(summary = "회원 가입 완료 view")
     @GetMapping("/signup_ok")
