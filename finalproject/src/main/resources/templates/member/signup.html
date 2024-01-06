@@ -32,7 +32,7 @@
                 </div>
                 <!-- //member_tit -->
                 <div class="member_cont">
-                    <form method="post" action="/member/insert" th:object="${dto}" onsubmit="return valid()">
+                    <form method="post" action="/member/insert" th:object="${member}" onsubmit="return valid()">
                         <!-- 회원가입/정보 기본정보 -->
                         <div class="base_info_box">
                             <h3>기본정보</h3>
@@ -48,12 +48,9 @@
                                         <th><span class="important">아이디</span></th>
                                         <td>
                                             <div class="member_warning">
-                                                <input type="email" th:field="*{memberEmail}" th:errorclass="field-error" id="memberEmail" name="memberEmail"
+                                                <input type="email" th:field="*{memberEmail}" id="memberEmail" name="memberEmail"
                                                        data-pattern="memberEmail"
                                                        placeholder="이메일" required>
-                                                <div class="field-error" th:errors="*{memberEmail}">
-                                                    이메일 오류
-                                                </div>
                                                 <button type="button" class="btn_post_search"
                                                         onclick="check()">아이디 확인
                                                 </button>
@@ -64,11 +61,8 @@
                                         <th><span class="important">비밀번호</span></th>
                                         <td class="member_password">
                                             <div class="member_warning">
-                                                <input type="password" oninput="pwCheck()" th:field="*{memberPassword}" id="memberPassword" name="memberPassword"
+                                                <input type="password" th:field="*{memberPassword}" id="memberPassword" name="memberPassword"
                                                        autocomplete="off" placeholder="비밀번호" required>
-                                            </div>
-                                            <div class="field-error" th:if="${#fields.hasErrors('memberPassword')}" th:errors="*{memberPassword}">
-                                                비밀번호 오류
                                             </div>
                                         </td>
                                     </tr>
@@ -76,12 +70,8 @@
                                         <th><span class="important">비밀번호 확인</span></th>
                                         <td>
                                             <div class="member_warning">
-                                                <input type="password" class="check-id" oninput="pwCheck()" th:field="*{reMemberPassword}" th:errorclass="field-error" id="reMemberPassword"
+                                                <input type="password" class="check-id" th:field="*{reMemberPassword}" id="reMemberPassword"
                                                        autocomplete="off" placeholder="비밀번호 재입력" required>
-                                            </div>
-                                            <span id="pwConfirm"></span>
-                                            <div class="field-error" th:errors="*{reMemberPassword}">
-                                                비밀번호 오류
                                             </div>
                                         </td>
                                     </tr>
@@ -89,12 +79,9 @@
                                         <th><span class="important">이름</span></th>
                                         <td>
                                             <div class="member_warning">
-                                                <input type="text" th:field="*{memberName}" th:errorclass="field-error" id="memberName" name="memberName"
+                                                <input type="text" th:field="*{memberName}" id="memberName" name="memberName"
                                                        data-pattern="memberName"
                                                        value="" maxlength="30" placeholder="이름" required>
-                                            </div>
-                                            <div class="field-error" th:errors="*{memberName}">
-                                                이름 오류
                                             </div>
                                         </td>
                                     </tr>
@@ -102,12 +89,9 @@
                                         <th><span class="important">휴대폰번호</span></th>
                                         <td class="member_address">
                                             <div class="address_postcode">
-                                                <input type="text" th:field="*{memberPhoneNumber}" th:errorclass="field-error" id="memberPhoneNumber" name="memberPhoneNumber"
+                                                <input type="text" th:field="*{memberPhoneNumber}" id="memberPhoneNumber" name="memberPhoneNumber"
                                                        maxlength="12" placeholder="- 없이 입력하세요."
                                                        data-pattern="gdNum" value="" required>
-                                            </div>
-                                            <div class="field-error" th:errors="*{memberPhoneNumber}">
-                                                휴대폰 오류
                                             </div>
                                             <div class="form_element">
                                                 <input type="checkbox" id="smsFl" name="smsFl" value="y"
@@ -121,31 +105,22 @@
                                         <th><span class="important">주소</span></th>
                                         <td class="member_address">
                                             <div class="address_postcode">
-                                                <input type="text" th:field="*{addressZipcode}" th:errorclass="field-error" id="addressZipcode" name="addressZipcode"
+                                                <input type="text" th:field="*{addressZipcode}" id="addressZipcode" name="addressZipcode"
                                                        placeholder="우편번호"
                                                        class="inputData" readonly>
-                                                <div class="field-error" th:errors="*{addressZipcode}">
-                                                    우편번호 오류
-                                                </div>
                                                 <button type="button" class="btn_post_search"
                                                         onclick="daumPostcode()">우편번호 찾기
                                                 </button>
                                             </div>
                                             <div class="address_input">
                                                 <div class="member_warning">
-                                                    <input type="text" th:field="*{addressRoad}" th:errorclass="field-error" id="addressRoad" name="addressRoad"
+                                                    <input type="text" th:field="*{addressRoad}" id="addressRoad" name="addressRoad"
                                                            placeholder="도로명/지번주소" class="inputData" readonly>
                                                 </div>
-                                                <div class="field-error" th:errors="*{addressRoad}">
-                                                    도로명/지번주소 오류
-                                                </div>
                                                 <div class="member_warning js_address_sub">
-                                                    <input type="text" th:field="*{addressContent}" th:errorclass="field-error" id="addressContent"
+                                                    <input type="text" th:field="*{addressContent}" id="addressContent"
                                                            name="addressContent" placeholder="상세주소"
                                                            required>
-                                                    <div class="field-error" th:errors="*{addressContent}">
-                                                        상세주소 오류
-                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -209,14 +184,6 @@
         }).fail((err) => {
             console.log('상태코드 200밖에 없어서 실행 안됨')
         });
-    }
-
-    function pwCheck(){
-        if($('#memberPassword').val() == $('#reMemberPassword').val()){
-            $('#pwConfirm').text('비밀번호 일치').css('color', 'green')
-        }else{
-            $('#pwConfirm').text('비밀번호 불일치').css('color', 'red')
-        }
     }
 </script>
 </html>
