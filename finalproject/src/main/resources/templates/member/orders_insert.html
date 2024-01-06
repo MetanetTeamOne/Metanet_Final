@@ -1,224 +1,651 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{include/member/head :: head}"></head>
+<head th:replace="~{/include/member/head :: head}"></head>
 
 <body>
+	<!--Header -->
+	<div th:replace="~{/include/member/header :: header}"></div>
 
-    <!-- Header -->
-    <div th:replace="~{include/member/header :: header}"></div>
 
-    <div class="inner">
-        <div>
-            <div class="service_info_text my-5 py-1" style="border-bottom: 1px solid #929292;">
-                <h2>세탁신청</h2>
+	<div class="inner">
+		<div>
+			<div class="service_info_text my-5 py-1" style="border-bottom: 1px solid #929292;">
+				<h2 class="title">세탁신청</h2>
+			</div>
+
+			<div class="row g-5">
+				<!--<div class="col-md-5 col-lg-4 order-md-last">-->
+				<div class="col-md-5 col-lg-4 order-md-last fly">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="text-primary title">세탁 목록</span>
+						<span class="badge bg-primary rounded-pill" id="totalLaundry"></span>
+					</h4>
+					<ul class="list-group mb-3">
+						<li id="laundryUl">
+							<li class="list-group-item d-flex justify-content-between lh-sm">
+								<div>
+									<h6 class="my-0">세탁 상품</h6>
+									<small id="selectedLaundryDescription" class="text-body-secondary">선택된 상품</small>
+								</div>
+								<span id="selectedLaundryDescriptionPrice" class="text-body-secondary"></span>
+							</li>
+						</li>
+
+						<li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+							<div class="text-success">
+								<h6 class="my-0">할인된 가격</h6>
+							</div>
+							<strong><span id="discountPrice" class="text-success"></span></strong>
+						</li>
+						<li class="list-group-item d-flex justify-content-between title">
+							<span>총액</span>
+							<strong><span id="totalPrice"></span></strong>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-md-7 col-lg-8">
+					<form class="needs-validation was-validated" method="post" action="/orders/insert">
+						<div class="row g-3">
+
+							<!--<div class="col-12">
+								<label for="username" class="form-label title">test</label>
+								<div class="input-group has-validation">
+									<input type="text" class="form-control" id="username" placeholder="김워시"
+										name="laundryPrice" th:value="${laundryList[0].laundryPrice}" required="">
+									<input type="text" class="form-control" id="username" placeholder="김워시"
+										name="laundryCategoryName" th:value="${laundryCategoryList[1].laundryCategoryName}" required="">
+										<input type="text" class="form-control" id="username" placeholder="김워시"
+										name="laundryCategoryName" th:value="${laundryCategoryList[2].laundryCategoryName}" required="">
+										<input type="text" class="form-control" id="username" placeholder="김워시"
+										name="laundryCategoryName" th:value="${laundryCategoryList[3].laundryCategoryName}" required="">
+								</div>
+							</div>-->
+
+
+							<div class="col-12">
+								<label for="username" class="form-label title">이름</label>
+								<div class="input-group has-validation">
+									<input type="text" class="form-control" id="username" placeholder="김워시"
+										name="memberName" th:value="${member.memberName}" required="">
+									<div class="invalid-feedback title">
+										이름을 입력하세요
+									</div>
+								</div>
+							</div>
+							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
+							<div class="col-sm-4" style="margin-top: 0!important;">
+								<label for="firstName" class="form-label title"></label>
+								<input type="text" class="form-control" id="firstName" placeholder="우편번호" value=""
+									name="addressZipcode" th:value="${addressList[0].addressZipcode}" required="">
+								<div class="invalid-feedback title">
+									우편번호를 입력하세요
+								</div>
+							</div>
+
+							<div class="col-sm-4" style="margin-top: 0!important;">
+								<label for="lastName" class="form-label title"></label>
+								<input type="text" class="form-control" id="lastName" placeholder="도로명 주소" value=""
+									name="addressRoad" th:value="${addressList[0].addressRoad}" required="">
+								<div class="invalid-feedback title">
+									도로명 주소를 입력하세요
+								</div>
+							</div>
+
+							<div class="col-sm-4" style="margin-top: 0!important;">
+								<label for="lastName" class="form-label title"></label>
+								<input type="text" class="form-control" id="lastName" placeholder="상세주소" value=""
+									name="addressContent" th:value="${addressList[0].addressContent}" required="">
+								<div class="invalid-feedback title">
+									상세주소를 입력하세요
+								</div>
+							</div>
+
+							<div class="col-12">
+								<label for="email" class="form-label title">이메일 <span
+										class="text-body-secondary">(선택)</span></label>
+								<input type="email" class="form-control" id="email" name="memberEmail"
+									th:value="${member.memberEmail}" placeholder="you@example.com">
+								<div class="invalid-feedback title">
+									올바른 형식의 이메일 주소를 입력하세요
+								</div>
+							</div>
+
+							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 알림</h4>
+							<div class="my-3">
+								<div class="form-check">
+									<input id="time1" type="radio" class="form-check-input" checked="checked"
+										name="deliveryTime" required="">
+									<label class="form-check-label title" for="time1">오전 7시 이후</label>
+								</div>
+								<div class="form-check">
+									<input id="time2" type="radio" class="form-check-input" name="deliveryTime"
+										required="">
+									<label class="form-check-label title" for="time2">수거 및 배송 즉시</label>
+								</div>
+							</div>
+
+							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁 서비스 유형</h4>
+							<div class="my-3">
+								<div class="form-check">
+									<input id="laundry_service1" type="radio" class="form-check-input"
+										name="laundryType" required="" checked>
+									<label class="form-check-label title" for="laundry_service1">당일 세탁</label>
+								</div>
+								<div class="form-check">
+									<input id="laundry_service2" type="radio" class="form-check-input"
+										name="laundryType" required="">
+									<label class="form-check-label title" for="laundry_service2">일반 세탁</label>
+								</div>
+							</div>
+
+							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁물 유형</h4>
+							<div class="my-3">
+								<div class="form-check">
+									<input id="laundry1" name="laundryCategory" type="radio" class="form-check-input"
+										required="" checked>
+									<label class="form-check-label title" for="laundry1">생활 빨래</label>
+								</div>
+								<div class="form-check">
+									<input id="laundry2" name="laundryCategory" type="radio" class="form-check-input"
+										required="">
+									<label class="form-check-label title" for="laundry2">개별 클리닝</label>
+								</div>
+							</div>
+
+							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁물 추가
+								<img id="address_plus"
+									src="https://github.com/KHaeWon/MetanetWebJSP_EL_JSTL/assets/127920368/ce9dda45-093a-40b1-9843-3ee3629f29d0">
+							</h4>
+							<div id="laundryPlus" class="col-md-12">
+								<!--<div class="col-md-6">
+									<label for="country" class="form-label title">대분류</label>
+									<select class="form-select" id="country" name="laundryCategoryName" required="">
+										<option th:each="category : ${laundryCategoryList}"
+										th:value="${category.laundryCategoryId}"
+										th:text="${category.laundryCategoryName}">
+									</option>
+									</select>
+									<div class="invalid-feedback title">
+										대분류 카테고리를 선택해주세요.
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="country" class="form-label title">소분류</label>
+									<select class="form-select" id="country2" name="laundryName" required="">
+										<option th:each="category : ${laundryList}" th:value="${category.laundryId}"
+										th:text="${category.laundryName}">
+									</option>
+									</select>
+									<div class="invalid-feedback title">
+										소분류 카테고리를 선택해주세요.
+									</div>
+								</div>
+							</div>-->
+							</div>
+
+							<hr class="my-4">
+							<hr class="my-4">
+							<h4 class="mb-3 title" style="margin-top: 1rem;margin-bottom: 0!important;">결제방식</h4>
+
+							<div class="my-3">
+								<div class="form-check">
+									<input id="credit" name="paymentMethod" type="radio" class="form-check-input"
+										checked="" required="">
+									<label id="creditCard" class="form-check-label title" for="credit">직접 결제</label>
+								</div>
+								<div class="form-check">
+									<input id="debit" name="paymentMethod" type="radio" class="form-check-input"
+										required="">
+									<label id="washPlus" class="form-check-label title" for="debit">구독 서비스</label>
+								</div>
+							</div>
+
+							<div class="row gy-3" id="directPaymentForm">
+								<div class="col-md-12">
+									<label for="cc-number" class="form-label title">카드번호</label>
+									<input type="text" class="form-control" id="cc-number" placeholder="" required="">
+									<div class="invalid-feedback title">
+										카드번호는 필수입니다
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<label for="cc-name" class="form-label title">카드사</label>
+									<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
+								<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
+									<select class="form-select" id="country" required="">
+										<option value="">선택하세요.</option>
+										<option>국민</option>
+										<option>신한</option>
+										<option>농협</option>
+										<option>BC</option>
+									</select>
+									<div class="invalid-feedback title">
+										카드사는 필수입니다
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<label for="cc-expiration" class="form-label title">유효날짜</label>
+									<input type="text" class="form-control" id="cc-expiration" placeholder=""
+										required="">
+									<div class="invalid-feedback title">
+										유효날짜는 필수입니다
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<label for="cc-cvv" class="form-label title">CVC</label>
+									<input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+									<div class="invalid-feedback title">
+										CVC 번호는 필수입니다
+									</div>
+								</div>
+							</div>
+							<hr class="my-4">
+							<div class="btn_center_box">
+								<button type="button" class="btn_member_cancel title"
+									th:onclick="|javascript:location.href='/'|">취소</button>
+								<!--<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn"
+									th:onclick="|javascript:location.href='/orders/insert'|">신청</button>-->
+								<button type="button" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="section-background section-cover"></div>
+
+	<!--    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 변경</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <div class="row g-5">
-                <div class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">세탁 목록</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Product name</h6>
-                                <small class="text-body-secondary">Brief description</small>
-                            </div>
-                            <span class="text-body-secondary">$12</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Second product</h6>
-                                <small class="text-body-secondary">Brief description</small>
-                            </div>
-                            <span class="text-body-secondary">$8</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Third item</h6>
-                                <small class="text-body-secondary">Brief description</small>
-                            </div>
-                            <span class="text-body-secondary">$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                            <div class="text-success">
-                                <h6 class="my-0">Promo code</h6>
-                                <small>EXAMPLECODE</small>
-                            </div>
-                            <span class="text-success">−$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
-                        </li>
-                    </ul>
+            <div class="modal-body">
+               <div class="col-md-4">
+                  <label for="validationServer01" class="form-label">비밀번호</label>
+                  <input type="text" class="form-control is-valid" id="password_old" name="password_old" value="" required>
+                  <label for="validationServer01" class="form-label">비밀번호 확인</label>
+                  <input type="text" class="form-control is-valid" id="password_new" name="password_new" value="" required>
                 </div>
-                <div class="col-md-7 col-lg-8">
-                    <h4 class="mb-3">Billing address</h4>
-                    <form class="needs-validation was-validated" method="post">
-                        <div class="row g-3">
-                            <div class="col-sm-6">
-                                <label for="firstName" class="form-label">First name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid first name is required.
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <label for="lastName" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
-                                <div class="invalid-feedback">
-                                    Valid last name is required.
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="username" class="form-label">Username</label>
-                                <div class="input-group has-validation">
-                                    <span class="input-group-text">@</span>
-                                    <input type="text" class="form-control" id="username" placeholder="Username" required="">
-                                    <div class="invalid-feedback">
-                                        Your username is required.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="email" class="form-label">Email <span class="text-body-secondary">(Optional)</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                                <div class="invalid-feedback">
-                                    Please enter a valid email address for shipping updates.
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="address2" class="form-label">Address 2 <span class="text-body-secondary">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-                            </div>
-
-                            <div class="col-md-5">
-                                <label for="country" class="form-label">Country</label>
-                                <select class="form-select" id="country" required="">
-                                    <option value="">Choose...</option>
-                                    <option>United States</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please select a valid country.
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="state" class="form-label">State</label>
-                                <select class="form-select" id="state" required="">
-                                    <option value="">Choose...</option>
-                                    <option>California</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid state.
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="zip" class="form-label">Zip</label>
-                                <input type="text" class="form-control" id="zip" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Zip code required.
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="my-4">
-
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="same-address">
-                            <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
-                        </div>
-
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="save-info">
-                            <label class="form-check-label" for="save-info">Save this information for next time</label>
-                        </div>
-
-                        <hr class="my-4">
-
-                        <h4 class="mb-3">Payment</h4>
-
-                        <div class="my-3">
-                            <div class="form-check">
-                                <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked="" required="">
-                                <label class="form-check-label" for="credit">직접 결제</label>
-                            </div>
-                            <div class="form-check">
-                                <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
-                                <label class="form-check-label" for="debit">구독 서비스</label>
-                            </div>
-                        </div>
-
-                        <div class="row gy-3">
-                            <div class="col-md-6">
-                                <label for="cc-name" class="form-label">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                                <small class="text-body-secondary">Full name as displayed on card</small>
-                                <div class="invalid-feedback">
-                                    Name on card is required
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="cc-number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Credit card number is required
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="cc-expiration" class="form-label">Expiration</label>
-                                <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Expiration date required
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="cc-cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Security code required
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="my-4">
-                        <div class="btn_center_box">
-                            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">취소</button>
-                            <button type="submit" class="btn_comfirm js_btn_join" th:onclick="|javascript:location.href='/orders/insert'|">신청</button>
-                        </div>
-                    </form>
-                </div>
+                <div class="invalid-feedback" id="errMsg">
+                      비밀번호가 일치하지 않습니다.
+                  </div>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button type="button" class="btn btn-primary" id="btnSave" >저장</button>
+            </div>
+          </div>
         </div>
+      </div>  -->
 
-    </div>
+	<!-- Top Button -->
+	<div th:replace="~{include/member/topButton :: topButton}"></div>
 
-    <div class="section-background section-cover"></div>
+	<!-- Footer -->
+	<div th:replace="~{include/member/footer :: footer}"></div>
+
+	<script>
+
+		$(function () {
+			var flyElement = $('.fly');
+			var initialTop = flyElement.offset().top;
+			var headerHeight = $('.header').outerHeight();
+			$(window).scroll(function () {
+				var sct = $(this).scrollTop();
+
+				if (sct > initialTop) {
+					flyElement.css({
+						'position': 'fixed',
+						'width': 400 + 'px',
+						'top': headerHeight + 'px',
+						'left': 62 + '%'
+					});
+				}
+			});
+		});
+
+		// selectbox option 생성
+		function init() {
+			let sClassHtml = '<option value="">선택하세요.</option>';
+			let sItemHtml = '<option value="">선택하세요.</option>';
+
+			for (const key in objTest) {
+				sClassHtml += `<option value="${key}">${key}</option>`;
+
+				const list = objTest[key];
+				for (let i = 0; i < list.length; i++) {
+					sItemHtml += `<option value="${list[i]}" data-class="${key}">${list[i]}</option>`;
+				}
+			}
+			$('select[name=laundryCategoryName]').html(sClassHtml);
+			$('select[name=laundryName]').html(sItemHtml);
+
+			$('select[name=laundryName] option').each(function (idx, item) {
+				if ($(this).val() == '') return true;
+				$(this).hide();
+			});
+		}
 
 
-    <!-- Top Button -->
-    <div th:replace="~{include/member/topButton :: topButton}"></div>
+		var addressCounter = 0;
+		var totalPrice = 0;
 
-    <!-- Footer -->
-    <div th:replace="~{include/member/footer :: footer}"></div>
+		document.getElementById('insertBtn').addEventListener('click', function () {
+			if (addressCounter < 1) {
+				console.log('addressCounter>>>>', addressCounter);
+				alert('세탁물을 1개 이상 등록해주세요');
+				console.log('addressCounter>>>>', addressCounter);
+			} else {
+				document.getElementById('insertBtn').type = 'submit';
+			}
+		});
+
+		document.getElementById('address_plus').addEventListener('click', function () {
+			if (addressCounter < 3) {
+				var newRow = document.createElement('div');
+				newRow.className = 'row'; // 새로운 행에 클래스 추가
+				var currentCounter = addressCounter;
+
+				newRow.innerHTML = `
+            <h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁물 삭제
+                <img class="address_minus" src="https://github.com/KHaeWon/MetanetJavaTask/assets/127920368/627ae73b-b8f9-4cfe-a7e1-beb3de9ec4bd" alt="">
+            </h4>
+            <div class="col-md-6">
+                <label for="country" class="form-label title">대분류</label>
+                <select class="form-select laundryCategory" name="laundryCategoryName" required="">
+                </select>
+                <div class="invalid-feedback title">
+                    대분류 카테고리를 선택해주세요.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="country" class="form-label title">소분류</label>
+                <select class="form-select laundryName" name="laundryName" required="">
+                </select>
+                <div class="invalid-feedback title">
+                    소분류 카테고리를 선택해주세요.
+                </div>
+            </div>
+        `;
+
+				document.getElementById('laundryPlus').appendChild(newRow);
+
+				// 추가된 행에 대해 초기화
+				initRow(newRow, currentCounter);
+
+				var newRow2 = document.createElement('li');
+				newRow2.className = 'list-group-item d-flex justify-content-between lh-sm'; // 새로운 행에 클래스 추가
+				newRow2.id = 'laundryItem' + currentCounter; // 고유한 ID 부여
+
+				newRow2.innerHTML = `
+				    <div>
+				        <h6 class="my-0">세탁 상품</h6>
+				        <small id="selectedLaundryDescription_${currentCounter}" class="text-body-secondary">선택된 상품</small>
+				    </div>
+				    <span id="selectedLaundryDescriptionPrice_${currentCounter}" class="text-body-secondary"></span>
+				`;
+				document.getElementById('laundryUl').appendChild(newRow2);
+
+				// 추가된 행에 대해 초기화
+				initRow(newRow2, currentCounter);
+
+				addressCounter++;
+				//currentCounter++;
+				currentCounter = addressCounter;
+				console.log('currentCounter>>>>', currentCounter);
+
+				if (document.querySelectorAll('.address_minus').length > 3) {
+					alert('세탁물은 3개까지 추가 가능합니다.');
+				}
+
+				$('#totalLaundry').text(addressCounter);
+
+			} else {
+				alert('세탁물은 3개까지 추가 가능합니다.');
+			}
+		});
+
+
+		document.getElementById('laundryPlus').addEventListener('click', function (e) {
+			if (e.target && e.target.classList.contains('address_minus')) {
+				var rowToRemove = e.target.closest('.row'); // 행의 클래스 사용
+				if (rowToRemove) {
+					if (addressCounter > 1) {
+						rowToRemove.remove();
+						addressCounter--;
+						alert('세탁물이 삭제되었습니다.');
+						var liIdToRemove = 'laundryItem' + addressCounter; // 삭제할 li 태그의 ID 생성
+						$('#' + liIdToRemove).remove();
+						//currentCounter--;
+						currentCounter = addressCounter;
+						$('#totalLaundry').text(addressCounter);
+
+					} else {
+						alert('세탁물은 한 개 이상 신청해야 됩니다.');
+					}
+				}
+			}
+		});
+
+
+		document.getElementById('credit').addEventListener('change', function () {
+			// 직접 결제 폼 보이기
+			document.getElementById('directPaymentForm').style.display = 'flex';
+		});
+
+		document.getElementById('debit').addEventListener('change', function () {
+			// 직접 결제 폼 숨기기
+			document.getElementById('directPaymentForm').style.display = 'none';
+		});
+
+		const objTest = {
+			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
+			하의: ['반바지', '슬랙스', '골덴바지', '면바지'],
+			신발: ['운동화', '구두', '등산화'],
+			기타: ['스카프', '목도리', '모자', '넥타이']
+		};
+
+		function initRow(row, currentCounter) {
+			let sClassHtml = '<option value="">선택하세요.</option>';
+			let sItemHtml = '<option value="">선택하세요.</option>';
+
+			for (const key in objTest) {
+				sClassHtml += `<option value="${key}">${key}</option>`;
+
+				const list = objTest[key];
+				for (let i = 0; i < list.length; i++) {
+					sItemHtml += `<option value="${list[i]}" data-class="${key}">${list[i]}</option>`;
+				}
+			}
+
+			$(row).find('.laundryCategory').html(sClassHtml);
+			$(row).find('.laundryName').html(sItemHtml);
+
+			$(row).find('.laundryName option').each(function (idx, item) {
+				if ($(this).val() == '') return true;
+				$(this).hide();
+			});
+
+			// 이벤트 핸들러 연결
+			$(row).find('.laundryCategory').change(function () {
+				const classVal = $(this).val();
+				console.log('classVal>>>', classVal)
+				$(row).find('.laundryName option').each(function (idx, item) {
+					if ($(this).data('class') == classVal || $(this).val() == '') {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+				$(row).find('.laundryName').val('');
+			});
+
+			$(row).find('.laundryName').change(function () {
+				const selectedLaundry = $(this).val();
+				$(`#selectedLaundryDescription_${currentCounter}`).text(selectedLaundry);
+
+				// 가격 설정
+				const price = getPriceForLaundry(selectedLaundry);
+				$(`#selectedLaundryDescriptionPrice_${currentCounter}`).text(price);
+				//console.log('price>>>', price);
+				//console.log('type>>>', typeof(price));
+				totalPrice += price;
+				$('#totalPrice').text(totalPrice);
+				console.log("totalPrice>>", totalPrice);
+
+				function getPriceForLaundry(laundry) {
+					switch (laundry) {
+						case "셔츠":
+							return 15000;
+						case "블라우스":
+							return 4900;
+						case "맨투맨":
+							return 5900;
+						case "후드티":
+							return 5900;
+						case "조끼":
+							return 4900;
+						case "가디건":
+							return 7900;
+						case "반바지":
+							return 3900;
+						case "골덴바지":
+							return 5900;
+						case "슬랙스":
+							return 5900;
+						case "면바지":
+							return 5900;
+						case "운동화":
+							return 5900;
+						case "구두":
+							return 5900;
+						case "등산화":
+							return 5900;
+						case "넥타이":
+							return 2900;
+						case "모자":
+							return 5900;
+						case "스카프":
+							return 6900;
+						case "목도리":
+							return 6900;
+					}
+				}
+
+
+			});
+
+			// 소분류가 변경될 때마다
+			$(document).on('change', '.laundryName', function () {
+				updateTotalPrice();
+			});
+
+			// 라디오 버튼이 변경될 때마다
+			$('input[name="paymentMethod"]').change(function () {
+				updateTotalPrice();
+			});
+
+			function updateTotalPrice() {
+				// 직접 결제(배송비 2500원) 또는 구독 서비스(배송비 0원)
+				const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
+
+				// 할인 정보 업데이트
+				let discount = 0;
+				if (selectedPaymentMethod === 'credit') {
+					discount = 0;
+				} else if (selectedPaymentMethod === 'debit') {
+					discount = 2500;
+				}
+
+				// 할인 정보 표시 업데이트
+				$('#discountPrice').text(`−$${discount}원`);
+
+				// 총액 계산 및 표시 업데이트
+				const totalPrice = calculateTotalPrice(); // 총액 계산 함수 호출
+				$('#totalPrice').text(`${totalPrice - discount}원`);
+			}
+
+			//function calculateTotalPrice() {
+			//
+			//	// 소분류(셔츠, 가디건 등)가 바뀔 때마다
+			//	$(document).on('change', '.laundryName', function () {
+			//		const selectedLaundry = $(this).val();
+			//		const price = getPriceForLaundry(selectedLaundry);
+			//		$('#selectedLaundryDescriptionPrice').text(price);
+			//		// 기타 로직 처리
+			//		const baseDeliveryPrice = 2500;
+			//		const basePrice = baseDeliveryPrice + price;
+			//		console.log('basePrice >>>>> ', basePrice);
+			//
+			//		// 할인 가격
+			//		const discount = getDiscountAmount();
+			//
+			//		// 총액 계산
+			//		const totalPrice = basePrice - discount;
+			//
+			//	});
+			//	return totalPrice;
+			//
+			//}
+			function calculateTotalPrice() {
+				// 소분류(셔츠, 가디건 등)가 바뀔 때마다
+				const selectedLaundry = $('.laundryName').val();
+				const price = getPriceForLaundry(selectedLaundry);
+				$('#selectedLaundryDescriptionPrice').text(price);
+
+				// 기타 로직 처리
+				const baseDeliveryPrice = 2500;
+				const basePrice = baseDeliveryPrice + price;
+				console.log('basePrice >>>>> ', basePrice);
+
+				// 할인 가격
+				const discount = getDiscountAmount();
+
+				// 총액 계산
+				const totalPrice = basePrice - discount;
+
+				return totalPrice;
+			}
+
+			// 페이지 로드 시 초기 업데이트
+			updateTotalPrice();
+
+
+			function getDiscountAmount() {
+				const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
+				let discount = 0;
+
+				// 선택된 결제 방법에 따라 할인 가격 설정
+				if (selectedPaymentMethod === 'credit') {
+
+					discount = 0;
+				} else if (selectedPaymentMethod === 'debit') {
+					discount = 2500;
+				}
+
+				return discount;
+			}
+
+		}
+		// 페이지 로드 시 초기 업데이트
+		updateTotalPrice();
+
+		// 페이지 로드 시 초기화
+		initRow(document.getElementById('laundryPlus'));
+
+
+	</script>
 
 </body>
+
 </html>
