@@ -2,6 +2,11 @@ package com.metanet.finalproject.address.controller;
 
 import java.util.List;
 
+import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.service.IMemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,29 @@ public class AddressController {
 	
 	@Autowired IAddressService addressService;
 
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	IMemberService memberService;
+
+	private String getTokenUserEmail(HttpServletRequest request) {
+		log.info("이메일로 토큰 받는중...");
+		String token = "";
+
+		try {
+			Cookie[] cookies = request.getCookies();
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("token")){
+					token = cookie.getValue();
+				}
+			}
+		} catch(Exception e) {
+			e.getMessage();
+		}
+
+		return jwtTokenProvider.getUserId(token);
+	}
 	@Operation(summary = "사용자 주소 조회")
 	@GetMapping("")
 	public String getAddress(Model model) {
@@ -41,7 +69,7 @@ public class AddressController {
 	@GetMapping("/insert")
 	public String insetAddress(Model model) {
 		Address address = new Address();
-		model.addAttribute("address", address); // 빈 Address 객체 만들어서 안보내면 검증 안됨
+		model.addAttribute("insertAddress", address); // 빈 Address 객체 만들어서 안보내면 검증 안됨
 		return "member/address_insert";
 	}
 	
@@ -59,16 +87,26 @@ public class AddressController {
 //		addressService.insertAddress(address);
 		return "redirect:/member/address";
 	}
-	
+
 	@Operation(summary = "사용자 주소 수정 view")
 	@GetMapping("/update")
-	public String updateAddress(Model model) {
+	public String updateAddress(Model model, HttpServletRequest request) {
+		Address address = new Address();
+//		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
+//		List<Address> address = addressService.getAddress(memberId); //리스트 반환?
+
+		model.addAttribute("updateAddress", address);
 		return "member/address_update";
 	}
 	
 	@Operation(summary = "사용자 주소 수정")
 	@PostMapping("/update")
-	public String updateAddress(Model model, Address address) {
+	public String updateAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
+
+		if (result.hasErrors()) {
+			log.info("errors: {}", result);
+			return "member/address_update";
+		}
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 수정 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
