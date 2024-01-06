@@ -114,6 +114,14 @@ public class OrdersController {
 		model.addAttribute("laundryList", laundryList);
 		return "member/orders_insert";
 	}
+	
+	@Operation(summary = "주문 입력")
+	@PostMapping("/insert")
+	public String insertOrder(Model model, Orders orders) {
+		System.out.println("orders>>"+orders);
+		//ordersService.insertOrder(orders);
+		return "redirect:/orders/insertok";
+	}
 
 	/*
 	 * @Operation(summary = "주문 입력")
