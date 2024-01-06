@@ -2,18 +2,16 @@ package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
 
+import com.metanet.finalproject.member.model.ResponseDto;
+import com.metanet.finalproject.role.model.Role;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -22,7 +20,6 @@ import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberInsertDto;
 import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
-import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,15 +44,15 @@ public class MemberController {
 	@Autowired
 	IRoleRepository roleRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Autowired
     JwtTokenProvider jwtTokenProvider;
     
 	//	Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
+		log.info("이메일로 토큰 받는중...");
         String token = "";
 
         try {
@@ -96,27 +93,40 @@ public class MemberController {
 
 	@Operation(summary = "회원 가입 view")
     @GetMapping("/insert")
-    public String insertMember(HttpSession session){
+    public String insertMember(HttpSession session, Model model){
+		MemberInsertDto member = new MemberInsertDto();
 		/*String csrfToken = UUID.randomUUID().toString();
 		session.setAttribute("csrfToken", csrfToken);
 		log.info("/member/insert, GET {}", csrfToken);*/
+		model.addAttribute("dto", member);
 		return "member/signup";
     }
 
 
 	@Operation(summary = "회원 가입")
     @PostMapping("/insert")
-    public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
-//		log.info("회원가입 진행중...");
+    public String insertMember(@Valid @ModelAttribute("dto") MemberInsertDto dto, BindingResult result, HttpSession session, Model model) {
+		log.info("회원가입 진행중...");
+		if(result.hasErrors()){
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+		if(!dto.getMemberPassword().equals(dto.getReMemberPassword())){
+			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다");
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+//		log.info("=========");
 		Member member = new Member();
 		Address address = new Address();
 //		log.info("dto: {}", dto.getMemberEmail());
 		Member findMember = memberService.selectMember(dto.getMemberEmail());
 //		log.info("아이디 {}",findMember);
+
 		if (findMember != null) {
 //			log.info("같은 아이디가 있습니다");
-			model.addAttribute("dto", dto);
-			return "member/signup";
+			model.addAttribute("member", dto);
+			return "redirect:/member/signup";
 		}
 		/*String sessionToken = (String) session.getAttribute("csrfToken");
 		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
@@ -161,16 +171,34 @@ public class MemberController {
 			member.setMemberEmail(null);
 			model.addAttribute("member", member);
 			model.addAttribute("message", "id가 이미 있습니다.");
-			return "redirect:/member/insert";
+			return "member/signup";
 		}
 		// 수정 필요
 		session.invalidate();
-        return "redirect:member/signup_ok";
+        return "redirect:/member/signup_ok";
     }
+
+	@GetMapping("/emailCheck")
+	@ResponseBody
+	public ResponseDto<?> emailCheck(String email){
+		if (email == null || email.isEmpty()) {
+			return new ResponseDto<>(-1, "이메일을 입력해주세요", null);
+		}
+
+		Member member = memberService.selectMember(email);
+		if (member != null) {
+			return new ResponseDto<>(1, "같은 이메일이 존재합니다.", false);
+		} else {
+			return new ResponseDto<>(1, "회원가입 가능한 이메일입니다.", true);
+		}
+	}
+
     
 	@Operation(summary = "회원 가입 완료 view")
     @GetMapping("/signup_ok")
-    public String insertOkMember() {
+    public String insertOkMember(HttpServletRequest request, Model model) {
+//    	Member member = memberService.selectMember(getTokenUserEmail(request)); 회원가입 완료 페이지는 회원정보 안뿌리고 그냥 가입확인만 하기로함
+//    	model.addAttribute("member",member);
         return "member/signup_ok";
     }
 
@@ -186,7 +214,6 @@ public class MemberController {
 	@PostMapping("/update")
     public String updateMember(@ModelAttribute MemberUpdateDto member, HttpServletRequest request){
         memberService.updateMember(member, getTokenUserEmail(request));
-        System.out.println(">>>>>>>>>>>>>>>>."+member);
 		return "redirect:/member";
     }
     

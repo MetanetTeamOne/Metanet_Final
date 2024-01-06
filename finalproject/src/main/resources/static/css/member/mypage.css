@@ -1,3 +1,8 @@
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
+}
+
 /* CSS Document */
 .member_wrap{width:593px; margin:20px auto 40px auto;}
 .member_pwd_wrap{margin:20px auto 40px auto;}
