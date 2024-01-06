@@ -50,6 +50,11 @@ mark,rp,rt,ruby,summary,time {display: inline;}
 */
 
 /* Header */
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
+}
+
 #header .hlogo {
     position: absolute;
     top: 24px;
