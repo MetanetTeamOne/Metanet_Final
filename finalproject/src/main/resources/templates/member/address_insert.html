@@ -2,71 +2,92 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{include/member/head :: head}"></head>
 <body>
-	<!-- JS -->
-    <script th:src="@{/js/member/searchPost.js}"></script>
-	
-    <!--Header -->
-    <div th:replace="~{include/member/header :: header}"></div>
+<!-- JS -->
+<script th:src="@{/js/member/searchPost.js}"></script>
 
-    <!-- Main -->
-    <div class="inner">
-        <div class="row mypage">
-            <!-- Section left -->
-            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+<!--Header -->
+<div th:replace="~{include/member/header :: header}"></div>
 
-            <!-- Section right -->
-            <div class="col-sm-9 col-md-9 col-lg-9">
-                <div class="mypage_right">
-                    <div class="row">
-                        <h2>내 정보 관리</h2>
-                    </div>
-                    <div class="row">
-                        <div class="mypage_header">
-                            <h3>배송지 추가</h3>
-                            <!-- Content -->
-                            <div class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/address/insert">
-									<input type="hidden" id="addressId" name="addressId" value="">
-									<input type="hidden" id="" name="" value="">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <th><span class="important">새로운 주소</span></th>
-                                                <td class="member_address">
-                                                    <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" placeholder="우편번호" class="inputData" required readonly>
-                                                        <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
-                                                    </div>
-                                                    <div class="address_input">
-                                                        <div class="member_warning">
-                                                            <input type="text" id="addressRoad" name="addressRoad" placeholder="도로명주소" class="inputData" required readonly>
-                                                        </div>
-                                                        <div class="member_warning js_address_sub">
-                                                            <input type="text" id="addressContent" name="addressContent" placeholder="상세주소" required>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="btn_right_box">
-										<button type="button" id="btnCancel" class="btn_member_cancel" onclick="location.href ='/member/address'">취소</button>
-                                        <button type="submit" class="btn_comfirm js_btn_join">완료</button>
-                                    </div>
-                                </form>
-                            </div>
+<!-- Main -->
+<div class="inner">
+    <div class="row mypage">
+        <!-- Section left -->
+        <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+
+        <!-- Section right -->
+        <div class="col-sm-9 col-md-9 col-lg-9">
+            <div class="mypage_right">
+                <div class="row">
+                    <h2>내 정보 관리</h2>
+                </div>
+                <div class="row">
+                    <div class="mypage_header">
+                        <h3>배송지 추가</h3>
+                        <!-- Content -->
+                        <div class="my_page_form">
+                            <form class="base_info_sec" method="post" action="/member/address/insert"
+                                  th:object="${address}">
+                                <input type="hidden" id="addressId" name="addressId" value="">
+                                <input type="hidden" id="" name="" value="">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <th><span class="important">새로운 주소</span></th>
+                                        <td class="member_address">
+                                            <div class="address_postcode">
+                                                <input type="text" th:field="*{addressZipcode}" id="addressZipcode"
+                                                       placeholder="우편번호" class="inputData" required readonly>
+                                                <button type="button" class="btn_post_search" onclick="daumPostcode()">
+                                                    우편번호 찾기
+                                                </button>
+                                            </div>
+                                            <div class="field-error" th:if="${#fields.hasErrors('addressZipcode')}"
+                                                 th:errors="*{addressZipcode}">
+                                                우편번호 오류
+                                            </div>
+                                            <div class="address_input">
+                                                <div class="member_warning">
+                                                    <input type="text" th:field="*{addressRoad}" id="addressRoad"
+                                                           name="addressRoad" placeholder="도로명주소" class="inputData"
+                                                           required readonly>
+                                                </div>
+                                                <div class="field-error" th:if="${#fields.hasErrors('addressRoad')}"
+                                                     th:errors="*{addressRoad}">
+                                                    도로명 오류
+                                                </div>
+                                                <div class="member_warning js_address_sub">
+                                                    <input type="text" th:field="*{addressContent}" id="addressContent"
+                                                           name="addressContent" placeholder="상세주소" required>
+                                                </div>
+                                                <div class="field-error" th:if="${#fields.hasErrors('addressContent')}"
+                                                     th:errors="*{addressContent}">
+                                                    상세주소 오류
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="btn_right_box">
+                                    <button type="button" id="btnCancel" class="btn_member_cancel"
+                                            onclick="location.href ='/member/address'">취소
+                                    </button>
+                                    <button type="submit" class="btn_comfirm js_btn_join">완료</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Top Button -->
-    <div th:replace="~{include/member/topButton :: topButton}"></div>
+<!-- Top Button -->
+<div th:replace="~{include/member/topButton :: topButton}"></div>
 
-    <!-- Footer -->
-    <div th:replace="~{include/member/footer :: footer}"></div>
+<!-- Footer -->
+<div th:replace="~{include/member/footer :: footer}"></div>
 
 </body>
 </html>
