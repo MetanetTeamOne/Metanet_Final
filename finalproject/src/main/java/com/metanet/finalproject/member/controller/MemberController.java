@@ -4,11 +4,13 @@ import java.sql.Date;
 
 import com.metanet.finalproject.member.model.ResponseDto;
 import com.metanet.finalproject.role.model.Role;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.model.Address;
@@ -85,23 +87,34 @@ public class MemberController {
 		/*String csrfToken = UUID.randomUUID().toString();
 		session.setAttribute("csrfToken", csrfToken);
 		log.info("/member/insert, GET {}", csrfToken);*/
-		model.addAttribute("member", member);
+		model.addAttribute("dto", member);
 		return "member/signup";
     }
 
 
 	@Operation(summary = "회원 가입")
     @PostMapping("/insert")
-    public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
+    public String insertMember(@Valid @ModelAttribute("dto") MemberInsertDto dto, BindingResult result, HttpSession session, Model model) {
 		log.info("회원가입 진행중...");
+		if(result.hasErrors()){
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+		if(!dto.getMemberPassword().equals(dto.getReMemberPassword())){
+			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다");
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+//		log.info("=========");
 		Member member = new Member();
 		Address address = new Address();
 		log.info("dto: {}", dto.getMemberEmail());
 		Member findMember = memberService.selectMember(dto.getMemberEmail());
 		log.info("아이디 {}",findMember);
+
 		if (findMember != null) {
 			log.info("같은 아이디가 있습니다");
-			model.addAttribute("dto", dto);
+			model.addAttribute("member", dto);
 			return "redirect:/member/signup";
 		}
 		/*String sessionToken = (String) session.getAttribute("csrfToken");

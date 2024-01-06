@@ -51,12 +51,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         
 //        System.out.println("쿠키 데이터 : " + Jwt_value);
         
-        System.out.println("결과 " + jwtTokenProvider.validateToken(Jwt_value));
+//        System.out.println("결과 " + jwtTokenProvider.validateToken(Jwt_value));
         
         
         // 유효한 토큰인지 확인합니다.
         if (Jwt_value != null && jwtTokenProvider.validateToken(Jwt_value)) {
-        	System.out.println(" 토큰 정보 " + Jwt_value);
+//        	System.out.println(" 토큰 정보 " + Jwt_value);
         	
         	
             // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
