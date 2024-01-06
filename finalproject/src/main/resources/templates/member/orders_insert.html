@@ -23,18 +23,18 @@
 					</h4>
 					<ul class="list-group mb-3">
 						<li id="laundryUl">
-							<li class="list-group-item d-flex justify-content-between lh-sm">
+							<!--<li class="list-group-item d-flex justify-content-between lh-sm">
 								<div>
 									<h6 class="my-0">세탁 상품</h6>
 									<small id="selectedLaundryDescription" class="text-body-secondary">선택된 상품</small>
 								</div>
 								<span id="selectedLaundryDescriptionPrice" class="text-body-secondary"></span>
-							</li>
+							</li>-->
 						</li>
 
 						<li class="list-group-item d-flex justify-content-between bg-body-tertiary">
 							<div class="text-success">
-								<h6 class="my-0">할인된 가격</h6>
+								<h6 class="my-0">배송비 할인</h6>
 							</div>
 							<strong><span id="discountPrice" class="text-success"></span></strong>
 						</li>
@@ -295,7 +295,12 @@
 	<div th:replace="~{include/member/footer :: footer}"></div>
 
 	<script>
-
+		const objTest = {
+			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
+			하의: ['반바지', '슬랙스', '골덴바지', '면바지'],
+			신발: ['운동화', '구두', '등산화'],
+			기타: ['스카프', '목도리', '모자', '넥타이']
+		};
 		$(function () {
 			var flyElement = $('.fly');
 			var initialTop = flyElement.offset().top;
@@ -339,6 +344,12 @@
 
 		var addressCounter = 0;
 		var totalPrice = 0;
+		var currentCounter = 0;
+		// 다음 카운터 값을 반환하고 증가시키는 함수
+		//function getNextCounter() {
+		//	return currentCounter++;
+		//}
+
 
 		document.getElementById('insertBtn').addEventListener('click', function () {
 			if (addressCounter < 1) {
@@ -385,8 +396,9 @@
 
 				var newRow2 = document.createElement('li');
 				newRow2.className = 'list-group-item d-flex justify-content-between lh-sm'; // 새로운 행에 클래스 추가
+				//var currentCounter = getNextCounter();
 				newRow2.id = 'laundryItem' + currentCounter; // 고유한 ID 부여
-
+				newRow2.setAttribute('data-counter', currentCounter);
 				newRow2.innerHTML = `
 				    <div>
 				        <h6 class="my-0">세탁 상품</h6>
@@ -401,7 +413,7 @@
 
 				addressCounter++;
 				//currentCounter++;
-				currentCounter = addressCounter;
+				//currentCounter = addressCounter;
 				console.log('currentCounter>>>>', currentCounter);
 
 				if (document.querySelectorAll('.address_minus').length > 3) {
@@ -421,15 +433,25 @@
 				var rowToRemove = e.target.closest('.row'); // 행의 클래스 사용
 				if (rowToRemove) {
 					if (addressCounter > 1) {
+
 						rowToRemove.remove();
 						addressCounter--;
-						alert('세탁물이 삭제되었습니다.');
-						var liIdToRemove = 'laundryItem' + addressCounter; // 삭제할 li 태그의 ID 생성
-						$('#' + liIdToRemove).remove();
-						//currentCounter--;
-						currentCounter = addressCounter;
-						$('#totalLaundry').text(addressCounter);
 
+						// 선택된 laundryName 값 가져오기
+						//const selectedLaundryName = rowToRemove.querySelector('.laundryName').value;
+						//console.log('selectedLaundryName>', selectedLaundryName);
+						var liIdToRemove = 'laundryItem' + currentCounter;
+
+						console.log('liIdToRemove', liIdToRemove);
+						$('#' + liIdToRemove).remove();
+
+						//currentCounter = addressCounter;
+						const totalPrice = calculateTotalPrice();
+						$('#totalPrice').text(`${totalPrice - discount}원`);
+
+						alert('세탁물이 삭제되었습니다.');
+						$('#totalLaundry').text(addressCounter);
+						currentCounter++;
 					} else {
 						alert('세탁물은 한 개 이상 신청해야 됩니다.');
 					}
@@ -448,14 +470,11 @@
 			document.getElementById('directPaymentForm').style.display = 'none';
 		});
 
-		const objTest = {
-			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
-			하의: ['반바지', '슬랙스', '골덴바지', '면바지'],
-			신발: ['운동화', '구두', '등산화'],
-			기타: ['스카프', '목도리', '모자', '넥타이']
-		};
-
 		function initRow(row, currentCounter) {
+
+			// 기존에 등록된 이벤트 핸들러 제거
+			$(row).find('.laundryName').off('change');
+
 			let sClassHtml = '<option value="">선택하세요.</option>';
 			let sItemHtml = '<option value="">선택하세요.</option>';
 
@@ -490,59 +509,23 @@
 				$(row).find('.laundryName').val('');
 			});
 
+
+
 			$(row).find('.laundryName').change(function () {
 				const selectedLaundry = $(this).val();
 				$(`#selectedLaundryDescription_${currentCounter}`).text(selectedLaundry);
 
 				// 가격 설정
-				const price = getPriceForLaundry(selectedLaundry);
+				price = getPriceForLaundry(selectedLaundry);
 				$(`#selectedLaundryDescriptionPrice_${currentCounter}`).text(price);
-				//console.log('price>>>', price);
+
+				console.log('price>>>', price);
 				//console.log('type>>>', typeof(price));
-				totalPrice += price;
-				$('#totalPrice').text(totalPrice);
-				console.log("totalPrice>>", totalPrice);
-
-				function getPriceForLaundry(laundry) {
-					switch (laundry) {
-						case "셔츠":
-							return 15000;
-						case "블라우스":
-							return 4900;
-						case "맨투맨":
-							return 5900;
-						case "후드티":
-							return 5900;
-						case "조끼":
-							return 4900;
-						case "가디건":
-							return 7900;
-						case "반바지":
-							return 3900;
-						case "골덴바지":
-							return 5900;
-						case "슬랙스":
-							return 5900;
-						case "면바지":
-							return 5900;
-						case "운동화":
-							return 5900;
-						case "구두":
-							return 5900;
-						case "등산화":
-							return 5900;
-						case "넥타이":
-							return 2900;
-						case "모자":
-							return 5900;
-						case "스카프":
-							return 6900;
-						case "목도리":
-							return 6900;
-					}
-				}
-
-
+				//totalPrice += price;
+				//$('#totalPrice').text(totalPrice);
+				//console.log("totalPrice>>", totalPrice);
+				//calculateTotalPrice(price);
+				updateTotalPrice(price);
 			});
 
 			// 소분류가 변경될 때마다
@@ -555,93 +538,104 @@
 				updateTotalPrice();
 			});
 
-			function updateTotalPrice() {
-				// 직접 결제(배송비 2500원) 또는 구독 서비스(배송비 0원)
-				const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
 
-				// 할인 정보 업데이트
-				let discount = 0;
-				if (selectedPaymentMethod === 'credit') {
-					discount = 0;
-				} else if (selectedPaymentMethod === 'debit') {
-					discount = 2500;
-				}
-
-				// 할인 정보 표시 업데이트
-				$('#discountPrice').text(`−$${discount}원`);
-
-				// 총액 계산 및 표시 업데이트
-				const totalPrice = calculateTotalPrice(); // 총액 계산 함수 호출
-				$('#totalPrice').text(`${totalPrice - discount}원`);
-			}
-
-			//function calculateTotalPrice() {
-			//
-			//	// 소분류(셔츠, 가디건 등)가 바뀔 때마다
-			//	$(document).on('change', '.laundryName', function () {
-			//		const selectedLaundry = $(this).val();
-			//		const price = getPriceForLaundry(selectedLaundry);
-			//		$('#selectedLaundryDescriptionPrice').text(price);
-			//		// 기타 로직 처리
-			//		const baseDeliveryPrice = 2500;
-			//		const basePrice = baseDeliveryPrice + price;
-			//		console.log('basePrice >>>>> ', basePrice);
-			//
-			//		// 할인 가격
-			//		const discount = getDiscountAmount();
-			//
-			//		// 총액 계산
-			//		const totalPrice = basePrice - discount;
-			//
-			//	});
-			//	return totalPrice;
-			//
-			//}
-			function calculateTotalPrice() {
-				// 소분류(셔츠, 가디건 등)가 바뀔 때마다
-				const selectedLaundry = $('.laundryName').val();
-				const price = getPriceForLaundry(selectedLaundry);
-				$('#selectedLaundryDescriptionPrice').text(price);
-
-				// 기타 로직 처리
-				const baseDeliveryPrice = 2500;
-				const basePrice = baseDeliveryPrice + price;
-				console.log('basePrice >>>>> ', basePrice);
-
-				// 할인 가격
-				const discount = getDiscountAmount();
-
-				// 총액 계산
-				const totalPrice = basePrice - discount;
-
-				return totalPrice;
-			}
-
-			// 페이지 로드 시 초기 업데이트
-			updateTotalPrice();
-
-
-			function getDiscountAmount() {
-				const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
-				let discount = 0;
-
-				// 선택된 결제 방법에 따라 할인 가격 설정
-				if (selectedPaymentMethod === 'credit') {
-
-					discount = 0;
-				} else if (selectedPaymentMethod === 'debit') {
-					discount = 2500;
-				}
-
-				return discount;
-			}
 
 		}
-		// 페이지 로드 시 초기 업데이트
-		updateTotalPrice();
+
+		function getPriceForLaundry(laundry) {
+			switch (laundry) {
+				case "셔츠":
+					return 15000;
+				case "블라우스":
+					return 4900;
+				case "맨투맨":
+					return 5900;
+				case "후드티":
+					return 5900;
+				case "조끼":
+					return 4900;
+				case "가디건":
+					return 7900;
+				case "반바지":
+					return 3900;
+				case "골덴바지":
+					return 5900;
+				case "슬랙스":
+					return 5900;
+				case "면바지":
+					return 5900;
+				case "운동화":
+					return 5000;
+				case "구두":
+					return 5900;
+				case "등산화":
+					return 11900;
+				case "넥타이":
+					return 2900;
+				case "모자":
+					return 5900;
+				case "스카프":
+					return 6900;
+				case "목도리":
+					return 6900;
+			}
+		}
+		let discount = 0;
+		function updateTotalPrice() {
+			// 직접 결제(배송비 2500원) 또는 구독 서비스(배송비 0원)
+			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
+
+			if (selectedPaymentMethod === 'credit') {
+				discount = 0;
+			} else if (selectedPaymentMethod === 'debit') {
+				discount = 2500;
+			}
+
+			// 할인 정보 표시
+			$('#discountPrice').text(`−$${discount}원`);
+
+			// 총액
+			const totalPrice = calculateTotalPrice(); // 총액 계산 함수 호출
+			$('#totalPrice').text(`${totalPrice}원`);
+		}
+
+		function calculateTotalPrice() {
+			let basePrice = 2500; // 기본 배송 비용
+
+			$('.laundryName').each(function () {
+				const selectedLaundry = $(this).val();
+				const price = getPriceForLaundry(selectedLaundry);
+				basePrice += price; 
+			});
+
+			// 할인액 가져오기
+			const discount = getDiscountAmount();
+
+			// 총액 계산
+			const totalPrice = basePrice - discount;
+
+			return totalPrice;
+		}
+
+
+		function getDiscountAmount() {
+			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
+			let discount = 0;
+
+			// 선택된 결제 방법에 따라 할인 가격 설정
+			if (selectedPaymentMethod === 'credit') {
+
+				discount = 0;
+			} else if (selectedPaymentMethod === 'debit') {
+				discount = 2500;
+			}
+
+			return discount;
+		}
 
 		// 페이지 로드 시 초기화
 		initRow(document.getElementById('laundryPlus'));
+
 
 
 	</script>
