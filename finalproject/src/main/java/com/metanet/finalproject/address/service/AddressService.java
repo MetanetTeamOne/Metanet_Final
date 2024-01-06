@@ -1,5 +1,7 @@
 package com.metanet.finalproject.address.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +15,8 @@ public class AddressService implements IAddressService{
 	IAddressRepository addressRepository;
 	
 	@Override
-	public Address getAddress(int memberId) {
+	public List<Address> getAddress(int memberId) {
 		return addressRepository.getAddress(memberId);
-	}
-	
-	@Override
-	public Address getOneAddress(int addressId) {
-		return addressRepository.getOneAddress(addressId);
 	}
 	
 	@Override
@@ -33,8 +30,9 @@ public class AddressService implements IAddressService{
 	}
 
 	@Override
-	public void deleteAddress(int address) {
+	public void deleteAddress(Address address) {
 		addressRepository.deleteAddress(address);
 	}
+
 
 }

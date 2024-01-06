@@ -192,12 +192,3 @@
 .mypage_right tbody tr .member_address .address_postcode input {
     width: 190px;
 }
-
-.plusButton {
-	color: var(--sub); 
-	font-size: 45px;
-}
-
-.plusButton:hover {
-	color: var(--main); 
-}

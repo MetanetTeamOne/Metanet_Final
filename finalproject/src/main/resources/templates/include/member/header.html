@@ -1,27 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <!-- Body Header -->
 
 <div th:fragment="header" class="header_wrap">
 	<div id="header">
         <div class="hcon1090">
         	<div id="global" class="hglobal">
-		        <ul sec:authorize="isAnonymous()">
-					<li class="storageClear">
-					<a th:href="@{/login}" title="로그인 새창 열림">로그인</a>
-					</li>
+		        <ul><li class="storageClear"><a th:href="@{/login}" title="로그인 새창 열림">로그인</a></li>
 		            <li class="join">
 		            <a th:href="@{/member/insert}">회원가입</a>
 		            </li>
-		        	<li><a href="#">고객센터</a></li>
-		        <li class="l"><a href="#" class="redzone">레드존</a></li>
-		        </ul>
-		        <ul sec:authorize="isAuthenticated()">
-					<li class="storageClear">
-					<a th:href="@{/logout2}" title="로그아웃 새창 열림">로그아웃</a>
-					</li>
-		        	<li><a href="#">고객센터</a></li>	
+		        <!-- <li><a href="#">고객센터</a></li> -->
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 	        </div>
@@ -33,21 +22,6 @@
 					<!--여기 security에서 정보 가져가도록 변경 필요-->
 	            	<a th:href="@{/member}" class="my_dongwonmall"><img th:src="@{/img/member/my.png}"></a>
 	            </div>
-	            <div class="btn-group">
-  					<button type="button" class="mydongwonmall" data-bs-toggle="dropdown" aria-expanded="false">
-    	            	<span class="cart_btn"><i class="bi bi-bell" style="font-size: 32px; color: #878787;"></i><em id="cartListCount"></em></span>
-
-  					</button>
-				  <ul class="dropdown-menu dropdown-menu-end">
-					  <li><div class="dropdown-item"  style="margin: 10px 0;">
-						<strong>알림</strong>
-					</div></li>
-				    <li><div class="dropdown-item">
-						구독기한 만료 
-						<p><span style="padding: 0 10px;">구독기한 만료까지 10일 남았습니다. </span><button type="button" id="altCheck" class="btn btn-primary" style="background-color: var(--sub); font-size: 0.8rem;">확인</button></p>
-					</div></li>
-				  </ul>
-				</div>
 	        </div>
 		</div>
 		

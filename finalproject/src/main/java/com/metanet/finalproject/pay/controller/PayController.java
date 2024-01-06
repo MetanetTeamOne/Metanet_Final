@@ -89,16 +89,16 @@ public class PayController {
 	            pay.setPayDelivery(0);
 	        }
 	        
-//	        System.out.println("ordersId 1111: " + ordersId);
+	        System.out.println("ordersId 1111: " + ordersId);
 
 	        // pay 객체에 정수 값으로 설정
 	        pay.setOrdersId(ordersId);
 
-//	        System.out.println("ordersId 2222: " + pay.getOrdersId());
-//	        System.out.println("pay>>>"+pay.getOrdersId());
+	        System.out.println("ordersId 2222: " + pay.getOrdersId());
+	        System.out.println("pay>>>"+pay.getOrdersId());
 	        payService.insertPay(pay);
 	        model.addAttribute("pay", pay);
-//	        System.out.println("==결제완료==");
+	        System.out.println("==결제완료==");
 	        return "redirect:/pay/payok";
 	    } catch (NumberFormatException e) {
 	        // ordersId가 정수로 변환할 수 없는 경우의 예외 처리

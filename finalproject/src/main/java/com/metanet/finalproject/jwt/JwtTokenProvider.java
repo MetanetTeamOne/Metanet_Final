@@ -83,8 +83,8 @@ public class JwtTokenProvider {
      * @return 토큰에서 사용자 아이디를 추출해서 반환
      */
     public String getUserId(String token) {
-//        log.info("getUserId...");
-//        log.info(token);
+        log.info("getUserId...");
+        log.info(token);
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
@@ -100,10 +100,10 @@ public class JwtTokenProvider {
      * @return 인증정보 Authentication 객체
      */
     public Authentication getAuthentication(String token) {
-//        log.info("getAuthentication...");
+        log.info("getAuthentication...");
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
-//        log.info("userDetails: {}", userDetails);
-//        log.info("getUsername(): {}", userDetails.getUsername());
+        log.info("userDetails: {}", userDetails);
+        log.info("getUsername(): {}", userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
