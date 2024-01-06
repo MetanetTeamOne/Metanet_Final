@@ -2,7 +2,6 @@ package com.metanet.finalproject;
 
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.jwt.JwtTokenProvider;
@@ -43,17 +40,17 @@ public class LoginController {
     @Operation(summary = "로그인 view")
     @GetMapping("/login")
     public String loginPage() {
-        log.info("로그인 페이지...");
+//        log.info("로그인 페이지...");
         return "member/login";
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
     public String login(Member loginMember, HttpServletResponse response) {
-        log.info("로그인 진행중...");
+//        log.info("로그인 진행중...");
 //        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
         Member member = memberService.selectMember(loginMember.getMemberEmail());
-        log.info("member: {}", member);
+//        log.info("member: {}", member);
         if (member == null) {
             throw new IllegalArgumentException("사용자가 없습니다.");
         }
@@ -67,14 +64,14 @@ public class LoginController {
 //        }
 
         String token = jwtTokenProvider.generateToken(member);
-        log.info("token: {}", token);
+//        log.info("token: {}", token);
         Cookie cookie = new Cookie("token", token);
         cookie.setMaxAge(60 * 60 * 24 * 7);
         cookie.setHttpOnly(true);
 //        cookie.setSecure(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-        log.info("로그인 성공...");
+//        log.info("로그인 성공...");
         return "redirect:/";
     }
 
@@ -82,7 +79,7 @@ public class LoginController {
     @GetMapping("/test_jwt")
     @ResponseBody
     public String testJwt(HttpServletRequest request) {
-        log.info("jwt 테스트");
+//        log.info("jwt 테스트");
         String token = "";
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -91,22 +88,22 @@ public class LoginController {
             }
         }
         if (token.isEmpty()) {
-            log.info("토큰이 없어요...");
+//            log.info("토큰이 없어요...");
         }
 //        String token = jwtTokenProvider.resolveToken(request);
-        log.info("test_jwt token: {}", token);
+//        log.info("test_jwt token: {}", token);
         Authentication auth = jwtTokenProvider.getAuthentication(token);
-        log.info("auth: {}", auth);
-        log.info("principal {}, name {}, authorities {}",
-                auth.getPrincipal(), auth.getName(), auth.getAuthorities());
-        log.info("isValid {}", jwtTokenProvider.validateToken(token));
+//        log.info("auth: {}", auth);
+//        log.info("principal {}, name {}, authorities {}",
+//                auth.getPrincipal(), auth.getName(), auth.getAuthorities());
+//        log.info("isValid {}", jwtTokenProvider.validateToken(token));
         return jwtTokenProvider.getUserId(token);
     }
 
     @GetMapping("/logout2") //시큐리티 때문에 logout 못씀 일단 logout2로 해놓음
     public String logout(HttpServletRequest request, HttpServletResponse response) {
 
-        log.info("로그아웃 진행중...");
+//        log.info("로그아웃 진행중...");
         Optional<Cookie> cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("token")).findFirst();
 
