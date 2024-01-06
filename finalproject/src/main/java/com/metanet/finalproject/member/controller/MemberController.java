@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -44,8 +47,9 @@ public class MemberController {
 	@Autowired
 	IRoleRepository roleRepository;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 	
 	@Autowired
     JwtTokenProvider jwtTokenProvider;
@@ -69,15 +73,26 @@ public class MemberController {
 	}
 	
 	@Operation(summary = "회원 정보 조회")
-    @GetMapping("")
-    public String getMember(Model model,HttpServletRequest request){
-        Member member = memberService.selectMember(getTokenUserEmail(request));
-        if (member == null) {
-        	return "member/login";
-        }
-        model.addAttribute("member", member);
-        return "member/member_view";
-    }
+	@GetMapping("")
+	public String getMember(Model model, HttpServletRequest request) {
+		try {
+		    String userEmail = getTokenUserEmail(request);
+		    if (userEmail == null || userEmail.isEmpty()) {
+		        return "member/login";
+		    }
+		    
+		    Member member = memberService.selectMember(userEmail);
+
+		    if (member == null) {
+		        return "member/login";
+		    } else {
+		        model.addAttribute("member", member);
+		        return "member/member_view";
+		    }
+		} catch(Exception e){
+			return "member/login";
+		}  
+	}
 
 	@Operation(summary = "회원 가입 view")
     @GetMapping("/insert")
@@ -92,14 +107,14 @@ public class MemberController {
 	@Operation(summary = "회원 가입")
     @PostMapping("/insert")
     public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
-		log.info("회원가입 진행중...");
+//		log.info("회원가입 진행중...");
 		Member member = new Member();
 		Address address = new Address();
-		log.info("dto: {}", dto.getMemberEmail());
+//		log.info("dto: {}", dto.getMemberEmail());
 		Member findMember = memberService.selectMember(dto.getMemberEmail());
-		log.info("아이디 {}",findMember);
+//		log.info("아이디 {}",findMember);
 		if (findMember != null) {
-			log.info("같은 아이디가 있습니다");
+//			log.info("같은 아이디가 있습니다");
 			model.addAttribute("dto", dto);
 			return "member/signup";
 		}
@@ -123,7 +138,7 @@ public class MemberController {
 			memberService.insertMember(member);
 
 			int memberId = memberService.getMemberId(dto.getMemberEmail());
-			log.info("memberId: {}", memberId);
+//			log.info("memberId: {}", memberId);
 
 			//권한 부여
 			Role role = new Role();
@@ -140,7 +155,7 @@ public class MemberController {
 			address.setAddressDetail("null");
 			address.setMemberId(memberId);
 
-			log.info("address: {}", address);
+//			log.info("address: {}", address);
 			addressService.insertAddress(address);
 		} catch (DuplicateKeyException e) {
 			member.setMemberEmail(null);
@@ -150,14 +165,14 @@ public class MemberController {
 		}
 		// 수정 필요
 		session.invalidate();
-        return "member/signup_ok";
+        return "redirect:member/signup_ok";
     }
     
-//	@Operation(summary = "회원 가입 완료 view")
-//    @GetMapping("/signup_ok")
-//    public String insertOkMember() {
-//        return "member/signup_ok";
-//    }
+	@Operation(summary = "회원 가입 완료 view")
+    @GetMapping("/signup_ok")
+    public String insertOkMember() {
+        return "member/signup_ok";
+    }
 
 	@Operation(summary = "회원 정보 수정 view")
     @GetMapping("/update")
@@ -171,6 +186,7 @@ public class MemberController {
 	@PostMapping("/update")
     public String updateMember(@ModelAttribute MemberUpdateDto member, HttpServletRequest request){
         memberService.updateMember(member, getTokenUserEmail(request));
+        System.out.println(">>>>>>>>>>>>>>>>."+member);
 		return "redirect:/member";
     }
     
@@ -207,14 +223,20 @@ public class MemberController {
 	@Operation(summary = "회원 삭제")
     @PostMapping("/delete")
     public String deleteMember(HttpServletRequest request, Member member, Model model){
-    	Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-    	if (!dbMember.getMemberPassword().equals(member.getMemberPassword())) {
-    		model.addAttribute("message","비밀번호가 맞지 않습니다.");
-            return "redirect:/member/delete";
-    	}
-    	
-        memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
-        return "redirect:/logout";
+    	try {
+			String dbpw = memberService.selectMember(getTokenUserEmail(request)).getMemberPassword();
+			if(member.getMemberPassword() != null && passwordEncoder.matches(member.getMemberPassword(), dbpw)) {
+				memberService.deleteMember(getTokenUserEmail(request), dbpw);
+				return "redirect:/logout2";
+			}else {
+				model.addAttribute("message", "WRONG_PASSWORD");
+				return "member/member_delete";
+			}
+		}catch(Exception e){
+			model.addAttribute("message", "fail");
+			e.printStackTrace();
+			return "member/member_delete";
+		}
     }
     
 	@Operation(summary = "회원 구독 view")
@@ -257,7 +279,7 @@ public class MemberController {
   	public String insertCard(Member member, Model model, String memberEmail) {
   		memberService.insertCard(memberEmail);
   		model.addAttribute("member", member);
-  		System.out.println("===카드 등록 완료===");
+//  		System.out.println("===카드 등록 완료===");
   		return "redirect:/member/card";
   	}
 
@@ -267,7 +289,7 @@ public class MemberController {
   	public String deleteCard(Member member, Model model) {
   		// 카드 해지 서비스 로직 필요
   		model.addAttribute("member", member);
-  		System.out.println("===카드 해지 완료===");
+//  		System.out.println("===카드 해지 완료===");
   		return "redirect:/member/card";
   	}
 

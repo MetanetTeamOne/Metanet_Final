@@ -161,7 +161,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: var(--main);
+    background: var(--sub);
     z-index: 20;
     text-align: center;
     line-height: 20px;
@@ -519,7 +519,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
 /* 헤더 */
 #header .hlogo.chuchew a.chulogo{
     width:230px;
-    background:url(/img/logo.png) no-repeat center center / 100%;
+    background:url(/img/logo2.png) no-repeat center center / 100%;
     margin-top:8px;
 }
 
@@ -680,7 +680,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     padding: 0 13px;
 }
 #menuClickChu .txt {margin-left: 5px; font-size: 20px; color: #333333; font-weight: 700; line-height: 48px;}
-#menuClickChu .txt::before {display: inline-block; vertical-align: top; content: ""; width: 16px; height: 14px; margin-top: 18px; margin-right: 10px; }
+#menuClickChu .txt::before {display: inline-block; vertical-align: top; content: ""; width: 16px; height: 14px; margin-top: 18px; margin-right: 10px; background: url(/img/member/css_sprites_main.png) no-repeat -884px -57px }
 #header #chu_gnb.hgnb .gnbls>li>a{line-height:50px;}
 #header #chu_gnb.hgnb .gnbls>li:hover>a{color:var(--main)}
 
@@ -910,3 +910,9 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
     font-size: 14px;
     background-color: var(--sub-gray);
 } 
+
+.swal-button {
+  background-color: var(--sub);
+}
+
+

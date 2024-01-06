@@ -23,9 +23,9 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>회원 탈퇴</h3>
-                            <div class="my_page_form">
+                            <form id="sendForm" class="my_page_form" method="post" action="/member/delete">
                                 <div class="base_info_sec">
-                                    <table>
+									<table>
                                         <tbody>
 											<tr>
                                                 <th><span>주의사항</span></th>
@@ -57,10 +57,10 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                    	<button type="submit" id="btnCancel" class="btn_comfirm js_btn_join">회원 탈퇴</button>
+                                    	<button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">회원 탈퇴</button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -75,27 +75,9 @@
     <div th:replace="~{/include/member/footer :: footer}"></div>
     
     <script>
-	    $().ready(function() {
-	        $('#btnCancel').on('click', function() {
-	            swal("탈퇴 완료", "회원 탈퇴되었습니다.", "success")
-	            .then((result) => {
-	                if (result) {
-	                    let form = document.createElement('form');
-	                    form.action = '/member/delete';
-	                    form.method = 'POST';
-	                    
-	                    let input = document.createElement('input');
-	                    input.type = 'hidden';
-	                    input.name = 'memberPassword';
-	                    input.value = document.getElementById('memberPassword').value;
-	                    form.appendChild(input);
-	
-	                    document.body.appendChild(form);
-	                    form.submit();
-	                }
-	            });
-	        });
-	    });
+		let swTitle = '탈퇴 완료';
+		let swComment = '이용해 주셔서 감사합니다.';
+		let swImage = 'success';
 	</script>
 
 

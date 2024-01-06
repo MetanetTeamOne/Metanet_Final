@@ -25,7 +25,7 @@
                             <!-- Content -->
                             <!--해지 폼-->
                             <div th:if="${member.memberSubscribe == '1'}" class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/subscribe" >
+                                <form id="sendForm" class="base_info_sec" method="post" action="/member/subscribe" >
 									<input type="hidden" id="memberSubscribe" name="memberSubscribe" value="0">
                                     <table>
                                         <tbody>
@@ -61,13 +61,13 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="submit" class="btn_comfirm js_btn_join" >구독 해지</button>
+                                        <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join" >구독 해지</button>
                                     </div>
                                 </form>
                             </div>
                             <!--신청 폼-->
                             <div th:if="${member.memberSubscribe=='0'}" class="my_page_form">
-                                <form class="base_info_sec"  method="post" action="/member/subscribe" >
+								<form id="sendForm" class="base_info_sec" method="post" action="/member/subscribe">
 									<input type="hidden" id="memberSubscribe" name="memberSubscribe" value="1">
                                     <table>
                                         <tbody>
@@ -103,7 +103,7 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="submit" class="btn_comfirm js_btn_join">구독 신청</button>
+                                        <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">구독 신청</button>
                                     </div>
                                 </form>
                             </div>
@@ -120,5 +120,22 @@
     <!-- Footer -->
     <div th:replace="~{include/member/footer :: footer}"></div>
 
+	<script>
+		let state = document.getElementById('memberSubscribe').value;
+		let swTitle;
+        let swComment;
+        let swImage;
+
+        if (state === '0') {
+            swTitle = '구독 해지 완료';
+            swComment = '구독이 해지 되었습니다.';
+            swImage = 'success';
+        } else {
+            swTitle = '구독 신청 완료';
+            swComment = '구독 신청이 완료 되었습니다.';
+            swImage = 'success';
+        }
+		
+	</script>
 </body>
 </html>
