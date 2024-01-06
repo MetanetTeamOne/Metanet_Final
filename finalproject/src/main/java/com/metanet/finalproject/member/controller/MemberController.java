@@ -162,7 +162,7 @@ public class MemberController {
 		}
 		// 수정 필요
 		session.invalidate();
-        return "redirect:member/signup_ok";
+        return "redirect:/member/signup_ok";
     }
     
 	@Operation(summary = "회원 가입 완료 view")
@@ -254,8 +254,8 @@ public class MemberController {
   	
 
   	@GetMapping("/card")
-  	public String getCard(Model model, String memberEmail) {
-		Member member = memberService.selectMember(memberEmail);
+  	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
 		return "member/card_view";
 

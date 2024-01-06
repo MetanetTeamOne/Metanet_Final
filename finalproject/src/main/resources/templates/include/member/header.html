@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- Body Header -->
+
 <div th:fragment="header" class="header_wrap">
 	<div id="header">
         <div class="hcon1090">
@@ -25,7 +26,7 @@
 		        </ul>
 	        </div>
 	        <h1 class="hlogo chuchew">
-	            <a th:href="@{/}" title="츄츄" class="chulogo"><span class="blind">츄츄</span></a>
+	            <a th:href="@{/}" title="워시워시" class="chulogo"><span class="blind">워시워시</span></a>
 	        </h1>	        
 	        <div class="mydongwon_cart_grp">
 	            <div class="mydongwonmall">
@@ -95,13 +96,13 @@
                             </ul>
                         </div>
                         <span class="bl"></span>
-                        <span class="txt">카테고리</span>
+                        <span class="txt title">카테고리</span>
                     </div>
                 </li>
-                <li><a th:href="@{/}" title="홈">홈</a></li>
-                <li><a th:href="@{/svcinfo}" title="서비스안내">서비스 안내</a></li>
-                <li><a th:href="@{/howuse}" title="이용방법">이용 방법</a></li>
-                <li><a th:href="@{/orders/insert}" title="세탁신청">세탁 신청</a></li>
+                <li><a th:href="@{/}" title="홈" class="title">홈</a></li>
+                <li><a th:href="@{/svcinfo}" title="서비스안내" class="title">서비스 안내</a></li>
+                <li><a th:href="@{/howuse}" title="이용방법" class="title">이용 방법</a></li>
+                <li><a th:href="@{/orders/insert}" title="세탁신청" class="title">세탁 신청</a></li>
             </ul>
 		</div>
 	</div>
