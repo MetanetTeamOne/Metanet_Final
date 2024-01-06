@@ -161,25 +161,9 @@ public class MemberController {
 		}
 		// 수정 필요
 		session.invalidate();
-		return "redirect:/member/signup_ok";
-	}
-
-	@GetMapping("/emailCheck")
-	@ResponseBody
-	public ResponseDto<?> emailCheck(String email){
-		if (email == null || email.isEmpty()) {
-			return new ResponseDto<>(-1, "이메일을 입력해주세요", null);
-		}
-
-		Member member = memberService.selectMember(email);
-		if (member != null) {
-			return new ResponseDto<>(1, "같은 이메일이 존재합니다.", false);
-		} else {
-			return new ResponseDto<>(1, "회원가입 가능한 이메일입니다.", true);
-		}
-	}
-
-
+        return "redirect:/member/signup_ok";
+    }
+    
 	@Operation(summary = "회원 가입 완료 view")
 	@GetMapping("/signup_ok")
 	public String insertOkMember(HttpServletRequest request, Model model) {
@@ -280,6 +264,11 @@ public class MemberController {
 	public String getCard(Model model, String memberEmail) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
 		Member member = memberService.selectMember(memberEmail);
+=======
+  	@GetMapping("/card")
+  	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+>>>>>>> 654511a Merge branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git into main
 		model.addAttribute("member", member);
 		return "member/card_view";
 //  			}else {
