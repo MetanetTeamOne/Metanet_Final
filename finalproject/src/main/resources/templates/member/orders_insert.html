@@ -23,13 +23,13 @@
 					</h4>
 					<ul class="list-group mb-3">
 						<li id="laundryUl">
-							<!--<li class="list-group-item d-flex justify-content-between lh-sm">
+							<li class="list-group-item d-flex justify-content-between lh-sm">
 								<div>
 									<h6 class="my-0">세탁 상품</h6>
 									<small id="selectedLaundryDescription" class="text-body-secondary">선택된 상품</small>
 								</div>
 								<span id="selectedLaundryDescriptionPrice" class="text-body-secondary"></span>
-							</li>-->
+							</li>
 						</li>
 
 						<li class="list-group-item d-flex justify-content-between bg-body-tertiary">
@@ -60,7 +60,6 @@
 										name="laundryCategoryName" th:value="${laundryCategoryList[2].laundryCategoryName}" required="">
 										<input type="text" class="form-control" id="username" placeholder="김워시"
 										name="laundryCategoryName" th:value="${laundryCategoryList[3].laundryCategoryName}" required="">
-								
 								</div>
 							</div>-->
 
@@ -121,7 +120,8 @@
 									<label class="form-check-label title" for="time1">오전 7시 이후</label>
 								</div>
 								<div class="form-check">
-									<input id="time2" type="radio" class="form-check-input" name="deliveryTime" required="">
+									<input id="time2" type="radio" class="form-check-input" name="deliveryTime"
+										required="">
 									<label class="form-check-label title" for="time2">수거 및 배송 즉시</label>
 								</div>
 							</div>
@@ -129,13 +129,13 @@
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁 서비스 유형</h4>
 							<div class="my-3">
 								<div class="form-check">
-									<input id="laundry_service1" type="radio" class="form-check-input" name="laundryType"
-										required="" checked>
+									<input id="laundry_service1" type="radio" class="form-check-input"
+										name="laundryType" required="" checked>
 									<label class="form-check-label title" for="laundry_service1">당일 세탁</label>
 								</div>
 								<div class="form-check">
-									<input id="laundry_service2" type="radio" class="form-check-input" name="laundryType"
-										required="">
+									<input id="laundry_service2" type="radio" class="form-check-input"
+										name="laundryType" required="">
 									<label class="form-check-label title" for="laundry_service2">일반 세탁</label>
 								</div>
 							</div>
@@ -143,12 +143,13 @@
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁물 유형</h4>
 							<div class="my-3">
 								<div class="form-check">
-									<input id="laundry1" name="laundryCategory" type="radio" class="form-check-input" required=""
-										checked>
+									<input id="laundry1" name="laundryCategory" type="radio" class="form-check-input"
+										required="" checked>
 									<label class="form-check-label title" for="laundry1">생활 빨래</label>
 								</div>
 								<div class="form-check">
-									<input id="laundry2" name="laundryCategory" type="radio" class="form-check-input" required="">
+									<input id="laundry2" name="laundryCategory" type="radio" class="form-check-input"
+										required="">
 									<label class="form-check-label title" for="laundry2">개별 클리닝</label>
 								</div>
 							</div>
@@ -344,7 +345,7 @@
 				console.log('addressCounter>>>>', addressCounter);
 				alert('세탁물을 1개 이상 등록해주세요');
 				console.log('addressCounter>>>>', addressCounter);
-			} else{
+			} else {
 				document.getElementById('insertBtn').type = 'submit';
 			}
 		});
@@ -574,28 +575,51 @@
 				$('#totalPrice').text(`${totalPrice - discount}원`);
 			}
 
+			//function calculateTotalPrice() {
+			//
+			//	// 소분류(셔츠, 가디건 등)가 바뀔 때마다
+			//	$(document).on('change', '.laundryName', function () {
+			//		const selectedLaundry = $(this).val();
+			//		const price = getPriceForLaundry(selectedLaundry);
+			//		$('#selectedLaundryDescriptionPrice').text(price);
+			//		// 기타 로직 처리
+			//		const baseDeliveryPrice = 2500;
+			//		const basePrice = baseDeliveryPrice + price;
+			//		console.log('basePrice >>>>> ', basePrice);
+			//
+			//		// 할인 가격
+			//		const discount = getDiscountAmount();
+			//
+			//		// 총액 계산
+			//		const totalPrice = basePrice - discount;
+			//
+			//	});
+			//	return totalPrice;
+			//
+			//}
 			function calculateTotalPrice() {
-
 				// 소분류(셔츠, 가디건 등)가 바뀔 때마다
-				$(document).on('change', '.laundryName', function () {
-					const selectedLaundry = $(this).val();
-					const price = getPriceForLaundry(selectedLaundry);
-					$('#selectedLaundryDescriptionPrice').text(price);
-					// 기타 로직 처리
-					const baseDeliveryPrice = 2500;
-					const basePrice = baseDeliveryPrice + price;
-					console.log('basePrice >>>>> ', basePrice);
+				const selectedLaundry = $('.laundryName').val();
+				const price = getPriceForLaundry(selectedLaundry);
+				$('#selectedLaundryDescriptionPrice').text(price);
 
-					// 할인 가격
-					const discount = getDiscountAmount();
+				// 기타 로직 처리
+				const baseDeliveryPrice = 2500;
+				const basePrice = baseDeliveryPrice + price;
+				console.log('basePrice >>>>> ', basePrice);
 
-					// 총액 계산
-					const totalPrice = basePrice - discount;
+				// 할인 가격
+				const discount = getDiscountAmount();
 
-				});
+				// 총액 계산
+				const totalPrice = basePrice - discount;
+
 				return totalPrice;
-
 			}
+
+			// 페이지 로드 시 초기 업데이트
+			updateTotalPrice();
+
 
 			function getDiscountAmount() {
 				const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');

@@ -3,6 +3,31 @@
 	font-family: 'Jua', sans-serif;
 }
 
+#address_plus,
+.address_minus {
+	width: 30px;
+	height: auto;
+	padding-bottom: 5px;
+}
+
+.address_minus {
+	width: 35px!important;
+	padding-left: 5px;
+}
+
+#address_plus:hover {
+	cursor: pointer;
+}
+
+.address_minus:hover {
+	cursor: pointer;
+}
+
+#main_address:hover {
+	color: #0e8ff2;
+	font-weight: bold;
+}
+
 .laundry-register-section {
     width: 100%;
     padding: 0 30px;
