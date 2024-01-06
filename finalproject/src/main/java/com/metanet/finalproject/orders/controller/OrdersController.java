@@ -63,7 +63,7 @@ public class OrdersController {
 	@GetMapping("")
 	public String getOrder(Model model) {
 		List<Orders> orders = ordersService.searchOrder(1);
-		System.out.println(orders);
+//		System.out.println(orders);
 		model.addAttribute("orders", orders);
 		return "member/orders_view";
 	}
@@ -80,9 +80,9 @@ public class OrdersController {
 //  log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
 		Orders order = new Orders();
 
-		System.out.println(order.getWashId());
+//		System.out.println(order.getWashId());
 
-		System.out.println("111");
+//		System.out.println("111");
 
 		return ordersService.searchOrder(memberId, -1);
 	}
@@ -94,7 +94,7 @@ public class OrdersController {
 	@ResponseBody
 	public List<Orders> searchOrder(Model model, @PathVariable int memberId, @PathVariable int washId) {
 //		System.out.println(memberId + " : m w : " + washId);
-		log.info("memberId : {}, washId : {}", memberId, washId);
+//		log.info("memberId : {}, washId : {}", memberId, washId);
 		return ordersService.searchOrder(memberId, washId);
 	}
 
@@ -132,7 +132,7 @@ public class OrdersController {
 	@Operation(summary = "주문 완료 view")
 	@GetMapping("/insertok")
 	public String insertOkOrder(Model model) {
-		System.out.println("======================");
+//		System.out.println("======================");
 		return "member/orders_insert_ok";
 	}
 
@@ -145,7 +145,7 @@ public class OrdersController {
 	@Operation(summary = "주문 수정")
 	@PostMapping("/update")
 	public String updateOrder(Model model, Orders orders) {
-		System.out.println(orders);
+//		System.out.println(orders);
 		ordersService.updateOrder(orders);
 		return "member/mypage_order";
 	}

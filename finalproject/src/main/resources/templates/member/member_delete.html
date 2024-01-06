@@ -23,9 +23,9 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>회원 탈퇴</h3>
-                            <div class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/delete">
-                                    <table>
+                            <form id="sendForm" class="my_page_form" method="post" action="/member/delete">
+                                <div class="base_info_sec">
+									<table>
                                         <tbody>
 											<tr>
                                                 <th><span>주의사항</span></th>
@@ -49,7 +49,7 @@
                                                 <th><span>비밀번호 입력</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberPassword" name="memberPassword" maxlength="30" required>
+                                                        <input type="password" id="memberPassword" name="memberPassword" maxlength="30" required>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -57,10 +57,10 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="submit" class="btn_comfirm js_btn_join">회원 탈퇴</button>
+                                    	<button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">회원 탈퇴</button>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,14 @@
     <div th:replace="~{include/member/topButton :: topButton}"></div>
     
     <!-- Footer -->
-    <div th:replace="~{include/member/footer :: footer}"></div>
+    <div th:replace="~{/include/member/footer :: footer}"></div>
+    
+    <script>
+		let swTitle = '탈퇴 완료';
+		let swComment = '이용해 주셔서 감사합니다.';
+		let swImage = 'success';
+	</script>
+
 
 </body>
 </html>

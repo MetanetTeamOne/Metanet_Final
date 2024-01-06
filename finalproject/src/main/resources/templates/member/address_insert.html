@@ -26,15 +26,13 @@
                             <!-- Content -->
                             <div class="my_page_form">
                                 <form class="base_info_sec" method="post" action="/member/address/insert">
-									<input type="hidden" id="addressId" name="addressId" value="">
-									<input type="hidden" id="" name="" value="">
                                     <table>
                                         <tbody>
                                             <tr>
                                                 <th><span class="important">새로운 주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="addressZipcode" placeholder="우편번호" class="inputData" required readonly>
+                                                        <input type="text" id="addressZipcode" name="addressZipcode" placeholder="우편번호" class="inputData" required readonly>
                                                         <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
                                                     </div>
                                                     <div class="address_input">
@@ -43,6 +41,11 @@
                                                         </div>
                                                         <div class="member_warning js_address_sub">
                                                             <input type="text" id="addressContent" name="addressContent" placeholder="상세주소" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="address_input">
+                                                        <div class="member_warning">
+                                                            <input type="text" name="addressDetail" placeholder="요청사항을 입력하세요." id="addressRoad" required>
                                                         </div>
                                                     </div>
                                                 </td>

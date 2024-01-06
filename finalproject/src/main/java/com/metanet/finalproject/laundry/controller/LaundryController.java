@@ -29,9 +29,7 @@ public class LaundryController {
 	@GetMapping("")
 	public String getLaundry(Model model) {
 		List<Laundry> getLaundry = laundryService.getLaundry();
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("세탁물 전체 조회 : " + getLaundry);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+		
 		return "member/home";
 	}
 	
@@ -42,9 +40,7 @@ public class LaundryController {
 	@ResponseBody
 	public List<Laundry> getLaundryCategory(Model model, @PathVariable int laundryCategoryId) {
 		List<Laundry> getLaundryCategory = laundryService.getLaundryCategory(laundryCategoryId);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("세탁물 전체 조회 : " + getLaundryCategory);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+		
 		return getLaundryCategory;
 	}
 	

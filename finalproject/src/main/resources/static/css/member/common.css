@@ -166,7 +166,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: var(--main);
+    background: var(--sub);
     z-index: 20;
     text-align: center;
     line-height: 20px;
@@ -524,7 +524,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
 /* 헤더 */
 #header .hlogo.chuchew a.chulogo{
     width:230px;
-    background:url(/img/logo.png) no-repeat center center / 100%;
+    background:url(/img/logo2.png) no-repeat center center / 100%;
     margin-top:8px;
 }
 
@@ -537,7 +537,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     position: relative;
     width: 100%;
     margin: 0 auto;
-    z-index: 9999;
+    z-index: 10;
 }
 
 #header .hcon1090 {
@@ -583,7 +583,6 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     display: block;
     width: 1px;
     height: 12px;
-    background: url(../../images/main/css_sprites_main.png) no-repeat -792px -88px
 }
 
 #header .hglobal ul li a {
@@ -604,7 +603,6 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     display: block;
     width: 1px;
     height: 12px;
-    background: url(../../images/main/css_sprites_main.png) no-repeat -792px -88px
 }
 
 #header .hglobal ul li.l {
@@ -655,7 +653,6 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     width: 22px;
     height: 22px;
     margin: 11px 0 0 -48px;
-    background: url(../img/css_sprites_main.png) no-repeat -548px -250px;
     text-indent: -9999px;
     filter: grayscale(1);
 }
@@ -688,7 +685,7 @@ mark,rp,rt,ruby,summary,time {display: inline;}
     padding: 0 13px;
 }
 #menuClickChu .txt {margin-left: 5px; font-size: 20px; color: #333333; font-weight: 700; line-height: 48px;}
-#menuClickChu .txt::before {display: inline-block; vertical-align: top; content: ""; width: 16px; height: 14px; margin-top: 18px; margin-right: 10px; background: url(../img/css_sprites_main.png) no-repeat -884px -57px}
+#menuClickChu .txt::before {display: inline-block; vertical-align: top; content: ""; width: 16px; height: 14px; margin-top: 18px; margin-right: 10px; background: url(/img/member/css_sprites_main.png) no-repeat -884px -57px }
 #header #chu_gnb.hgnb .gnbls>li>a{line-height:50px;}
 #header #chu_gnb.hgnb .gnbls>li:hover>a{color:var(--main)}
 
@@ -918,3 +915,9 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
     font-size: 14px;
     background-color: var(--sub-gray);
 } 
+
+.swal-button {
+  background-color: var(--sub);
+}
+
+
