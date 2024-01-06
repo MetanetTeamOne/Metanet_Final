@@ -25,7 +25,7 @@
                             <h3>배송지 수정</h3>
                             <!-- Content -->
                             <div class="my_page_form">
-                                <form class="base_info_sec" method="post" action="/member/address/update">
+                                <form class="base_info_sec" method="post" action="/member/address/update" th:object="${updateAddress}">
                                     <table>
                                         <tbody>
                                            	<tr>
@@ -35,12 +35,24 @@
                                                         <input type="text" id="addressZipcode" class="inputData" readonly required>
                                                         <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
                                                     </div>
+                                                    <div class="field-error" th:if="${#fields.hasErrors('addressZipcode')}"
+                                                         th:errors="*{addressZipcode}">
+                                                        우편번호 오류
+                                                    </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
                                                             <input type="text" id="addressRoad" name="addressRoad" class="inputData" readonly required>
                                                         </div>
+                                                        <div class="field-error" th:if="${#fields.hasErrors('addressRoad')}"
+                                                             th:errors="*{addressRoad}">
+                                                            도로명 오류
+                                                        </div>
                                                         <div class="member_warning js_address_sub">
                                                             <input type="text" id="addressContent" name="addressContent" required>
+                                                        </div>
+                                                        <div class="field-error" th:if="${#fields.hasErrors('addressContent')}"
+                                                             th:errors="*{addressContent}">
+                                                            상세주소 오류
                                                         </div>
                                                     </div>
                                                 </td>
