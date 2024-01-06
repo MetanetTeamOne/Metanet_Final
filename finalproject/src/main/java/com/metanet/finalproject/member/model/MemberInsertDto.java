@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class MemberInsertDto {
     @NotBlank(message = "이름은 필수 입력값 입니다.")
+    @Size(min = 2, max = 8, message = "이름은 2자에서 8자사이로 만들어주세요.")
     private String memberName;
 
     @NotBlank(message = "이메일은 필수 입력값 입니다.")
@@ -16,11 +17,13 @@ public class MemberInsertDto {
     private String memberEmail;
 
     @NotBlank(message = "비밀번호는 필수 입력값 입니다.")
-    @Size(min = 8, max = 14, message = "비밀번호는 8자리이상 14자리이하로 입력하세요.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
+            message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
     private String memberPassword;
 
     @NotBlank(message = "비밀번호는 필수 입력값 입니다.")
-    @Size(min = 8, max = 14, message = "비밀번호는 8자리이상 14자리이하로 입력하세요.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
+            message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
     private String reMemberPassword;
 
     @NotBlank(message = "휴대폰번호는 필수 입력값 입니다.")
