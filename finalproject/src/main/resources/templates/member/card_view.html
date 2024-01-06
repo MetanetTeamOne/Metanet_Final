@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{include/member/head :: head}"></head>
+<head th:replace="~{/include/member/head :: head}"></head>
 <body>
     <!-- Header -->
-    <div th:replace="~{include/member/header :: header}"></div>
+    <div th:replace="~{/include/member/header :: header}"></div>
 
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
             <!-- Section left -->
-            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+            <div th:replace="~{/include/member/mypageNav :: mypageNav}"></div>
 
             <!-- Section right -->
             <div class="col-sm-9 col-md-9 col-lg-9">
@@ -25,7 +25,15 @@
                                 <form class="base_info_sec" action="" method="">
                                     <table>
                                         <tbody>
-                                            <tr>
+											<tr th:if="${card == null}">
+                                                <td class="member_address" style="text-align: center;">
+                                                    <p style="font-size: 20px;">등록된 카드가 없습니다. <br>카드를 추가하세요<p><br>
+                                                    <a th:href="@{/member/card/insert}">
+														<i class="bi bi-window-plus plusButton"></i>
+                                                    </a>	
+                                                </td>
+                                            </tr>
+                                            <tr th:if="${card != null}">
                                                 <th><span>아이디</span></th>
                                                 <td>
                                                     <div class="member_warning">
@@ -33,7 +41,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr th:if="${card != null}">
                                                 <th><span>결제</span></th>
                                                 <td>
                                                     <div class="member_warning">
@@ -50,7 +58,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="btn_right_box">
+                                    <div class="btn_right_box" th:if="${card != null}" >
                                         <button type="button" id="btnCancel" class="btn_member_cancel">수정</button>
                                         <button type="button" class="btn_comfirm js_btn_join" value="" onclick="location.href ='#'">추가</button>
                                     </div>
@@ -64,10 +72,10 @@
     </div>
 
     <!-- Top Button -->
-    <div th:replace="~{include/member/topButton :: topButton}"></div>
+    <div th:replace="~{/include/member/topButton :: topButton}"></div>
 
     <!-- Footer -->
-    <div th:replace="~{include/member/footer :: footer}"></div>
+    <div th:replace="~{/include/member/footer :: footer}"></div>
 
 </body>
 </html>

@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>계정 수정</h3>
-                            <form class="my_page_form" method="post" action="/member/update">
+                            <form id="sendForm" class="my_page_form" method="post" action="/member/update">
                                 <div class="base_info_sec">
                                     <table>
                                         <tbody>
@@ -60,7 +60,7 @@
                                     </table>
                                     <div class="btn_right_box">
 										<button type="button" id="btnCancel" class="btn_member_cancel" onclick="location.href ='/member'">취소</button>
-                                        <button type="submit" class="btn_comfirm js_btn_join">완료</button>
+                                    	<button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">수정</button>
                                     </div>
                                 </div>
                             </form>
@@ -76,6 +76,12 @@
     
     <!-- Footer -->
     <div th:replace="~{include/member/footer :: footer}"></div>
+    
+	<script>
+		let swTitle = '수정 완료';
+		let swComment = '회원정보 수정이 완료 되었습니다.';
+		let swImage = 'success';
+	</script>
 
 </body>
 </html>
