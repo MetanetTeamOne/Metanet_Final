@@ -25,15 +25,7 @@
                                 <form class="base_info_sec" action="" method="">
                                     <table>
                                         <tbody>
-											<tr th:if="${card == null}">
-                                                <td class="member_address" style="text-align: center;">
-                                                    <p style="font-size: 20px;">등록된 카드가 없습니다. <br>카드를 추가하세요<p><br>
-                                                    <a th:href="@{/member/card/insert}">
-														<i class="bi bi-window-plus plusButton"></i>
-                                                    </a>	
-                                                </td>
-                                            </tr>
-                                            <tr th:if="${card != null}">
+                                            <tr>
                                                 <th><span>아이디</span></th>
                                                 <td>
                                                     <div class="member_warning">
@@ -41,7 +33,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr th:if="${card != null}">
+                                            <tr>
                                                 <th><span>결제</span></th>
                                                 <td>
                                                     <div class="member_warning">
@@ -58,7 +50,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="btn_right_box" th:if="${card != null}" >
+                                    <div class="btn_right_box">
                                         <button type="button" id="btnCancel" class="btn_member_cancel">수정</button>
                                         <button type="button" class="btn_comfirm js_btn_join" value="" onclick="location.href ='#'">추가</button>
                                     </div>

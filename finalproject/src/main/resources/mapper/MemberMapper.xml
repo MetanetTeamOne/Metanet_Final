@@ -66,10 +66,7 @@
 			member_subscribe_date as memberSubScribeDate,
 			member_card as memberCard
 		from member
-		<if test="memberEmail != null">
 		where member_email=#{memberEmail}
-		</if>
-		
 	</select>
 
 	<!-- 구독신청) MEMBER_SUBSCRIBE : 1, MEMBER_SUBSCRIBE_DATE:sysdate로 update -->

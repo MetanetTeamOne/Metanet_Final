@@ -25,29 +25,23 @@
                             <h3>배송지 수정</h3>
                             <!-- Content -->
                             <div class="my_page_form">
-                                <form class="base_info_sec" method="post" th:action="@{/member/address/update}">
+                                <form class="base_info_sec" method="post" action="/member/address/update">
                                     <table>
                                         <tbody>
-											<input type="hidden" id="addressId" name="addressId" th:value="${address.addressId}">
                                            	<tr>
                                                 <th><span class="important">기본 주소</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        우편번호 : <input type="text" id="addressZipcode" name="addressZipcode" th:value="${address.addressZipcode}" class="inputData" readonly required>
+                                                        <input type="text" id="addressZipcode" class="inputData" readonly required>
                                                         <button type="button" class="btn_post_search" onclick="daumPostcode()">우편번호 찾기</button>
                                                     </div>
                                                     <div class="address_input">
                                                         <div class="member_warning">
-                                                            지번주소 : <input type="text" id="addressRoad" name="addressRoad" th:value="${address.addressRoad}" class="inputData" readonly required>
+                                                            <input type="text" id="addressRoad" name="addressRoad" class="inputData" readonly required>
                                                         </div>
                                                         <div class="member_warning js_address_sub">
-                                                            상세주소 : <input type="text" id="addressContent" name="addressContent" th:value="${address.addressContent}" required>
+                                                            <input type="text" id="addressContent" name="addressContent" required>
                                                         </div>
-                                                        <div class="address_input">
-	                                                        <div class="member_warning">
-	                                                            요청사항 : <input type="text" id="addressDetail" name="addressDetail" th:value="${address.addressDetail}" required>
-	                                                        </div>
-	                                                    </div>
                                                     </div>
                                                 </td>
                                             </tr>

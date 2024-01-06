@@ -16,20 +16,6 @@
 		<if test="memberId != null">WHERE member_id = #{memberId}</if>
 		ORDER BY address_id
 	</select>
-	
-	<select id="getOneAddress" parameterType="int" resultType="com.metanet.finalproject.address.model.Address">
-		SELECT 
-			address_id AS addressId,
-			address_zipcode AS addressZipcode,
-			address_road AS addressRoad,
-			address_content AS addressContent,
-			address_category AS addressCategory,
-			address_detail AS addressDetail,
-			member_id AS memberId
-		FROM address
-		<if test="addressId != null">WHERE address_id = #{addressId}</if>
-	</select>
-	
 	<insert id="insertAddress" parameterType="com.metanet.finalproject.address.model.Address">
 		<selectKey resultType="int" keyProperty="addressId" order="BEFORE">
 		    SELECT NVL(MAX(address_id), 0) + 1 AS addressId FROM address
@@ -64,7 +50,7 @@
 	    </set>
 	    WHERE address_id = #{addressId}
 	</update>
-	<delete id="deleteAddress" parameterType="int">
+	<delete id="deleteAddress" parameterType="com.metanet.finalproject.address.model.Address">
 		DELETE FROM address 
 		WHERE address_id = #{addressId}
 	</delete>

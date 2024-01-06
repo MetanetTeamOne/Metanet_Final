@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 }
             }
             else{
-//                System.out.println("token 없음");
+                System.out.println("token 없음");
             }
 
         }

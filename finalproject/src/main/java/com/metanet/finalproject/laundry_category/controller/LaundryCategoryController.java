@@ -25,7 +25,12 @@ public class LaundryCategoryController {
 		List<LaundryCategory> getLaundryCategory = laundryCategoryService.getLaundryCategory();
 		
 		LaundryCategory g = new LaundryCategory();
-
+		
+		System.out.println(g.getLaundryCategoryId());
+		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("세탁물 카테고리 전체 조회 : " + getLaundryCategory);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		return "member/home";
 	}
 	
@@ -33,6 +38,9 @@ public class LaundryCategoryController {
 	@GetMapping("/{laundryCategoryId}")
 	public String getLaundryCategory(Model model, @PathVariable int laundryCategoryId) {
 		LaundryCategory getLaundryCategoryId = laundryCategoryService.getLaundryCategory(laundryCategoryId);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("세탁물 카테고리 조회 : " + getLaundryCategoryId);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		return "member/home";
 	}
 	
