@@ -198,7 +198,11 @@ public class MemberController {
 
 	@Operation(summary = "회원 정보 수정")
 	@PostMapping("/update")
-	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, HttpServletRequest request){
+	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, BindingResult result, HttpServletRequest request){
+		if (result.hasErrors()) {
+			log.info("errors: {}", result);
+			return "member/member_update";
+		}
 		memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
 	}

@@ -34,7 +34,7 @@
                                                 <th><span class="important">아이디</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}" class="inputData" readonly>
+                                                        <input type="text" th:field="*{memberEmail}" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}" class="inputData" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -42,7 +42,10 @@
                                                 <th><span class="important">이름</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberName" name="memberName" maxlength="30" th:value="${member.memberName}" required>
+                                                        <input type="text" th:field="*{memberName}" th:errorclass="field-error" id="memberName" name="memberName" maxlength="30" th:value="${member.memberName}" required>
+                                                    </div>
+                                                    <div class="field-error" th:errors="*{memberName}">
+                                                        이름 오류
                                                     </div>
                                                 </td>
                                             </tr>
@@ -51,7 +54,10 @@
                                                 <th><span class="important">휴대폰번호</span></th>
                                                 <td class="member_address">
                                                     <div class="address_postcode">
-                                                        <input type="text" id="memberPhoneNumber" name="memberPhoneNumber" maxlength="13" th:value="${member.memberPhoneNumber}" required>
+                                                        <input type="text" th:field="*{memberPhoneNumber}" th:errorclass="field-error" id="memberPhoneNumber" name="memberPhoneNumber" maxlength="13" th:value="${member.memberPhoneNumber}" required>
+                                                    </div>
+                                                    <div class="field-error" th:errors="*{memberPhoneNumber}">
+                                                        휴대폰 오류
                                                     </div>
                                                 </td>
                                             </tr>
