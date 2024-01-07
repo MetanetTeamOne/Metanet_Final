@@ -55,10 +55,13 @@ public class AddressController {
 
 		return jwtTokenProvider.getUserId(token);
 	}
+	
 	@Operation(summary = "사용자 주소 조회")
 	@GetMapping("")
 	public String getAddress(Model model) {
 //		List<Address> getAddress = addressService.getAddress(1);
+		//서버 실행 안 돼서 바꿈
+		Address getAddress = addressService.getAddress(1);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 //		System.out.println("사용자 주소 조회 : " + getAddress);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
@@ -121,6 +124,10 @@ public class AddressController {
 		System.out.println("사용자 주소 삭제 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 //		addressService.deleteAddress(address);
+//=======
+		//서버 실행 안 돼서 주석처리함
+		System.out.println("AddressController>>>서버 실행 안 돼서 주석처리함");
+		//addressService.deleteAddress(address);
 		return "redirect:/member/address";
 	}
 }

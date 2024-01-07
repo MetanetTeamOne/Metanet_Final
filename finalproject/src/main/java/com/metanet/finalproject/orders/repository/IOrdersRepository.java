@@ -17,6 +17,7 @@ public interface IOrdersRepository {
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
 	void deleteOrder(Orders orders);
+	int countOrder(int memberId); //회원별 주문 건수 추가
 	
 	// 관리자
 	List<Orders> searchOrdersList();
