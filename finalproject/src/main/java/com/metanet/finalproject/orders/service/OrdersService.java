@@ -38,7 +38,12 @@ public class OrdersService implements IOrdersService{
 	public void deleteOrder(Orders orders) {
 		ordersRepository.deleteOrder(orders);
 	}
-
+	
+	@Override
+	public int countOrder(int memberId) {
+		return ordersRepository.countOrder(memberId);
+	}
+	
 	// 관리자
 	@Override
 	public List<Orders> searchOrdersList() {
@@ -49,5 +54,6 @@ public class OrdersService implements IOrdersService{
 	public List<Orders> searchOrdersList(Orders orders) {
 		return ordersRepository.searchOrdersList(orders);
 	}
+
 
 }

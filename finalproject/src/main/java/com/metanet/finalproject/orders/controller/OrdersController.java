@@ -17,6 +17,7 @@ import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.files.model.Files;
 import com.metanet.finalproject.files.service.IFilesService;
+import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.service.ILaundryService;
 import com.metanet.finalproject.laundry_category.model.LaundryCategory;
@@ -28,6 +29,8 @@ import com.metanet.finalproject.orders.service.IOrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,21 +47,42 @@ public class OrdersController {
 
 	@Autowired
 	IFilesService fileService;
-	
+
 	@Autowired
 	IMemberService memberService;
-	
+
 	@Autowired
 	IAddressService addressService;
-	
+
 	@Autowired
 	ILaundryCategoryService laundryCategoryService;
-	
+
 	@Autowired
 	ILaundryService laundryService;
 
+	@Autowired
+    JwtTokenProvider jwtTokenProvider;
+	
 	Files files;
 
+	private String getTokenUserEmail(HttpServletRequest request) {
+        String token = "";
+
+        try {
+            Cookie[] cookies = request.getCookies();
+        	for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")){
+                    token = cookie.getValue();
+                }
+            }
+        } catch(Exception e) {
+        	e.getMessage();
+        }
+        
+        return jwtTokenProvider.getUserId(token);
+	}
+	
+	
 	@Operation(summary = "주문")
 	@GetMapping("")
 	public String getOrder(Model model) {
@@ -100,29 +124,51 @@ public class OrdersController {
 
 	@Operation(summary = "주문 입력 view")
 	@GetMapping("/insert")
-	public String insertOrder(Model model) {
-		// 임시데이터
-		Member member = memberService.getMember(1);
-<<<<<<< Upstream, based on origin/main
-//		List<Address> addressList = addressService.getAddress(1);
-		List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
-		// System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
-		List<Laundry> laundryList = laundryService.getLaundryCategory(1);
-		System.out.println("laundryList>>>>>>>>>>>>>>>>" + laundryList);
-		model.addAttribute("member", member);
-//		model.addAttribute("addressList", addressList);
-=======
-		List<Address> addressList = addressService.getAddress(1);
-		List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
-		// System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
-		List<Laundry> laundryList = laundryService.getLaundryCategory(1);
-		System.out.println("laundryList>>>>>>>>>>>>>>>>" + laundryList);
-		model.addAttribute("member", member);
-		model.addAttribute("addressList", addressList);
->>>>>>> 654511a Merge branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git into main
-		model.addAttribute("laundryCategoryList", laundryCategoryList);
-		model.addAttribute("laundryList", laundryList);
-		return "member/orders_insert";
+	public String insertOrder(Model model, HttpServletRequest request) {
+		//try {
+			Member member = memberService.selectMember(getTokenUserEmail(request));
+		    //if (member == null) {
+		    //    return "member/login";
+		    //}
+		    //else {
+		    	int count = ordersService.countOrder(member.getMemberId());
+		    	int washId = count + 1;
+		    	System.out.println("count============"+count);
+		    	Address addressList = addressService.getAddress(member.getMemberId());
+				List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
+				System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
+				//System.out.println("laundryCategoryList 길이>>>"+laundryCategoryList.size());
+				List<Laundry> laundryList = laundryService.getLaundryCategory(1);
+				System.out.println("List<Laundry> laundryList>>>>>>>>>>>>>>>>" + laundryList);
+				//model.addAttribute("ordersListSize", ordersListSize);
+				model.addAttribute("washId", washId);
+				model.addAttribute("member", member);
+				model.addAttribute("addressList", addressList);
+				model.addAttribute("laundryCategoryList", laundryCategoryList);
+				model.addAttribute("laundryList", laundryList);
+				return "member/orders_insert";
+		    //}
+		//} catch(Exception e){
+			//return "member/login";
+		//}  
+			
+	}
+
+	@Operation(summary = "주문 입력")
+	@PostMapping("/insert")
+	public String insertOrder(Model model, Orders orders, HttpServletRequest request) {
+
+		System.out.println("orders>>" + orders);
+//		System.out.println("OrdersCount>>>>"+orders.getOrdersCount());
+//		System.out.println("ordersPrice>>>>"+orders.getOrdersPrice());
+		ordersService.insertOrder(orders);
+		return "redirect:/orders/insertok";
+	}
+	
+	@GetMapping("/count/{memberId}")
+	@ResponseBody
+	public int countOrder(@PathVariable int memberId) {
+		return ordersService.countOrder(memberId);
 	}
 
 	/*

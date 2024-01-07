@@ -47,7 +47,7 @@ public class MemberController {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 
-	//	Header에서 Token으로 사용자 이메일 획득
+	// Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
 		log.info("이메일로 토큰 받는중...");
 		String token = "";
@@ -55,11 +55,11 @@ public class MemberController {
 		try {
 			Cookie[] cookies = request.getCookies();
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("token")){
+				if (cookie.getName().equals("token")) {
 					token = cookie.getValue();
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.getMessage();
 		}
 
@@ -68,7 +68,7 @@ public class MemberController {
 
 	@Operation(summary = "회원 정보 조회")
 	@GetMapping("")
-	public String getMember(Model model,HttpServletRequest request){
+	public String getMember(Model model, HttpServletRequest request) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		if (member == null) {
 			return "member/login";
@@ -79,25 +79,27 @@ public class MemberController {
 
 	@Operation(summary = "회원 가입 view")
 	@GetMapping("/insert")
-	public String insertMember(HttpSession session, Model model){
+	public String insertMember(HttpSession session, Model model) {
 		MemberInsertDto member = new MemberInsertDto();
-		/*String csrfToken = UUID.randomUUID().toString();
-		session.setAttribute("csrfToken", csrfToken);
-		log.info("/member/insert, GET {}", csrfToken);*/
+		/*
+		 * String csrfToken = UUID.randomUUID().toString();
+		 * session.setAttribute("csrfToken", csrfToken);
+		 * log.info("/member/insert, GET {}", csrfToken);
+		 */
 		model.addAttribute("dto", member);
 		return "member/signup";
 	}
 
-
 	@Operation(summary = "회원 가입")
 	@PostMapping("/insert")
-	public String insertMember(@Valid @ModelAttribute("dto") MemberInsertDto dto, BindingResult result, HttpSession session, Model model) {
+	public String insertMember(@Valid @ModelAttribute("dto") MemberInsertDto dto, BindingResult result,
+			HttpSession session, Model model) {
 		log.info("회원가입 진행중...");
-		if(result.hasErrors()){
+		if (result.hasErrors()) {
 			log.info("errors: {}", result);
 			return "member/signup";
 		}
-		if(!dto.getMemberPassword().equals(dto.getReMemberPassword())){
+		if (!dto.getMemberPassword().equals(dto.getReMemberPassword())) {
 			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다");
 			log.info("errors: {}", result);
 			return "member/signup";
@@ -107,21 +109,21 @@ public class MemberController {
 		Address address = new Address();
 		log.info("dto: {}", dto.getMemberEmail());
 		Member findMember = memberService.selectMember(dto.getMemberEmail());
-		log.info("아이디 {}",findMember);
+		log.info("아이디 {}", findMember);
 
 		if (findMember != null) {
 			log.info("같은 아이디가 있습니다");
 			model.addAttribute("member", dto);
 			return "redirect:/member/signup";
 		}
-		/*String sessionToken = (String) session.getAttribute("csrfToken");
-		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
-			throw new RuntimeException("CSRF Token Error.");
-		}*/
-
+		/*
+		 * String sessionToken = (String) session.getAttribute("csrfToken");
+		 * if(csrfToken==null || !csrfToken.equals(sessionToken)) { throw new
+		 * RuntimeException("CSRF Token Error."); }
+		 */
 
 		try {
-			//회원 정보 저장
+			// 회원 정보 저장
 			String encodedPw = passwordEncoder.encode(dto.getMemberPassword());
 			member.setMemberName(dto.getMemberName());
 			member.setMemberEmail(dto.getMemberEmail());
@@ -136,14 +138,13 @@ public class MemberController {
 			int memberId = memberService.getMemberId(dto.getMemberEmail());
 			log.info("memberId: {}", memberId);
 
-			//권한 부여
+			// 권한 부여
 			Role role = new Role();
 			role.setMemberId(memberId);
 			role.setRoleName("ROLE_USER");
 			roleRepository.insertRole(role);
 
-
-			//주소 저장
+			// 주소 저장
 			address.setAddressZipcode(dto.getAddressZipcode());
 			address.setAddressRoad(dto.getAddressRoad());
 			address.setAddressContent(dto.getAddressContent());
@@ -161,9 +162,9 @@ public class MemberController {
 		}
 		// 수정 필요
 		session.invalidate();
-        return "redirect:/member/signup_ok";
-    }
-    
+		return "redirect:/member/signup_ok";
+	}
+
 	@Operation(summary = "회원 가입 완료 view")
 	@GetMapping("/signup_ok")
 	public String insertOkMember(HttpServletRequest request, Model model) {
@@ -182,7 +183,8 @@ public class MemberController {
 
 	@Operation(summary = "회원 정보 수정")
 	@PostMapping("/update")
-	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, BindingResult result, HttpServletRequest request){
+	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, BindingResult result,
+			HttpServletRequest request) {
 		if (result.hasErrors()) {
 			log.info("errors: {}", result);
 			return "member/member_update";
@@ -204,7 +206,7 @@ public class MemberController {
 	public String updatePasswordMember(HttpServletRequest request, Model model, MemberUpdateDto member) {
 		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
 		if (!member.getMemberPassword().equals(dbMember.getMemberPassword())) {
-			model.addAttribute("message","비밀번호가 맞지 않습니다.");
+			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
 			return "redirect:/member/password";
 		}
 
@@ -215,7 +217,7 @@ public class MemberController {
 
 	@Operation(summary = "회원 삭제 view")
 	@GetMapping("/delete")
-	public String memberDeleteForm(HttpServletRequest request, Model model){
+	public String memberDeleteForm(HttpServletRequest request, Model model) {
 		String email = getTokenUserEmail(request);
 		MemberDeleteDto dto = new MemberDeleteDto();
 		dto.setMemberEmail(email);
@@ -225,9 +227,10 @@ public class MemberController {
 
 	@Operation(summary = "회원 삭제")
 	@PostMapping("/delete")
-	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result, HttpServletRequest request, Model model) {
+	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result,
+			HttpServletRequest request, Model model) {
 		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-		if(!member.getMemberEmail().equals(dbMember.getMemberEmail())){
+		if (!member.getMemberEmail().equals(dbMember.getMemberEmail())) {
 			log.info("아이디가 일치하지 않습니다.");
 			result.rejectValue("memberEmail", null, "아이디가 일치하지 않습니다.");
 			return "member/member_delete";
@@ -240,14 +243,14 @@ public class MemberController {
 		}
 
 		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
-		return "redirect:/logout2"; //스프링 시큐리티 때문에 logout2 씀
+		return "redirect:/logout2"; // 스프링 시큐리티 때문에 logout2 씀
 	}
 
 	@Operation(summary = "회원 구독 view")
 	@GetMapping("/subscribe")
 	public String selectSubscribe(HttpServletRequest request, Model model) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member",member);
+		model.addAttribute("member", member);
 		return "member/subscribe_view";
 	}
 
@@ -259,25 +262,33 @@ public class MemberController {
 		return "redirect:/member/subscribe";
 	}
 
-
-	@GetMapping("/card")
-	public String getCard(Model model, String memberEmail) {
+//	@GetMapping("/card")
+//	public String getCard(Model model, String memberEmail) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
-		Member member = memberService.selectMember(memberEmail);
-=======
-  	@GetMapping("/card")
-  	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
->>>>>>> 654511a Merge branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git into main
-		model.addAttribute("member", member);
-		return "member/card_view";
+//		Member member = memberService.selectMember(memberEmail);
+//=======
+//  	@GetMapping("/card")
+//  	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+//		Member member = memberService.selectMember(getTokenUserEmail(request));
+//>>>>>>> 654511a Merge branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git into main
+//		model.addAttribute("member", member);
+//		return "member/card_view";
 //  			}else {
 //  				return "member/login";
 //  			}
+//	}
+
+	@GetMapping("/card")
+	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member", member);
+		return "member/card_view";
+//          }else {
+//             return "member/login";
+//          }
 	}
 
-
-	//카드 등록 폼
+	// 카드 등록 폼
 	@GetMapping("/card/insert")
 	public String insertCard(Model model, String memberEmail) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
@@ -289,7 +300,7 @@ public class MemberController {
 //  			}
 	}
 
-	//카드 등록 처리
+	// 카드 등록 처리
 	@PostMapping("/card/insert")
 	public String insertCard(Member member, Model model, String memberEmail) {
 		memberService.insertCard(memberEmail);
@@ -298,8 +309,8 @@ public class MemberController {
 		return "redirect:/member/card";
 	}
 
-	//카드 해지 구현 필요
-	//카드 등록 처리
+	// 카드 해지 구현 필요
+	// 카드 등록 처리
 	@PostMapping("/card/delete")
 	public String deleteCard(Member member, Model model) {
 		// 카드 해지 서비스 로직 필요
@@ -307,6 +318,5 @@ public class MemberController {
 		System.out.println("===카드 해지 완료===");
 		return "redirect:/member/card";
 	}
-
 
 }
