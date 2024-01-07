@@ -58,6 +58,7 @@ public class LoginController {
 //        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
         Member member = memberService.selectMember(loginMember.getMemberEmail());
 //        log.info("member: {}", member);
+
         if (member == null) {
             log.info("계정이 존재하지 않음");
             result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");

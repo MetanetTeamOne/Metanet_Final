@@ -20,16 +20,12 @@
                                 <legend for="userid">아이디</legend>
                                 <input type="email" th:field="*{memberEmail}" th:errorclass="field-error" id="memberEmail" name="memberEmail" class="input_text rounded" placeholder="아이디">
                             </div>
-                            <div class="field-error" th:errors="*{memberEmail}">
-                                아이디 오류
-                            </div>
+                            
                             <div class="ipt_wrap">
                                 <legend for="userpw">패스워드</legend>
                                 <input type="password" th:field="*{memberPassword}" th:errorclass="field-error" id="memberPassword" name="memberPassword" class="input_text rounded" placeholder="패스워드">
                             </div>
-                            <div class="field-error" th:errors="*{memberPassword}">
-                                비밀번호 오류
-                            </div>
+
                             <div class="ipt_wrap">
                                 <div class="chks chk_agree fl">
                                     <label class="chkcon" id="chk_saveid">
