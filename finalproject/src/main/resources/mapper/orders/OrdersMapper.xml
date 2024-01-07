@@ -16,13 +16,26 @@
 	        laundry_id as laundryId
 	    FROM ORDERS
 	    
-	    WHERE member_id = #{memberId}
-	    
-	    <if test="washId >= 0">
-	        AND wash_id = #{washId}
-	    </if>
+	    WHERE member_id = #{memberId}    
 	    
 	    ORDER BY orders_id
+	</select>
+	
+		<select id="searchOrderId" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT
+	        orders_id as ordersId,
+	        wash_id as washId,
+	        orders_count as ordersCount,
+	        orders_price as ordersPrice,
+	        orders_date as ordersDate,
+	        orders_status as OrdersStatus,
+	        member_id as memberId,
+	        laundry_id as laundryId
+	    FROM ORDERS
+	    
+	    WHERE orders_id = #{ordersId}    
+	    
+	    ORDER BY wash_id
 	</select>
 	
 	<insert id="insertOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
@@ -67,12 +80,9 @@
 		WHERE orders_id = #{ordersId}
 	</update>
 	
-	<delete id="deleteOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
+	<delete id="deleteOrder" parameterType="int">
 		DELETE FROM ORDERS
-		WHERE orders_id = #{ordersId}
+		WHERE orders_id = #{ordersId} and wash_id = #{washId}
 	</delete>
-	
-<!-- 	<![CDATA[ -->
-<!-- 	]]> -->
 	
 </mapper>

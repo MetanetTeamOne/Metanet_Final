@@ -67,7 +67,7 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력 view")
 	@GetMapping("/insert")
-	public String insetAddress(Model model) {
+	public String insertAddress(Model model) {
 		Address address = new Address();
 		model.addAttribute("insertAddress", address); // 빈 Address 객체 만들어서 안보내면 검증 안됨
 		return "member/address_insert";
@@ -75,7 +75,7 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력")
 	@PostMapping("/insert")
-	public String insetAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
+	public String insertAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
 
 		if (result.hasErrors()) { //form에서 검증실패한 필드가 있으면
 			log.info("errors: {}", result);

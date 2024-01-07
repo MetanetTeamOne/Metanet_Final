@@ -115,7 +115,9 @@ public class LoginController {
 
     @GetMapping("/logout2") //시큐리티 때문에 logout 못씀 일단 logout2로 해놓음
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-
+    	if(request.getCookies() == null) {
+    		return "redirect:/";
+    	}
 //        log.info("로그아웃 진행중...");
         Optional<Cookie> cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("token")).findFirst();
