@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
+import com.metanet.finalproject.member.model.MemberLoginDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.model.Member;
@@ -42,24 +42,31 @@ public class LoginController {
     // 로그인
     @Operation(summary = "로그인 view")
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        MemberLoginDto dto = new MemberLoginDto();
+        model.addAttribute("dto", dto);
 //        log.info("로그인 페이지...");
         return "member/login";
     }
 
     @Operation(summary = "로그인")
     @PostMapping("/login")
-    public String login(Member loginMember, HttpServletResponse response) {
-//        log.info("로그인 진행중...");
+    public String login(@Valid @ModelAttribute("dto") MemberLoginDto loginMember, BindingResult result, HttpServletResponse response) {
+        log.info("로그인 진행중...");
 //        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
         Member member = memberService.selectMember(loginMember.getMemberEmail());
 //        log.info("member: {}", member);
         if (member == null) {
-            throw new IllegalArgumentException("사용자가 없습니다.");
+            log.info("계정이 존재하지 않음");
+            result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");
+            return "member/login";
         }
 
         if (!passwordEncoder.matches(loginMember.getMemberPassword(), member.getMemberPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            log.info("비밀번호가 일치하지 않음");
+            result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
+            return "member/login";
+//            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
 //        if (!(loginMember.getMemberPassword()).equals(member.getMemberPassword())) {
