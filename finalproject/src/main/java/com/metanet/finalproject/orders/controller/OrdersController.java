@@ -103,13 +103,13 @@ public class OrdersController {
 	public String insertOrder(Model model) {
 		// 임시데이터
 		Member member = memberService.getMember(1);
-		List<Address> addressList = addressService.getAddress(1);
+//		List<Address> addressList = addressService.getAddress(1);
 		List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
 		// System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
 		List<Laundry> laundryList = laundryService.getLaundryCategory(1);
 		System.out.println("laundryList>>>>>>>>>>>>>>>>" + laundryList);
 		model.addAttribute("member", member);
-		model.addAttribute("addressList", addressList);
+//		model.addAttribute("addressList", addressList);
 		model.addAttribute("laundryCategoryList", laundryCategoryList);
 		model.addAttribute("laundryList", laundryList);
 		return "member/orders_insert";
