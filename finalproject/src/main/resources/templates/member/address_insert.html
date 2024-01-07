@@ -35,31 +35,31 @@
                                         <th><span class="important">새로운 주소</span></th>
                                         <td class="member_address">
                                             <div class="address_postcode">
-                                                <input type="text" th:field="*{addressZipcode}" id="addressZipcode"
+                                                <input type="text" th:field="*{addressZipcode}" th:errorclass="field-error" id="addressZipcode"
                                                        placeholder="우편번호" class="inputData" required readonly>
                                                 <button type="button" class="btn_post_search" onclick="daumPostcode()">
                                                     우편번호 찾기
                                                 </button>
                                             </div>
-                                            <div class="field-error" th:if="${#fields.hasErrors('addressZipcode')}"
+                                            <div class="field-error"
                                                  th:errors="*{addressZipcode}">
                                                 우편번호 오류
                                             </div>
                                             <div class="address_input">
                                                 <div class="member_warning">
-                                                    <input type="text" th:field="*{addressRoad}" id="addressRoad"
+                                                    <input type="text" th:field="*{addressRoad}" th:errorclass="field-error" id="addressRoad"
                                                            name="addressRoad" placeholder="도로명주소" class="inputData"
                                                            required readonly>
                                                 </div>
-                                                <div class="field-error" th:if="${#fields.hasErrors('addressRoad')}"
+                                                <div class="field-error"
                                                      th:errors="*{addressRoad}">
                                                     도로명 오류
                                                 </div>
                                                 <div class="member_warning js_address_sub">
-                                                    <input type="text" th:field="*{addressContent}" id="addressContent"
+                                                    <input type="text" th:field="*{addressContent}" th:errorclass="field-error" id="addressContent"
                                                            name="addressContent" placeholder="상세주소" required>
                                                 </div>
-                                                <div class="field-error" th:if="${#fields.hasErrors('addressContent')}"
+                                                <div class="field-error"
                                                      th:errors="*{addressContent}">
                                                     상세주소 오류
                                                 </div>

@@ -58,9 +58,9 @@ public class AddressController {
 	@Operation(summary = "사용자 주소 조회")
 	@GetMapping("")
 	public String getAddress(Model model) {
-		List<Address> getAddress = addressService.getAddress(1);
+//		List<Address> getAddress = addressService.getAddress(1);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("사용자 주소 조회 : " + getAddress);
+//		System.out.println("사용자 주소 조회 : " + getAddress);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		return "member/address_view";
 	}
@@ -84,16 +84,15 @@ public class AddressController {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 입력 : " + address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-//		addressService.insertAddress(address);
+		addressService.insertAddress(address);
 		return "redirect:/member/address";
 	}
 
 	@Operation(summary = "사용자 주소 수정 view")
 	@GetMapping("/update")
 	public String updateAddress(Model model, HttpServletRequest request) {
-		Address address = new Address();
-//		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
-//		List<Address> address = addressService.getAddress(memberId); //리스트 반환?
+		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
+		Address address = addressService.getAddress(memberId);
 
 		model.addAttribute("updateAddress", address);
 		return "member/address_update";
@@ -110,6 +109,7 @@ public class AddressController {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 수정 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+//		log.info("update address: {}", address);
 		addressService.updateAddress(address);
 		return "redirect:/member/address";
 	}
@@ -120,7 +120,7 @@ public class AddressController {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 삭제 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		addressService.deleteAddress(address);
+//		addressService.deleteAddress(address);
 		return "redirect:/member/address";
 	}
 }
