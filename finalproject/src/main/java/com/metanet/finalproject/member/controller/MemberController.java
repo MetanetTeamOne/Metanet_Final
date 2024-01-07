@@ -2,7 +2,7 @@ package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
 
-import com.metanet.finalproject.member.model.ResponseDto;
+import com.metanet.finalproject.member.model.*;
 import com.metanet.finalproject.role.model.Role;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberInsertDto;
-import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
@@ -195,13 +192,17 @@ public class MemberController {
 	@GetMapping("/update")
 	public String updateMember(Model model, HttpServletRequest request) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
+		model.addAttribute("updateMember", member);
 		return "member/member_update";
 	}
 
 	@Operation(summary = "회원 정보 수정")
 	@PostMapping("/update")
-	public String updateMember(@ModelAttribute MemberUpdateDto member, HttpServletRequest request){
+	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, BindingResult result, HttpServletRequest request){
+		if (result.hasErrors()) {
+			log.info("errors: {}", result);
+			return "member/member_update";
+		}
 		memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
 	}
@@ -231,22 +232,31 @@ public class MemberController {
 	@Operation(summary = "회원 삭제 view")
 	@GetMapping("/delete")
 	public String memberDeleteForm(HttpServletRequest request, Model model){
-		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
+		String email = getTokenUserEmail(request);
+		MemberDeleteDto dto = new MemberDeleteDto();
+		dto.setMemberEmail(email);
+		model.addAttribute("deleteMember", dto);
 		return "member/member_delete";
 	}
 
 	@Operation(summary = "회원 삭제")
 	@PostMapping("/delete")
-	public String deleteMember(HttpServletRequest request, Member member, Model model){
+	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result, HttpServletRequest request, Model model) {
 		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
+		if(!member.getMemberEmail().equals(dbMember.getMemberEmail())){
+			log.info("아이디가 일치하지 않습니다.");
+			result.rejectValue("memberEmail", null, "아이디가 일치하지 않습니다.");
+			return "member/member_delete";
+		}
 		if (!dbMember.getMemberPassword().equals(member.getMemberPassword())) {
-			model.addAttribute("message","비밀번호가 맞지 않습니다.");
+			log.info("비밀번호가 일치하지 않습니다.");
+			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
+//			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
 			return "redirect:/member/delete";
 		}
 
 		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
-		return "redirect:/logout";
+		return "redirect:/logout2"; //스프링 시큐리티 때문에 logout2 씀
 	}
 
 	@Operation(summary = "회원 구독 view")
