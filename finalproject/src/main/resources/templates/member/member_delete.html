@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>회원 탈퇴</h3>
-                            <form id="sendForm" class="my_page_form" method="post" action="/member/delete">
+                            <form id="sendForm" class="my_page_form" method="post" action="/member/delete" th:object="${deleteMember}">
                                 <div class="base_info_sec">
 									<table>
                                         <tbody>
@@ -41,7 +41,10 @@
                                                 <th><span>아이디</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="text" id="memberEmail" name="memberEmail" class="inputData" th:value="${member.memberEmail}" readonly>
+                                                        <input type="text" th:field="*{memberEmail}" th:errorclass="field-error" id="memberEmail" name="memberEmail" class="inputData" readonly>
+                                                    </div>
+                                                    <div class="field-error" th:errors="*{memberEmail}">
+                                                        이메일 오류
                                                     </div>
                                                 </td>
                                             </tr>
@@ -49,7 +52,10 @@
                                                 <th><span>비밀번호 입력</span></th>
                                                 <td class="member_email">
                                                     <div class="member_warning">
-                                                        <input type="password" id="memberPassword" name="memberPassword" maxlength="30" required>
+                                                        <input type="password" th:field="*{memberPassword}" th:errorclass="field-error" id="memberPassword" name="memberPassword" maxlength="30" required>
+                                                    </div>
+                                                    <div class="field-error" th:errors="*{memberPassword}">
+                                                        비밀번호 오류
                                                     </div>
                                                 </td>
                                             </tr>
