@@ -165,3 +165,48 @@
     background-position: 0 100%;
     background-size: cover
 }
+
+.cmem_sns_login {
+    display: table;
+    table-layout: fixed;
+    width: 334px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.cmem_sns_login li {
+    display: table-cell;
+    text-align: center;
+}
+
+.cmem_sns_login li a {
+    display: block;
+}
+
+.cmem_sns_login .sp_cmem_sns.cmem_ico_naver {
+    background-image: url(https://dev-img.dongwonmall.com/dwmall/web/images/icon/icon_sns_login.png);
+    background-position: 0 0;
+    width: 56px;
+    height: 56px;
+}
+
+.cmem_sns_login .sp_cmem_sns {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cmem_sns_login .cmem_sns_name {
+    display: block;
+    margin-top: 5px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333;
+    letter-spacing: -.5px;
+}
+
+.cmem_sns_login .sp_cmem_sns.cmem_ico_kakao {
+    background-image: url(https://dev-img.dongwonmall.com/dwmall/web/images/icon/icon_sns_login.png);
+    background-position: -83px -56px;
+    width: 56px;
+    height: 56px;
+}
