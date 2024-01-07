@@ -920,4 +920,9 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
   background-color: var(--sub);
 }
 
+.field-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
 

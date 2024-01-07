@@ -2,24 +2,21 @@ package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
 
+import com.metanet.finalproject.member.model.*;
+import com.metanet.finalproject.role.model.Role;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberInsertDto;
-import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.service.IMemberService;
-import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Member", description = "회원 관리 API")
 public class MemberController {
 
-    @Autowired
-    IMemberService memberService;
+	@Autowired
+	IMemberService memberService;
 
 	@Autowired
 	IAddressService addressService;
@@ -44,76 +41,78 @@ public class MemberController {
 	@Autowired
 	IRoleRepository roleRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-	
 	@Autowired
-    JwtTokenProvider jwtTokenProvider;
-    
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+
 	//	Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
-        String token = "";
+		log.info("이메일로 토큰 받는중...");
+		String token = "";
 
-        try {
-            Cookie[] cookies = request.getCookies();
-        	for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")){
-                    token = cookie.getValue();
-                }
-            }
-        } catch(Exception e) {
-        	e.getMessage();
-        }
-        
-        return jwtTokenProvider.getUserId(token);
+		try {
+			Cookie[] cookies = request.getCookies();
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("token")){
+					token = cookie.getValue();
+				}
+			}
+		} catch(Exception e) {
+			e.getMessage();
+		}
+
+		return jwtTokenProvider.getUserId(token);
 	}
-	
+
 	@Operation(summary = "회원 정보 조회")
 	@GetMapping("")
-	public String getMember(Model model, HttpServletRequest request) {
-		try {
-		    String userEmail = getTokenUserEmail(request);
-		    if (userEmail == null || userEmail.isEmpty()) {
-		        return "member/login";
-		    }
-		    
-		    Member member = memberService.selectMember(userEmail);
-
-		    if (member == null) {
-		        return "member/login";
-		    } else {
-		        model.addAttribute("member", member);
-		        return "member/member_view";
-		    }
-		} catch(Exception e){
+	public String getMember(Model model,HttpServletRequest request){
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		if (member == null) {
 			return "member/login";
-		}  
+		}
+		model.addAttribute("member", member);
+		return "member/member_view";
 	}
 
 	@Operation(summary = "회원 가입 view")
-    @GetMapping("/insert")
-    public String insertMember(HttpSession session){
+	@GetMapping("/insert")
+	public String insertMember(HttpSession session, Model model){
+		MemberInsertDto member = new MemberInsertDto();
 		/*String csrfToken = UUID.randomUUID().toString();
 		session.setAttribute("csrfToken", csrfToken);
 		log.info("/member/insert, GET {}", csrfToken);*/
+		model.addAttribute("dto", member);
 		return "member/signup";
-    }
+	}
 
 
 	@Operation(summary = "회원 가입")
-    @PostMapping("/insert")
-    public String insertMember(@ModelAttribute MemberInsertDto dto, HttpSession session, Model model) {
-//		log.info("회원가입 진행중...");
+	@PostMapping("/insert")
+	public String insertMember(@Valid @ModelAttribute("dto") MemberInsertDto dto, BindingResult result, HttpSession session, Model model) {
+		log.info("회원가입 진행중...");
+		if(result.hasErrors()){
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+		if(!dto.getMemberPassword().equals(dto.getReMemberPassword())){
+			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다");
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+//		log.info("=========");
 		Member member = new Member();
 		Address address = new Address();
-//		log.info("dto: {}", dto.getMemberEmail());
+		log.info("dto: {}", dto.getMemberEmail());
 		Member findMember = memberService.selectMember(dto.getMemberEmail());
-//		log.info("아이디 {}",findMember);
+		log.info("아이디 {}",findMember);
+
 		if (findMember != null) {
-//			log.info("같은 아이디가 있습니다");
-			model.addAttribute("dto", dto);
-			return "member/signup";
+			log.info("같은 아이디가 있습니다");
+			model.addAttribute("member", dto);
+			return "redirect:/member/signup";
 		}
 		/*String sessionToken = (String) session.getAttribute("csrfToken");
 		if(csrfToken==null || !csrfToken.equals(sessionToken)) {
@@ -135,7 +134,7 @@ public class MemberController {
 			memberService.insertMember(member);
 
 			int memberId = memberService.getMemberId(dto.getMemberEmail());
-//			log.info("memberId: {}", memberId);
+			log.info("memberId: {}", memberId);
 
 			//권한 부여
 			Role role = new Role();
@@ -152,13 +151,13 @@ public class MemberController {
 			address.setAddressDetail("null");
 			address.setMemberId(memberId);
 
-//			log.info("address: {}", address);
+			log.info("address: {}", address);
 			addressService.insertAddress(address);
 		} catch (DuplicateKeyException e) {
 			member.setMemberEmail(null);
 			model.addAttribute("member", member);
 			model.addAttribute("message", "id가 이미 있습니다.");
-			return "redirect:/member/insert";
+			return "member/signup";
 		}
 		// 수정 필요
 		session.invalidate();
@@ -166,129 +165,148 @@ public class MemberController {
     }
     
 	@Operation(summary = "회원 가입 완료 view")
-    @GetMapping("/signup_ok")
-    public String insertOkMember() {
-        return "member/signup_ok";
-    }
+	@GetMapping("/signup_ok")
+	public String insertOkMember(HttpServletRequest request, Model model) {
+//    	Member member = memberService.selectMember(getTokenUserEmail(request)); 회원가입 완료 페이지는 회원정보 안뿌리고 그냥 가입확인만 하기로함
+//    	model.addAttribute("member",member);
+		return "member/signup_ok";
+	}
 
 	@Operation(summary = "회원 정보 수정 view")
-    @GetMapping("/update")
-    public String updateMember(Model model, HttpServletRequest request) {
-        Member member = memberService.selectMember(getTokenUserEmail(request));
-        model.addAttribute("member", member);
-        return "member/member_update";
-    }
-    
+	@GetMapping("/update")
+	public String updateMember(Model model, HttpServletRequest request) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("updateMember", member);
+		return "member/member_update";
+	}
+
 	@Operation(summary = "회원 정보 수정")
 	@PostMapping("/update")
-    public String updateMember(@ModelAttribute MemberUpdateDto member, HttpServletRequest request){
-        memberService.updateMember(member, getTokenUserEmail(request));
-        System.out.println(">>>>>>>>>>>>>>>>."+member);
+	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, BindingResult result, HttpServletRequest request){
+		if (result.hasErrors()) {
+			log.info("errors: {}", result);
+			return "member/member_update";
+		}
+		memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
-    }
-    
+	}
+
 	@Operation(summary = "회원 비밀번호 수정 view")
-    @GetMapping("/password")
-    public String updatePasswordMember(HttpServletRequest request, Model model) {
-        Member member = memberService.selectMember(getTokenUserEmail(request));
-        model.addAttribute("member", member);
-        return "member/member_password";
-    }
-    
+	@GetMapping("/password")
+	public String updatePasswordMember(HttpServletRequest request, Model model) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member", member);
+		return "member/member_password";
+	}
+
 	@Operation(summary = "회원 비밀번호 수정")
-    @PostMapping("/password")
-    public String updatePasswordMember(HttpServletRequest request, Model model, MemberUpdateDto member) {
-    	Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-    	if (!member.getMemberPassword().equals(dbMember.getMemberPassword())) {
-    		model.addAttribute("message","비밀번호가 맞지 않습니다.");
-            return "redirect:/member/password";
-    	}
-    	
-    	memberService.updateMember(member, member.getNewPassword());    	
-    	return "redirect:/member";
-    	
-    }
+	@PostMapping("/password")
+	public String updatePasswordMember(HttpServletRequest request, Model model, MemberUpdateDto member) {
+		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
+		if (!member.getMemberPassword().equals(dbMember.getMemberPassword())) {
+			model.addAttribute("message","비밀번호가 맞지 않습니다.");
+			return "redirect:/member/password";
+		}
+
+		memberService.updateMember(member, member.getNewPassword());
+		return "redirect:/member";
+
+	}
 
 	@Operation(summary = "회원 삭제 view")
-    @GetMapping("/delete")
-    public String memberDeleteForm(HttpServletRequest request, Model model){
-        Member member = memberService.selectMember(getTokenUserEmail(request));
-        model.addAttribute("member", member);
-        return "member/member_delete";
-    }
+	@GetMapping("/delete")
+	public String memberDeleteForm(HttpServletRequest request, Model model){
+		String email = getTokenUserEmail(request);
+		MemberDeleteDto dto = new MemberDeleteDto();
+		dto.setMemberEmail(email);
+		model.addAttribute("deleteMember", dto);
+		return "member/member_delete";
+	}
 
 	@Operation(summary = "회원 삭제")
-    @PostMapping("/delete")
-    public String deleteMember(HttpServletRequest request, Member member, Model model){
-    	try {
-			String dbpw = memberService.selectMember(getTokenUserEmail(request)).getMemberPassword();
-			if(member.getMemberPassword() != null && passwordEncoder.matches(member.getMemberPassword(), dbpw)) {
-				memberService.deleteMember(getTokenUserEmail(request), dbpw);
-				return "redirect:/logout2";
-			}else {
-				model.addAttribute("message", "WRONG_PASSWORD");
-				return "member/member_delete";
-			}
-		}catch(Exception e){
-			model.addAttribute("message", "fail");
-			e.printStackTrace();
+	@PostMapping("/delete")
+	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result, HttpServletRequest request, Model model) {
+		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
+		if(!member.getMemberEmail().equals(dbMember.getMemberEmail())){
+			log.info("아이디가 일치하지 않습니다.");
+			result.rejectValue("memberEmail", null, "아이디가 일치하지 않습니다.");
 			return "member/member_delete";
 		}
-    }
-    
-	@Operation(summary = "회원 구독 view")
-  	@GetMapping("/subscribe")
-  	public String selectSubscribe(HttpServletRequest request, Model model) {
-  		Member member = memberService.selectMember(getTokenUserEmail(request));
-  		model.addAttribute("member",member);
-  		return "member/subscribe_view";
-  	}
-  	
-	@Operation(summary = "회원 구독")
-  	@PostMapping("/subscribe")
-  	public String updateSubscribe(HttpServletRequest request, Member member, Model model) {
-  		member.setMemberEmail(getTokenUserEmail(request));
-  		memberService.updateSubscribe(member);
-  		return "redirect:/member/subscribe";
-  	}
-  	
+		if (!dbMember.getMemberPassword().equals(member.getMemberPassword())) {
+			log.info("비밀번호가 일치하지 않습니다.");
+			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
+//			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
+			return "redirect:/member/delete";
+		}
 
+		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
+		return "redirect:/logout2"; //스프링 시큐리티 때문에 logout2 씀
+	}
+
+	@Operation(summary = "회원 구독 view")
+	@GetMapping("/subscribe")
+	public String selectSubscribe(HttpServletRequest request, Model model) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member",member);
+		return "member/subscribe_view";
+	}
+
+	@Operation(summary = "회원 구독")
+	@PostMapping("/subscribe")
+	public String updateSubscribe(HttpServletRequest request, Member member, Model model) {
+		member.setMemberEmail(getTokenUserEmail(request));
+		memberService.updateSubscribe(member);
+		return "redirect:/member/subscribe";
+	}
+
+
+	@GetMapping("/card")
+	public String getCard(Model model, String memberEmail) {
+//  			if(memberEmail != null && !memberEmail.equals("")) {
+		Member member = memberService.selectMember(memberEmail);
+=======
   	@GetMapping("/card")
   	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
+>>>>>>> 654511a Merge branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git into main
 		model.addAttribute("member", member);
 		return "member/card_view";
+//  			}else {
+//  				return "member/login";
+//  			}
+	}
 
-  	}
 
-  	
-  	//카드 등록 폼
-  	@GetMapping("/card/insert")
-  	public String insertCard(Model model, String memberEmail) {
+	//카드 등록 폼
+	@GetMapping("/card/insert")
+	public String insertCard(Model model, String memberEmail) {
+//  			if(memberEmail != null && !memberEmail.equals("")) {
 		Member member = memberService.selectMember(memberEmail);
 		model.addAttribute("member", member);
 		return "member/card_insert";
+//  			}else {
+//  				return "member/login";
+//  			}
+	}
 
-  	}
-  	
-  	//카드 등록 처리
-  	@PostMapping("/card/insert")
-  	public String insertCard(Member member, Model model, String memberEmail) {
-  		memberService.insertCard(memberEmail);
-  		model.addAttribute("member", member);
-//  		System.out.println("===카드 등록 완료===");
-  		return "redirect:/member/card";
-  	}
+	//카드 등록 처리
+	@PostMapping("/card/insert")
+	public String insertCard(Member member, Model model, String memberEmail) {
+		memberService.insertCard(memberEmail);
+		model.addAttribute("member", member);
+		System.out.println("===카드 등록 완료===");
+		return "redirect:/member/card";
+	}
 
-  	//카드 해지 구현 필요
-  	//카드 등록 처리
-  	@PostMapping("/card/delete")
-  	public String deleteCard(Member member, Model model) {
-  		// 카드 해지 서비스 로직 필요
-  		model.addAttribute("member", member);
-//  		System.out.println("===카드 해지 완료===");
-  		return "redirect:/member/card";
-  	}
+	//카드 해지 구현 필요
+	//카드 등록 처리
+	@PostMapping("/card/delete")
+	public String deleteCard(Member member, Model model) {
+		// 카드 해지 서비스 로직 필요
+		model.addAttribute("member", member);
+		System.out.println("===카드 해지 완료===");
+		return "redirect:/member/card";
+	}
 
-    
+
 }
