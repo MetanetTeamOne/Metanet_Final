@@ -13,9 +13,9 @@ import com.metanet.finalproject.member.model.Member;
 public interface IMemberRepository {
     public Member getMember(@Param("memberId") int memberId);
     public List<Member> getMemberList();
-    public int insertMember(@Param("member") Member member);
+    public void insertMember(@Param("member") Member member);
     public void updateMember(@Param("member") Member member, @Param("email") String email);
-    public void deleteMember(@Param("memberEmail") String memberEmail, @Param("memberPassword") String memberPassword);
+    public void deleteMember(@Param("memberEmail") String memberEmail, @Param("state") String memberJoinState);
 	public int getMemberId(@Param("email") String email);
     
     //이메일로 특정 회원조회

@@ -38,8 +38,8 @@ public class MemberService implements IMemberService{
 
     @Override
     @Transactional
-    public void deleteMember(String memberEmail, String memberPassword) {
-        memberRepository.deleteMember(memberEmail, memberPassword);
+    public void deleteMember(String memberEmail, String memberJoinState) {
+        memberRepository.deleteMember(memberEmail, memberJoinState);
     }
 
     @Override

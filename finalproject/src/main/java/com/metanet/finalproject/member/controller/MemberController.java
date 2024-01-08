@@ -1,9 +1,12 @@
 package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.Optional;
 
 import com.metanet.finalproject.member.model.*;
 import com.metanet.finalproject.role.model.Role;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -242,11 +245,11 @@ public class MemberController {
 
 	@Operation(summary = "회원 비밀번호 수정")
 	@PostMapping("/password")
-	public String updatePasswordMember(@Valid @ModelAttribute("dto") MemberPasswordDto dto, BindingResult result) {
+	public String updatePasswordMember(@Valid @ModelAttribute("dto") MemberPasswordDto dto, BindingResult result, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "member/member_password";
 		}
-		Member member = memberService.selectMember(dto.getMemberEmail());
+		Member member = memberService.selectMember(getTokenUserEmail(request));
 		log.info("member: {}", member);
 		if (!passwordEncoder.matches(dto.getMemberPassword(), member.getMemberPassword())) { //원래 비밀번호와 폼에서 입력받은 비밀번호 비교
 			result.rejectValue("memberPassword", null, "잘못된 비밀번호를 입력했습니다.");
@@ -268,28 +271,29 @@ public class MemberController {
 		String email = getTokenUserEmail(request);
 		MemberDeleteDto dto = new MemberDeleteDto();
 		dto.setMemberEmail(email);
-		model.addAttribute("deleteMember", dto);
+		model.addAttribute("dto", dto);
 		return "member/member_delete";
 	}
 
 	@Operation(summary = "회원 삭제")
 	@PostMapping("/delete")
-	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result, HttpServletRequest request, Model model) {
-		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-		if(!member.getMemberEmail().equals(dbMember.getMemberEmail())){
-			log.info("아이디가 일치하지 않습니다.");
-			result.rejectValue("memberEmail", null, "아이디가 일치하지 않습니다.");
+	public String deleteMember(@Valid @ModelAttribute("dto") MemberDeleteDto dto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+		if (result.hasErrors()) {
+			log.info("필드에러 발생");
 			return "member/member_delete";
 		}
-		if (!dbMember.getMemberPassword().equals(member.getMemberPassword())) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		if (!passwordEncoder.matches(dto.getMemberPassword(), member.getMemberPassword())) {
 			log.info("비밀번호가 일치하지 않습니다.");
 			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
 //			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
-			return "redirect:/member/delete";
+			return "member/member_delete";
 		}
 
-		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
-		return "redirect:/logout2"; //스프링 시큐리티 때문에 logout2 씀
+		memberService.deleteMember(member.getMemberEmail(), "0");
+		log.info("삭제완료");
+
+		return "redirect:/logout2";
 	}
 
 	@Operation(summary = "회원 구독 view")
