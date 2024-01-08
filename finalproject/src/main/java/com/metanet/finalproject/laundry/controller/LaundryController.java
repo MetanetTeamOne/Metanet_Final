@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Controller
 @RequestMapping("/laundry")
 @Tag(name = "Laundry", description = "세탁물 관리 API")
+@CrossOrigin(origins = {"http://localhost:8085", 
+		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*")
 public class LaundryController {
 	
 	@Autowired

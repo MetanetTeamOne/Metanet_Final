@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/orders")
 @Tag(name = "Orders", description = "주문 관리 API")
+@CrossOrigin(origins = {"http://localhost:8085", 
+		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*")
 public class OrdersController {
 
 //	@Value("${file.upload.directory}")
