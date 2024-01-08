@@ -82,12 +82,8 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력")
 	@PostMapping("/insert")
-	public String insertAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
+	public String insertAddress(Address address) {
 
-		if (result.hasErrors()) { //form에서 검증실패한 필드가 있으면
-			log.info("errors: {}", result);
-			return "member/address_insert"; //result를 가지고 다시 입력 폼으로 돌아감
-		}
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println("사용자 주소 입력 : " + address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
