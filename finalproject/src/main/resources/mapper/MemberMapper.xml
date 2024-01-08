@@ -11,6 +11,16 @@
         from member
         where member_id = #{memberId}
     </select>
+    
+    <select id="searchMemberByPhonenumber" resultType="com.metanet.finalproject.member.model.Member">
+    	select member_id as memberId, member_name as memberName, member_email as memberEmail,
+               member_phone_number as memberPhoneNumber, member_password as memberPassword,
+               member_join_date as memberJoinDate, member_join_state as memberJoinState,
+               member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
+               member_card as memberCard
+        from member
+        where member_phone_number = #{memberPhonenumber}
+    </select>
 
     <select id="getMemberList" resultType="com.metanet.finalproject.member.model.Member">
         select member_id as memberId, member_name as memberName, member_email as memberEmail,
