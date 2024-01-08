@@ -42,10 +42,11 @@
 		where member_email = #{member.memberEmail}
     </update>
 
-    <delete id="deleteMember">
-        delete from member
-        where member_email = #{memberEmail} and member_password = #{memberPassword}
-    </delete>
+    <update id="deleteMember">
+        update member
+        set member_join_state = #{state}
+        where member_email = #{memberEmail}
+    </update>
 
 	<select id="getMemberId" resultType="int">
 		select member_id

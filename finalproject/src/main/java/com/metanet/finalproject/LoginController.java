@@ -55,10 +55,18 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("dto") MemberLoginDto loginMember, BindingResult result, HttpServletResponse response) {
         log.info("로그인 진행중...");
+        if (result.hasErrors()) {
+            return "member/login";
+        }
 //        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
         Member member = memberService.selectMember(loginMember.getMemberEmail());
 //        log.info("member: {}", member);
 
+        if (member.getMemberJoinState().equals("0")) {
+            log.info("탈퇴한 회원입니다.");
+            result.rejectValue("memberEmail", null, "해당아이디는 탈퇴되었습니다.");
+            return "member/login";
+        }
         if (member == null) {
             log.info("계정이 존재하지 않음");
             result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");

@@ -9,7 +9,7 @@ public interface IMemberService {
     public List<Member> getMemberList();
     public void insertMember(Member member);
     public void updateMember(Member member, String email);
-    public void deleteMember(String memberEmail, String memberPassword);
+    public void deleteMember(String memberEmail, String memberJoinState);
 	public int getMemberId(String email);
     //이메일로 특정 회원조회
   	Member selectMember(String memberEmail);
