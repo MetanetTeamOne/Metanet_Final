@@ -286,6 +286,7 @@ public class MemberController {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
 		return "member/card_view";
+  	}
 
 //	@GetMapping("/card")
 //	public String getCard(Model model, String memberEmail) {
