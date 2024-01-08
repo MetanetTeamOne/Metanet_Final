@@ -18,6 +18,11 @@ public class MemberService implements IMemberService{
     public Member getMember(int memberId) {
         return memberRepository.getMember(memberId);
     }
+    
+    @Override
+	public Member searchMemberByPhonenumber(String memberPhonenumber) {
+		return memberRepository.searchMemberByPhonenumber(memberPhonenumber);
+	}
 
     @Override
     public List<Member> getMemberList() {
