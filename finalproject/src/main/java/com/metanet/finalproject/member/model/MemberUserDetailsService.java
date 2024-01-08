@@ -29,9 +29,9 @@ public class MemberUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		log.info("loadUserByUsername....");
+//		log.info("loadUserByUsername....");
 		Member memberInfo = memberService.selectMember(email);
-		log.info("memberinfo: {}", memberInfo);
+//		log.info("memberinfo: {}", memberInfo);
 		if (memberInfo == null) {
 			throw new UsernameNotFoundException("[" + email + "] 사용자를 찾을 수 없습니다.");
 		}
