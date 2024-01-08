@@ -2,21 +2,22 @@ package com.metanet.finalproject;
 
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 
-import com.metanet.finalproject.member.model.MemberLoginDto;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberLoginDto;
 import com.metanet.finalproject.member.service.IMemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -56,6 +58,7 @@ public class LoginController {
 //        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
         Member member = memberService.selectMember(loginMember.getMemberEmail());
 //        log.info("member: {}", member);
+
         if (member == null) {
             log.info("계정이 존재하지 않음");
             result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");
@@ -112,7 +115,9 @@ public class LoginController {
 
     @GetMapping("/logout2") //시큐리티 때문에 logout 못씀 일단 logout2로 해놓음
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-
+    	if(request.getCookies() == null) {
+    		return "redirect:/";
+    	}
 //        log.info("로그아웃 진행중...");
         Optional<Cookie> cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("token")).findFirst();

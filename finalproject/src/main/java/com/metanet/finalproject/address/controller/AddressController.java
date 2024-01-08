@@ -55,10 +55,13 @@ public class AddressController {
 
 		return jwtTokenProvider.getUserId(token);
 	}
+	
 	@Operation(summary = "사용자 주소 조회")
 	@GetMapping("")
 	public String getAddress(Model model) {
 //		List<Address> getAddress = addressService.getAddress(1);
+		//서버 실행 안 돼서 바꿈
+		Address getAddress = addressService.getAddress(1);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 //		System.out.println("사용자 주소 조회 : " + getAddress);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
@@ -67,7 +70,7 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력 view")
 	@GetMapping("/insert")
-	public String insetAddress(Model model) {
+	public String insertAddress(Model model) {
 		Address address = new Address();
 		model.addAttribute("insertAddress", address); // 빈 Address 객체 만들어서 안보내면 검증 안됨
 		return "member/address_insert";
@@ -75,7 +78,7 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력")
 	@PostMapping("/insert")
-	public String insetAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
+	public String insertAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
 
 		if (result.hasErrors()) { //form에서 검증실패한 필드가 있으면
 			log.info("errors: {}", result);
@@ -121,6 +124,10 @@ public class AddressController {
 		System.out.println("사용자 주소 삭제 : "+ address);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
 //		addressService.deleteAddress(address);
+//=======
+		//서버 실행 안 돼서 주석처리함
+		System.out.println("AddressController>>>서버 실행 안 돼서 주석처리함");
+		//addressService.deleteAddress(address);
 		return "redirect:/member/address";
 	}
 }
