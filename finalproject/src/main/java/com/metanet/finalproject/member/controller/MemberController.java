@@ -194,6 +194,7 @@ public class MemberController {
 	@GetMapping("/update")
 	public String updateMember(Model model, HttpServletRequest request) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
+		log.info("member: {}", member);
 		model.addAttribute("updateMember", member);
 		return "member/member_update";
 	}
@@ -206,6 +207,7 @@ public class MemberController {
 			log.info("errors: {}", result);
 			return "member/member_update";
 		}
+
 		memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
 	}
@@ -243,23 +245,23 @@ public class MemberController {
 	}
 
 	@Operation(summary = "회원 삭제")
-    @PostMapping("/delete")
-    public String deleteMember(HttpServletRequest request, Member member, Model model){
-    	try {
-			String dbpw = memberService.selectMember(getTokenUserEmail(request)).getMemberPassword();
-			if(member.getMemberPassword() != null && passwordEncoder.matches(member.getMemberPassword(), dbpw)) {
-				memberService.deleteMember(getTokenUserEmail(request), dbpw);
-				return "redirect:/logout2";
-			}else {
-				model.addAttribute("message", "WRONG_PASSWORD");
-				return "redirect:/member/member_delete";
-			}
-		}catch(Exception e){
-			model.addAttribute("message", "fail");
-			e.printStackTrace();
-			return "redirect:/member/member_delete";
-
+	@PostMapping("/delete")
+	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result, HttpServletRequest request, Model model) {
+		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
+		if(!member.getMemberEmail().equals(dbMember.getMemberEmail())){
+			log.info("아이디가 일치하지 않습니다.");
+			result.rejectValue("memberEmail", null, "아이디가 일치하지 않습니다.");
+			return "member/member_delete";
 		}
+		if (!dbMember.getMemberPassword().equals(member.getMemberPassword())) {
+			log.info("비밀번호가 일치하지 않습니다.");
+			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
+//			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
+			return "redirect:/member/delete";
+		}
+
+		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
+		return "redirect:/logout2"; //스프링 시큐리티 때문에 logout2 씀
 	}
 
 	@Operation(summary = "회원 구독 view")
