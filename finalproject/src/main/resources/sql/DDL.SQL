@@ -88,8 +88,8 @@ ALTER TABLE ROLE
 CREATE TABLE ADDRESS (
 	address_id NUMBER NOT NULL, /* 주소 번호 */
 	address_zipcode VARCHAR2(10) NOT NULL, /* 배송주소 우편번호 */
-	address_road VARCHAR2(50) NOT NULL, /* 배송주소 도로명 */
-	address_content VARCHAR2(50) NOT NULL, /* 배송주소 상세 주소 */
+	address_road VARCHAR2(100) NOT NULL, /* 배송주소 도로명 */
+	address_content VARCHAR2(100) NOT NULL, /* 배송주소 상세 주소 */
 	address_category VARCHAR2(4), /* 배송 구분 **/
 	address_detail VARCHAR2(150), /* 상세 설명 */
 	member_id NUMBER NOT NULL /* 회원 ID */
