@@ -192,6 +192,7 @@ public class MemberController {
 	@GetMapping("/update")
 	public String updateMember(Model model, HttpServletRequest request) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
+		log.info("member: {}", member);
 		model.addAttribute("updateMember", member);
 		return "member/member_update";
 	}

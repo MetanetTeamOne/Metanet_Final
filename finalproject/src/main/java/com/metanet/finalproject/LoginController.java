@@ -78,7 +78,7 @@ public class LoginController {
         Cookie cookie = new Cookie("token", token);
         cookie.setMaxAge(60 * 60 * 24 * 7);
         cookie.setHttpOnly(true);
-//        cookie.setSecure(true);
+        cookie.setSecure(true);
         cookie.setPath("/");
         response.addCookie(cookie);
 //        log.info("로그인 성공...");
