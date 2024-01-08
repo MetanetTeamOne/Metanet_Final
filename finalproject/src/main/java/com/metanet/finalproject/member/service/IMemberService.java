@@ -2,6 +2,8 @@ package com.metanet.finalproject.member.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.metanet.finalproject.member.model.Member;
 
 public interface IMemberService {
@@ -9,10 +11,11 @@ public interface IMemberService {
     public List<Member> getMemberList();
     public void insertMember(Member member);
     public void updateMember(Member member, String email);
-    public void deleteMember(String memberEmail, String memberPassword);
+    public void deleteMember(String memberEmail, String memberJoinState);
 	public int getMemberId(String email);
     //이메일로 특정 회원조회
   	Member selectMember(String memberEmail);
+  	Member searchMemberByPhonenumber(String memberPhonenumber);
 
     // 구독신청 -> 구독o : 1
  	void insertSubscribe(Member member);

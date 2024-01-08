@@ -11,15 +11,22 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.model.MemberLoginDto;
 import com.metanet.finalproject.member.service.IMemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -33,25 +40,34 @@ public class KakaoController {
 	@Autowired
 	IMemberService memberService;
 	
-	String KakaoClientId = "2e5a8c7c7c5bae987fd68ea4def1c608"; 
-	String KakaoRedirectUri = "http://localhost:8085/member/kakao/loginok";
-    String KakaoResponseType = "code";
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
 	
-	String KakaoGrantType = "authorization_code";
+	private String KakaoClientId = "2e5a8c7c7c5bae987fd68ea4def1c608"; 
+	private String KakaoRedirectUri = "http://localhost:8085/member/kakao/loginok";
+	private String KakaoResponseType = "code";
 	
-	String KakaoClientSecret = "oHH6Rh6LEfzyTcGOlBaZA0tvW0pGymYB";
+	private String KakaoGrantType = "authorization_code";
+	
+	private String KakaoClientSecret = "oHH6Rh6LEfzyTcGOlBaZA0tvW0pGymYB";
 	
 	
-	String KakaoCode = null;
+	private String KakaoUserAuthorizationCode = null;
 	
-	String KakaoJwtToken = null;
+	private String KakaoJwtToken = null;
 	
-	String access_token = "";
-    String refresh_token = "";
-    String token_type = "";
-    String getAccessTokenURL = "https://kauth.kakao.com/oauth/token";
+	private String access_token = "";
+	private String refresh_token = "";
+	private String token_type = "";
+	private String getAccessTokenURL = "https://kauth.kakao.com/oauth/token";
     
-    String getKakaoUserInfoURL = "https://kapi.kakao.com/v2/user/me";
+	private String getKakaoUserInfoURL = "https://kapi.kakao.com/v2/user/me";
+	
+	// 조회된 카카오 로그인 유저 정보
+	private String user_name = null;
+	private String user_email = null;
+	private String user_phone_number = null;
+    
 
 	@Operation(summary = "카카오 로그인 화면 API")
 	@GetMapping("/login")
@@ -68,11 +84,11 @@ public class KakaoController {
 	
 	@Operation(summary = "카카오 액세스 토큰 발급 API")
 	@GetMapping("/loginok")
-	public String ok(@RequestParam String code) {
+	public String kakaoLoginOk(@RequestParam String code, Model model, HttpServletResponse response) {
 		// 1. 인가 코드 받기 (@RequestParam String code)
 		
 		// 2. 유저 인증 코드 받기
-		String KakaoUserAuthorizationCode = code;
+		KakaoUserAuthorizationCode = code;
 				
 		System.out.println(KakaoUserAuthorizationCode);
 		
@@ -90,7 +106,7 @@ public class KakaoController {
 	            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 	            StringBuilder sb = new StringBuilder();
 	            
-	            sb.append("grant_type=authorization_code");
+	            sb.append("grant_type="+KakaoGrantType);
 	            sb.append("&client_id="+KakaoClientId); // TODO REST_API_KEY 입력
 	            sb.append("&client_secret="+KakaoClientSecret);
 	            sb.append("&redirect_uri="+KakaoRedirectUri); // TODO 인가코드 받은 redirect_uri 입력
@@ -167,19 +183,18 @@ public class KakaoController {
             System.out.println("access token response body : " + result);
             
             JSONParser parser = new JSONParser();
-            // JSON 문자열을 JSONObject로 변환
+            
             JSONObject tokenResponseJsonObject = (JSONObject) parser.parse(result);
-
-            // 필요한 정보 추출
-//            long id = jsonObject.getLong("id");
             
             System.out.println(tokenResponseJsonObject.get("kakao_account"));
             
             JSONObject kakaoAccount = (JSONObject) tokenResponseJsonObject.get("kakao_account");
             
-            String user_name = (String) kakaoAccount.get("name");
-            String user_email = (String) kakaoAccount.get("email");
-            String user_phone_number = (String) kakaoAccount.get("phone_number");
+            user_name = (String) kakaoAccount.get("name");
+            user_email = (String) kakaoAccount.get("email");
+            String get_user_phonenumber = (String) kakaoAccount.get("phone_number");
+            
+            user_phone_number = "0" + get_user_phonenumber.substring(4).replace("-", "");
             
             System.out.println("카카오 이메일 이름 : " + user_name);
             System.out.println("카카오 이메일 주소 : " + user_email);
@@ -187,8 +202,40 @@ public class KakaoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "member/home";
+		
+		// 회원가입 되어있는지 확인하는 로직.
+		// 로직 구현 1. 카카오 로그인 전에 회원가입 안되어있을시 회원가입폼으로 넘어가게함.
+		// 로직 구현 2. 카카오 로그인 전에 회원가입 되어있을시 등록된 유저 DB 조회하면서 JWT토큰 발급하여 홈으로 넘어가게 한다.
+		Member getKakaoUserInfoFromUserDB = memberService.searchMemberByPhonenumber(user_phone_number);
+		try {
+			// 로직 구현 1.
+			if (getKakaoUserInfoFromUserDB != null&!getKakaoUserInfoFromUserDB.equals("")) {
+			    System.out.println(getKakaoUserInfoFromUserDB);
+			    
+			    String token = jwtTokenProvider.generateToken(getKakaoUserInfoFromUserDB);
+//		        log.info("token: {}", token);
+		        Cookie cookie = new Cookie("token", token);
+		        cookie.setMaxAge(60 * 60 * 24 * 7);
+		        cookie.setHttpOnly(true);
+//		        cookie.setSecure(true);
+		        cookie.setPath("/");
+		        response.addCookie(cookie);
+		        
+			    return "member/home";
+			} 
+			// 로직 구현 2.
+			else {
+			    System.out.println("전화번호에 일치하는 유저 정보 없음");
+			    MemberInsertDto member = new MemberInsertDto();
+		        model.addAttribute("dto", member);
+		        model.addAttribute("showAlert", true);
+			    return "member/signup";
+			}
+		}catch(Exception e){
+			MemberInsertDto member = new MemberInsertDto();
+	        model.addAttribute("dto", member);
+	        model.addAttribute("showAlert", true);
+			return "member/signup";
+		}
 	}
-	// http://localhost:8085/oauth/kakao
-	// https://kauth.kakao.com/oauth/authorize?client_id=19eeeefd0e612dd5e92798ad5a0566ed&redirect_uri=http://localhost:8085/&response_type=code
 }

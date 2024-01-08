@@ -18,6 +18,11 @@ public class MemberService implements IMemberService{
     public Member getMember(int memberId) {
         return memberRepository.getMember(memberId);
     }
+    
+    @Override
+	public Member searchMemberByPhonenumber(String memberPhonenumber) {
+		return memberRepository.searchMemberByPhonenumber(memberPhonenumber);
+	}
 
     @Override
     public List<Member> getMemberList() {
@@ -38,8 +43,8 @@ public class MemberService implements IMemberService{
 
     @Override
     @Transactional
-    public void deleteMember(String memberEmail, String memberPassword) {
-        memberRepository.deleteMember(memberEmail, memberPassword);
+    public void deleteMember(String memberEmail, String memberJoinState) {
+        memberRepository.deleteMember(memberEmail, memberJoinState);
     }
 
     @Override

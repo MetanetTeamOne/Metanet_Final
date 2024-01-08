@@ -13,13 +13,15 @@ import com.metanet.finalproject.member.model.Member;
 public interface IMemberRepository {
     public Member getMember(@Param("memberId") int memberId);
     public List<Member> getMemberList();
-    public int insertMember(@Param("member") Member member);
+    public void insertMember(@Param("member") Member member);
     public void updateMember(@Param("member") Member member, @Param("email") String email);
-    public void deleteMember(@Param("memberEmail") String memberEmail, @Param("memberPassword") String memberPassword);
+    public void deleteMember(@Param("memberEmail") String memberEmail, @Param("state") String memberJoinState);
 	public int getMemberId(@Param("email") String email);
     
     //이메일로 특정 회원조회
   	Member selectMember(@Param("memberEmail") String memberEmail);
+  	//전화번호로 특정 회원조회(소셜로그인 구현용)
+  	Member searchMemberByPhonenumber(@Param("memberPhonenumber") String memberPhonenumber);
     //구독신청(memberSubscribe를 1로, memberSubscribeDate를 sysdate로 update), 기본값 0, 기본값 2000-01-01
   	void insertSubscribe(Member member);
   	//구독해지(memberSubscribe를 1 -> 0으로 update)
