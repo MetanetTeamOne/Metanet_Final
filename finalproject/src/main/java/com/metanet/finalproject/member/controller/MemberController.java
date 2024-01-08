@@ -127,7 +127,6 @@ public class MemberController {
 			log.info("errors: {}", result);
 			return "member/signup";
 		}
-//		log.info("=========");
 		Member member = new Member();
 		Address address = new Address();
 		log.info("dto: {}", dto.getMemberEmail());
@@ -215,20 +214,27 @@ public class MemberController {
 	@GetMapping("/update")
 	public String updateMember(Model model, HttpServletRequest request) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
+		MemberUpdateDto dto = new MemberUpdateDto();
+		dto.setMemberEmail(member.getMemberEmail());
+		dto.setMemberName(member.getMemberName());
+		dto.setMemberPhoneNumber(member.getMemberPhoneNumber());
 		log.info("member: {}", member);
-		model.addAttribute("updateMember", member);
+		model.addAttribute("updateMember", dto);
 		return "member/member_update";
 	}
 
 	@Operation(summary = "회원 정보 수정")
 	@PostMapping("/update")
-	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto member, BindingResult result,
+	public String updateMember(@Valid @ModelAttribute("updateMember") MemberUpdateDto dto, BindingResult result,
 			HttpServletRequest request) {
+
+		Member member = memberService.selectMember(getTokenUserEmail(request));
 		if (result.hasErrors()) {
-			log.info("errors: {}", result);
 			return "member/member_update";
 		}
-
+		member.setMemberName(dto.getMemberName());
+		member.setMemberPhoneNumber(dto.getMemberPhoneNumber());
+		log.info("dto: {}", dto);
 		memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
 	}
