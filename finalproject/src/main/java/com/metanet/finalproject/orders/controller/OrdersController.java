@@ -11,9 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.metanet.finalproject.address.model.Address;
+import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.files.model.Files;
 import com.metanet.finalproject.files.service.IFilesService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.laundry.model.Laundry;
+import com.metanet.finalproject.laundry.service.ILaundryService;
+import com.metanet.finalproject.laundry_category.model.LaundryCategory;
+import com.metanet.finalproject.laundry_category.service.ILaundryCategoryService;
+import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.member.service.MemberService;
 import com.metanet.finalproject.orders.model.Orders;
@@ -42,7 +49,16 @@ public class OrdersController {
 
 	@Autowired
 	IFilesService fileService;
-	
+
+	@Autowired
+	IAddressService addressService;
+
+	@Autowired
+	ILaundryCategoryService laundryCategoryService;
+
+	@Autowired
+	ILaundryService laundryService;
+
 	Files files;
 	
 	@Autowired
@@ -66,7 +82,7 @@ public class OrdersController {
 
 		return jwtTokenProvider.getUserId(token);
 	}
-	
+
 	@Operation(summary = "주문")
 	@GetMapping("")
 	public String getOrder(HttpServletRequest request, Model model) {
@@ -110,8 +126,51 @@ public class OrdersController {
 
 	@Operation(summary = "주문 입력 view")
 	@GetMapping("/insert")
-	public String insertOrder(Model model) {
-		return "member/orders_insert";
+	public String insertOrder(Model model, HttpServletRequest request) {
+		//try {
+			Member member = memberService.selectMember(getTokenUserEmail(request));
+		    //if (member == null) {
+		    //    return "member/login";
+		    //}
+		    //else {
+		    	int count = ordersService.countOrder(member.getMemberId());
+		    	int washId = count + 1;
+		    	System.out.println("count============"+count);
+		    	Address addressList = addressService.getAddress(member.getMemberId());
+				List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
+				System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
+				//System.out.println("laundryCategoryList 길이>>>"+laundryCategoryList.size());
+				List<Laundry> laundryList = laundryService.getLaundryCategory(1);
+				System.out.println("List<Laundry> laundryList>>>>>>>>>>>>>>>>" + laundryList);
+				//model.addAttribute("ordersListSize", ordersListSize);
+				model.addAttribute("washId", washId);
+				model.addAttribute("member", member);
+				model.addAttribute("addressList", addressList);
+				model.addAttribute("laundryCategoryList", laundryCategoryList);
+				model.addAttribute("laundryList", laundryList);
+				return "member/orders_insert";
+		    //}
+		//} catch(Exception e){
+			//return "member/login";
+		//}  
+			
+	}
+
+	@Operation(summary = "주문 입력")
+	@PostMapping("/insert")
+	public String insertOrder(Model model, Orders orders, HttpServletRequest request) {
+
+		System.out.println("orders>>" + orders);
+//		System.out.println("OrdersCount>>>>"+orders.getOrdersCount());
+//		System.out.println("ordersPrice>>>>"+orders.getOrdersPrice());
+		ordersService.insertOrder(orders);
+		return "redirect:/orders/insertok";
+	}
+	
+	@GetMapping("/count/{memberId}")
+	@ResponseBody
+	public int countOrder(@PathVariable int memberId) {
+		return ordersService.countOrder(memberId);
 	}
 	
 	/*@Operation(summary = "주문 입력")

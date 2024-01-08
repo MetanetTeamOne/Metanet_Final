@@ -34,21 +34,29 @@
 
 						<li class="list-group-item d-flex justify-content-between bg-body-tertiary">
 							<div class="text-success">
-								<h6 class="my-0">배송비 할인</h6>
+								<h6 class="my-0 title">배송비 할인</h6>
 							</div>
 							<strong><span id="discountPrice" class="text-success"></span></strong>
 						</li>
 						<li class="list-group-item d-flex justify-content-between title">
 							<span>총액</span>
-							<strong><span id="totalPrice"></span></strong>
+							<strong><span id="totalPrice" name="ordersPrice"></span></strong>
 						</li>
 					</ul>
 				</div>
 
 				<div class="col-md-7 col-lg-8">
-					<form class="needs-validation was-validated" method="post" action="/orders/insert">
+					<form class="needs-validation was-validated" method="post" th:action="@{/orders/insert}">
 						<div class="row g-3">
 
+							<!--넘어가는 값-->
+							<input type="hidden" name="ordersCount">
+							<input type="hidden" name="ordersPrice">
+							<!--주문 후 수거진행이라서 그냥 디폴트로 1 넣음-->
+							<input type="hidden" name="ordersStatus" value="1">
+							<input type="hidden" name="memberId" th:value="${member.memberId}">
+							<input type="hidden" name="laundryId" th:value="${laundryList[0].laundryId}">
+							<input type="hidden" name="washId" th:value="${washId}">
 							<!--<div class="col-12">
 								<label for="username" class="form-label title">test</label>
 								<div class="input-group has-validation">
@@ -74,11 +82,12 @@
 									</div>
 								</div>
 							</div>
+
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
 							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="firstName" class="form-label title"></label>
-								<input type="text" class="form-control" id="firstName" placeholder="우편번호" value=""
-									name="addressZipcode" th:value="${addressList[0].addressZipcode}" required="">
+								<input type="text" class="form-control" id="firstName" placeholder="우편번호"
+									th:value="${addressList.addressZipcode}" name="addressZipcode" required="">
 								<div class="invalid-feedback title">
 									우편번호를 입력하세요
 								</div>
@@ -86,8 +95,8 @@
 
 							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="lastName" class="form-label title"></label>
-								<input type="text" class="form-control" id="lastName" placeholder="도로명 주소" value=""
-									name="addressRoad" th:value="${addressList[0].addressRoad}" required="">
+								<input type="text" class="form-control" id="lastName" placeholder="도로명 주소"
+									th:value="${addressList.addressRoad}" name="addressRoad" required="">
 								<div class="invalid-feedback title">
 									도로명 주소를 입력하세요
 								</div>
@@ -95,8 +104,8 @@
 
 							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="lastName" class="form-label title"></label>
-								<input type="text" class="form-control" id="lastName" placeholder="상세주소" value=""
-									name="addressContent" th:value="${addressList[0].addressContent}" required="">
+								<input type="text" class="form-control" id="lastName" placeholder="상세주소"
+									th:value="${addressList.addressContent}" name="addressContent" required="">
 								<div class="invalid-feedback title">
 									상세주소를 입력하세요
 								</div>
@@ -187,10 +196,21 @@
 							</div>
 
 							<hr class="my-4">
+							<div class="col-12">
+								<label for="ordersComment" class="form-label title">요청사항 <span
+										class="text-body-secondary">(선택)</span></label>
+								<input type="text" class="form-control" id="ordersComment" name="ordersComment">
+							</div>
+
+							<div class="col-12">
+								<label for="ordersComment" class="form-label title">세탁물 사진 <span
+										class="text-body-secondary">(선택)</span></label>
+								<input type="file" class="form-control title" id="ordersImageData"
+									name="ordersImageData">
+							</div>
 							<hr class="my-4">
 							<h4 class="mb-3 title" style="margin-top: 1rem;margin-bottom: 0!important;">결제방식</h4>
-
-							<div class="my-3">
+							<!--<div class="my-3">
 								<div class="form-check">
 									<input id="credit" name="paymentMethod" type="radio" class="form-check-input"
 										checked="" required="">
@@ -201,7 +221,23 @@
 										required="">
 									<label id="washPlus" class="form-check-label title" for="debit">구독 서비스</label>
 								</div>
+							</div>-->
+
+							<div class="my-3" th:switch="${member.memberSubscribe}">
+								<div class="form-check" th:case="0">
+									<input id="credit" name="paymentMethod" type="radio" class="form-check-input"
+										checked="" required="">
+									<label id="creditLabel" class="form-check-label title" for="credit">직접 결제</label>
+								</div>
+
+								<div class="form-check" th:case="1">
+									<input id="washPlus" name="paymentMethod" type="radio" class="form-check-input"
+										checked="" required="">
+									<label id="washPlusLabel" class="form-check-label title"
+										for="washPlus">워시플러스</label>
+								</div>
 							</div>
+
 
 							<div class="row gy-3" id="directPaymentForm">
 								<div class="col-md-12">
@@ -216,7 +252,7 @@
 									<label for="cc-name" class="form-label title">카드사</label>
 									<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
 								<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
-									<select class="form-select" id="country" required="">
+									<select class="form-select" id="cc-company" required="">
 										<option value="">선택하세요.</option>
 										<option>국민</option>
 										<option>신한</option>
@@ -246,6 +282,8 @@
 								</div>
 							</div>
 							<hr class="my-4">
+
+
 							<div class="btn_center_box">
 								<button type="button" class="btn_member_cancel title"
 									th:onclick="|javascript:location.href='/'|">취소</button>
@@ -295,6 +333,7 @@
 	<div th:replace="~{include/member/footer :: footer}"></div>
 
 	<script>
+		
 		const objTest = {
 			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
 			하의: ['반바지', '슬랙스', '골덴바지', '면바지'],
@@ -349,7 +388,7 @@
 		//function getNextCounter() {
 		//	return currentCounter++;
 		//}
-
+		let discount = 0;
 
 		document.getElementById('insertBtn').addEventListener('click', function () {
 			if (addressCounter < 1) {
@@ -412,21 +451,26 @@
 				initRow(newRow2, currentCounter);
 
 				addressCounter++;
+				console.log('addressCounter=========', addressCounter);
+				$('#totalLaundry').text(addressCounter);
+
 				//currentCounter++;
 				//currentCounter = addressCounter;
 				console.log('currentCounter>>>>', currentCounter);
 
 				if (document.querySelectorAll('.address_minus').length > 3) {
 					alert('세탁물은 3개까지 추가 가능합니다.');
+					//alert('addressCounter???',addressCounter);
 				}
 
-				$('#totalLaundry').text(addressCounter);
-
+				// 자바스크립트로 value 설정해주기 - ordersCount
+				// console.log('addressCounter!!!!',addressCounter);
+				//document.getElementsByName("ordersCount")[0].value = addressCounter;
+				document.querySelector('input[name="ordersCount"]').value = addressCounter;
 			} else {
 				alert('세탁물은 3개까지 추가 가능합니다.');
 			}
 		});
-
 
 		document.getElementById('laundryPlus').addEventListener('click', function (e) {
 			if (e.target && e.target.classList.contains('address_minus')) {
@@ -459,15 +503,41 @@
 			}
 		});
 
+		$(document).ready(function () {
+			// 현재 선택된 라디오 버튼의 ID를 가져옴
+			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
 
-		document.getElementById('credit').addEventListener('change', function () {
-			// 직접 결제 폼 보이기
-			document.getElementById('directPaymentForm').style.display = 'flex';
+			// 초기 상태에 따라 이벤트 발생
+			if (selectedPaymentMethod === 'credit') {
+				// 직접 결제 폼 보이기
+				document.getElementById('directPaymentForm').style.display = 'flex';
+			} else if (selectedPaymentMethod === 'washPlus') {
+				// 직접 결제 폼 숨기기
+				document.getElementById('directPaymentForm').style.display = 'none';
+				// 구독자 기본값 설정
+				document.getElementById('cc-number').value = '1111-1111-1111';
+				document.getElementById('cc-company').selectedIndex = 3; // 농협으로 설정
+				document.getElementById('cc-cvv').value = '111';
+				document.getElementById('cc-expiration').value = '2024-11-11';
+			}
 		});
 
-		document.getElementById('debit').addEventListener('change', function () {
-			// 직접 결제 폼 숨기기
-			document.getElementById('directPaymentForm').style.display = 'none';
+		$('input[name="paymentMethod"]').on('change', function () {
+			const selectedPaymentMethod = $(this).attr('id');
+
+			// 선택된 라디오 버튼의 ID에 따라 이벤트 처리
+			if (selectedPaymentMethod === 'credit') {
+				// 직접 결제 폼 보이기
+				document.getElementById('directPaymentForm').style.display = 'flex';
+			} else if (selectedPaymentMethod === 'washPlus') {
+				// 직접 결제 폼 숨기기
+				document.getElementById('directPaymentForm').style.display = 'none';
+				// 구독자 기본값 설정
+				document.getElementById('cc-number').value = '1111-1111-1111';
+				document.getElementById('cc-company').selectedIndex = 3; // 농협으로 설정
+				document.getElementById('cc-cvv').value = '111';
+				document.getElementById('cc-expiration').value = '2024-11-11';
+			}
 		});
 
 		function initRow(row, currentCounter) {
@@ -528,19 +598,9 @@
 				updateTotalPrice(price);
 			});
 
-			// 소분류가 변경될 때마다
-			$(document).on('change', '.laundryName', function () {
-				updateTotalPrice();
-			});
-
-			// 라디오 버튼이 변경될 때마다
-			$('input[name="paymentMethod"]').change(function () {
-				updateTotalPrice();
-			});
-
-
-
 		}
+
+
 
 		function getPriceForLaundry(laundry) {
 			switch (laundry) {
@@ -580,14 +640,45 @@
 					return 6900;
 			}
 		}
-		let discount = 0;
+
+		function getDiscountAmount() {
+			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
+
+			// 선택된 결제 방법에 따라 할인 가격 설정
+			if (selectedPaymentMethod === 'credit') {
+				discount = 0;
+			} else if (selectedPaymentMethod === 'washPlus') {
+				discount = 2500;
+			}
+
+			return discount;
+		}
+
+		function calculateTotalPrice() {
+			let basePrice = 2500; // 기본 배송 비용
+
+			$('.laundryName').each(function () {
+				const selectedLaundry = $(this).val();
+				const price = getPriceForLaundry(selectedLaundry);
+				basePrice += price;
+			});
+
+			// 할인액 가져오기
+			const discount = getDiscountAmount();
+
+			// 총액 계산
+			const totalPrice = basePrice - discount;
+			console.log('totalPrice=====', totalPrice);
+
+			return totalPrice;
+		}
 		function updateTotalPrice() {
 			// 직접 결제(배송비 2500원) 또는 구독 서비스(배송비 0원)
 			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
 
 			if (selectedPaymentMethod === 'credit') {
 				discount = 0;
-			} else if (selectedPaymentMethod === 'debit') {
+			} else if (selectedPaymentMethod === 'washPlus') {
 				discount = 2500;
 			}
 
@@ -597,46 +688,28 @@
 			// 총액
 			const totalPrice = calculateTotalPrice(); // 총액 계산 함수 호출
 			$('#totalPrice').text(`${totalPrice}원`);
+
+			console.log('totalPrice!!!!!!!!!', totalPrice);
+			//console.log(typeof (totalPrice));
+			document.querySelector('input[name="ordersPrice"]').value = totalPrice;
+
 		}
 
-		function calculateTotalPrice() {
-			let basePrice = 2500; // 기본 배송 비용
+		// 소분류가 변경될 때마다
+		$(document).on('change', '.laundryName', function () {
+			//alert('소분류 변경 >> 총액변경됨');
+			//consoel.log('소분류 변경 totalPrice>>>', totalPrice);
+			updateTotalPrice();
+		});
 
-			$('.laundryName').each(function () {
-				const selectedLaundry = $(this).val();
-				const price = getPriceForLaundry(selectedLaundry);
-				basePrice += price; 
-			});
+		// 라디오 버튼이 변경될 때마다
+		$('input[name="paymentMethod"]').change(function () {
+			updateTotalPrice();
+		});
 
-			// 할인액 가져오기
-			const discount = getDiscountAmount();
-
-			// 총액 계산
-			const totalPrice = basePrice - discount;
-
-			return totalPrice;
-		}
-
-
-		function getDiscountAmount() {
-			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
-			let discount = 0;
-
-			// 선택된 결제 방법에 따라 할인 가격 설정
-			if (selectedPaymentMethod === 'credit') {
-
-				discount = 0;
-			} else if (selectedPaymentMethod === 'debit') {
-				discount = 2500;
-			}
-
-			return discount;
-		}
 
 		// 페이지 로드 시 초기화
 		initRow(document.getElementById('laundryPlus'));
-
-
 
 	</script>
 

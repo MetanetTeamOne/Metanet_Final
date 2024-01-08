@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
+<mapper
+	namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
 
-	<select id="searchOrder" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
+	<select id="searchOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.Orders">
 		SELECT
 	        orders_id as ordersId,
 	        wash_id as washId,
@@ -19,9 +21,14 @@
 	    WHERE member_id = #{memberId}    
 	    
 	    ORDER BY orders_id
+
+		<!--<if test="washId >= 0">
+			AND wash_id = #{washId}
+		</if>-->
+		
 	</select>
 	
-		<select id="searchOrderId" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
+	<select id="searchOrderId" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
 		SELECT
 	        orders_id as ordersId,
 	        wash_id as washId,
@@ -38,8 +45,16 @@
 	    ORDER BY wash_id
 	</select>
 	
-	<insert id="insertOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
-	INSERT INTO ORDERS (
+	<insert id="insertOrder"
+		parameterType="com.metanet.finalproject.orders.model.Orders">
+		<selectKey keyProperty="ordersId" resultType="int"
+			order="BEFORE">
+			select
+			nvl(max(orders_id), 0) + 1
+			from orders
+		</selectKey>
+
+		INSERT INTO ORDERS (
 		orders_id,
 		wash_id,
 		orders_count,
@@ -47,25 +62,34 @@
 		orders_date,
 		orders_comment,
 		orders_status,
-		orders_image_data,
 		member_id,
-		laundry_id
-	)
-	VALUES (
-		ORDERS_SEQ.NEXTVAL,
+		laundry_id,
+		ORDERS_IMAGE_DATA
+		)
+		VALUES (
+		#{ordersId},
 		#{washId},
 		#{ordersCount},
 		#{ordersPrice},
-		#{ordersDate},
+		sysdate,
 		#{ordersComment},
 		#{ordersStatus},
-		#{ordersImageData, jdbcType=BLOB},
 		#{memberId},
-		#{laundryId}
-	)
+		#{laundryId},
+		#{ordersImageData,jdbcType=BLOB}
+		)
 	</insert>
-	
-	<update id="updateOrder" parameterType="com.metanet.finalproject.orders.model.Orders">
+	<!-- ORDERS_SEQ.NEXTVAL, -->
+
+	<select id="countOrder" parameterType="int" resultType="int">
+		SELECT
+		count(orders_id)
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+	</select>
+
+	<update id="updateOrder"
+		parameterType="com.metanet.finalproject.orders.model.Orders">
 		UPDATE ORDERS
 		<set>
 			<if test="washId != null">wash_id = #{washId},</if>
@@ -84,5 +108,8 @@
 		DELETE FROM ORDERS
 		WHERE orders_id = #{ordersId} and wash_id = #{washId}
 	</delete>
-	
+
+	<!-- <![CDATA[ -->
+	<!-- ]]> -->
+
 </mapper>
