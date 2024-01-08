@@ -182,6 +182,21 @@ public class MemberController {
 		return "redirect:/member/signup_ok";
 	}
 
+	@ResponseBody
+	@GetMapping("/emailCheck")
+	public ResponseDto<?> check(String email){
+		Member member = memberService.selectMember(email);
+		if (email == null || email.isEmpty()) {
+			return new ResponseDto<>(-1, "이메일을 입력해주세요.", null);
+		}
+		if (member != null) {
+			return new ResponseDto<>(1, "같은 이메일이 존재합니다.", false);
+		} else {
+			return new ResponseDto<>(1, "회원가입 가능한 이메일입니다.", true);
+		}
+	}
+
+
 	@Operation(summary = "회원 가입 완료 view")
 	@GetMapping("/signup_ok")
 	public String insertOkMember(HttpServletRequest request, Model model) {
