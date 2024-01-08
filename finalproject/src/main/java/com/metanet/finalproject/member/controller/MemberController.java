@@ -234,20 +234,30 @@ public class MemberController {
 	@GetMapping("/password")
 	public String updatePasswordMember(HttpServletRequest request, Model model) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
+		MemberPasswordDto dto = new MemberPasswordDto();
+		dto.setMemberEmail(member.getMemberEmail());
+		model.addAttribute("dto", dto);
 		return "member/member_password";
 	}
 
 	@Operation(summary = "회원 비밀번호 수정")
 	@PostMapping("/password")
-	public String updatePasswordMember(HttpServletRequest request, RedirectAttributes model, MemberUpdateDto member) {
-		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-		if(member.getMemberPassword() == null && !passwordEncoder.matches(member.getMemberPassword(), dbMember.getMemberPassword())) {
+	public String updatePasswordMember(@Valid @ModelAttribute("dto") MemberPasswordDto dto, BindingResult result) {
+		if (result.hasErrors()) {
+			return "member/member_password";
+		}
+		Member member = memberService.selectMember(dto.getMemberEmail());
+		log.info("member: {}", member);
+		if (!passwordEncoder.matches(dto.getMemberPassword(), member.getMemberPassword())) { //원래 비밀번호와 폼에서 입력받은 비밀번호 비교
+			result.rejectValue("memberPassword", null, "잘못된 비밀번호를 입력했습니다.");
+			return "member/member_password";
+		}
+		/*if(member.getMemberPassword() == null && !passwordEncoder.matches(member.getMemberPassword(), dbMember.getMemberPassword())) {
 			model.addFlashAttribute("message", "비밀번호가 맞지 않습니다.");
 			return "redirect:/member/password";
-		}
-		member.setMemberPassword(passwordEncoder.encode(member.getNewPassword()));
-		memberService.updateMember(member, getTokenUserEmail(request));
+		}*/
+		member.setMemberPassword(passwordEncoder.encode(dto.getNewPassword()));
+		memberService.updateMember(member, dto.getMemberEmail());
 		return "redirect:/member";
 
 	}
