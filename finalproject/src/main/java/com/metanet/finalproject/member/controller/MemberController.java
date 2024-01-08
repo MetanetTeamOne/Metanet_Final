@@ -260,9 +260,6 @@ public class MemberController {
 			return "redirect:/member/member_delete";
 
 		}
-
-		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
-		return "redirect:/logout2"; // 스프링 시큐리티 때문에 logout2 씀
 	}
 
 	@Operation(summary = "회원 구독 view")
