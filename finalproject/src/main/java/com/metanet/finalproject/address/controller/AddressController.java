@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/member/address")
 @Slf4j
 @Tag(name = "Address", description = "주소 관리 API")
+@CrossOrigin(origins = {"http://localhost:8085", 
+		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*")
 public class AddressController {
 	
 	@Autowired IAddressService addressService;

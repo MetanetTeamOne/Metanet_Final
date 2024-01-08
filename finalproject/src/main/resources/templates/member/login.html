@@ -64,6 +64,14 @@
             </div>
         </div>
     </div>
+    <script>
+		function kakaoLogin(action) {
+		    // 로그인 처리 및 로직 수행
+		
+		    // 로그인 후에 /member API로 이동하도록 변경
+		    window.location.href = '/member/kakao/login'; // 변경된 URL로 이동
+		}
+	</script>
 
     <!-- Top Button -->
     <div th:replace="~{include/member/topButton :: topButton}"></div>
