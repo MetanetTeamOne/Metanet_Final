@@ -92,8 +92,10 @@ public class OrdersController {
 	public String getOrder(HttpServletRequest request, Model model) {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
 		List<Orders> orders = ordersService.searchOrder(memberId);
+		List<Laundry> laundrys = laundryService.getLaundry();
 //		System.out.println(orders);
 		model.addAttribute("orders", orders);
+		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view";
 	}
 	
@@ -117,9 +119,20 @@ public class OrdersController {
 		return ordersService.searchOrder(memberId, -1);
 	}
 	
-	// 지금 안되고 있는데 해결 해보겠음
-	
+	//	비동기
 	@Operation(summary = "회원 회차별 주문 조회")
+	@GetMapping("/month/{month}")
+	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month){
+		int memberId = memberService.getMemberId(getTokenUserEmail(request));
+		List<Orders> orders = ordersService.searchMonthOrder(memberId, month);
+		List<Laundry> laundrys = laundryService.getLaundry();
+		System.out.println(">>>>>>>>>>>>>>>>>"+orders);
+		model.addAttribute("orders", orders);
+		model.addAttribute("laundrys", laundrys);
+		return "member/orders_view :: memberTable";
+	}
+	
+	@Operation(summary = "회원 개월별 주문 조회")
 	@GetMapping("/{memberId}/{washId}")
 	@ResponseBody
 	public List<Orders> searchOrder(Model model, @PathVariable int memberId, @PathVariable int washId){

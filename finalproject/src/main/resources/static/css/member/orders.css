@@ -8084,7 +8084,7 @@ button.swiper-pagination-bullet {
 }
  .ui-item .item_name .brand {
   display: block;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.4px;

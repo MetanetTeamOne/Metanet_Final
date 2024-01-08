@@ -275,7 +275,7 @@ public class MemberController {
 			log.info("비밀번호가 일치하지 않습니다.");
 			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
 //			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
-			return "redirect:/member/delete";
+			return "member/member_delete";
 		}
 
 		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());

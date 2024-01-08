@@ -26,15 +26,15 @@
                             <div class="my-month__wrap">
                                 <ul id="period" class="month_list">
                                     <li>조회기간</li>
-                                    <li><input type="radio" name="radio_name_d" data-value="1:m" id="radio_d_1_2" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">1개월</label></li>
-                                    <li><input type="radio" name="radio_name_d" data-value="3:m" id="radio_d_1_3" value="3" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">3개월</label></li>
-                                    <li><input type="radio" name="radio_name_d" data-value="6:m" id="radio_d_1_4" value="6" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_4">6개월</label></li>
+                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">1개월</label></li>
+                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="3" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">3개월</label></li>
+                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_4" data-value="6:m" value="6" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_4">6개월</label></li>
                                 </ul>
                             </div>
                             <div class="order-item">
                                 <div class="mypage-table__wrap">
                                     <div class="mypage-table">
-                                        <table>
+                                        <table id="memberTable" th:fragment="memberTable">
                                             <colgroup>
                                                 <col>
                                                 <col style="width:14%">
@@ -51,7 +51,7 @@
                                                     <th scope="col">진행현황</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody >
                                                 <div th:each="order : ${orders}">
                                                     <tr>
                                                         <td colspan="5" class="order-info__list">
@@ -68,22 +68,37 @@
                                                         <td>
                                                             <div class="ui-item order" data-item-section="">
                                                                 <div class="ui-item__inner">
-                                                                    <div class="ui-item__info">
-                                                                        <div class="item_name">
-                                                                            <strong class="brand">상의</strong><span class="prd">블라우스</span>
+                                                                    <div class="ui-item__info" th:each="laundry : ${laundrys}" th:if="${order.laundryId == laundry.laundryId}" >
+                                                                        <div class="item_name" >
+                                                                            <strong th:if="${order.laundryId < 12}" class="brand">상의</strong>
+                                                                            <strong th:if="${order.laundryId >= 12 and order.laundryId < 16}" class="brand">하의</strong>
+                                                                            <strong th:if="${order.laundryId >= 16 and order.laundryId < 20}" class="brand">신발</strong>
+                                                                            <strong th:if="${order.laundryId >= 20}" class="brand">기타</strong>
+                                                                            <span class="prd" th:text="${laundry.laundryName}"></span>
                                                                         </div>
+                                                                        <div class="item_detail">
+                                                                        	<p class="order_option">
+																				<strong>세탁유형 : </strong>
+                                                                        		<span th:if="${laundry.laundryCategory == '1'}">생활빨래</span>
+                                                                        		<span th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>
+                                                                        	</p>
+                                                                    	</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <span><strong>3</strong></span>개
+                                                            <span><strong th:text="${order.ordersCount}"></strong></span>개
                                                         </td>
                                                         <td>
-                                                            <span><strong>1,000</strong></span>원
+                                                            <span><strong th:text="${order.ordersPrice}"></strong></span>원
                                                         </td>
                                                         <td>
-                                                            <span><strong>배송완료</strong></span>
+                                                            <span th:if="${order.ordersStatus} == 1"><strong>수거진행</strong></span>
+                                                            <span th:if="${order.ordersStatus} == 2"><strong>수거완료</strong></span>
+                                                            <span th:if="${order.ordersStatus} == 3"><strong>세탁진행</strong></span>
+                                                            <span th:if="${order.ordersStatus} == 4"><strong>배송진행</strong></span>
+                                                            <span th:if="${order.ordersStatus} == 5"><strong>배송완료</strong></span>
                                                         </td>
                                                         <td>
                                                             <div class="box-btn">
@@ -117,5 +132,52 @@
 
     <!-- Footer -->
     <div th:replace="~{include/member/footer :: footer}"></div>
+    
+    <!--xmlHttpRequest-->
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const radioButtons = document.querySelectorAll('input[name="radio_name_d"]');
+
+            radioButtons.forEach(function (radioButton) {
+                radioButton.addEventListener("change", function () {
+                    const selectedMonth = this.value;
+                    sendData(selectedMonth);
+                });
+            });
+
+            let xhr = null;
+
+            function getInstance() {
+                if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else if (window.ActiveXObject) { //IE
+                    console.log("IE");
+                } else {
+                    throw new Error("Ajax 비동기 지원하지 않아요");
+                }
+                return xhr;
+            }
+
+            function handlerStateChange() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+ 					const fragment = xhr.responseText;
+ 					console.log(fragment);
+                        document.getElementById("memberTable").innerHTML = fragment;
+                    } else {
+                        console.log("비정상 응답 : " + xhr.status);
+                    }
+                }
+            }
+
+            function sendData(month) {
+                xhr = getInstance();
+                xhr.onreadystatechange = handlerStateChange;
+
+                xhr.open("GET", "/orders/month/" + month);
+                xhr.send();
+            }
+        });
+    </script>
 </body>
 </html>
