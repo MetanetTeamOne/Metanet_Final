@@ -37,7 +37,7 @@
         <set>
 			<if test="member.memberName != null">member_name = #{member.memberName},</if>
 			<if test="member.memberPhoneNumber != null">member_phone_number = #{member.memberPhoneNumber},</if>
-			<if test="member.newPassword != null">member_password = #{member.newPassword},</if>
+			<if test="member.memberPassword != null">member_password = #{member.memberPassword},</if>
 		</set>
 		where member_email = #{member.memberEmail}
     </update>

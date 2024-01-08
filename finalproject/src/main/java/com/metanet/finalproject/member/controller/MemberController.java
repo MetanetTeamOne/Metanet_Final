@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -69,12 +70,28 @@ public class MemberController {
 	@Operation(summary = "회원 정보 조회")
 	@GetMapping("")
 	public String getMember(Model model, HttpServletRequest request) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
-		if (member == null) {
+		Member emptyMember = new Member();
+		try {
+			
+		    String userEmail = getTokenUserEmail(request);
+		    if (userEmail == null || userEmail.isEmpty()) {
+		    	model.addAttribute("dto",emptyMember);
+		        return "member/login";
+		    }
+		    
+		    Member member = memberService.selectMember(userEmail);
+
+		    if (member == null) {
+		    	model.addAttribute("dto",emptyMember);
+		        return "member/login";
+		    } else {
+		        model.addAttribute("member", member);
+		        return "member/member_view";
+		    }
+		} catch(Exception e){
+	    	model.addAttribute("dto",emptyMember);
 			return "member/login";
-		}
-		model.addAttribute("member", member);
-		return "member/member_view";
+		}  
 	}
 
 	@Operation(summary = "회원 가입 view")
@@ -203,14 +220,14 @@ public class MemberController {
 
 	@Operation(summary = "회원 비밀번호 수정")
 	@PostMapping("/password")
-	public String updatePasswordMember(HttpServletRequest request, Model model, MemberUpdateDto member) {
+	public String updatePasswordMember(HttpServletRequest request, RedirectAttributes model, MemberUpdateDto member) {
 		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-		if (!member.getMemberPassword().equals(dbMember.getMemberPassword())) {
-			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
+		if(member.getMemberPassword() == null && !passwordEncoder.matches(member.getMemberPassword(), dbMember.getMemberPassword())) {
+			model.addFlashAttribute("message", "비밀번호가 맞지 않습니다.");
 			return "redirect:/member/password";
 		}
-
-		memberService.updateMember(member, member.getNewPassword());
+		member.setMemberPassword(passwordEncoder.encode(member.getNewPassword()));
+		memberService.updateMember(member, getTokenUserEmail(request));
 		return "redirect:/member";
 
 	}
@@ -226,20 +243,22 @@ public class MemberController {
 	}
 
 	@Operation(summary = "회원 삭제")
-	@PostMapping("/delete")
-	public String deleteMember(@Valid @ModelAttribute("deleteMember") MemberDeleteDto member, BindingResult result,
-			HttpServletRequest request, Model model) {
-		Member dbMember = memberService.selectMember(getTokenUserEmail(request));
-		if (!member.getMemberEmail().equals(dbMember.getMemberEmail())) {
-			log.info("아이디가 일치하지 않습니다.");
-			result.rejectValue("memberEmail", null, "아이디가 일치하지 않습니다.");
-			return "member/member_delete";
-		}
-		if (!dbMember.getMemberPassword().equals(member.getMemberPassword())) {
-			log.info("비밀번호가 일치하지 않습니다.");
-			result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
-//			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
-			return "redirect:/member/delete";
+    @PostMapping("/delete")
+    public String deleteMember(HttpServletRequest request, Member member, Model model){
+    	try {
+			String dbpw = memberService.selectMember(getTokenUserEmail(request)).getMemberPassword();
+			if(member.getMemberPassword() != null && passwordEncoder.matches(member.getMemberPassword(), dbpw)) {
+				memberService.deleteMember(getTokenUserEmail(request), dbpw);
+				return "redirect:/logout2";
+			}else {
+				model.addAttribute("message", "WRONG_PASSWORD");
+				return "redirect:/member/member_delete";
+			}
+		}catch(Exception e){
+			model.addAttribute("message", "fail");
+			e.printStackTrace();
+			return "redirect:/member/member_delete";
+
 		}
 
 		memberService.deleteMember(getTokenUserEmail(request), member.getMemberPassword());
@@ -262,6 +281,12 @@ public class MemberController {
 		return "redirect:/member/subscribe";
 	}
 
+  	@GetMapping("/card")
+  	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member", member);
+		return "member/card_view";
+
 //	@GetMapping("/card")
 //	public String getCard(Model model, String memberEmail) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
@@ -278,21 +303,21 @@ public class MemberController {
 //  			}
 //	}
 
-	@GetMapping("/card")
-	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
-		return "member/card_view";
-//          }else {
-//             return "member/login";
-//          }
-	}
+//	@GetMapping("/card")
+//	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+//		Member member = memberService.selectMember(getTokenUserEmail(request));
+//		model.addAttribute("member", member);
+//		return "member/card_view";
+////          }else {
+////             return "member/login";
+////          }
+//	}
 
 	// 카드 등록 폼
 	@GetMapping("/card/insert")
-	public String insertCard(Model model, String memberEmail) {
+	public String insertCard(HttpServletRequest request, Model model) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
-		Member member = memberService.selectMember(memberEmail);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
 		return "member/card_insert";
 //  			}else {

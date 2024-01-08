@@ -35,8 +35,8 @@ public class OrdersService implements IOrdersService{
 	}
 
 	@Override
-	public void deleteOrder(Orders orders) {
-		ordersRepository.deleteOrder(orders);
+	public void deleteOrder(int ordersId, int washId) {
+		ordersRepository.deleteOrder(ordersId, washId);
 	}
 	
 	@Override
@@ -56,4 +56,8 @@ public class OrdersService implements IOrdersService{
 	}
 
 
+	@Override
+	public List<Orders> searchOrderId(int ordersId) {
+		return ordersRepository.searchOrderId(ordersId);
+	}
 }
