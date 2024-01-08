@@ -13,7 +13,7 @@ public interface IOrdersRepository {
 	// 회원
 	List<Orders> searchOrder(int memberId);
 	List<Orders> searchOrder(int memberId, int washId); 
-	List<Orders> searchOrderId(int ordersId); 
+	List<Orders> searchOrderId(int washId); 
 	List<Orders> searchMonthOrder(int memberId, int month);
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);

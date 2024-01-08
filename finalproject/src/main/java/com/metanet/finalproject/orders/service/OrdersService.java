@@ -62,8 +62,8 @@ public class OrdersService implements IOrdersService{
 
 
 	@Override
-	public List<Orders> searchOrderId(int ordersId) {
-		return ordersRepository.searchOrderId(ordersId);
+	public List<Orders> searchOrderId(int washId) {
+		return ordersRepository.searchOrderId(washId);
 	}
 
 

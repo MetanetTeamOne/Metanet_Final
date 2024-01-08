@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -93,31 +94,31 @@ public class OrdersController {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
 		List<Orders> orders = ordersService.searchOrder(memberId);
 		List<Laundry> laundrys = laundryService.getLaundry();
-//		System.out.println(orders);
+		System.out.println(">>>>>>>>>>>>>"+orders);
 		model.addAttribute("orders", orders);
 		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view";
 	}
 	
-	@Operation(summary = "회원별 주문 조회")
-	@GetMapping("/{memberId}")
-	@ResponseBody
-	public List<Orders> searchOrder(Model model, @PathVariable int memberId){
-//	List<Orders> searchOrder(HttpServletRequest request){
-//	String token = tokenProvider.resolveToken(request);
-//  log.info("token {}",token); //권장
-//    
-//  Authentication auth = tokenProvider.getAuthentication(token);
-//  log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
-		Orders order = new Orders();
-		
-		
-//		System.out.println(order.getWashId());
+//	@Operation(summary = "회원별 주문 조회")
+//	@GetMapping("/{memberId}")
+//	@ResponseBody
+//	public List<Orders> searchOrder(Model model, @PathVariable int memberId){
+////	List<Orders> searchOrder(HttpServletRequest request){
+////	String token = tokenProvider.resolveToken(request);
+////  log.info("token {}",token); //권장
+////    
+////  Authentication auth = tokenProvider.getAuthentication(token);
+////  log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
+//		Orders order = new Orders();
 //		
-//		System.out.println("111");
-		
-		return ordersService.searchOrder(memberId, -1);
-	}
+//		
+////		System.out.println(order.getWashId());
+////		
+////		System.out.println("111");
+//		
+//		return ordersService.searchOrder(memberId, -1);
+//	}
 	
 	//	비동기
 	@Operation(summary = "회원 회차별 주문 조회")
@@ -216,9 +217,10 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "주문 수정 view")
-	@GetMapping("/update/{ordersId}")
-	public String updateOrder(Model model, @PathVariable int ordersId) {
-		List<Orders> orders = ordersService.searchOrderId(ordersId);
+	@GetMapping("/update/{washId}")
+	public String updateOrder(Model model, @PathVariable int washId) {
+		List<Orders> orders = ordersService.searchOrderId(washId);
+		System.out.println(">>>>>>>>>>>>>>"+orders);
 		model.addAttribute("orders", orders);
 		return "member/orders_update";
 	}
@@ -232,9 +234,9 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "주문 삭제")
-	@PostMapping("/delete/{ordersId}/{washId}")
-	public String deleteOrder(Model model, @PathVariable int ordersId, @PathVariable int washId) {
+	@PostMapping("/delete")
+	public String deleteOrder(Model model, @PathParam("ordersId") int ordersId, @PathParam("ordersId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
-		return "member/mypage_order";
+		return "member/orders_view";
 	}
 }

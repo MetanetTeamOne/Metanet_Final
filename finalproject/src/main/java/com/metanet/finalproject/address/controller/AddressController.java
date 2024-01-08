@@ -1,14 +1,5 @@
 package com.metanet.finalproject.address.controller;
 
-import java.util.List;
-
-import com.metanet.finalproject.jwt.JwtTokenProvider;
-import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.service.IMemberService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
+import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.service.IMemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/member/address")
@@ -62,13 +59,12 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 조회")
 	@GetMapping("")
-	public String getAddress(Model model) {
+	public String getAddress(HttpServletRequest request, Model model) {
 //		List<Address> getAddress = addressService.getAddress(1);
 		//서버 실행 안 돼서 바꿈
-		Address getAddress = addressService.getAddress(1);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-//		System.out.println("사용자 주소 조회 : " + getAddress);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
+		Address address = addressService.getAddress(memberId);
+		model.addAttribute("address",address);
 		return "member/address_view";
 	}
 	
@@ -82,11 +78,10 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력")
 	@PostMapping("/insert")
-	public String insertAddress(Address address) {
-
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("사용자 주소 입력 : " + address);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+	public String insertAddress(HttpServletRequest request, Address address) {
+		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
+		address.setAddressCategory("3");
+		address.setMemberId(memberId);
 		addressService.insertAddress(address);
 		return "redirect:/member/address";
 	}
@@ -96,7 +91,6 @@ public class AddressController {
 	public String updateAddress(Model model, HttpServletRequest request) {
 		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
 		Address address = addressService.getAddress(memberId);
-
 		model.addAttribute("updateAddress", address);
 		return "member/address_update";
 	}
@@ -120,14 +114,7 @@ public class AddressController {
 	@Operation(summary = "사용자 주소 삭제")
 	@PostMapping("/delete")
 	public String deleteAddress(Model model, Address address) {
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("사용자 주소 삭제 : "+ address);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-//		addressService.deleteAddress(address);
-//=======
-		//서버 실행 안 돼서 주석처리함
-		System.out.println("AddressController>>>서버 실행 안 돼서 주석처리함");
-		//addressService.deleteAddress(address);
+		addressService.deleteAddress(address.getAddressId());
 		return "redirect:/member/address";
 	}
 }

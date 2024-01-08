@@ -25,11 +25,10 @@
                         <h3>배송지 추가</h3>
                         <!-- Content -->
                         <div class="my_page_form">
-                            <form class="base_info_sec" method="post" action="/member/address/insert"
+                            <form id="sendForm" class="base_info_sec" method="post" action="/member/address/insert"
                                   th:object="${insertAddress}">
-                                <input type="hidden" th:field="*{addressId}" id="addressId" name="addressId" value="">
-                                <input type="hidden" id="" name="" value="">
-                                <table>
+<!--                                <input type="hidden" th:field="*{addressId}" id="addressId" name="addressId" value="">
+-->                                <table>
                                     <tbody>
                                     <tr>
                                         <th><span class="important">새로운 주소</span></th>
@@ -51,6 +50,9 @@
                                                     <input type="text" th:field="*{addressContent}" th:errorclass="field-error" id="addressContent"
                                                            name="addressContent" placeholder="상세주소" required>
                                                 </div>
+                                                <div class="member_warning">
+                                                    <input type="text" th:field="*{addressDetail}" th:errorclass="field-error" name="addressDetail" placeholder="요청사항" required>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -60,7 +62,7 @@
                                     <button type="button" id="btnCancel" class="btn_member_cancel"
                                             onclick="location.href ='/member/address'">취소
                                     </button>
-                                    <button type="submit" class="btn_comfirm js_btn_join">완료</button>
+                                    <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">완료</button>
                                 </div>
                             </form>
                         </div>
@@ -77,5 +79,11 @@
 <!-- Footer -->
 <div th:replace="~{include/member/footer :: footer}"></div>
 
+<script>
+	let swTitle = '입력 완료';
+	let swComment = '주소가 입력되었습니다.';
+	let swImage = 'success';
+</script>
+	
 </body>
 </html>
