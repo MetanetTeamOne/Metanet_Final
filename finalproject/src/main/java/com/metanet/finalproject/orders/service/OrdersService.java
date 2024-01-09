@@ -1,5 +1,6 @@
 package com.metanet.finalproject.orders.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,18 @@ public class OrdersService implements IOrdersService{
 	public List<Orders> searchOrderId(int washId) {
 		return ordersRepository.searchOrderId(washId);
 	}
+
+	@Override
+	public int countOrder() {
+		return ordersRepository.countOrder();
+	}
+
+	@Override
+	public int countNewOrder() {
+		return ordersRepository.countNewOrder();
+	}
+
+	
 
 
 }

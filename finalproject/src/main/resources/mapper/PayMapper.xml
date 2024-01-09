@@ -9,10 +9,25 @@
 	        	PAY_MONEY as payMoney, 
 	        	PAY_DATE as payDate, 
 	        	PAY_STATE as payState, 
-	        	ORDERS_ID as ordersId
+	        	ORDERS_ID as ordersId,
+	        	MEMBER_ID as memberId
 	    from pay
 	    <if test="payId != null">
 			where PAY_ID=#{payId}
+		</if>
+	</select>
+	
+	<select id="getMemberPay" resultType="com.metanet.finalproject.pay.model.Pay">
+		select PAY_ID as payId, 
+	        	PAY_DELIVERY as payDelivery, 
+	        	PAY_MONEY as payMoney, 
+	        	PAY_DATE as payDate, 
+	        	PAY_STATE as payState, 
+	        	ORDERS_ID as ordersId,
+	        	MEMBER_ID as memberId
+	    from pay
+	    <if test="memberId != null">
+			where MEMBER_ID=#{memberId}
 		</if>
 	</select>
 	
@@ -22,7 +37,8 @@
 	        	PAY_MONEY as payMoney, 
 	        	PAY_DATE as payDate, 
 	        	PAY_STATE as payState, 
-	        	ORDERS_ID as ordersId
+	        	ORDERS_ID as ordersId,
+	        	MEMBER_ID as memberId
 	    from pay
 	    <if test="payState != null">
 			where PAY_STATE=#{payState}
@@ -41,7 +57,8 @@
 		        	PAY_MONEY, 
 		        	PAY_DATE, 
 		        	PAY_STATE, 
-		        	ORDERS_ID
+		        	ORDERS_ID,
+		        	MEMBER_ID
 		        )
 	    values
 	        (
@@ -51,7 +68,9 @@
 	            sysdate,
 	            #{payState},
         	    <if test="ordersId != null">
-	            #{ordersId}
+	            #{ordersId},
+	            #{memberId}
+	            
 	        	</if>
 	        )
 	    

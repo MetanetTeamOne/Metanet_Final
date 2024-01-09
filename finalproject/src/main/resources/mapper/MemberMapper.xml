@@ -117,7 +117,7 @@
 	<!-- 카드등록) MEMBER_CARD : 1로 update -->
 	<update id="insertCard">
 		update member
-		set MEMBER_CARD=#{cardState}
+		set MEMBER_CARD='1'
 		<if test="memberEmail != null">
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>
