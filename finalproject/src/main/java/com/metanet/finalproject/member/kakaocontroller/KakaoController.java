@@ -30,7 +30,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/member/kakao")
 @Tag(name = "Kakao Login", description = "카카오 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
@@ -44,7 +43,7 @@ public class KakaoController {
 	JwtTokenProvider jwtTokenProvider;
 	
 	private String KakaoClientId = "2e5a8c7c7c5bae987fd68ea4def1c608"; 
-	private String KakaoRedirectUri = "http://localhost:8085/member/kakao/loginok";
+	private String KakaoRedirectUri = "http://localhost:8085/kakao/loginok";
 	private String KakaoResponseType = "code";
 	
 	private String KakaoGrantType = "authorization_code";
@@ -70,7 +69,7 @@ public class KakaoController {
     
 
 	@Operation(summary = "카카오 로그인 화면 API")
-	@GetMapping("/login")
+	@GetMapping("/kakao/login")
 	public String kakaoLogin() {
 		// Kakao 로그인 페이지 URL 생성
 	    String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" +
@@ -83,7 +82,7 @@ public class KakaoController {
 	}
 	
 	@Operation(summary = "카카오 액세스 토큰 발급 API")
-	@GetMapping("/loginok")
+	@GetMapping("/kakao/loginok")
 	public String kakaoLoginOk(@RequestParam String code, Model model, HttpServletResponse response) {
 		// 1. 인가 코드 받기 (@RequestParam String code)
 		
@@ -221,7 +220,7 @@ public class KakaoController {
 		        cookie.setPath("/");
 		        response.addCookie(cookie);
 		        
-			    return "member/home";
+			    return "redirect:/";
 			} 
 			// 로직 구현 2.
 			else {

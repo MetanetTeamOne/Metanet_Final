@@ -175,7 +175,6 @@ public class OrdersController {
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
 	public String insertOrder(Model model, Orders orders, HttpServletRequest request) {
-
 		System.out.println("orders>>" + orders);
 //		System.out.println("OrdersCount>>>>"+orders.getOrdersCount());
 //		System.out.println("ordersPrice>>>>"+orders.getOrdersPrice());
@@ -232,9 +231,9 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "주문 삭제")
-	@PostMapping("/delete")
-	public String deleteOrder(Model model, @PathParam("ordersId") int ordersId, @PathParam("ordersId") int washId) {
+	@PostMapping("/delete/{ordersId}/{washId}")
+	public String deleteOrder(Model model, @PathVariable("ordersId") int ordersId, @PathVariable("ordersId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
-		return "member/orders_view";
+		return "redirect:/orders";
 	}
 }

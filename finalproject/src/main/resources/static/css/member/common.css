@@ -918,6 +918,7 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
 
 .swal-button {
   background-color: var(--sub);
+  margin: 5px;
 }
 .swal-button-cancel {
     color: #3e3d3c;
@@ -928,11 +929,11 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
     cursor: pointer;
     border-radius: 5px;
     padding: 10px 24px;
-    margin: 0;
+    margin: 5px;
 }
 
 .swal-button-cancel:not([disabled]):hover {
-	    color: #333333;
+	color: #333333;
     border: 1px solid #bbbbbb;
     background-color: #dcdcdc;
 }
@@ -942,4 +943,6 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
     color: #dc3545;
 }
 
-
+.form-select {
+	font-size: none;
+}

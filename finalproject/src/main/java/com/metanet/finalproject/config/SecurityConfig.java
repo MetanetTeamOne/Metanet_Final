@@ -78,7 +78,7 @@ public class SecurityConfig {
       http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
 //              .requestMatchers("/file/**").hasRole("ADMIN")
 //              .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
-              .requestMatchers("/**", "/css/**", "/js/**", "/images/**").permitAll()
+              .requestMatchers("/**", "/css/**", "/js/**", "/images/**", "/kakao/**").permitAll()
               .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
               .requestMatchers("/").permitAll());
 

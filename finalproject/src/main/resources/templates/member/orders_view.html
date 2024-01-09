@@ -105,7 +105,8 @@
                                                                 <a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
                                                                     <span>주문수정</span>
                                                                 </a>
-                                                                <a th:href="@{/orders/delete/__${order.washId}__}" class="btn05 mainC03 itemReviewWrite">
+                                                                
+                                                                <a th:href="@{/orders/delete/{ordersId}/{washId} (ordersId=${order.ordersId}, washId=${order.washId})}" class="btn05 mainC03 itemReviewWrite">
                                                                     <span>주문취소</span>
                                                                 </a>
                                                             </div>
