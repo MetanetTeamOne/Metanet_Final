@@ -360,9 +360,8 @@ public class MemberController {
 	// 카드 등록 처리
 	@PostMapping("/card/insert")
 	public String insertCard(Member member, Model model, String memberEmail) {
-		memberService.insertCard(memberEmail);
-		model.addAttribute("member", member);
-		System.out.println("===카드 등록 완료===");
+//		memberService.insertCard(memberEmail);
+		System.out.println(">>>>>>>>>."+111111);
 		return "redirect:/member/card";
 	}
 

@@ -94,7 +94,6 @@ public class OrdersController {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
 		List<Orders> orders = ordersService.searchOrder(memberId);
 		List<Laundry> laundrys = laundryService.getLaundry();
-		System.out.println(">>>>>>>>>>>>>"+orders);
 		model.addAttribute("orders", orders);
 		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view";
@@ -127,7 +126,6 @@ public class OrdersController {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
 		List<Orders> orders = ordersService.searchMonthOrder(memberId, month);
 		List<Laundry> laundrys = laundryService.getLaundry();
-		System.out.println(">>>>>>>>>>>>>>>>>"+orders);
 		model.addAttribute("orders", orders);
 		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view :: memberTable";

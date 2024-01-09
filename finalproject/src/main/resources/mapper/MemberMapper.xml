@@ -115,9 +115,9 @@
 	</select>
 	
 	<!-- 카드등록) MEMBER_CARD : 1로 update -->
-	<update id="insertCard" parameterType="string">
+	<update id="insertCard">
 		update member
-		set MEMBER_CARD='1'
+		set MEMBER_CARD=#{cardState}
 		<if test="memberEmail != null">
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>
