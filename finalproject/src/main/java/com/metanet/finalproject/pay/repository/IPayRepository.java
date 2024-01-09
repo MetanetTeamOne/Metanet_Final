@@ -11,7 +11,7 @@ import com.metanet.finalproject.pay.model.Pay;
 @Repository
 @Mapper
 public interface IPayRepository {
-
+	List<Pay> getMemberPay(@Param("memberId") int memberId);
 	//결제 정보 상세 조회
 	Pay getPay(@Param("payId") int payId);
 	//결제 상태 검색

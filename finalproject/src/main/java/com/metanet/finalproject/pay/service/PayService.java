@@ -29,4 +29,9 @@ public class PayService implements IPayService{
 		payRepository.insertPay(pay);
 	}
 
+	@Override
+	public List<Pay> getMemberPay(int memberId) {
+		return payRepository.getMemberPay(memberId);
+	}
+
 }

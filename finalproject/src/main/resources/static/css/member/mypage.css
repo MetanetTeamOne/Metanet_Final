@@ -152,10 +152,15 @@
     padding: 0 30px;
 }
 
-.mypage_right .row:nth-child(2) .mypage_header h3 {
+.mypage_right .row .mypage_header h3 {
     font-size: 20px;
     font-weight: bold;
 }
+
+/*.mypage_right .row:nth-child(2) .mypage_header h3 {
+    font-size: 20px;
+    font-weight: bold;
+}*/
 
 .mypage_right .row:nth-child(2) .mypage_header .my_page_form {
     margin: 10px 0;

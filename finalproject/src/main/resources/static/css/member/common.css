@@ -943,6 +943,15 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
     color: #dc3545;
 }
 
-.form-select {
-	font-size: none;
+.form-control {
+	width: 94%;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    border: 0;
+    border-radius: 0.25em;
+    background: initial;
+    background-color: #0e8ff2;
+    color: #fff;
+    font-size: 1em;
 }
