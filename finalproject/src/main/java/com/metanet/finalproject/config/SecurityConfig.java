@@ -19,7 +19,7 @@ public class SecurityConfig {
 
    @Bean
    PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
    }
 
    @Bean
@@ -51,16 +51,16 @@ public class SecurityConfig {
             .usernameParameter("studentId")
             // 로그인 성공했을 때 이동할 페이지 명시
             .defaultSuccessUrl("/loginSuccess"))
-      
+
             // 로그아웃에 대해서 설정하는 곳.
             .logout(logout -> logout
-                  // 로그아웃 뷰 페이지에 대해서 명시를 합니다. 
+                  // 로그아웃 뷰 페이지에 대해서 명시를 합니다.
                   .logoutUrl("/logout")
                   // 로그아웃에 성공했을 때 이동할 페이지에 대해서 명시
                   .logoutSuccessUrl("/logoutSuccess")
                   // 세션 인증 정보에 대해서 로그아웃시 비활성화합니다.
                   .invalidateHttpSession(true));
-      
+
       http.authorizeHttpRequests()
       .requestMatchers("/config/**").hasRole("ADMIN")
       .requestMatchers("/mypage/**", "/lecturecomment/**").hasAnyRole("USER")
@@ -77,7 +77,8 @@ public class SecurityConfig {
       // 토큰을 사용하는 경우 인가를 적용한 URI 설정
       http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
 //              .requestMatchers("/file/**").hasRole("ADMIN")
-//              .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
+              .requestMatchers("/member/insert", "/member/emailCheck", "/member/signup_ok").permitAll()
+              .requestMatchers("/member/**", "/orders/**").hasAnyRole("USER", "ADMIN")
               .requestMatchers("/**", "/css/**", "/js/**", "/images/**", "/kakao/**").permitAll()
               .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
               .requestMatchers("/").permitAll());
@@ -90,9 +91,14 @@ public class SecurityConfig {
       http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider()),
               UsernamePasswordAuthenticationFilter.class);
 
+      http.formLogin(form ->form
+              .loginPage("/logins")
+              .permitAll()
+      );
+
       return http.build();
    }
-   
+
 //   @Bean
 //   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 //      http.csrf((csrfConfig) -> csrfConfig.disable());
@@ -111,16 +117,16 @@ public class SecurityConfig {
 //            .usernameParameter("studentId")
 //            // 로그인 성공했을 때 이동할 페이지 명시
 //            .defaultSuccessUrl("/loginSuccess"))
-//      
+//
 //            // 로그아웃에 대해서 설정하는 곳.
 //            .logout(logout -> logout
-//                  // 로그아웃 뷰 페이지에 대해서 명시를 합니다. 
+//                  // 로그아웃 뷰 페이지에 대해서 명시를 합니다.
 //                  .logoutUrl("/logout")
 //                  // 로그아웃에 성공했을 때 이동할 페이지에 대해서 명시
 //                  .logoutSuccessUrl("/logoutSuccess")
 //                  // 세션 인증 정보에 대해서 로그아웃시 비활성화합니다.
 //                  .invalidateHttpSession(true));
-//      
+//
 //      http.authorizeHttpRequests()
 //      .requestMatchers("/config/**").hasRole("ADMIN")
 //      .requestMatchers("/mypage/**", "/lecturecomment/**").hasAnyRole("USER")
@@ -129,7 +135,7 @@ public class SecurityConfig {
 //      // 빌터 패턴을 통해서 http 객체를 빌드하고 반환합니다.
 //      return http.build();
 //   }
-//   
+//
 ////   @Bean
 ////   @ConditionalOnMissingBean(UserDetailsService.class)
 ////   public InMemoryUserDetailsManager userDetailsService() {
@@ -146,13 +152,13 @@ public class SecurityConfig {
 ////      InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(userDetailsList);
 ////      return manager;
 ////   }
-//   
+//
 //   // 자동으로 로그인 폼에서 사용자가 입력한 비밀번호를 암호화하는 메서드를 @Bean 애너테이션을 통해 빈 컨테이너에 등록한 것.
 //   @Bean
 //   PasswordEncoder passwordEncoder() {
 //      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 //   }
 //}
-   
+
    // 자동으로 로그인 폼에서 사용자가 입력한 비밀번호를 암호화하는 메서드를 @Bean 애너테이션을 통해 빈 컨테이너에 등록한 것.
 }

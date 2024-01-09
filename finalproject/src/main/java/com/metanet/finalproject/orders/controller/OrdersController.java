@@ -1,5 +1,6 @@
 package com.metanet.finalproject.orders.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.member.service.MemberService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.orders.service.OrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -182,11 +184,27 @@ public class OrdersController {
 		return "redirect:/orders/insertok";
 	}
 	
+	@Operation(summary = "회원별 주문 건수 조회")
 	@GetMapping("/count/{memberId}")
 	@ResponseBody
 	public int countOrder(@PathVariable int memberId) {
 		return ordersService.countOrder(memberId);
 	}
+	
+	@Operation(summary = "전체 주문 건수 조회")
+	@GetMapping("/count")
+	@ResponseBody
+	public int countOrder() {
+		return ordersService.countOrder();
+	}
+	
+	@Operation(summary = "10분 간격 새로운 주문 건수 조회")
+	@GetMapping("/newcount")
+	@ResponseBody
+	public int countNewOrder(){
+		return ordersService.countNewOrder();
+	}
+
 	
 	/*@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
