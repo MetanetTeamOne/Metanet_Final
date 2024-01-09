@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/pay")
@@ -33,8 +37,32 @@ public class PayController {
 	@Autowired
 	IMemberService memberService2;
 	
+	@Autowired
+	IMemberService memberService;
+	
 //	@Autowired
 //	IOrderService ordersService;
+	
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+
+	//	Header에서 Token으로 사용자 이메일 획득
+	private String getTokenUserEmail(HttpServletRequest request) {
+		String token = "";
+
+		try {
+			Cookie[] cookies = request.getCookies();
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("token")){
+					token = cookie.getValue();
+				}
+			}
+		} catch(Exception e) {
+			e.getMessage();
+		}
+
+		return jwtTokenProvider.getUserId(token);
+	}
 	
 	@Operation(summary = "결제 정보 조회 view")
 	@GetMapping("")
@@ -60,12 +88,13 @@ public class PayController {
 	
 	//결제 상태 조회
 	@Operation(summary = "결제 상태 정보 조회")
-	@GetMapping("/pay/search/{payState}")
-	@ResponseBody
-	public List<Pay> getPayState(@PathVariable String payState, Model model){
-		List<Pay> pay = payService.getPayState(payState);
-		model.addAttribute("pay", pay);
-		return pay;
+	@GetMapping("/search/{payState}")
+	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
+		List<Pay> pays = payService.getPayState(payState);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("pays", pays);
+		model.addAttribute("member", member);
+		return "member/card_view:: memberTable";
 	}
 	
 	//결제 진행 폼

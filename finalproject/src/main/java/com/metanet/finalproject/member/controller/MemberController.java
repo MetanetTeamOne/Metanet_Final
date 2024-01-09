@@ -330,7 +330,6 @@ public class MemberController {
 		model.addAttribute("member", member);
 		if (member.getMemberCard().equals("1")) {
 			List<Pay> pays = payService.getMemberPay(member.getMemberId());
-			System.out.println(">>>>>>>>>>>>>."+pays);
 			model.addAttribute("pays", pays);
 		}else {
 			model.addAttribute("pay",new Pay());

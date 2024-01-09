@@ -5,15 +5,14 @@
     width: 350px;
     height: 220px;
     margin: auto;
-    /* transform-style: preserve-3d; */
-    /* transition: 0.3s; */
+
 }
 .card-front,
 .card-back {
   position: absolute;
   width: inherit;
   height: inherit;
-  background: linear-gradient(#33a4f8, #206df9);
+  background: linear-gradient(var(--sub), #206df9);
   border-radius: 1em;
   backface-visibility: hidden;
 }
@@ -45,8 +44,8 @@
   color: #ffffff;
   display: flex;
   justify-content: space-between;
-  margin-top: 1.5em;
-  font-size: 0.8em;
+  margin-top: auto;
+  font-size: 1em;
 }
 .details span {
   display: block;
