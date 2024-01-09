@@ -77,6 +77,7 @@ public class SecurityConfig {
       // 토큰을 사용하는 경우 인가를 적용한 URI 설정
       http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
 //              .requestMatchers("/file/**").hasRole("ADMIN")
+              .requestMatchers("/member").permitAll()
               .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
               .requestMatchers("/**", "/css/**", "/js/**", "/images/**").permitAll()
               .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
