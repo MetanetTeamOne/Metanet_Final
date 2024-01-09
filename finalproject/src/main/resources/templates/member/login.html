@@ -48,23 +48,21 @@
                         </form>
                     </fieldset>
                     <ul class="cmem_sns_login notranslate">
-						<li>
-							<a href="#">
-								<span class="ico_area">
-									<span class="sp_cmem_sns cmem_ico_naver"></span>
-								</span>
-								<span class="cmem_sns_name">네이버</span>
-							</a>
+<!--						<li>-->
+<!--							<a href="#">-->
+<!--								<span class="ico_area">-->
+<!--									<span class="sp_cmem_sns cmem_ico_naver"></span>-->
+<!--								</span>-->
+<!--								<span class="cmem_sns_name">네이버</span>-->
+<!--							</a>-->
+<!--						</li>-->
+						<li style="display: flex; justify-content: center;">
+						    <a href="javascript:kakaoLogin('login');" style="display: flex; align-items: center;">
+						        <span class="ico_area" style="margin-right: 0;">
+						            <img src="/img/kakao01.png" alt="카카오" style="width: 450px; height: 65px;">
+						        </span>
+						    </a>
 						</li>
-						<li>
-							<a href="javascript:kakaoLogin('login');">
-								<span class="ico_area">
-									<span class="sp_cmem_sns cmem_ico_kakao"></span>
-								</span>
-								<span class="cmem_sns_name">카카오</span>
-							</a>
-						</li>
-						
 					</ul>
                 </div>
             </div>
@@ -75,7 +73,7 @@
 		    // 로그인 처리 및 로직 수행
 		
 		    // 로그인 후에 /member API로 이동하도록 변경
-		    window.location.href = '/member/kakao/login'; // 변경된 URL로 이동
+		    window.location.href = '/kakao/login'; // 변경된 URL로 이동
 		}
 	</script>
 

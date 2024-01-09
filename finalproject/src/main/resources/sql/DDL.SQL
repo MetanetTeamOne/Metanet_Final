@@ -54,6 +54,9 @@ CREATE TABLE MEMBER (
 	member_card VARCHAR2(4) NOT NULL /* 카드등록상태 */
 );
 
+ALTER TABLE MEMBER
+ADD CONSTRAINT unique_phone_number UNIQUE (member_phone_number);
+
 CREATE UNIQUE INDEX PK_MEMBER
 	ON MEMBER (
 		member_id ASC
