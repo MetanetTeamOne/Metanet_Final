@@ -96,7 +96,12 @@
 	<!-- 구독해지) MEMBER_SUBSCRIBE : 0으로 update -->
 	<update id="updateSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
 		update member
-		set member_subscribe=#{memberSubscribe}
+		<set>
+			MEMBER_SUBSCRIBE_DATE=sysdate,
+			<if test="memberSubscribe != null">
+				member_subscribe=#{memberSubscribe}
+			</if>
+		</set>
 		where member_email=#{memberEmail}
 	</update>
 	
@@ -110,9 +115,9 @@
 	</select>
 	
 	<!-- 카드등록) MEMBER_CARD : 1로 update -->
-	<update id="insertCard" parameterType="string">
+	<update id="insertCard">
 		update member
-		set MEMBER_CARD='1'
+		set MEMBER_CARD=#{cardState}
 		<if test="memberEmail != null">
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>

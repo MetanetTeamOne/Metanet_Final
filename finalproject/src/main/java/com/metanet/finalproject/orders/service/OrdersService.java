@@ -25,6 +25,11 @@ public class OrdersService implements IOrdersService{
 	}
 
 	@Override
+	public List<Orders> searchMonthOrder(int memberId, int month) {
+		return ordersRepository.searchMonthOrder(memberId, month);
+	}
+	
+	@Override
 	public void insertOrder(Orders orders) {
 		ordersRepository.insertOrder(orders);
 	}
@@ -57,7 +62,9 @@ public class OrdersService implements IOrdersService{
 
 
 	@Override
-	public List<Orders> searchOrderId(int ordersId) {
-		return ordersRepository.searchOrderId(ordersId);
+	public List<Orders> searchOrderId(int washId) {
+		return ordersRepository.searchOrderId(washId);
 	}
+
+
 }

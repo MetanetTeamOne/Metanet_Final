@@ -8084,7 +8084,7 @@ button.swiper-pagination-bullet {
 }
  .ui-item .item_name .brand {
   display: block;
-  font-weight: 500;
+  font-weight: bold;
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.4px;
@@ -15518,7 +15518,29 @@ button.swiper-pagination-bullet {
  .mypage-table td .flag_num {
   width: 83px;
 }
- .mypage-table td .box-btn a {
+ .mypage-table td .box-btn button {
+  width: 80%;
+  margin-top: 6px;
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+  text-decoration: none;
+}
+ .mypage-table td .box-btn button:first-child {
+  margin-top: 0;
+}
+ .mypage-table td .box-btn button.arr span:after {
+  display: inline-block;
+  content: '';
+  width: 4px;
+  height: 4px;
+  margin: 0 0 0 3px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.mypage-table td .box-btn a {
   width: 80%;
   margin-top: 6px;
   -webkit-border-radius: 100px;

@@ -45,6 +45,23 @@
 	    ORDER BY wash_id
 	</select>
 	
+	<select id="searchMonthOrder" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
+	    SELECT
+	        orders_id as ordersId,
+	        wash_id as washId,
+	        orders_count as ordersCount,
+	        orders_price as ordersPrice,
+	        orders_date as ordersDate,
+	        orders_status as OrdersStatus,
+	        member_id as memberId,
+	        laundry_id as laundryId
+	    FROM ORDERS
+	    <if test="month != null">
+	        WHERE orders_date >= ADD_MONTHS(SYSDATE, -#{month})   
+	    </if>
+	    ORDER BY orders_date DESC
+	</select>
+	
 	<insert id="insertOrder"
 		parameterType="com.metanet.finalproject.orders.model.Orders">
 		<selectKey keyProperty="ordersId" resultType="int"
