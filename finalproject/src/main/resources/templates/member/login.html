@@ -59,7 +59,12 @@
 						<li style="display: flex; justify-content: center;">
 						    <a href="javascript:kakaoLogin('login');" style="display: flex; align-items: center;">
 						        <span class="ico_area" style="margin-right: 0;">
-						            <img src="/img/kakao01.png" alt="카카오" style="width: 450px; height: 65px;">
+						            <img src="/img/kakaoLogin.png" alt="카카오" style="width: 215px; height: 55px;">
+						        </span>
+						    </a>
+						    <a href="javascript:naverLogin('login');" style="display: flex; align-items: center;">
+						        <span class="ico_area" style="margin-left: 20px;">
+						            <img src="/img/naverLogin.png" alt="네이버" style="width: 215px; height: 55px;">
 						        </span>
 						    </a>
 						</li>
@@ -74,7 +79,11 @@
 		
 		    // 로그인 후에 /member API로 이동하도록 변경
 		    window.location.href = '/kakao/login'; // 변경된 URL로 이동
-		}
+		};
+		
+		function naverLogin(action) {
+			window.location.href = '/naver/login';
+		};
 	</script>
 
     <!-- Top Button -->

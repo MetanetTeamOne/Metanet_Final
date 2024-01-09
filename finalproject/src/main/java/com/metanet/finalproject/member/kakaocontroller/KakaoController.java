@@ -34,6 +34,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@RequestMapping("/kakao")
 @Tag(name = "Kakao Login", description = "카카오 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
@@ -73,7 +74,7 @@ public class KakaoController {
     
 
 	@Operation(summary = "카카오 로그인 화면 API")
-	@GetMapping("/kakao/login")
+	@GetMapping("/login")
 	public String kakaoLogin() {
 		// Kakao 로그인 페이지 URL 생성
 	    String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" +
@@ -86,7 +87,7 @@ public class KakaoController {
 	}
 	
 	@Operation(summary = "카카오 액세스 토큰 발급 API")
-	@GetMapping("/kakao/loginok")
+	@GetMapping("/loginok")
 	public String kakaoLoginOk(@RequestParam String code, Model model, HttpServletResponse response, HttpServletRequest request) {
 		// 1. 인가 코드 받기 (@RequestParam String code)
 		
@@ -251,8 +252,6 @@ public class KakaoController {
 		}
 	}
 	
-//	@Operation(summary = "카카오 로그아웃 API")
-//	@GetMapping("/kakao/logout")
 	public void kakaoLogout(Optional<Cookie> cookie_kakao, HttpServletResponse response){
 		String KakaoLogoutURL = "https://kapi.kakao.com/v1/user/logout";
 		URL url;
