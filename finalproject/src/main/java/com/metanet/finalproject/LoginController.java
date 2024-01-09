@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.kakaocontroller.KakaoController;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberLoginDto;
 import com.metanet.finalproject.member.service.IMemberService;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -127,8 +129,17 @@ public class LoginController {
     		return "redirect:/";
     	}
 //        log.info("로그아웃 진행중...");
+    	KakaoController kakao = new KakaoController();
+    	System.out.println("로그아웃 세션 : " + request.getSession().getId());
+    	kakao.kakaoLogout(request);
+    	
         Optional<Cookie> cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("token")).findFirst();
+        
+        HttpSession session = request.getSession(false); // 세션이 없을 경우 새로 생성하지 않음
+    	if (session != null) {
+    	     session.invalidate(); // 세션 무효화
+    	}
 
         if (cookie.isPresent()) {
             cookie.get().setMaxAge(0);
