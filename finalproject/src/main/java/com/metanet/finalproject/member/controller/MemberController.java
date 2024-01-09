@@ -2,6 +2,7 @@ package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import com.metanet.finalproject.member.model.*;
@@ -21,6 +22,8 @@ import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.service.IMemberService;
+import com.metanet.finalproject.pay.model.Pay;
+import com.metanet.finalproject.pay.service.IPayService;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +51,9 @@ public class MemberController {
 	@Autowired
 	IRoleRepository roleRepository;
 
+	@Autowired
+	IPayService payService;
+	
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -322,6 +328,13 @@ public class MemberController {
   	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
+		if (member.getMemberCard().equals("1")) {
+			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+			System.out.println(">>>>>>>>>>>>>."+pays);
+			model.addAttribute("pays", pays);
+		}else {
+			model.addAttribute("pay",new Pay());
+		}
 		return "member/card_view";
   	}
 
@@ -366,8 +379,7 @@ public class MemberController {
 	// 카드 등록 처리
 	@PostMapping("/card/insert")
 	public String insertCard(Member member, Model model, String memberEmail) {
-//		memberService.insertCard(memberEmail);
-		System.out.println(">>>>>>>>>."+111111);
+		memberService.insertCard(memberEmail);
 		return "redirect:/member/card";
 	}
 

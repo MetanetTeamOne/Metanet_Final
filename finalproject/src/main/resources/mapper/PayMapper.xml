@@ -17,6 +17,20 @@
 		</if>
 	</select>
 	
+	<select id="getMemberPay" resultType="com.metanet.finalproject.pay.model.Pay">
+		select PAY_ID as payId, 
+	        	PAY_DELIVERY as payDelivery, 
+	        	PAY_MONEY as payMoney, 
+	        	PAY_DATE as payDate, 
+	        	PAY_STATE as payState, 
+	        	ORDERS_ID as ordersId,
+	        	MEMBER_ID as memberId
+	    from pay
+	    <if test="memberId != null">
+			where MEMBER_ID=#{memberId}
+		</if>
+	</select>
+	
 	<select id="getPayState" parameterType="int" resultType="com.metanet.finalproject.pay.model.Pay">
 		select PAY_ID as payId, 
 	        	PAY_DELIVERY as payDelivery, 

@@ -31,7 +31,7 @@ public class PayService implements IPayService{
 
 	@Override
 	public List<Pay> getMemberPay(int memberId) {
-		return null;
+		return payRepository.getMemberPay(memberId);
 	}
 
 }
