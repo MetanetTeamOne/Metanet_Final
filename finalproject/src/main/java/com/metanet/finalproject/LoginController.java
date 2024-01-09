@@ -45,7 +45,7 @@ public class LoginController {
 
     // 로그인
     @Operation(summary = "로그인 view")
-    @GetMapping("/login")
+    @GetMapping("/logins")
     public String loginPage(Model model) {
         MemberLoginDto dto = new MemberLoginDto();
         model.addAttribute("dto", dto);
@@ -89,12 +89,12 @@ public class LoginController {
         String token = jwtTokenProvider.generateToken(member);
 //        log.info("token: {}", token);
         Cookie cookie = new Cookie("token", token);
-        cookie.setMaxAge(60 * 60 * 24 * 7);
+        cookie.setMaxAge(60 * 30);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-//        log.info("로그인 성공...");
+        log.info("로그인 성공...");
         return "redirect:/";
     }
 
