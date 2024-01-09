@@ -89,7 +89,7 @@ public class LoginController {
         String token = jwtTokenProvider.generateToken(member);
 //        log.info("token: {}", token);
         Cookie cookie = new Cookie("token", token);
-        cookie.setMaxAge(60 * 60 * 24 * 7);
+        cookie.setMaxAge(60 * 30);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
@@ -130,16 +130,13 @@ public class LoginController {
     	}
 //        log.info("로그아웃 진행중...");
     	KakaoController kakao = new KakaoController();
-    	System.out.println("로그아웃 세션 : " + request.getSession().getId());
-    	kakao.kakaoLogout(request);
+    	
+    	Optional<Cookie> cookie_kakao = Arrays.stream(request.getCookies())
+                .filter(c -> c.getName().equals("kakao_access_token")).findFirst();
+    	kakao.kakaoLogout(cookie_kakao, response);
     	
         Optional<Cookie> cookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("token")).findFirst();
-        
-        HttpSession session = request.getSession(false); // 세션이 없을 경우 새로 생성하지 않음
-    	if (session != null) {
-    	     session.invalidate(); // 세션 무효화
-    	}
 
         if (cookie.isPresent()) {
             cookie.get().setMaxAge(0);
