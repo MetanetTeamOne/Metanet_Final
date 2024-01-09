@@ -9,26 +9,26 @@
     <div class="login_page">
         <div id="content">
             <div id="login_tab" class="tab_con" style="display: block;">
-                <div class="top">
+                <div class="top title">
                     <h3><strong class="txt_blue">워시워시</strong> 로그인</h3>
                 </div>
                 <div class="login_form">
                     <fieldset>
                         <legend></legend>
                         <form method="post" action="/login" th:object="${dto}">
-                            <div class="ipt_wrap">
+                            <div class="ipt_wrap title">
                                 <legend for="userid">아이디</legend>
-                                <input type="email" th:field="*{memberEmail}" th:errorclass="field-error" id="memberEmail" name="memberEmail" class="input_text rounded" placeholder="아이디">
+                                <input type="email" th:field="*{memberEmail}" th:errorclass="field-error" id="memberEmail" name="memberEmail" class="input_text rounded title" placeholder="아이디">
                             </div>
-                            <div class="field-error" th:errors="*{memberEmail}">
+                            <div class="field-error title" th:errors="*{memberEmail}">
                                 이메일 오류
                             </div>
                             
-                            <div class="ipt_wrap">
+                            <div class="ipt_wrap title">
                                 <legend for="userpw">패스워드</legend>
-                                <input type="password" th:field="*{memberPassword}" th:errorclass="field-error" id="memberPassword" name="memberPassword" class="input_text rounded" placeholder="패스워드">
+                                <input type="password" th:field="*{memberPassword}" th:errorclass="field-error" id="memberPassword" name="memberPassword" class="input_text rounded title" placeholder="패스워드">
                             </div>
-                            <div class="field-error" th:errors="*{memberPassword}">
+                            <div class="field-error title" th:errors="*{memberPassword}">
                                 이메일 오류
                             </div>
 
@@ -36,12 +36,12 @@
                                 <div class="chks chk_agree fl">
                                     <label class="chkcon" id="chk_saveid">
                                         <input type="checkbox" title="아이디저장" name="saveid" value="Y">
-                                        <span class="txt">아이디저장</span>
+                                        <span class="txt title">아이디저장</span>
                                         <span class="bl"></span>
                                     </label>
                                 </div>
                                 <div class="btns_wrap">
-                                    <a th:href="@{/member/insert}" class="small">회원가입</a>
+                                    <a th:href="@{/member/insert}" class="small title">회원가입</a>
                                 </div>
                             </div> 
                             <button type="submit" class=" btn_login_cont">로그인</button>
