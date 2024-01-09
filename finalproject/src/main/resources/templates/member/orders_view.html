@@ -105,10 +105,13 @@
                                                                 <a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
                                                                     <span>주문수정</span>
                                                                 </a>
-                                                                
-                                                                <a th:href="@{/orders/delete/{ordersId}/{washId} (ordersId=${order.ordersId}, washId=${order.washId})}" class="btn05 mainC03 itemReviewWrite">
+                                                                <form method="post" th:action="@{/orders/delete/{ordersId}/{washId} (ordersId=${order.ordersId}, washId=${order.washId})}">
+																	
+																
+                                                                <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
                                                                     <span>주문취소</span>
-                                                                </a>
+                                                                </button>
+                                                                </form>
                                                             </div>
                                                         </td>
                                                     </tr>

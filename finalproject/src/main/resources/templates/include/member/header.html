@@ -74,7 +74,7 @@
                                                 <div class="cate_list">
                                                     <h3 class="cate_feed title"><a th:href="@{/svcinfo}">서비스 안내</a></h3>
                                                     <ul>
-                                                        <li class="title"><a href="#">서비스 소개</a></li>
+                                                        <li class="title"><a th:onclick="scrollToElement('section2')" th:href="@{/svcinfo}">서비스 소개</a></li>
                                                         <li class="title"><a href="#">서비스 종류</a></li>
                                                         <li class="title"><a href="#">서비스 지역</a></li>
                                                     </ul>
@@ -106,4 +106,5 @@
 		</div>
 	</div>
 </div>
+
 </html>
