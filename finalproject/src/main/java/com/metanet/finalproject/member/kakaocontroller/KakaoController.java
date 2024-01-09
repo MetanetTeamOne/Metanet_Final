@@ -288,9 +288,8 @@ public class KakaoController {
 	        
 	        access_token = "";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
-			System.out.println("일반 로그인이라서 카카오톡 로그인 로직 처리 안함");
+			System.out.println("카카오톡 로그인이 아니라서 카카오톡 로그인 로직 처리 안함");
 		}
 	}
 }

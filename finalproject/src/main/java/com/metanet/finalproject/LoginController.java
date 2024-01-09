@@ -18,6 +18,7 @@ import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.kakaocontroller.KakaoController;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.model.MemberLoginDto;
+import com.metanet.finalproject.member.navercontroller.NaverController;
 import com.metanet.finalproject.member.service.IMemberService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -127,29 +128,38 @@ public class LoginController {
 //        log.info("principal {}, name {}, authorities {}",
 //                auth.getPrincipal(), auth.getName(), auth.getAuthorities());
 //        log.info("isValid {}", jwtTokenProvider.validateToken(token));
-		return jwtTokenProvider.getUserId(token);
-	}
+        return jwtTokenProvider.getUserId(token);
+    }
 
-	@GetMapping("/logout2") // 시큐리티 때문에 logout 못씀 일단 logout2로 해놓음
-	public String logout(HttpServletRequest request, HttpServletResponse response) {
-		if (request.getCookies() == null) {
-			return "redirect:/";
-		}
-//        log.info("로그아웃 진행중...");
-		KakaoController kakao = new KakaoController();
+    @GetMapping("/logout2") //시큐리티 때문에 logout 못씀 일단 logout2로 해놓음
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    	if(request.getCookies() == null) {
+    		return "redirect:/";
+    	}
+    	
+    	// 카카오 로그아웃 로직
+    	KakaoController kakao = new KakaoController();
+    	
+    	Optional<Cookie> cookie_kakao = Arrays.stream(request.getCookies())
+                .filter(c -> c.getName().equals("kakao_access_token")).findFirst();
+    	kakao.kakaoLogout(cookie_kakao, response);
+    	
+    	// 네이버 로그아웃 로직
+    	NaverController naver = new NaverController();
+    	
+    	Optional<Cookie> cookie_naver = Arrays.stream(request.getCookies())
+    			.filter(c -> c.getName().equals("naver_access_token")).findFirst();
+    	naver.naverLogout(cookie_naver, response);
+    	// Jwt 토큰 초기화
+    	
+        Optional<Cookie> cookie = Arrays.stream(request.getCookies())
+                .filter(c -> c.getName().equals("token")).findFirst();
 
-		Optional<Cookie> cookie_kakao = Arrays.stream(request.getCookies())
-				.filter(c -> c.getName().equals("kakao_access_token")).findFirst();
-		kakao.kakaoLogout(cookie_kakao, response);
+        if (cookie.isPresent()) {
+            cookie.get().setMaxAge(0);
+            response.addCookie(cookie.get());
+        }
 
-		Optional<Cookie> cookie = Arrays.stream(request.getCookies()).filter(c -> c.getName().equals("token"))
-				.findFirst();
-
-		if (cookie.isPresent()) {
-			cookie.get().setMaxAge(0);
-			response.addCookie(cookie.get());
-		}
-
-		return "redirect:/";
-	}
+        return "redirect:/";
+    }
 }
