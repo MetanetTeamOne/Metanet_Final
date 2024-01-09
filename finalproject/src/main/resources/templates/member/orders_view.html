@@ -51,36 +51,36 @@
                                                     <th scope="col">진행현황</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <form th:each="order : ${orders}" method="post" th:action="@{/orders/delete}">
+                                            <tbody >
+                                                <div th:each="order : ${orders}">
                                                     <tr>
                                                         <td colspan="5" class="order-info__list">
                                                             <ul>
                                                                 <li>
                                                                     <strong>주문번호 :</strong>
-                                                                    <span th:text="${order.washId}">1</span>
+                                                                    <span th:text="${order.ordersId}">1</span>
                                                                 </li>
                                                                 <li th:text="${order.ordersDate}">주문일 : 2024-01-04</li>
                                                             </ul>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td >
-                                                            <div class="ui-item order" >
-                                                                <div class="ui-item__inner" >
-                                                                    <div class="ui-item__info" >
-                                                                        <div class="item_name"  >
-                                                                            <strong class="brand">상의</strong>
+                                                        <td>
+                                                            <div class="ui-item order" data-item-section="">
+                                                                <div class="ui-item__inner">
+                                                                    <div class="ui-item__info" th:each="laundry : ${laundrys}" th:if="${order.laundryId == laundry.laundryId}" >
+                                                                        <div class="item_name" >
+                                                                            <strong th:if="${order.laundryId < 12}" class="brand">상의</strong>
                                                                             <strong th:if="${order.laundryId >= 12 and order.laundryId < 16}" class="brand">하의</strong>
                                                                             <strong th:if="${order.laundryId >= 16 and order.laundryId < 20}" class="brand">신발</strong>
                                                                             <strong th:if="${order.laundryId >= 20}" class="brand">기타</strong>
-                                                                            <!--<span class="prd" th:text="${laundry.laundryName}"></span>-->
+                                                                            <span class="prd" th:text="${laundry.laundryName}"></span>
                                                                         </div>
-                                                                        <div class="item_detail" th:each="laundry : ${laundrys}">
-                                                                        	<p class="order_option" >
-																				<!--<strong>세탁유형 : </strong>
+                                                                        <div class="item_detail">
+                                                                        	<p class="order_option">
+																				<strong>세탁유형 : </strong>
                                                                         		<span th:if="${laundry.laundryCategory == '1'}">생활빨래</span>
-                                                                        		<span th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>-->
+                                                                        		<span th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>
                                                                         	</p>
                                                                     	</div>
                                                                     </div>
@@ -102,16 +102,16 @@
                                                         </td>
                                                         <td>
                                                             <div class="box-btn">
-                                                                <a th:href="@{/orders/update}" class="btn05 c01 sitemCheckBtn">
+                                                                <a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
                                                                     <span>주문수정</span>
                                                                 </a>
-                                                                <button type="submit" class="btn05 mainC03 itemReviewWrite">
+                                                                <a th:href="@{/orders/delete/__${order.washId}__}" class="btn05 mainC03 itemReviewWrite">
                                                                     <span>주문취소</span>
-                                                                </button>
+                                                                </a>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                </form>
+                                                </div>
                                             </tbody>
                                         </table>
                                     </div>
@@ -162,6 +162,7 @@
                 if (xhr.readyState == 4) {
                     if (xhr.status >= 200 && xhr.status < 300) {
  					const fragment = xhr.responseText;
+ 					console.log(fragment);
                         document.getElementById("memberTable").innerHTML = fragment;
                     } else {
                         console.log("비정상 응답 : " + xhr.status);
