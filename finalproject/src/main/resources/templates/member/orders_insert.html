@@ -75,7 +75,7 @@
 							<div class="col-12">
 								<label for="username" class="form-label title">이름</label>
 								<div class="input-group has-validation">
-									<input type="text" class="form-control" id="username" placeholder="김워시"
+									<input type="text" class="form-control title" id="username" placeholder="김워시"
 										name="memberName" th:value="${member.memberName}" required="">
 									<div class="invalid-feedback title">
 										이름을 입력하세요
@@ -86,7 +86,7 @@
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
 							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="firstName" class="form-label title"></label>
-								<input type="text" class="form-control" id="firstName" placeholder="우편번호"
+								<input type="text" class="form-control title" id="firstName" placeholder="우편번호"
 									th:value="${addressList.addressZipcode}" name="addressZipcode" required="">
 								<div class="invalid-feedback title">
 									우편번호를 입력하세요
@@ -95,7 +95,7 @@
 
 							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="lastName" class="form-label title"></label>
-								<input type="text" class="form-control" id="lastName" placeholder="도로명 주소"
+								<input type="text" class="form-control title" id="lastName" placeholder="도로명 주소"
 									th:value="${addressList.addressRoad}" name="addressRoad" required="">
 								<div class="invalid-feedback title">
 									도로명 주소를 입력하세요
@@ -104,22 +104,22 @@
 
 							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="lastName" class="form-label title"></label>
-								<input type="text" class="form-control" id="lastName" placeholder="상세주소"
+								<input type="text" class="form-control title" id="lastName" placeholder="상세주소"
 									th:value="${addressList.addressContent}" name="addressContent" required="">
 								<div class="invalid-feedback title">
 									상세주소를 입력하세요
 								</div>
 							</div>
 
-							<div class="col-12">
+							<!--<div class="col-12">
 								<label for="email" class="form-label title">이메일 <span
-										class="text-body-secondary">(선택)</span></label>
-								<input type="email" class="form-control" id="email" name="memberEmail"
+										class="text-body-secondary">(선택)</span></label>-->
+								<input type="hidden" class="form-control" id="email" name="memberEmail"
 									th:value="${member.memberEmail}" placeholder="you@example.com">
-								<div class="invalid-feedback title">
+								<!--<div class="invalid-feedback title">
 									올바른 형식의 이메일 주소를 입력하세요
 								</div>
-							</div>
+							</div>-->
 
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 알림</h4>
 							<div class="my-3">
@@ -252,7 +252,7 @@
 									<label for="cc-name" class="form-label title">카드사</label>
 									<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
 								<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
-									<select class="form-select" id="cc-company" required="">
+									<select class="form-select title" id="cc-company" required="">
 										<option value="">선택하세요.</option>
 										<option>국민</option>
 										<option>신한</option>
@@ -289,7 +289,7 @@
 									th:onclick="|javascript:location.href='/'|">취소</button>
 								<!--<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn"
 									th:onclick="|javascript:location.href='/orders/insert'|">신청</button>-->
-								<button type="button" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
+								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
 							</div>
 					</form>
 				</div>
@@ -333,13 +333,126 @@
 	<div th:replace="~{include/member/footer :: footer}"></div>
 
 	<script>
-		
+
 		const objTest = {
 			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
 			하의: ['반바지', '슬랙스', '골덴바지', '면바지'],
 			신발: ['운동화', '구두', '등산화'],
 			기타: ['스카프', '목도리', '모자', '넥타이']
 		};
+		
+		$(document).ready(function(){
+	   	  
+		var IMP = window.IMP;
+		var code = "imp42547163"; //가맹점 식별코드
+		IMP.init(code);
+		
+		$("#inesrtBtn").click(function(e){
+			//결제요청
+			IMP.request_pay({
+				//name과 amout만있어도 결제 진행가능
+				pg : 'kakao', //pg사 선택 (kakao, kakaopay 둘다 가능)
+				pay_method: 'card',
+				merchant_uid : 'merchant_' + new Date().getTime(),
+				name : '결제테스트', // 상품명
+				amount : 1,
+				buyer_tel : '01012324444',  //필수항목
+				//결제완료후 이동할 페이지 kko나 kkopay는 생략 가능
+				m_redirect_url : 'http://localhost:8085/orders/insert'
+			}, function(rsp){
+				if(rsp.success){//결제 성공시
+					var msg = '결제가 완료되었습니다';
+					var result = {
+					"imp_uid" : rsp.imp_uid,
+					"merchant_uid" : rsp.merchant_uid,
+					"pay_date" : new Date().getTime(),
+					"amount" : rsp.paid_amount,
+					"card_no" : rsp.apply_num,
+					"refund" : 'payed'
+					}
+					console.log("결제성공 " + msg);
+					$.ajax({
+						url : '/orders/insert', 
+				        type :'POST',
+				        data : JSON.stringify(result,
+				        		['imp_uid', 'merchant_uid', 'biz_email', 
+				        			'pay_date', 'amount', 'card_no', 'refund']),
+				        contentType:'application/json;charset=utf-8',
+				        dataType: 'json', //서버에서 보내줄 데이터 타입
+				        success: function(res){
+				        			        	
+				          if(res == 1){
+							 console.log("추가성공");	
+							 pay += 5;
+							 $('#pay_coupon').html(pay);			           
+				          }else{
+				             console.log("Insert Fail!!!");
+				          }
+				        },
+				        error:function(){
+				          console.log("Insert ajax 통신 실패!!!");
+				        }
+					}) //ajax
+					
+				}
+				else{//결제 실패시
+					var msg = '결제에 실패했습니다';
+					msg += '에러 : ' + rsp.error_msg
+				}
+				console.log(msg);
+			});//pay
+		}); //check1 클릭 이벤트
+		 
+		
+	}); //doc.ready
+		
+		//IMP.init('imp42547163');
+	//	function KGPay() {
+	//		IMP.init('imp42547163');
+	//		IMP.request_pay({
+	//	    pg : 'html5_inicis',
+	//	    pay_method : 'card',
+	//	    merchant_uid: "order_no_0001", // 상점에서 관리하는 주문 번호
+	//	    name : '주문명:결제테스트',
+	//	    amount : 14000,
+	//	    buyer_email : 'iamport@siot.do',
+	//	    buyer_name : '구매자이름',
+	//	    buyer_tel : '010-1234-5678',
+	//	    buyer_addr : '서울특별시 강남구 삼성동',
+	//	    buyer_postcode : '123-456',
+	//	    m_redirect_url : '{http://localhost:8085/orders/insertok}'
+	//	}, function(rsp) {
+	//	    if ( rsp.success ) {
+	//	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+	//	    	jQuery.ajax({
+	//	    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
+	//	    		type: 'POST',
+	//	    		dataType: 'json',
+	//	    		data: {
+	//		    		imp_uid : rsp.imp_uid
+	//		    		//기타 필요한 데이터가 있으면 추가 전달
+	//	    		}
+	//	    	}).done(function(data) {
+	//	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+	//	    		if ( everythings_fine ) {
+	//	    			var msg = '결제가 완료되었습니다.';
+	//	    			msg += '\n고유ID : ' + rsp.imp_uid;
+	//	    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+	//	    			msg += '\결제 금액 : ' + rsp.paid_amount;
+	//	    			msg += '카드 승인번호 : ' + rsp.apply_num;
+	//	    			alert(msg);
+	//	    		} else {
+	//	    			//[3] 아직 제대로 결제가 되지 않았습니다.
+	//	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+	//	    		}
+	//	    	});
+	//	    } else {
+	//	        var msg = '결제에 실패하였습니다.';
+	//	        msg += '에러내용 : ' + rsp.error_msg;
+	//	        alert(msg);
+	//	    	}
+	//		});
+	//	}
 		$(function () {
 			var flyElement = $('.fly');
 			var initialTop = flyElement.offset().top;
@@ -393,10 +506,17 @@
 		document.getElementById('insertBtn').addEventListener('click', function () {
 			if (addressCounter < 1) {
 				console.log('addressCounter>>>>', addressCounter);
+				document.getElementById('insertBtn').type = 'button';
 				alert('세탁물을 1개 이상 등록해주세요');
-				console.log('addressCounter>>>>', addressCounter);
+				console.log('addressCounter~~', addressCounter);
+				//alert('memberEmail>>>>',memberEmail);
 			} else {
-				document.getElementById('insertBtn').type = 'submit';
+				KGPay(function () {
+					alert('kgpay!!!');
+				});
+				//KGPay();
+				//alert('kgpay 후');
+
 			}
 		});
 
@@ -412,7 +532,7 @@
             </h4>
             <div class="col-md-6">
                 <label for="country" class="form-label title">대분류</label>
-                <select class="form-select laundryCategory" name="laundryCategoryName" required="">
+                <select class="form-select laundryCategory title" name="laundryCategoryName" required="">
                 </select>
                 <div class="invalid-feedback title">
                     대분류 카테고리를 선택해주세요.
@@ -420,7 +540,7 @@
             </div>
             <div class="col-md-6">
                 <label for="country" class="form-label title">소분류</label>
-                <select class="form-select laundryName" name="laundryName" required="">
+                <select class="form-select laundryName title" name="laundryName" required="">
                 </select>
                 <div class="invalid-feedback title">
                     소분류 카테고리를 선택해주세요.
@@ -440,10 +560,10 @@
 				newRow2.setAttribute('data-counter', currentCounter);
 				newRow2.innerHTML = `
 				    <div>
-				        <h6 class="my-0">세탁 상품</h6>
-				        <small id="selectedLaundryDescription_${currentCounter}" class="text-body-secondary">선택된 상품</small>
+				        <h6 class="my-0 title">세탁 상품</h6>
+				        <small id="selectedLaundryDescription_${currentCounter}" class="text-body-secondary title">선택된 상품</small>
 				    </div>
-				    <span id="selectedLaundryDescriptionPrice_${currentCounter}" class="text-body-secondary"></span>
+				    <span id="selectedLaundryDescriptionPrice_${currentCounter}" class="text-body-secondary title"></span>
 				`;
 				document.getElementById('laundryUl').appendChild(newRow2);
 
@@ -599,9 +719,7 @@
 			});
 
 		}
-
-
-
+		
 		function getPriceForLaundry(laundry) {
 			switch (laundry) {
 				case "셔츠":

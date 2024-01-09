@@ -918,6 +918,24 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
 
 .swal-button {
   background-color: var(--sub);
+  margin: 5px;
+}
+.swal-button-cancel {
+    color: #3e3d3c;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 24px;
+    margin: 5px;
+}
+
+.swal-button-cancel:not([disabled]):hover {
+	color: #333333;
+    border: 1px solid #bbbbbb;
+    background-color: #dcdcdc;
 }
 
 .field-error {
@@ -925,4 +943,6 @@ input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
     color: #dc3545;
 }
 
-
+.form-select {
+	font-size: none;
+}

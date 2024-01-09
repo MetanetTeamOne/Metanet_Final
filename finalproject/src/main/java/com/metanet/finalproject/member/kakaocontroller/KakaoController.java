@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.json.simple.JSONObject;
@@ -26,7 +27,9 @@ import com.metanet.finalproject.member.service.IMemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -55,7 +58,7 @@ public class KakaoController {
 	
 	private String KakaoJwtToken = null;
 	
-	private String access_token = "";
+	public String access_token = "";
 	private String refresh_token = "";
 	private String token_type = "";
 	private String getAccessTokenURL = "https://kauth.kakao.com/oauth/token";
@@ -83,7 +86,7 @@ public class KakaoController {
 	
 	@Operation(summary = "카카오 액세스 토큰 발급 API")
 	@GetMapping("/kakao/loginok")
-	public String kakaoLoginOk(@RequestParam String code, Model model, HttpServletResponse response) {
+	public String kakaoLoginOk(@RequestParam String code, Model model, HttpServletResponse response, HttpServletRequest request) {
 		// 1. 인가 코드 받기 (@RequestParam String code)
 		
 		// 2. 유저 인증 코드 받기
@@ -131,22 +134,16 @@ public class KakaoController {
 	                JSONObject jsonObject = (JSONObject) parser.parse(result);
 
 	                // 필요한 값 추출
-	                String accessToken = (String) jsonObject.get("access_token");
-	                String tokenType = (String) jsonObject.get("token_type");
-	                String refreshToken = (String) jsonObject.get("refresh_token");
+	                access_token = (String) jsonObject.get("access_token");
+	                token_type = (String) jsonObject.get("token_type");
+	                refresh_token = (String) jsonObject.get("refresh_token");
 	                long expiresIn = (long) jsonObject.get("expires_in");
 	                String scope = (String) jsonObject.get("scope");
 	                long refreshTokenExpiresIn = (long) jsonObject.get("refresh_token_expires_in");
 
 	                // 파싱된 값 출력
-	                System.out.println("Access Token: " + accessToken);
-	                System.out.println("Token Type: " + tokenType);
-	                // 나머지 필드에 대한 작업 수행
-	                
-	                access_token = accessToken;
-	                refresh_token = refreshToken;
-	                token_type = tokenType;
-	                
+	                System.out.println("Access Token: " + access_token);
+	                System.out.println("Token Type: " + token_type);
 	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }
@@ -213,12 +210,24 @@ public class KakaoController {
 			    
 			    String token = jwtTokenProvider.generateToken(getKakaoUserInfoFromUserDB);
 //		        log.info("token: {}", token);
+			    System.out.println("카카오 jwt 토큰 : " + token);
+			    
+			    // 로그아웃할때 외부에서 로그아웃에서 한번에 카카오 로그아웃까지 처리해야하는데 이게 안됨.
+		        // 그래서 추가적으로 세션으로 카카오 액세스 토큰 넘겨줌
+		        HttpSession session = request.getSession();
+
+			    // 세션에 access_token 추가
+			    session.setAttribute("access_token", access_token);
+			    session.setMaxInactiveInterval(60 * 60 * 24 * 7);
+			    
 		        Cookie cookie = new Cookie("token", token);
 		        cookie.setMaxAge(60 * 60 * 24 * 7);
 		        cookie.setHttpOnly(true);
 //		        cookie.setSecure(true);
 		        cookie.setPath("/");
 		        response.addCookie(cookie);
+		        
+		        System.out.println("카카오 액세스 jwt 발급후 :" + access_token);
 		        
 			    return "redirect:/";
 			} 
@@ -235,6 +244,45 @@ public class KakaoController {
 	        model.addAttribute("dto", member);
 	        model.addAttribute("showAlert", true);
 			return "member/signup";
+		}
+	}
+	
+//	@Operation(summary = "카카오 로그아웃 API")
+//	@GetMapping("/kakao/logout")
+	public void kakaoLogout(HttpServletRequest request){
+		String KakaoLogoutURL = "https://kapi.kakao.com/v1/user/logout";
+		URL url;
+		try {
+			url = new URL(KakaoLogoutURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			
+			// 세션 객체 생성 또는 기존 세션 가져오기
+			HttpSession session = request.getSession();
+
+			// 세션에서 access_token 가져오기
+			String access_token = (String) session.getAttribute("access_token");
+			
+			System.out.println("로그아웃 액세스 토큰 : " + access_token);
+			
+			conn.setRequestMethod("POST");
+	        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+	        conn.setRequestProperty("Authorization", "Bearer " + access_token);
+	        conn.setDoOutput(true);
+	        
+	        int responseCode = conn.getResponseCode();
+	        log.info("카카오 로그아웃 response code : {}", responseCode);
+	        
+	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        String line = "";
+	        String result = "";
+
+	        while ((line = br.readLine()) != null) {
+	            result += line;
+	        }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
+			System.out.println("일반 로그인이라서 카카오톡 로그인 로직 처리 안함");
 		}
 	}
 }

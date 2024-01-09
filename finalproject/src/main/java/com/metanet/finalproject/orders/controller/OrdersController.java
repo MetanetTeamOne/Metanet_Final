@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -92,34 +93,45 @@ public class OrdersController {
 	public String getOrder(HttpServletRequest request, Model model) {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
 		List<Orders> orders = ordersService.searchOrder(memberId);
-//		System.out.println(orders);
+		List<Laundry> laundrys = laundryService.getLaundry();
 		model.addAttribute("orders", orders);
+		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view";
 	}
 	
-	@Operation(summary = "회원별 주문 조회")
-	@GetMapping("/{memberId}")
-	@ResponseBody
-	public List<Orders> searchOrder(Model model, @PathVariable int memberId){
-//	List<Orders> searchOrder(HttpServletRequest request){
-//	String token = tokenProvider.resolveToken(request);
-//  log.info("token {}",token); //권장
-//    
-//  Authentication auth = tokenProvider.getAuthentication(token);
-//  log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
-		Orders order = new Orders();
-		
-		
-//		System.out.println(order.getWashId());
+//	@Operation(summary = "회원별 주문 조회")
+//	@GetMapping("/{memberId}")
+//	@ResponseBody
+//	public List<Orders> searchOrder(Model model, @PathVariable int memberId){
+////	List<Orders> searchOrder(HttpServletRequest request){
+////	String token = tokenProvider.resolveToken(request);
+////  log.info("token {}",token); //권장
+////    
+////  Authentication auth = tokenProvider.getAuthentication(token);
+////  log.info("principal {}, name {}, authorities{}", auth.getPrincipal(), auth.getName(), auth.getAuthorities());
+//		Orders order = new Orders();
 //		
-//		System.out.println("111");
-		
-		return ordersService.searchOrder(memberId, -1);
+//		
+////		System.out.println(order.getWashId());
+////		
+////		System.out.println("111");
+//		
+//		return ordersService.searchOrder(memberId, -1);
+//	}
+	
+	//	비동기
+	@Operation(summary = "회원 회차별 주문 조회")
+	@GetMapping("/month/{month}")
+	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month){
+		int memberId = memberService.getMemberId(getTokenUserEmail(request));
+		List<Orders> orders = ordersService.searchMonthOrder(memberId, month);
+		List<Laundry> laundrys = laundryService.getLaundry();
+		model.addAttribute("orders", orders);
+		model.addAttribute("laundrys", laundrys);
+		return "member/orders_view :: memberTable";
 	}
 	
-	// 지금 안되고 있는데 해결 해보겠음
-	
-	@Operation(summary = "회원 회차별 주문 조회")
+	@Operation(summary = "회원 개월별 주문 조회")
 	@GetMapping("/{memberId}/{washId}")
 	@ResponseBody
 	public List<Orders> searchOrder(Model model, @PathVariable int memberId, @PathVariable int washId){
@@ -163,7 +175,6 @@ public class OrdersController {
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
 	public String insertOrder(Model model, Orders orders, HttpServletRequest request) {
-
 		System.out.println("orders>>" + orders);
 //		System.out.println("OrdersCount>>>>"+orders.getOrdersCount());
 //		System.out.println("ordersPrice>>>>"+orders.getOrdersPrice());
@@ -203,9 +214,10 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "주문 수정 view")
-	@GetMapping("/update/{ordersId}")
-	public String updateOrder(Model model, @PathVariable int ordersId) {
-		List<Orders> orders = ordersService.searchOrderId(ordersId);
+	@GetMapping("/update/{washId}")
+	public String updateOrder(Model model, @PathVariable int washId) {
+		List<Orders> orders = ordersService.searchOrderId(washId);
+		System.out.println(">>>>>>>>>>>>>>"+orders);
 		model.addAttribute("orders", orders);
 		return "member/orders_update";
 	}
@@ -220,8 +232,8 @@ public class OrdersController {
 	
 	@Operation(summary = "주문 삭제")
 	@PostMapping("/delete/{ordersId}/{washId}")
-	public String deleteOrder(Model model, @PathVariable int ordersId, @PathVariable int washId) {
+	public String deleteOrder(Model model, @PathVariable("ordersId") int ordersId, @PathVariable("ordersId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
-		return "member/mypage_order";
+		return "redirect:/orders";
 	}
 }
