@@ -63,23 +63,18 @@
 	</select>
 
 	<select id="searchMonthOrder" parameterType="int"
-		resultType="com.metanet.finalproject.orders.model.Orders">
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		
 		SELECT
-		orders_id as ordersId,
-		wash_id as washId,
-		orders_count as
-		ordersCount,
-		orders_price as ordersPrice,
-		orders_date as ordersDate,
-		orders_status as OrdersStatus,
-		member_id as memberId,
-		laundry_id as
-		laundryId
+		    wash_id as washId,
+		    COUNT(*) as ordersTotalCount,
+		    SUM(orders_price) as ordersTotalPrice,
+		    MAX(orders_date) as ordersDate,
+		    MAX(orders_status) as orderState
 		FROM ORDERS
-		<if test="month != null">
-			WHERE orders_date >= ADD_MONTHS(SYSDATE, -#{month})
-		</if>
-		ORDER BY orders_date DESC
+		WHERE member_id = #{memberId} AND orders_date >= ADD_MONTHS(SYSDATE, -#{month})
+		GROUP BY wash_id
+		ORDER BY ordersDate DESC
 	</select>
 
 	<insert id="insertOrder"

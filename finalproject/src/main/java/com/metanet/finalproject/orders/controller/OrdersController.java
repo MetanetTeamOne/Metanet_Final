@@ -1,6 +1,5 @@
 package com.metanet.finalproject.orders.controller;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +23,14 @@ import com.metanet.finalproject.laundry_category.model.LaundryCategory;
 import com.metanet.finalproject.laundry_category.service.ILaundryCategoryService;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
-import com.metanet.finalproject.member.service.MemberService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
 import com.metanet.finalproject.orders.service.IOrdersService;
-import com.metanet.finalproject.orders.service.OrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -127,10 +123,8 @@ public class OrdersController {
 	@GetMapping("/month/{month}")
 	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month){
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		List<Orders> orders = ordersService.searchMonthOrder(memberId, month);
-		List<Laundry> laundrys = laundryService.getLaundry();
+		List<OrdersDetails> orders = ordersService.searchMonthOrder(memberId,month);
 		model.addAttribute("orders", orders);
-		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view :: memberTable";
 	}
 	

@@ -33,7 +33,7 @@ public class OrdersService implements IOrdersService{
 	}
 	
 	@Override
-	public List<Orders> searchMonthOrder(int memberId, int month) {
+	public List<OrdersDetails> searchMonthOrder(int memberId, int month) {
 		return ordersRepository.searchMonthOrder(memberId, month);
 	}
 	

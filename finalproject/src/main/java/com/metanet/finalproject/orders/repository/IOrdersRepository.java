@@ -17,7 +17,7 @@ public interface IOrdersRepository {
 	List<Orders> searchOrderId(int washId);
 	
 	List<OrdersDetails> searchMemOrder(int memberId);
-	List<Orders> searchMonthOrder(int memberId, int month);
+	List<OrdersDetails> searchMonthOrder(int memberId, int month);
 	
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
