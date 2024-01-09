@@ -1,6 +1,5 @@
 package com.metanet.finalproject.orders.service;
 
-import java.sql.Date;
 import java.util.List;
 
 import com.metanet.finalproject.orders.model.Orders;
@@ -18,6 +17,7 @@ public interface IOrdersService {
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
 	void deleteOrder(int ordersId, int washId);
+	void deleteWashOrder(int washId);
 	int countOrder(int memberId); //회원별 주문 건수 추가
 	
 	// 관리자

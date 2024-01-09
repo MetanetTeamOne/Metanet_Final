@@ -244,11 +244,15 @@ public class OrdersController {
 	}
 	
 	@Operation(summary = "주문 삭제")
+	@PostMapping("/delete/{washId}")
+	public String deleteWashIdOrder(@PathVariable("washId") int washId) {
+		ordersService.deleteWashOrder(washId);
+		return "redirect:/orders";
+	}
+	
+	@Operation(summary = "주문 상세 삭제")
 	@PostMapping("/delete/{ordersId}/{washId}")
-	public String deleteOrder(Model model, @PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
-		System.out.println("ordersId>>>>>>>>>."+ordersId 
-				
-				+"washId>>>>>>>>>"+washId);
+	public String deleteOrder(@PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
 		return "redirect:/orders";
 	}

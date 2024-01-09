@@ -3,6 +3,7 @@ package com.metanet.finalproject.orders.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.metanet.finalproject.orders.model.Orders;
@@ -21,7 +22,8 @@ public interface IOrdersRepository {
 	
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
-	void deleteOrder(int ordersId, int washId);
+	void deleteOrder(@Param("ordersId") int ordersId, @Param("washId") int washId);
+	void deleteWashOrder(@Param("washId") int washId);
 	int countOrder(int memberId); //회원별 주문 건수 추가
 	 
 	// 관리자

@@ -147,10 +147,21 @@
 		WHERE orders_id = #{ordersId}
 	</update>
 
-	<delete id="deleteOrder" parameterType="int">
+	<delete id="deleteWashOrder">
 		DELETE FROM ORDERS
-		WHERE
-		orders_id = #{ordersId} and wash_id = #{washId}
+		<where>
+			<if test="washId != null">AND wash_id = #{washId} </if>
+			<!-- <if test="ordersId != null">AND orders_id = #{ordersId} </if> -->
+		</where>
+	</delete>
+	
+	<delete id="deleteOrder">
+		DELETE FROM ORDERS
+		<where>
+			<if test="washId != null">AND wash_id = #{washId} </if>
+			<if test="ordersId != null">AND orders_id = #{ordersId} </if>
+			
+		</where>
 	</delete>
 
 	<!-- <![CDATA[ -->

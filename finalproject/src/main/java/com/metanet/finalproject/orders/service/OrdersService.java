@@ -53,6 +53,11 @@ public class OrdersService implements IOrdersService{
 	}
 	
 	@Override
+	public void deleteWashOrder(int washId) {
+		ordersRepository.deleteWashOrder(washId);
+	}
+	
+	@Override
 	public int countOrder(int memberId) {
 		return ordersRepository.countOrder(memberId);
 	}
