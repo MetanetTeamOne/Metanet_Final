@@ -10,7 +10,7 @@
     <!-- Main -->
     <div class="inner">
         <div class="row mypage">
-            <!-- Section left -->
+             <!--Section left--> 
             <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
 
             <!-- Section right -->
@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="mypage_header">
                             <h3>주문 관리</h3>
-                            <!-- Content -->
+                             <!--Content--> 
                             <div class="my-month__wrap">
                                 <ul id="period" class="month_list">
                                     <li>조회기간</li>
@@ -36,15 +36,16 @@
                                     <div class="mypage-table">
                                         <table id="memberTable" th:fragment="memberTable">
                                             <colgroup>
-                                                <col>
+                                                
                                                 <col style="width:14%">
                                                 <col style="width:14%">
                                                 <col style="width:20%">
-                                                <col style="width:16%">
+                                                <col style="width:20%">
+                                                <col>
                                             </colgroup>
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">상품정보</th>
+                                                    <th scope="col">주문번호</th>
                                                     <th scope="col">주문수량</th>
                                                     <th scope="col">주문금액</th>
                                                     <th scope="col">진행상태</th>
@@ -52,70 +53,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody >
-                                                <div th:each="order : ${orders}">
-                                                    <tr>
-                                                        <td colspan="5" class="order-info__list">
-                                                            <ul>
-                                                                <li>
-                                                                    <strong>주문번호 :</strong>
-                                                                    <span th:text="${order.ordersId}">1</span>
-                                                                </li>
-                                                                <li th:text="${order.ordersDate}">주문일 : 2024-01-04</li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
+                                                    <tr th:each="order : ${orders}">
                                                         <td>
-                                                            <div class="ui-item order" data-item-section="">
-                                                                <div class="ui-item__inner">
-                                                                    <div class="ui-item__info" th:each="laundry : ${laundrys}" th:if="${order.laundryId == laundry.laundryId}" >
-                                                                        <div class="item_name" >
-                                                                            <strong th:if="${order.laundryId < 12}" class="brand">상의</strong>
-                                                                            <strong th:if="${order.laundryId >= 12 and order.laundryId < 16}" class="brand">하의</strong>
-                                                                            <strong th:if="${order.laundryId >= 16 and order.laundryId < 20}" class="brand">신발</strong>
-                                                                            <strong th:if="${order.laundryId >= 20}" class="brand">기타</strong>
-                                                                            <span class="prd" th:text="${laundry.laundryName}"></span>
-                                                                        </div>
-                                                                        <div class="item_detail">
-                                                                        	<p class="order_option">
-																				<strong>세탁유형 : </strong>
-                                                                        		<span th:if="${laundry.laundryCategory == '1'}">생활빨래</span>
-                                                                        		<span th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>
-                                                                        	</p>
-                                                                    	</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
+														    <span th:text="'#'+${order.washId}"></span>
+														</td>
                                                         <td>
-                                                            <span><strong th:text="${order.ordersCount}"></strong></span>개
-                                                        </td>
+														    <span th:text="${order.ordersTotalCount}+'개'"></span>
+														</td>
+														<td>
+														    <span data-th-text="${#numbers.formatInteger(order.ordersTotalPrice, 0, 'COMMA') + '원'}"></span>
+														</td>
                                                         <td>
-                                                            <span><strong th:text="${order.ordersPrice}"></strong></span>원
-                                                        </td>
-                                                        <td>
-                                                            <span th:if="${order.ordersStatus} == 1"><strong>수거진행</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 2"><strong>수거완료</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 3"><strong>세탁진행</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 4"><strong>배송진행</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 5"><strong>배송완료</strong></span>
+                                                            <span th:if="${order.orderState} == 1"><strong>수거진행</strong></span>
+                                                            <span th:if="${order.orderState} == 2"><strong>수거완료</strong></span>
+                                                            <span th:if="${order.orderState} == 3"><strong>세탁진행</strong></span>
+                                                            <span th:if="${order.orderState} == 4"><strong>배송진행</strong></span>
+                                                            <span th:if="${order.orderState} == 5"><strong>배송완료</strong></span>
                                                         </td>
                                                         <td>
                                                             <div class="box-btn">
-                                                                <a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
+                                                                <a th:href="@{/orders/update/__${order.washId}__}" class="btn05 c01 sitemCheckBtn">
                                                                     <span>주문수정</span>
                                                                 </a>
-                                                                <form method="post" th:action="@{/orders/delete/{ordersId}/{washId} (ordersId=${order.ordersId}, washId=${order.washId})}">
-																	
-																
-                                                                <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
-                                                                    <span>주문취소</span>
-                                                                </button>
-                                                                </form>
+                                                                <form method="post" th:action="@{/orders/delete/__${order.washId}__}">
+																    <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
+																        <span>주문취소</span>
+																    </button>
+																</form>
+
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                </div>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -138,7 +107,7 @@
     <div th:replace="~{include/member/footer :: footer}"></div>
     
     <!--xmlHttpRequest-->
-    <script th:inline="javascript">
+    <!--<script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
             const radioButtons = document.querySelectorAll('input[name="radio_name_d"]');
 
@@ -182,6 +151,6 @@
                 xhr.send();
             }
         });
-    </script>
+    </script>-->
 </body>
 </html>

@@ -4,13 +4,17 @@ import java.sql.Date;
 import java.util.List;
 
 import com.metanet.finalproject.orders.model.Orders;
+import com.metanet.finalproject.orders.model.OrdersDetails;
 
 public interface IOrdersService {
 	// 회원
 	List<Orders> searchOrder(int memberId);
 	List<Orders> searchOrder(int memberId, int washId);
 	List<Orders> searchOrderId(int washId); 
+	
+	List<OrdersDetails> searchMemOrder(int memberId);
 	List<Orders> searchMonthOrder(int memberId, int month);
+	
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
 	void deleteOrder(int ordersId, int washId);

@@ -26,6 +26,7 @@ import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.member.service.MemberService;
 import com.metanet.finalproject.orders.model.Orders;
+import com.metanet.finalproject.orders.model.OrdersDetails;
 import com.metanet.finalproject.orders.service.IOrdersService;
 import com.metanet.finalproject.orders.service.OrdersService;
 
@@ -94,7 +95,7 @@ public class OrdersController {
 	@GetMapping("")
 	public String getOrder(HttpServletRequest request, Model model) {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		List<Orders> orders = ordersService.searchOrder(memberId);
+		List<OrdersDetails> orders = ordersService.searchMemOrder(memberId);
 		List<Laundry> laundrys = laundryService.getLaundry();
 		model.addAttribute("orders", orders);
 		model.addAttribute("laundrys", laundrys);

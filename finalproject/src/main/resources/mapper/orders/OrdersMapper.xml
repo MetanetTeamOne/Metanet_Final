@@ -22,10 +22,24 @@
 
 		WHERE member_id = #{memberId}
 
-		ORDER BY orders_id
+		ORDER BY orders_id DESC
 
 		<!--<if test="washId >= 0"> AND wash_id = #{washId} </if> -->
 
+	</select>
+	
+	<select id="searchMemOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		SELECT
+		    wash_id as washId,
+		    COUNT(*) as ordersTotalCount,
+		    SUM(orders_price) as ordersTotalPrice,
+		    MAX(orders_date) as ordersDate,
+		    MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+		GROUP BY wash_id
+		ORDER BY ordersDate DESC
 	</select>
 
 	<select id="searchOrderId" parameterType="int"
