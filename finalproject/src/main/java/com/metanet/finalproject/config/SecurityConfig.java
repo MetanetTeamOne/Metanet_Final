@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.metanet.finalproject.jwt.JwtAuthenticationFilter;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -75,13 +76,17 @@ public class SecurityConfig {
       http.csrf((csrf)->csrf.disable());
 
       // 토큰을 사용하는 경우 인가를 적용한 URI 설정
-      http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+      http.
+              authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
 //              .requestMatchers("/file/**").hasRole("ADMIN")
               .requestMatchers("/member").permitAll()
-              .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
+              .requestMatchers("/member/**", "/orders/**").hasAnyRole("USER", "ADMIN")
               .requestMatchers("/**", "/css/**", "/js/**", "/images/**").permitAll()
               .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
-              .requestMatchers("/").permitAll());
+              .requestMatchers("/").permitAll())
+//              .exceptionHandling().accessDeniedPage("/howuse")
+      ;
+
 
       // Session 기반의 인증기반을 사용하지 않고 추후 JWT를 이용하여서 인증 예정
       http.sessionManagement((session) -> session
@@ -90,6 +95,7 @@ public class SecurityConfig {
       // Spring Security JWT 필터 로드
       http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider()),
               UsernamePasswordAuthenticationFilter.class);
+
 
       return http.build();
    }
