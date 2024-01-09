@@ -8,60 +8,66 @@
 	<select id="searchOrder" parameterType="int"
 		resultType="com.metanet.finalproject.orders.model.Orders">
 		SELECT
-	        orders_id as ordersId,
-	        wash_id as washId,
-	        orders_count as ordersCount,
-	        orders_price as ordersPrice,
-	        orders_date as ordersDate,
-	        orders_status as OrdersStatus,
-	        member_id as memberId,
-	        laundry_id as laundryId
-	    FROM ORDERS
-	    
-	    WHERE member_id = #{memberId}    
-	    
-	    ORDER BY orders_id
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count as
+		ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as
+		laundryId
+		FROM ORDERS
 
-		<!--<if test="washId >= 0">
-			AND wash_id = #{washId}
-		</if>-->
-		
+		WHERE member_id = #{memberId}
+
+		ORDER BY orders_id
+
+		<!--<if test="washId >= 0"> AND wash_id = #{washId} </if> -->
+
 	</select>
-	
-	<select id="searchOrderId" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
+
+	<select id="searchOrderId" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.Orders">
 		SELECT
-	        orders_id as ordersId,
-	        wash_id as washId,
-	        orders_count as ordersCount,
-	        orders_price as ordersPrice,
-	        orders_date as ordersDate,
-	        orders_status as OrdersStatus,
-	        member_id as memberId,
-	        laundry_id as laundryId
-	    FROM ORDERS
-	    
-	    WHERE orders_id = #{ordersId}    
-	    
-	    ORDER BY wash_id
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count
+		as ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as
+		laundryId
+		FROM ORDERS
+
+		WHERE orders_id = #{ordersId}
+
+		ORDER BY wash_id
 	</select>
-	
-	<select id="searchMonthOrder" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders">
-	    SELECT
-	        orders_id as ordersId,
-	        wash_id as washId,
-	        orders_count as ordersCount,
-	        orders_price as ordersPrice,
-	        orders_date as ordersDate,
-	        orders_status as OrdersStatus,
-	        member_id as memberId,
-	        laundry_id as laundryId
-	    FROM ORDERS
-	    <if test="month != null">
-	        WHERE orders_date >= ADD_MONTHS(SYSDATE, -#{month})   
-	    </if>
-	    ORDER BY orders_date DESC
+
+	<select id="searchMonthOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count as
+		ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as
+		laundryId
+		FROM ORDERS
+		<if test="month != null">
+			WHERE orders_date >= ADD_MONTHS(SYSDATE, -#{month})
+		</if>
+		ORDER BY orders_date DESC
 	</select>
-	
+
 	<insert id="insertOrder"
 		parameterType="com.metanet.finalproject.orders.model.Orders">
 		<selectKey keyProperty="ordersId" resultType="int"
@@ -99,11 +105,22 @@
 	<!-- ORDERS_SEQ.NEXTVAL, -->
 
 	<select id="countOrder" parameterType="int" resultType="int">
-		SELECT
-		count(orders_id)
+		SELECT count(orders_id)
 		FROM ORDERS
-		WHERE member_id = #{memberId}
+		<if test="memberId != null">
+			WHERE member_id = #{memberId}
+		</if>
 	</select>
+
+	<select id="countNewOrder" resultType="int">
+	<![CDATA[
+		SELECT count(orders_id)
+		FROM ORDERS
+		where orders_date > sysdate-(10/1440)  
+	]]>
+	</select>
+	<!-- WHERE orders_date > (SYSDATE - INTERVAL '10' MINUTE); -->
+	<!-- where add_months(sysdate,-1) > orders_date -->
 
 	<update id="updateOrder"
 		parameterType="com.metanet.finalproject.orders.model.Orders">
@@ -120,10 +137,11 @@
 		</set>
 		WHERE orders_id = #{ordersId}
 	</update>
-	
+
 	<delete id="deleteOrder" parameterType="int">
 		DELETE FROM ORDERS
-		WHERE orders_id = #{ordersId} and wash_id = #{washId}
+		WHERE
+		orders_id = #{ordersId} and wash_id = #{washId}
 	</delete>
 
 	<!-- <![CDATA[ -->

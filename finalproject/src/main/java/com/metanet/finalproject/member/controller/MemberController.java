@@ -160,11 +160,28 @@ public class MemberController {
 			int memberId = memberService.getMemberId(dto.getMemberEmail());
 			log.info("memberId: {}", memberId);
 
-			// 권한 부여
 			Role role = new Role();
 			role.setMemberId(memberId);
-			role.setRoleName("ROLE_USER");
-			roleRepository.insertRole(role);
+			if(dto.getMemberEmail().equals("king@king")) {
+				//본사
+				role.setRoleName("ROLE_KING");
+				roleRepository.insertRole(role);
+			} else if(dto.getMemberEmail().equals("1dmin@admin")) {
+				//지점
+				role.setRoleName("ROLE_ADMIN");
+				roleRepository.insertRole(role);
+			} else {
+				//사용자
+				role.setRoleName("ROLE_USER");
+				roleRepository.insertRole(role);
+			}
+			
+			// 기존 코드
+			// 권한 부여
+//			Role role = new Role();
+//			role.setMemberId(memberId);
+//			role.setRoleName("ROLE_USER");
+//			roleRepository.insertRole(role);
 
 			// 주소 저장
 			address.setAddressZipcode(dto.getAddressZipcode());
