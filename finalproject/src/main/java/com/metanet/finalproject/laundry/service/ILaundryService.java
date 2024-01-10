@@ -7,5 +7,6 @@ import com.metanet.finalproject.laundry.model.Laundry;
 public interface ILaundryService {
 	List<Laundry> getLaundry();
 	Laundry getLaundry(int laundryId);
+	Laundry getLaundryId(String laundryName);
 	List<Laundry> getLaundryCategory(int laundryCategoryId);
 }

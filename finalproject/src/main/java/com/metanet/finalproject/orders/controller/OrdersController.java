@@ -27,6 +27,7 @@ import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
+import com.metanet.finalproject.orders.model.OrdersInsert;
 import com.metanet.finalproject.orders.model.OrdersInsertList;
 import com.metanet.finalproject.orders.service.IOrdersService;
 
@@ -173,8 +174,24 @@ public class OrdersController {
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
 	public String insertOrder(Model model, @ModelAttribute(value="OrdersInsertList") OrdersInsertList ordersList, HttpServletRequest request) {
-	    System.out.println("ordersList>>" + ordersList);
-
+		int memberId = memberService.getMemberId(getTokenUserEmail(request));
+		int count = ordersList.getOrderList().size();
+		System.out.println(count);
+		Orders order = new Orders();
+		order.setMemberId(memberId);
+		order.setOrdersCheckDate(ordersList.getOrdersCheckDate());
+		order.setOrdersComment(ordersList.getOrdersComment());
+		order.setOrdersImageData(ordersList.getOrdersImageData());
+		order.setOrdersStatus(ordersList.getOrdersStatus());
+		order.setWashId(ordersService.searchMaxWashId(memberId));
+		for (OrdersInsert ord : ordersList.getOrderList() ) {
+			Laundry laundry = laundryService.getLaundryId(ord.getLaundryName());
+			order.setLaundryId(laundry.getLaundryId());
+			order.setOrdersCount(ord.getOrdersCount());
+			order.setOrdersPrice(laundry.getLaundryPrice()*ord.getOrdersCount());
+			ordersService.insertOrder(order);
+		}
+		
 	    return "redirect:/orders/insertok";
 	}
 

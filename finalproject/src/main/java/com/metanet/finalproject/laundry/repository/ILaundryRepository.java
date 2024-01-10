@@ -11,6 +11,7 @@ import com.metanet.finalproject.laundry.model.Laundry;
 @Mapper
 public interface ILaundryRepository {
 	List<Laundry> getLaundry();
+	Laundry getLaundryId(String laundryName);
 	Laundry getLaundry(int laundryId);
 	List<Laundry> getLaundryCategory(int laundryCategoryId);
 }

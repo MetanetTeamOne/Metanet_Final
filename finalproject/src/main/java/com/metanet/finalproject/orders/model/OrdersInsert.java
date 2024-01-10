@@ -6,7 +6,6 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 public class OrdersInsert {
-	private int orders_count;
-	private int orders_price;
-	private int laundry_id;
+	private int ordersCount;
+	private String laundryName;
 }

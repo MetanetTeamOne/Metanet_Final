@@ -12,7 +12,7 @@
 	<div th:replace="~{include/member/header :: header}"></div>
 
 	<div class="inner">
-		<form method="post" th:action="@{/orders/insert}">
+		<div>
 			<div class="service_info_text my-5 py-1" style="border-bottom: 1px solid #929292;">
 				<h2 class="title">세탁신청</h2>
 			</div>
@@ -43,9 +43,9 @@
 				</div>
 
 				<div class="col-md-7 col-lg-8">
-					<div class="needs-validation was-validated" >
+					<form class="needs-validation was-validated" method="post" th:action="@{/orders/insert}">
 						<div class="row g-3">
-
+							<input type="hidden" id="ordersStatus" name="ordersStatus" value="1">
 							<!--넘어가는 값-->
 							<!--<input type="hidden" name="ordersCount">
 							<input type="hidden" name="ordersPrice">
@@ -165,14 +165,14 @@
 
 							<div class="my-3" >
 								<div class="form-check" th:if="${member.memberSubscribe == '0'}">
-									<input id="credit" name="paymentMethod" type="radio" class="form-check-input"
-										checked="" required="">
+									<input id="credit" name="ordersCheckDate" type="radio" class="form-check-input"
+										checked="" required="" value="1">
 									<label id="creditLabel" class="form-check-label title" for="credit">직접 결제</label>
 								</div>
 
 								<div class="form-check" th:if="${member.memberSubscribe == '1'}">
-									<input id="washPlus" name="paymentMethod" type="radio" class="form-check-input"
-										checked="" required="">
+									<input id="washPlus" name="ordersCheckDate" type="radio" class="form-check-input"
+										checked="" required="" value="2">
 									<label id="washPlusLabel" class="form-check-label title"
 										for="washPlus">워시플러스</label>
 								</div>
@@ -228,13 +228,14 @@
 								<button type="button" class="btn_member_cancel title"
 									th:onclick="|javascript:location.href='/'|">취소</button>
 								
-								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
+								<button type="button" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
-		</form>
+		</div>
+
 	</div>
 
 	<div class="section-background section-cover"></div>
@@ -278,7 +279,7 @@
 		});
 
 		$(document).ready(function(){
-			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
+			const selectedPaymentMethod = $('input[name="ordersCheckDate"]:checked').attr('id');
 			
 	
 				// 할인 정보 표시
@@ -303,8 +304,26 @@
 			if (currentCounter < 1) {
 				event.preventDefault();
 				alert('세탁물을 1개 이상 등록해주세요')
-			}
+			}else {
+				let laundryPlus = document.getElementById('laundryPlus');
+				let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
+				let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
+				let count = laundryPlus.children.length;
 
+				for(let i=0; i<count;i++){
+					let inputlaundryName = selectlaundryName[i].value;
+					let inputlaundryCount = selectlaundryCount[i].value;
+
+					$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
+					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
+
+				
+				}
+
+        	$('form').submit();
+
+			}
+			
 		});
 
 		document.getElementById('address_plus').addEventListener('click', function () {
