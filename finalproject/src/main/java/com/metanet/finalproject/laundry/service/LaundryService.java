@@ -23,10 +23,18 @@ public class LaundryService implements ILaundryService{
 	public Laundry getLaundry(int laundryId) {
 		return laundryRepository.getLaundry(laundryId);
 	}
+	
+
+	@Override
+	public Laundry getLaundryId(String laundryName) {
+		// TODO Auto-generated method stub
+		return laundryRepository.getLaundryId(laundryName);
+	}
 
 	@Override
 	public List<Laundry> getLaundryCategory(int laundryCategoryId) {
 		return laundryRepository.getLaundryCategory(laundryCategoryId);
 	}
+
 
 }

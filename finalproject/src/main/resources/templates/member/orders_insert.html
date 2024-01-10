@@ -7,7 +7,7 @@
 	<!-- JS -->
 	<script th:src="@{/js/member/addressModal.js}"></script>
 	<script th:src="@{/js/member/searchPost.js}"></script>
-	
+
 	<!--Header -->
 	<div th:replace="~{include/member/header :: header}"></div>
 
@@ -26,13 +26,7 @@
 					</h4>
 					<ul class="list-group mb-3">
 						<li id="laundryUl">
-							<!--<li class="list-group-item d-flex justify-content-between lh-sm">
-								<div>
-									<h6 class="my-0">세탁 상품</h6>
-									<small id="selectedLaundryDescription" class="text-body-secondary">선택된 상품</small>
-								</div>
-								<span id="selectedLaundryDescriptionPrice" class="text-body-secondary"></span>
-							</li>-->
+							
 						</li>
 
 						<li class="list-group-item d-flex justify-content-between bg-body-tertiary">
@@ -51,31 +45,19 @@
 				<div class="col-md-7 col-lg-8">
 					<form class="needs-validation was-validated" method="post" th:action="@{/orders/insert}">
 						<div class="row g-3">
-
+							<input type="hidden" id="ordersStatus" name="ordersStatus" value="1">
 							<!--넘어가는 값-->
-							<input type="hidden" name="ordersCount">
+							<!--<input type="hidden" name="ordersCount">
 							<input type="hidden" name="ordersPrice">
 							<!--주문 후 수거진행이라서 그냥 디폴트로 1 넣음-->
-							<input type="hidden" name="ordersStatus" value="1">
+							<!--<input type="hidden" name="ordersStatus" value="1">
 							<input type="hidden" name="memberId" th:value="${member.memberId}">
 							<input type="hidden" name="laundryId" th:value="${laundryList[0].laundryId}">
-							<input type="hidden" name="washId" th:value="${washId}">
+							<input type="hidden" name="washId" th:value="${washId}">-->
+							
+
+
 							<!--<div class="col-12">
-								<label for="username" class="form-label title">test</label>
-								<div class="input-group has-validation">
-									<input type="text" class="form-control" id="username" placeholder="김워시"
-										name="laundryPrice" th:value="${laundryList[0].laundryPrice}" required="">
-									<input type="text" class="form-control" id="username" placeholder="김워시"
-										name="laundryCategoryName" th:value="${laundryCategoryList[1].laundryCategoryName}" required="">
-										<input type="text" class="form-control" id="username" placeholder="김워시"
-										name="laundryCategoryName" th:value="${laundryCategoryList[2].laundryCategoryName}" required="">
-										<input type="text" class="form-control" id="username" placeholder="김워시"
-										name="laundryCategoryName" th:value="${laundryCategoryList[3].laundryCategoryName}" required="">
-								</div>
-							</div>-->
-
-
-							<div class="col-12">
 								<label for="username" class="form-label title">이름</label>
 								<div class="input-group has-validation">
 									<input type="text" class="form-control title" id="username" placeholder="김워시"
@@ -86,13 +68,17 @@
 								</div>
 							</div>
 							<div style="display: flex; justify-content: space-between; align-items: center;">
-							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
-							<button id="addresButton" style="margin-right: 10px;"><span style="font-size: 13px;font-weight: bold; margin-right: 10px;">주소 수정</span><i class="bi bi-arrow-right-circle" style="font-size: 20px;font-weight: 500;"></i></button>
+								<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
+								<button id="addresButton" style="margin-right: 10px;"><span
+										style="font-size: 13px;font-weight: bold; margin-right: 10px;">주소 수정</span><i
+										class="bi bi-arrow-right-circle"
+										style="font-size: 20px;font-weight: 500;"></i></button>
 
-							</div>							
-							<div class="col-sm-4" style="margin-top: 0!important;" >
+							</div>
+							<div class="col-sm-4" style="margin-top: 0!important;">
 								<label for="firstName" class="form-label title"></label>
-								<input type="hidden" id="addressId" name="addressId" th:value="${addressList.addressId}">
+								<input type="hidden" id="addressId" name="addressId"
+									th:value="${addressList.addressId}">
 
 								<input type="text" class="form-control title" id="addressZipcode" placeholder="우편번호"
 									th:value="${addressList.addressZipcode}" name="addressZipcode" required="">
@@ -119,29 +105,10 @@
 								</div>
 							</div>
 
-							<!--<div class="col-12">
-								<label for="email" class="form-label title">이메일 <span
-										class="text-body-secondary">(선택)</span></label>-->
-								<input type="hidden" class="form-control" id="email" name="memberEmail"
-									th:value="${member.memberEmail}" placeholder="you@example.com">
-								<!--<div class="invalid-feedback title">
-									올바른 형식의 이메일 주소를 입력하세요
-								</div>
-							</div>-->
-
-							<!--h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 알림</<!--h4>
-							<div class="my-3">
-								<div class="form-check">
-									<input id="time1" type="radio" class="form-check-input" checked="checked"
-										name="deliveryTime" required="">
-									<label class="form-check-label title" for="time1">오전 7시 이후</label>
-								</div>
-								<div class="form-check">
-									<input id="time2" type="radio" class="form-check-input" name="deliveryTime"
-										required="">
-									<label class="form-check-label title" for="time2">수거 및 배송 즉시</label>
-								</div>
-							</di-->
+							
+							<input type="hidden" class="form-control" id="email" name="memberEmail"
+								th:value="${member.memberEmail}" placeholder="you@example.com">-->
+							
 
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁 서비스 유형</h4>
 							<div class="my-3">
@@ -176,31 +143,7 @@
 									src="https://github.com/KHaeWon/MetanetWebJSP_EL_JSTL/assets/127920368/ce9dda45-093a-40b1-9843-3ee3629f29d0">
 							</h4>
 							<div id="laundryPlus" class="col-md-12">
-								<!--<div class="col-md-6">
-									<label for="country" class="form-label title">대분류</label>
-									<select class="form-select" id="country" name="laundryCategoryName" required="">
-										<option th:each="category : ${laundryCategoryList}"
-										th:value="${category.laundryCategoryId}"
-										th:text="${category.laundryCategoryName}">
-									</option>
-									</select>
-									<div class="invalid-feedback title">
-										대분류 카테고리를 선택해주세요.
-									</div>
-								</div>
-
-								<div class="col-md-6">
-									<label for="country" class="form-label title">소분류</label>
-									<select class="form-select" id="country2" name="laundryName" required="">
-										<option th:each="category : ${laundryList}" th:value="${category.laundryId}"
-										th:text="${category.laundryName}">
-									</option>
-									</select>
-									<div class="invalid-feedback title">
-										소분류 카테고리를 선택해주세요.
-									</div>
-								</div>
-							</div>-->
+								
 							</div>
 
 							<hr class="my-4">
@@ -218,36 +161,25 @@
 							</div>
 							<hr class="my-4">
 							<h4 class="mb-3 title" style="margin-top: 1rem;margin-bottom: 0!important;">결제방식</h4>
-							<!--<div class="my-3">
-								<div class="form-check">
-									<input id="credit" name="paymentMethod" type="radio" class="form-check-input"
-										checked="" required="">
-									<label id="creditCard" class="form-check-label title" for="credit">직접 결제</label>
-								</div>
-								<div class="form-check">
-									<input id="debit" name="paymentMethod" type="radio" class="form-check-input"
-										required="">
-									<label id="washPlus" class="form-check-label title" for="debit">구독 서비스</label>
-								</div>
-							</div>-->
+							
 
-							<div class="my-3" th:switch="${member.memberSubscribe}">
-								<div class="form-check" th:case="0">
-									<input id="credit" name="paymentMethod" type="radio" class="form-check-input"
-										checked="" required="">
+							<div class="my-3" >
+								<div class="form-check" th:if="${member.memberSubscribe == '0'}">
+									<input id="credit" name="ordersCheckDate" type="radio" class="form-check-input"
+										checked="" required="" value="1">
 									<label id="creditLabel" class="form-check-label title" for="credit">직접 결제</label>
 								</div>
 
-								<div class="form-check" th:case="1">
-									<input id="washPlus" name="paymentMethod" type="radio" class="form-check-input"
-										checked="" required="">
+								<div class="form-check" th:if="${member.memberSubscribe == '1'}">
+									<input id="washPlus" name="ordersCheckDate" type="radio" class="form-check-input"
+										checked="" required="" value="2">
 									<label id="washPlusLabel" class="form-check-label title"
 										for="washPlus">워시플러스</label>
 								</div>
 							</div>
 
 
-							<div class="row gy-3" id="directPaymentForm">
+							<div class="row gy-3" id="directPaymentForm" th:if="${member.memberSubscribe == '0'}">
 								<div class="col-md-12">
 									<label for="cc-number" class="form-label title">카드번호</label>
 									<input type="text" class="form-control" id="cc-number" placeholder="" required="">
@@ -295,10 +227,10 @@
 							<div class="btn_center_box">
 								<button type="button" class="btn_member_cancel title"
 									th:onclick="|javascript:location.href='/'|">취소</button>
-								<!--<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn"
-									th:onclick="|javascript:location.href='/orders/insert'|">신청</button>-->
-								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
+								
+								<button type="button" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
 							</div>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -308,31 +240,6 @@
 
 	<div class="section-background section-cover"></div>
 
-	<!--    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 변경</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <div class="col-md-4">
-                  <label for="validationServer01" class="form-label">비밀번호</label>
-                  <input type="text" class="form-control is-valid" id="password_old" name="password_old" value="" required>
-                  <label for="validationServer01" class="form-label">비밀번호 확인</label>
-                  <input type="text" class="form-control is-valid" id="password_new" name="password_new" value="" required>
-                </div>
-                <div class="invalid-feedback" id="errMsg">
-                      비밀번호가 일치하지 않습니다.
-                  </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-              <button type="button" class="btn btn-primary" id="btnSave" >저장</button>
-            </div>
-          </div>
-        </div>
-      </div>  -->
 
 	<!-- Top Button -->
 	<div th:replace="~{include/member/topButton :: topButton}"></div>
@@ -340,127 +247,19 @@
 	<!-- Footer -->
 	<div th:replace="~{include/member/footer :: footer}"></div>
 
-	<!--<script>
-
+	<script>
 		const objTest = {
-			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
-			하의: ['반바지', '슬랙스', '골덴바지', '면바지'],
-			신발: ['운동화', '구두', '등산화'],
-			기타: ['스카프', '목도리', '모자', '넥타이']
+			상의: {'셔츠': 1, '블라우스': 2, '맨투맨': 3, '후드티': 4, '조끼': 5, '원피스': 6, '정장상의': 7, '가디건': 8, '코드': 9, '패딩': 10, '가죽자켓': 11},
+			하의: {'정장하의': 12, '반바지': 13, '바지': 14, '스커트': 15},
+			신발: {'운동화': 16, '캔버스': 17, '골프화': 18, '등산화': 19},
+			기타: {'넥타이': 20, '모자': 21, '목도리': 22, '스카프': 23}
 		};
 		
-		$(document).ready(function(){
-	   	  
-		var IMP = window.IMP;
-		var code = "imp42547163"; //가맹점 식별코드
-		IMP.init(code);
-		
-		$("#inesrtBtn").click(function(e){
-			//결제요청
-			IMP.request_pay({
-				//name과 amout만있어도 결제 진행가능
-				pg : 'kakao', //pg사 선택 (kakao, kakaopay 둘다 가능)
-				pay_method: 'card',
-				merchant_uid : 'merchant_' + new Date().getTime(),
-				name : '결제테스트', // 상품명
-				amount : 1,
-				buyer_tel : '01012324444',  //필수항목
-				//결제완료후 이동할 페이지 kko나 kkopay는 생략 가능
-				m_redirect_url : 'http://localhost:8085/orders/insert'
-			}, function(rsp){
-				if(rsp.success){//결제 성공시
-					var msg = '결제가 완료되었습니다';
-					var result = {
-					"imp_uid" : rsp.imp_uid,
-					"merchant_uid" : rsp.merchant_uid,
-					"pay_date" : new Date().getTime(),
-					"amount" : rsp.paid_amount,
-					"card_no" : rsp.apply_num,
-					"refund" : 'payed'
-					}
-					console.log("결제성공 " + msg);
-					$.ajax({
-						url : '/orders/insert', 
-				        type :'POST',
-				        data : JSON.stringify(result,
-				        		['imp_uid', 'merchant_uid', 'biz_email', 
-				        			'pay_date', 'amount', 'card_no', 'refund']),
-				        contentType:'application/json;charset=utf-8',
-				        dataType: 'json', //서버에서 보내줄 데이터 타입
-				        success: function(res){
-				        			        	
-				          if(res == 1){
-							 console.log("추가성공");	
-							 pay += 5;
-							 $('#pay_coupon').html(pay);			           
-				          }else{
-				             console.log("Insert Fail!!!");
-				          }
-				        },
-				        error:function(){
-				          console.log("Insert ajax 통신 실패!!!");
-				        }
-					}) //ajax
-					
-				}
-				else{//결제 실패시
-					var msg = '결제에 실패했습니다';
-					msg += '에러 : ' + rsp.error_msg
-				}
-				console.log(msg);
-			});//pay
-		}); //check1 클릭 이벤트
-		 
-		
-	}); //doc.ready
-		
-		//IMP.init('imp42547163');
-	//	function KGPay() {
-	//		IMP.init('imp42547163');
-	//		IMP.request_pay({
-	//	    pg : 'html5_inicis',
-	//	    pay_method : 'card',
-	//	    merchant_uid: "order_no_0001", // 상점에서 관리하는 주문 번호
-	//	    name : '주문명:결제테스트',
-	//	    amount : 14000,
-	//	    buyer_email : 'iamport@siot.do',
-	//	    buyer_name : '구매자이름',
-	//	    buyer_tel : '010-1234-5678',
-	//	    buyer_addr : '서울특별시 강남구 삼성동',
-	//	    buyer_postcode : '123-456',
-	//	    m_redirect_url : '{http://localhost:8085/orders/insertok}'
-	//	}, function(rsp) {
-	//	    if ( rsp.success ) {
-	//	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-	//	    	jQuery.ajax({
-	//	    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 주의해주세요
-	//	    		type: 'POST',
-	//	    		dataType: 'json',
-	//	    		data: {
-	//		    		imp_uid : rsp.imp_uid
-	//		    		//기타 필요한 데이터가 있으면 추가 전달
-	//	    		}
-	//	    	}).done(function(data) {
-	//	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-	//	    		if ( everythings_fine ) {
-	//	    			var msg = '결제가 완료되었습니다.';
-	//	    			msg += '\n고유ID : ' + rsp.imp_uid;
-	//	    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-	//	    			msg += '\결제 금액 : ' + rsp.paid_amount;
-	//	    			msg += '카드 승인번호 : ' + rsp.apply_num;
-	//	    			alert(msg);
-	//	    		} else {
-	//	    			//[3] 아직 제대로 결제가 되지 않았습니다.
-	//	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-	//	    		}
-	//	    	});
-	//	    } else {
-	//	        var msg = '결제에 실패하였습니다.';
-	//	        msg += '에러내용 : ' + rsp.error_msg;
-	//	        alert(msg);
-	//	    	}
-	//		});
-	//	}
+		let totalPrice = 0;
+		let currentCounter = 0;
+		let addressCounter =0;
+		let discount = 0;
+
 		$(function () {
 			var flyElement = $('.fly');
 			var initialTop = flyElement.offset().top;
@@ -479,64 +278,62 @@
 			});
 		});
 
-		// selectbox option 생성
-		function init() {
-			let sClassHtml = '<option value="">선택하세요.</option>';
-			let sItemHtml = '<option value="">선택하세요.</option>';
+		$(document).ready(function(){
+			const selectedPaymentMethod = $('input[name="ordersCheckDate"]:checked').attr('id');
+			
+	
+				// 할인 정보 표시
+			function totalCheck() {
+			    if (totalPrice <= 0 || currentCounter <= 0) {
+			        $('#discountPrice').text('0원');
+			        $('#totalPrice').text(`0원`);
+			    } else {
+			        if (selectedPaymentMethod === 'credit') {
+			            discount = 0;
+			        } else {
+			            discount = 2500;
+			        }
+			         $('#discountPrice').text(`-${discount}원`);
+			         $('#totalPrice').text(`${totalPrice}원`);
 
-			for (const key in objTest) {
-				sClassHtml += `<option value="${key}">${key}</option>`;
+			    }
+			}
 
-				const list = objTest[key];
-				for (let i = 0; i < list.length; i++) {
-					sItemHtml += `<option value="${list[i]}" data-class="${key}">${list[i]}</option>`;
+			
+				document.getElementById('insertBtn').addEventListener('click', function () {
+			if (currentCounter < 1) {
+				event.preventDefault();
+				alert('세탁물을 1개 이상 등록해주세요')
+			}else {
+				let laundryPlus = document.getElementById('laundryPlus');
+				let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
+				let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
+				let count = laundryPlus.children.length;
+
+				for(let i=0; i<count;i++){
+					let inputlaundryName = selectlaundryName[i].value;
+					let inputlaundryCount = selectlaundryCount[i].value;
+
+					$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
+					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
+
+				
 				}
-			}
-			$('select[name=laundryCategoryName]').html(sClassHtml);
-			$('select[name=laundryName]').html(sItemHtml);
 
-			$('select[name=laundryName] option').each(function (idx, item) {
-				if ($(this).val() == '') return true;
-				$(this).hide();
-			});
-		}
-
-
-		var addressCounter = 0;
-		var totalPrice = 0;
-		var currentCounter = 0;
-		// 다음 카운터 값을 반환하고 증가시키는 함수
-		//function getNextCounter() {
-		//	return currentCounter++;
-		//}
-		let discount = 0;
-
-		document.getElementById('insertBtn').addEventListener('click', function () {
-			if (addressCounter < 1) {
-				console.log('addressCounter>>>>', addressCounter);
-				document.getElementById('insertBtn').type = 'button';
-				alert('세탁물을 1개 이상 등록해주세요');
-				console.log('addressCounter~~', addressCounter);
-				//alert('memberEmail>>>>',memberEmail);
-			} else {
-				KGPay(function () {
-					alert('kgpay!!!');
-				});
-				//KGPay();
-				//alert('kgpay 후');
+        	$('form').submit();
 
 			}
+			
 		});
 
 		document.getElementById('address_plus').addEventListener('click', function () {
-			if (addressCounter < 3) {
-				var newRow = document.createElement('div');
+				let newRow = document.createElement('div');
 				newRow.className = 'row'; // 새로운 행에 클래스 추가
-				var currentCounter = addressCounter;
 
 				newRow.innerHTML = `
+				<div id="selectedLaundry_${addressCounter}" class="row">
             <h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁물 삭제
-                <img class="address_minus" src="https://github.com/KHaeWon/MetanetJavaTask/assets/127920368/627ae73b-b8f9-4cfe-a7e1-beb3de9ec4bd" alt="">
+                <img id="address_minus" class="address_minus" src="https://github.com/KHaeWon/MetanetJavaTask/assets/127920368/627ae73b-b8f9-4cfe-a7e1-beb3de9ec4bd" alt="">
             </h4>
             <div class="col-md-4 col-lg-4">
                 <label for="country" class="form-label title">대분류</label>
@@ -547,7 +344,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
-                <label for="country" class="form-label title">수량</label>
+                <label for="country" class="form-label title">소분류</label>
                 <select class="form-select laundryName title" name="laundryName" required="">
                 </select>
                 <div class="invalid-feedback title">
@@ -555,156 +352,106 @@
                 </div>
             </div>
             <div class="col-md-4 col-lg-4">
-                <label for="country" class="form-label title">소분류</label>
-                <select class="form-select laundryName title" name="laundryName" required="">
-                </select>
+                <label for="country" class="form-label title">수량</label>
+                <select class="form-select laundryCount title" name="laundryCount" required="">
+                
                 <div class="invalid-feedback title">
                     수량을 선택해 주세요.
                 </div>
             </div> 
         `;
+        
+        		// 추가된 행에 대해 초기화
+				initRow(newRow, addressCounter);
 
 				document.getElementById('laundryPlus').appendChild(newRow);
 
-				// 추가된 행에 대해 초기화
-				initRow(newRow, currentCounter);
-
 				var newRow2 = document.createElement('li');
 				newRow2.className = 'list-group-item d-flex justify-content-between lh-sm'; // 새로운 행에 클래스 추가
-				//var currentCounter = getNextCounter();
-				newRow2.id = 'laundryItem' + currentCounter; // 고유한 ID 부여
-				newRow2.setAttribute('data-counter', currentCounter);
+				newRow2.id = 'laundryItem' + addressCounter; // 고유한 ID 부여
 				newRow2.innerHTML = `
 				    <div>
 				        <h6 class="my-0 title">세탁 상품</h6>
-				        <small id="selectedLaundryDescription_${currentCounter}" class="text-body-secondary title">선택된 상품</small>
+				        <small id="selectedLaundryDescription_${addressCounter}" class="text-body-secondary title">선택된 상품</small>
 				    </div>
-				    <span id="selectedLaundryDescriptionPrice_${currentCounter}" class="text-body-secondary title"></span>
+				    <span id="selectedLaundryDescriptionPrice_${addressCounter}" class="text-body-secondary title"></span>
 				`;
+				
 				document.getElementById('laundryUl').appendChild(newRow2);
 
-				// 추가된 행에 대해 초기화
-				initRow(newRow2, currentCounter);
+				addressCounter++
+				currentCounter++;
+				
+				$('#totalLaundry').text(currentCounter);
+				document.querySelector('input[name="ordersCount"]').value = currentCounter;
 
-				addressCounter++;
-				console.log('addressCounter=========', addressCounter);
-				$('#totalLaundry').text(addressCounter);
-
-				//currentCounter++;
-				//currentCounter = addressCounter;
-				console.log('currentCounter>>>>', currentCounter);
-
-				if (document.querySelectorAll('.address_minus').length > 3) {
-					alert('세탁물은 3개까지 추가 가능합니다.');
-					//alert('addressCounter???',addressCounter);
-				}
-
-				// 자바스크립트로 value 설정해주기 - ordersCount
-				// console.log('addressCounter!!!!',addressCounter);
-				//document.getElementsByName("ordersCount")[0].value = addressCounter;
-				document.querySelector('input[name="ordersCount"]').value = addressCounter;
-			} else {
-				alert('세탁물은 3개까지 추가 가능합니다.');
-			}
 		});
 
-		document.getElementById('laundryPlus').addEventListener('click', function (e) {
-			if (e.target && e.target.classList.contains('address_minus')) {
-				var rowToRemove = e.target.closest('.row'); // 행의 클래스 사용
-				if (rowToRemove) {
-					if (addressCounter > 1) {
+		document.addEventListener('click', function (event) {
+				let numericValue    
+				if (event.target.classList.contains('address_minus')) {
+		        let closestDiv = event.target.closest('div[id^="selectedLaundry_"]');
+		
+		        if (closestDiv) {
+		            let numericPart = closestDiv.id.match(/\d+/);
+		            if (numericPart) {
+		                //numericValue = parseInt(numericPart[0]);
+		                let selectedLaundryId = 'selectedLaundry_' + numericPart[0];
+            			let selectedLaundryDescriptionId = 'laundryItem' + numericPart[0];
+            			
+			            let selectedLaundryDiv = document.getElementById(selectedLaundryId);
+			            let selectedLaundryDescriptionDiv = document.getElementById(selectedLaundryDescriptionId);
+			
+			                selectedLaundryDiv.remove();
+			
+			                selectedLaundryDescriptionDiv.remove();
+			                
+			                currentCounter--;
+							
+							$('#totalLaundry').text(currentCounter);
+											document.querySelector('input[name="ordersCount"]').value = currentCounter;
 
-						rowToRemove.remove();
-						addressCounter--;
-
-						// 선택된 laundryName 값 가져오기
-						//const selectedLaundryName = rowToRemove.querySelector('.laundryName').value;
-						//console.log('selectedLaundryName>', selectedLaundryName);
-						var liIdToRemove = 'laundryItem' + currentCounter;
-
-						console.log('liIdToRemove', liIdToRemove);
-						$('#' + liIdToRemove).remove();
-
-						//currentCounter = addressCounter;
-						const totalPrice = calculateTotalPrice();
-						$('#totalPrice').text(`${totalPrice - discount}원`);
-
-						alert('세탁물이 삭제되었습니다.');
-						$('#totalLaundry').text(addressCounter);
-						currentCounter++;
-					} else {
-						alert('세탁물은 한 개 이상 신청해야 됩니다.');
-					}
-				}
-			}
+					            }
+					        }
+		    }
+		    
+		    
+		    calculateTotalPrice();
 		});
 
-		$(document).ready(function () {
-			// 현재 선택된 라디오 버튼의 ID를 가져옴
-			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
 
-			// 초기 상태에 따라 이벤트 발생
-			if (selectedPaymentMethod === 'credit') {
-				// 직접 결제 폼 보이기
-				document.getElementById('directPaymentForm').style.display = 'flex';
-			} else if (selectedPaymentMethod === 'washPlus') {
-				// 직접 결제 폼 숨기기
-				document.getElementById('directPaymentForm').style.display = 'none';
-				// 구독자 기본값 설정
-				document.getElementById('cc-number').value = '1111-1111-1111';
-				document.getElementById('cc-company').selectedIndex = 3; // 농협으로 설정
-				document.getElementById('cc-cvv').value = '111';
-				document.getElementById('cc-expiration').value = '2024-11-11';
-			}
-		});
+		
 
-		$('input[name="paymentMethod"]').on('change', function () {
-			const selectedPaymentMethod = $(this).attr('id');
-
-			// 선택된 라디오 버튼의 ID에 따라 이벤트 처리
-			if (selectedPaymentMethod === 'credit') {
-				// 직접 결제 폼 보이기
-				document.getElementById('directPaymentForm').style.display = 'flex';
-			} else if (selectedPaymentMethod === 'washPlus') {
-				// 직접 결제 폼 숨기기
-				document.getElementById('directPaymentForm').style.display = 'none';
-				// 구독자 기본값 설정
-				document.getElementById('cc-number').value = '1111-1111-1111';
-				document.getElementById('cc-company').selectedIndex = 3; // 농협으로 설정
-				document.getElementById('cc-cvv').value = '111';
-				document.getElementById('cc-expiration').value = '2024-11-11';
-			}
-		});
-
-		function initRow(row, currentCounter) {
+		function initRow(row, addressCounter) {
 
 			// 기존에 등록된 이벤트 핸들러 제거
 			$(row).find('.laundryName').off('change');
 
 			let sClassHtml = '<option value="">선택하세요.</option>';
 			let sItemHtml = '<option value="">선택하세요.</option>';
-
+			let sCountHtml = '<option value="1">1</option>';
 			for (const key in objTest) {
 				sClassHtml += `<option value="${key}">${key}</option>`;
 
 				const list = objTest[key];
-				for (let i = 0; i < list.length; i++) {
-					sItemHtml += `<option value="${list[i]}" data-class="${key}">${list[i]}</option>`;
+				for (const k of Object.keys(objTest[key])) {
+					sItemHtml += `<option value="${k}" data-class="${key}">${k}</option>`;
 				}
+			}
+			
+			for (let i=2; i<6; i++) {
+					sCountHtml += `<option value="${i}" data-class="${i}">${i}</option>`;
 			}
 
 			$(row).find('.laundryCategory').html(sClassHtml);
 			$(row).find('.laundryName').html(sItemHtml);
+			$(row).find('.laundryCount').html(sCountHtml);
 
-			$(row).find('.laundryName option').each(function (idx, item) {
-				if ($(this).val() == '') return true;
-				$(this).hide();
-			});
+
 
 			// 이벤트 핸들러 연결
 			$(row).find('.laundryCategory').change(function () {
 				const classVal = $(this).val();
-				console.log('classVal>>>', classVal)
 				$(row).find('.laundryName option').each(function (idx, item) {
 					if ($(this).data('class') == classVal || $(this).val() == '') {
 						$(this).show();
@@ -717,25 +464,43 @@
 
 
 
+
 			$(row).find('.laundryName').change(function () {
 				const selectedLaundry = $(this).val();
-				$(`#selectedLaundryDescription_${currentCounter}`).text(selectedLaundry);
+				const selectedCount = $(this).closest('.row').find('.laundryCount').val();
 
-				// 가격 설정
-				price = getPriceForLaundry(selectedLaundry);
-				$(`#selectedLaundryDescriptionPrice_${currentCounter}`).text(price);
+				$(`#selectedLaundryDescription_${addressCounter}`).text(selectedLaundry);
+				$(`#selectedLaundryDescriptionPrice_${addressCounter}`).text(getPriceForLaundry(selectedLaundry) * selectedCount);
 
-				console.log('price>>>', price);
-				//console.log('type>>>', typeof(price));
-				//totalPrice += price;
-				//$('#totalPrice').text(totalPrice);
-				//console.log("totalPrice>>", totalPrice);
-				//calculateTotalPrice(price);
-				updateTotalPrice(price);
+				calculateTotalPrice();
+			});
+			
+			$(row).find('.laundryCount').change(function () {
+				const selectedCount = $(this).val();
+				const selectedLaundry = $(this).closest('.row').find('.laundryName').val();
+
+				$(`#selectedLaundryDescription_${addressCounter}`).text(selectedLaundry);
+		
+				$(`#selectedLaundryDescriptionPrice_${addressCounter}`).text(getPriceForLaundry(selectedLaundry) * selectedCount);
+
+				calculateTotalPrice();
 			});
 
 		}
-		
+
+			function calculateTotalPrice() {
+        let basePrice = 0;
+        $('.laundryName').each(function () {
+            const selectedLaundry = $(this).val();
+            const selectedCount = $(this).closest('.row').find('.laundryCount').val();
+            basePrice += getPriceForLaundry(selectedLaundry) * selectedCount;
+        });
+
+        // 총액 계산
+        totalPrice = basePrice - discount;
+        totalCheck();
+    }
+
 		function getPriceForLaundry(laundry) {
 			switch (laundry) {
 				case "셔츠":
@@ -772,90 +537,15 @@
 					return 6900;
 				case "목도리":
 					return 6900;
+				default:
+					return 0;
 			}
 		}
+			
+	});
 
-		function getDiscountAmount() {
-			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
-
-			// 선택된 결제 방법에 따라 할인 가격 설정
-			if (selectedPaymentMethod === 'credit') {
-				discount = 0;
-			} else if (selectedPaymentMethod === 'washPlus') {
-				discount = 2500;
-			}
-
-			return discount;
-		}
-
-		function calculateTotalPrice() {
-			let basePrice = 2500; // 기본 배송 비용
-
-			$('.laundryName').each(function () {
-				const selectedLaundry = $(this).val();
-				const price = getPriceForLaundry(selectedLaundry);
-				basePrice += price;
-			});
-
-			// 할인액 가져오기
-			const discount = getDiscountAmount();
-
-			// 총액 계산
-			const totalPrice = basePrice - discount;
-			console.log('totalPrice=====', totalPrice);
-
-			return totalPrice;
-		}
-		function updateTotalPrice() {
-			// 직접 결제(배송비 2500원) 또는 구독 서비스(배송비 0원)
-			const selectedPaymentMethod = $('input[name="paymentMethod"]:checked').attr('id');
-
-			if (selectedPaymentMethod === 'credit') {
-				discount = 0;
-			} else if (selectedPaymentMethod === 'washPlus') {
-				discount = 2500;
-			}
-
-			// 할인 정보 표시
-			$('#discountPrice').text(`−$${discount}원`);
-
-			// 총액
-			const totalPrice = calculateTotalPrice(); // 총액 계산 함수 호출
-			$('#totalPrice').text(`${totalPrice}원`);
-
-			console.log('totalPrice!!!!!!!!!', totalPrice);
-			//console.log(typeof (totalPrice));
-			document.querySelector('input[name="ordersPrice"]').value = totalPrice;
-
-		}
-
-		// 소분류가 변경될 때마다
-		$(document).on('change', '.laundryName', function () {
-			//alert('소분류 변경 >> 총액변경됨');
-			//consoel.log('소분류 변경 totalPrice>>>', totalPrice);
-			updateTotalPrice();
-		});
-
-		// 라디오 버튼이 변경될 때마다
-		$('input[name="paymentMethod"]').change(function () {
-			updateTotalPrice();
-		});
-
-
-		// 페이지 로드 시 초기화
-		initRow(document.getElementById('laundryPlus'));
-
-	</script>-->
-	
-	<script th:src="@{https://cdn.jsdelivr.net/npm/sweetalert2@11}"></script>
-
-	<script>
-		let addressId = document.getElementById('addressId').value;
-		$("#newAddressId").val(addressId);
-		let swTitle = '수정 완료';
-		let swComment = '주소가 수정되었습니다.';
-		let swImage = 'success';
 </script>
+
 </body>
 
 </html>
