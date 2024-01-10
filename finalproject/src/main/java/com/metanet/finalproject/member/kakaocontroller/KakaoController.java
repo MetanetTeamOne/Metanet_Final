@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,6 +34,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@RequestMapping("/kakao")
 @Tag(name = "Kakao Login", description = "카카오 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
@@ -72,7 +74,7 @@ public class KakaoController {
     
 
 	@Operation(summary = "카카오 로그인 화면 API")
-	@GetMapping("/kakao/login")
+	@GetMapping("/login")
 	public String kakaoLogin() {
 		// Kakao 로그인 페이지 URL 생성
 	    String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" +
@@ -85,7 +87,7 @@ public class KakaoController {
 	}
 	
 	@Operation(summary = "카카오 액세스 토큰 발급 API")
-	@GetMapping("/kakao/loginok")
+	@GetMapping("/loginok")
 	public String kakaoLoginOk(@RequestParam String code, Model model, HttpServletResponse response, HttpServletRequest request) {
 		// 1. 인가 코드 받기 (@RequestParam String code)
 		
@@ -214,16 +216,19 @@ public class KakaoController {
 			    
 			    // 로그아웃할때 외부에서 로그아웃에서 한번에 카카오 로그아웃까지 처리해야하는데 이게 안됨.
 		        // 그래서 추가적으로 세션으로 카카오 액세스 토큰 넘겨줌
-		        HttpSession session = request.getSession();
 
 			    // 세션에 access_token 추가
-			    session.setAttribute("access_token", access_token);
-			    session.setMaxInactiveInterval(60 * 60 * 24 * 7);
+		        Cookie cookie_kakao = new Cookie("kakao_access_token", access_token);
+		        cookie_kakao.setMaxAge(60 * 30);
+		        cookie_kakao.setHttpOnly(true);
+		        cookie_kakao.setSecure(true);
+		        cookie_kakao.setPath("/");
+		        response.addCookie(cookie_kakao);
 			    
 		        Cookie cookie = new Cookie("token", token);
-		        cookie.setMaxAge(60 * 60 * 24 * 7);
+		        cookie.setMaxAge(60 * 30);
 		        cookie.setHttpOnly(true);
-//		        cookie.setSecure(true);
+		        cookie.setSecure(true);
 		        cookie.setPath("/");
 		        response.addCookie(cookie);
 		        
@@ -247,22 +252,23 @@ public class KakaoController {
 		}
 	}
 	
-//	@Operation(summary = "카카오 로그아웃 API")
-//	@GetMapping("/kakao/logout")
-	public void kakaoLogout(HttpServletRequest request){
+	public void kakaoLogout(Optional<Cookie> cookie_kakao, HttpServletResponse response){
 		String KakaoLogoutURL = "https://kapi.kakao.com/v1/user/logout";
 		URL url;
 		try {
 			url = new URL(KakaoLogoutURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
-			// 세션 객체 생성 또는 기존 세션 가져오기
-			HttpSession session = request.getSession();
-
-			// 세션에서 access_token 가져오기
-			String access_token = (String) session.getAttribute("access_token");
-			
-			System.out.println("로그아웃 액세스 토큰 : " + access_token);
+			if (cookie_kakao.isPresent()) { // 쿠키가 존재하는지 확인
+		        Cookie kakaoCookie = cookie_kakao.get();
+		        if (kakaoCookie.getName().equals("kakao_access_token")) { // 원하는 쿠키인지 확인
+		            access_token = kakaoCookie.getValue(); // access_token 값 가져오기
+		            
+		            cookie_kakao.get().setMaxAge(0);
+		            response.addCookie(cookie_kakao.get());
+		        }
+		    }
+		    System.out.println("로그아웃 카카오 쿠키 액세스 토큰 : " + access_token);
 			
 			conn.setRequestMethod("POST");
 	        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -279,10 +285,11 @@ public class KakaoController {
 	        while ((line = br.readLine()) != null) {
 	            result += line;
 	        }
+	        
+	        access_token = "";
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
-			System.out.println("일반 로그인이라서 카카오톡 로그인 로직 처리 안함");
+			System.out.println("카카오톡 로그인이 아니라서 카카오톡 로그인 로직 처리 안함");
 		}
 	}
 }

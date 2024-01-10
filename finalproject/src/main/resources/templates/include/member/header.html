@@ -8,25 +8,25 @@
         <div class="hcon1090">
         	<div id="global" class="hglobal">
 		        <ul sec:authorize="isAnonymous()">
-					<li class="storageClear">
+					<li class="storageClear title">
 					<a th:href="@{/logins}" title="로그인 새창 열림">로그인</a>
 					</li>
-		            <li class="join">
+		            <li class="join title">
 		            <a th:href="@{/member/insert}">회원가입</a>
 		            </li>
-		        	<li><a href="#">고객센터</a></li>
+		        	<li class="title"<a href="#">고객센터</a></li>
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 		        <ul sec:authorize="isAuthenticated()">
-					<li class="storageClear">
+					<li class="storageClear title">
 					<a th:href="@{/logout2}" title="로그아웃 새창 열림">로그아웃</a>
 					</li>
-		        	<li><a href="#">고객센터</a></li>	
+		        	<li class="title"><a href="#">고객센터</a></li>	
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 	        </div>
 	        <h1 class="hlogo chuchew">
-	            <a th:href="@{/}" title="워시워시" class="chulogo"><span class="blind">워시워시</span></a>
+	            <a th:href="@{/}" title="워시워시" class="chulogo title"><span class="blind">워시워시</span></a>
 	        </h1>	        
 	        <div class="mydongwon_cart_grp">
 	            <div class="mydongwonmall">
@@ -38,12 +38,12 @@
     	            	<span class="cart_btn"><i class="bi bi-bell" style="font-size: 32px; color: #878787;"></i><em id="cartListCount"></em></span>
   					</button>
 				  <ul class="dropdown-menu dropdown-menu-end">
-					  <li><div class="dropdown-item"  style="margin: 10px 0;">
+					  <li><div class="dropdown-item title"  style="margin: 10px 0;">
 						<strong>알림</strong>
 					</div></li>
-				    <li><div class="dropdown-item">
+				    <li><div class="dropdown-item title">
 						구독기한 만료 
-						<p><span style="padding: 0 10px;">구독기한 만료까지 10일 남았습니다. </span><button type="button" id="altCheck" class="btn btn-primary" style="background-color: var(--sub); font-size: 0.8rem;">확인</button></p>
+						<p><span class="title" style="padding: 0 10px;">구독기한 만료까지 10일 남았습니다. </span><button type="button" id="altCheck" class="btn btn-primary" style="background-color: var(--sub); font-size: 0.8rem;">확인</button></p>
 					</div></li>
 				  </ul>
 				</div>
@@ -69,25 +69,25 @@
                                             </ul>
                                             <div class="menu_list">   
 											    <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/}">홈</a></h3>
+                                                    <h3 class="cate_feed title"><a th:href="@{/}">홈</a></h3>
                                                 </div>
                                                 <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/svcinfo}">서비스 안내</a></h3>
+                                                    <h3 class="cate_feed title"><a th:href="@{/svcinfo}">서비스 안내</a></h3>
                                                     <ul>
-                                                        <li><a href="#">서비스 소개</a></li>
-                                                        <li><a href="#">서비스 종류</a></li>
-                                                        <li><a href="#">서비스 지역</a></li>
+                                                        <li class="title"><a href="#">서비스 소개</a></li>
+                                                        <li class="title"><a href="#">서비스 종류</a></li>
+                                                        <li class="title"><a href="#">서비스 지역</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/howuse}">이용 방법</a></h3>
+                                                    <h3 class="cate_feed title"><a th:href="@{/howuse}">이용 방법</a></h3>
                                                     <ul>
-                                                        <li><a href="#">이용 안내</a></li>
-                                                        <li><a href="#">가격 정보</a></li>
+                                                        <li class="title"><a href="#">이용 안내</a></li>
+                                                        <li class="title"><a href="#">가격 정보</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="cate_list">
-                                                    <h3 class="cate_feed"><a th:href="@{/orders/insert}">세탁 신청</a></h3>
+                                                    <h3 class="cate_feed title"><a th:href="@{/orders/insert}">세탁 신청</a></h3>
                                                 </div>
                                             </div>  	
                                         </div>

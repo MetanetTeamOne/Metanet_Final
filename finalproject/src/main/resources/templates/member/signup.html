@@ -12,7 +12,7 @@
 <div th:replace="~{include/member/header :: header}"></div>
 
 <div th:if="${showAlert}" class="alert alert-danger" role="alert">
-	최초 1회 회원가입 후 카카오 로그인이 가능합니다.
+	최초 1회 회원가입 후 네이버, 카카오 로그인이 가능합니다.
 </div>
 
 <!-- Main -->
@@ -61,6 +61,15 @@
                                                 <button type="button" class="btn_post_search"
                                                         onclick="check()">아이디 확인
                                                 </button>
+                                                <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()" class="btn_post_search">
+                                                    인증번호 받기
+                                                </button>
+                                                <div id="mail_number" name="mail_number" style="display: none">
+                                                    <br>
+                                                    <input type="text" name="number" id="number" placeholder="인증번호 입력">
+                                                    <button type="button" name="confirmBtn" id="confirmBtn" class="btn_post_search" onclick="confirmNumber()">이메일 인증</button>
+                                                </div>
+                                                <input type="text" id="Confirm" name="Confirm" style="display: none" value="">
                                             </div>
                                         </td>
                                     </tr>
@@ -184,43 +193,90 @@
 </body>
 <script>
     let submitCheck = false;
+    let authCheck = false;
+    let emailCheck = false;
 
     function valid() {
-        if (submitCheck) { // true 가 되면 회원가입 버튼 동작함
+        if (submitCheck && authCheck) { // true 가 되면 회원가입 버튼 동작함
             return true;
-        } else {
+        } else if(submitCheck === false) {
             alert('이메일 중복체크를 먼저 하세요');
             // 회원가입 버튼누르면 뜬다
             return false; // 회원가입 버튼을 막는다
+        } else if(authCheck === false){ //이메일 인증안하면 가입 못함
+            alert('이메일 인증을 하세요')
+            return false;
         }
     }
     function check() {
         let email = $('#memberEmail').val()
+        emailCheck = isValidEmail(email);
+        if(!emailCheck){
+            alert('이메일 형식이 유효하지 않습니다.')
+        } else {
+            emailCheck = true;
+            $.ajax({
+                type: "get",
+                url: "/member/emailCheck?email=" + email
+            }).done((res) => {
+                //console.log(res);
+                if (res.data == true) {
+                    alert(res.msg);
+                    submitCheck = true; // 중복 체크 완료
+                } else {
+                    alert(res.msg);
+                    submitCheck = false;
+                }
 
-        $.ajax({
-            type: "get",
-            url: "/member/emailCheck?email=" + email
-        }).done((res) => {
-            //console.log(res);
-            if (res.data == true) {
-                alert(res.msg);
-                submitCheck = true; // 중복 체크 완료
-            } else {
-                alert(res.msg);
-                submitCheck = false;
-            }
-
-        }).fail((err) => {
-            console.log('상태코드 200밖에 없어서 실행 안됨')
-        });
+            }).fail((err) => {
+                console.log('상태코드 200밖에 없어서 실행 안됨')
+            });
+        }
     }
 
-    function pwCheck(){
+    function pwCheck(){ // 비밀번호 일치 여부 체크
         if($('#memberPassword').val() == $('#reMemberPassword').val()){
             $('#pwConfirm').text('비밀번호 일치').css('color', 'green')
         }else{
             $('#pwConfirm').text('비밀번호 불일치').css('color', 'red')
         }
+    }
+
+    function sendNumber(){ //이메일 인증번호 전송
+        if(!submitCheck){
+            alert('이메일 중복체크를 먼저 해주세요.')
+        } else {
+            $("#mail_number").css("display","block");
+            $.ajax({
+                url:"/mail",
+                type:"post",
+                dataType:"json",
+                data:{"mail" : $("#memberEmail").val()},
+                success: function(data){
+                    alert("인증번호를 전송했습니다. 메일함을 확인해주세요.");
+                    $("#Confirm").attr("value",data);
+                }
+            });
+        }
+    }
+
+    function confirmNumber(){
+        var number1 = $("#number").val();
+        var number2 = $("#Confirm").val();
+        if(number1 === number2){
+            alert("인증되었습니다.");
+            authCheck = true;
+        }else{
+            alert("번호가 다릅니다.");
+        }
+    }
+
+    function isValidEmail(email) {
+        // 이메일 형식을 체크하는 정규표현식
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        // 정규표현식을 사용하여 이메일 형식이 맞는지 체크
+        return emailRegex.test(email);
     }
 </script>
 </html>

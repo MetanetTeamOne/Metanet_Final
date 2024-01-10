@@ -4,8 +4,9 @@ import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class Pay {
 
 	private int payId;
@@ -14,5 +15,6 @@ public class Pay {
 	private Date payDate;
 	private String payState;
 	private int ordersId;
+	private int memberId;
 	
 }

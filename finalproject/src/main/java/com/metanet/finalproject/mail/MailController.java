@@ -23,9 +23,11 @@ public class MailController {
 
         log.info("메일 보내는중... {}", mail);
         int number = mailService.sendMail(mail);
+        log.info("인증번호 반환 완료: {}", number);
 
         String num = "" + number;
 
+//        log.info("인증번호: {}", num);
         return num;
     }
 

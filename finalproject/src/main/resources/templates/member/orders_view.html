@@ -174,7 +174,7 @@
             function sendData(month) {
                 xhr = getInstance();
                 xhr.onreadystatechange = handlerStateChange;
-
+				
                 xhr.open("GET", "/orders/month/" + month);
                 xhr.send();
             }
