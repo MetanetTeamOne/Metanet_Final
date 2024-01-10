@@ -3,6 +3,7 @@ package com.metanet.finalproject;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.metanet.finalproject.role.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +44,9 @@ public class LoginController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@Autowired
+	IRoleRepository roleRepository;
+
 	// 로그인
 	@Operation(summary = "로그인 view")
 	@GetMapping("/logins")
@@ -65,6 +69,15 @@ public class LoginController {
 		Member member = memberService.selectMember(loginMember.getMemberEmail());
 //        log.info("member: {}", member);
 
+//		if (roleRepository.getRoleName(member.getMemberId()).equals("ROLE_ADMIN")) { 관리자 로그인 로직
+//			if (member.getMemberPassword().equals(loginMember.getMemberPassword())) {
+//				log.info("관리자 로그인 성공");
+//				return "redirect:/admin";
+//			} else {
+//				result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
+//				return "member/login";
+//			}
+//		}
 		if (member.getMemberJoinState().equals("0")) {
 			log.info("탈퇴한 회원입니다.");
 			result.rejectValue("memberEmail", null, "해당아이디는 탈퇴되었습니다.");
@@ -90,9 +103,9 @@ public class LoginController {
 		// 똑같은 로그인 화면에서 로그인 후
 		// 본사와 지점은 admin 페이지로
 		// 일반 회원은 home으로 가도록
-		if (member.getMemberEmail().equals("king@king") || member.getMemberEmail().equals("admin@admin")) {
-			return "redirect:/admin";
-		}
+//		if (member.getMemberEmail().equals("king@king") || member.getMemberEmail().equals("admin@admin")) {
+//			return "redirect:/admin";
+//		}
 
 		String token = jwtTokenProvider.generateToken(member);
 //        log.info("token: {}", token);

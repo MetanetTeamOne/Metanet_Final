@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metanet.finalproject.orders.model.Orders;
+import com.metanet.finalproject.orders.model.OrdersDetails;
 import com.metanet.finalproject.orders.repository.IOrdersRepository;
 
 @Service
@@ -25,8 +26,14 @@ public class OrdersService implements IOrdersService{
 		return ordersRepository.searchOrder(memberId, washId);
 	}
 
+	
 	@Override
-	public List<Orders> searchMonthOrder(int memberId, int month) {
+	public List<OrdersDetails> searchMemOrder(int memberId) {
+		return ordersRepository.searchMemOrder(memberId);
+	}
+	
+	@Override
+	public List<OrdersDetails> searchMonthOrder(int memberId, int month) {
 		return ordersRepository.searchMonthOrder(memberId, month);
 	}
 	
@@ -43,6 +50,11 @@ public class OrdersService implements IOrdersService{
 	@Override
 	public void deleteOrder(int ordersId, int washId) {
 		ordersRepository.deleteOrder(ordersId, washId);
+	}
+	
+	@Override
+	public void deleteWashOrder(int washId) {
+		ordersRepository.deleteWashOrder(washId);
 	}
 	
 	@Override
@@ -76,8 +88,5 @@ public class OrdersService implements IOrdersService{
 	public int countNewOrder() {
 		return ordersRepository.countNewOrder();
 	}
-
-	
-
 
 }

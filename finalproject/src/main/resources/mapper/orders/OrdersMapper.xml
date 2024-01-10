@@ -22,10 +22,24 @@
 
 		WHERE member_id = #{memberId}
 
-		ORDER BY orders_id
+		ORDER BY orders_id DESC
 
 		<!--<if test="washId >= 0"> AND wash_id = #{washId} </if> -->
 
+	</select>
+	
+	<select id="searchMemOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		SELECT
+		    wash_id as washId,
+		    COUNT(*) as ordersTotalCount,
+		    SUM(orders_price) as ordersTotalPrice,
+		    MAX(orders_date) as ordersDate,
+		    MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+		GROUP BY wash_id
+		ORDER BY ordersDate DESC
 	</select>
 
 	<select id="searchOrderId" parameterType="int"
@@ -43,29 +57,24 @@
 		laundryId
 		FROM ORDERS
 
-		WHERE orders_id = #{ordersId}
+		WHERE wash_id = #{washId}
 
 		ORDER BY wash_id
 	</select>
 
 	<select id="searchMonthOrder" parameterType="int"
-		resultType="com.metanet.finalproject.orders.model.Orders">
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		
 		SELECT
-		orders_id as ordersId,
-		wash_id as washId,
-		orders_count as
-		ordersCount,
-		orders_price as ordersPrice,
-		orders_date as ordersDate,
-		orders_status as OrdersStatus,
-		member_id as memberId,
-		laundry_id as
-		laundryId
+		    wash_id as washId,
+		    COUNT(*) as ordersTotalCount,
+		    SUM(orders_price) as ordersTotalPrice,
+		    MAX(orders_date) as ordersDate,
+		    MAX(orders_status) as orderState
 		FROM ORDERS
-		<if test="month != null">
-			WHERE orders_date >= ADD_MONTHS(SYSDATE, -#{month})
-		</if>
-		ORDER BY orders_date DESC
+		WHERE member_id = #{memberId} AND orders_date >= ADD_MONTHS(SYSDATE, -#{month})
+		GROUP BY wash_id
+		ORDER BY ordersDate DESC
 	</select>
 
 	<insert id="insertOrder"
@@ -138,10 +147,21 @@
 		WHERE orders_id = #{ordersId}
 	</update>
 
-	<delete id="deleteOrder" parameterType="int">
+	<delete id="deleteWashOrder">
 		DELETE FROM ORDERS
-		WHERE
-		orders_id = #{ordersId} and wash_id = #{washId}
+		<where>
+			<if test="washId != null">AND wash_id = #{washId} </if>
+			<!-- <if test="ordersId != null">AND orders_id = #{ordersId} </if> -->
+		</where>
+	</delete>
+	
+	<delete id="deleteOrder">
+		DELETE FROM ORDERS
+		<where>
+			<if test="washId != null">AND wash_id = #{washId} </if>
+			<if test="ordersId != null">AND orders_id = #{ordersId} </if>
+			
+		</where>
 	</delete>
 
 	<!-- <![CDATA[ -->
