@@ -15519,7 +15519,7 @@ button.swiper-pagination-bullet {
   width: 83px;
 }
  .mypage-table td .box-btn button {
-  width: 80%;
+  width: 50%;
   margin-top: 6px;
   -webkit-border-radius: 100px;
   border-radius: 100px;
@@ -15541,7 +15541,7 @@ button.swiper-pagination-bullet {
   transform: rotate(-45deg);
 }
 .mypage-table td .box-btn a {
-  width: 80%;
+  width: 50%;
   margin-top: 6px;
   -webkit-border-radius: 100px;
   border-radius: 100px;

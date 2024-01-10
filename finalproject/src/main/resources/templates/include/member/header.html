@@ -14,7 +14,7 @@
 		            <li class="join title">
 		            <a th:href="@{/member/insert}">회원가입</a>
 		            </li>
-		        	<li class="title"<a href="#">고객센터</a></li>
+		        	<li class="title"><a href="#">고객센터</a></li>
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 		        <ul sec:authorize="isAuthenticated()">
@@ -33,7 +33,7 @@
 					<!--여기 security에서 정보 가져가도록 변경 필요-->
 	            	<a th:href="@{/member}" class="my_dongwonmall"><img th:src="@{/img/member/my.png}"></a>
 	            </div>
-	            <div class="btn-group">
+	            <div sec:authorize="isAuthenticated()" class="btn-group">
   					<button type="button" class="mydongwonmall" data-bs-toggle="dropdown" aria-expanded="false">
     	            	<span class="cart_btn"><i class="bi bi-bell" style="font-size: 32px; color: #878787;"></i><em id="cartListCount"></em></span>
   					</button>
@@ -74,7 +74,7 @@
                                                 <div class="cate_list">
                                                     <h3 class="cate_feed title"><a th:href="@{/svcinfo}">서비스 안내</a></h3>
                                                     <ul>
-                                                        <li class="title"><a href="#">서비스 소개</a></li>
+                                                        <li class="title"><a th:onclick="scrollToElement('section2')" th:href="@{/svcinfo}">서비스 소개</a></li>
                                                         <li class="title"><a href="#">서비스 종류</a></li>
                                                         <li class="title"><a href="#">서비스 지역</a></li>
                                                     </ul>
@@ -106,4 +106,5 @@
 		</div>
 	</div>
 </div>
+
 </html>
