@@ -51,8 +51,11 @@
                             <!-- Content -->
 
                             <div class="my_page_form">
-                                
-                                	<div class="credit-card mt-5" id="card">
+									<form method="post" action="/member/card/delete" class="mt-2" style="text-align: right;">
+										<button type="submit" class="btn_member_cancel" >카드 삭제</button>
+									</form>
+
+                                	<div class="credit-card mt-2 mb-5" id="card">
 								        <div class="card-front">
 								          <div class="branding">
 								            <img th:src="@{/img/member/chip.png}" class="chip-img">

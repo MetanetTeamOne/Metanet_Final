@@ -4,9 +4,12 @@
 <head th:replace="~{include/member/head :: head}"></head>
 
 <body>
+	<!-- JS -->
+	<script th:src="@{/js/member/addressModal.js}"></script>
+	<script th:src="@{/js/member/searchPost.js}"></script>
+	
 	<!--Header -->
 	<div th:replace="~{include/member/header :: header}"></div>
-
 
 	<div class="inner">
 		<div>
@@ -82,11 +85,16 @@
 									</div>
 								</div>
 							</div>
-
+							<div style="display: flex; justify-content: space-between; align-items: center;">
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
-							<div class="col-sm-4" style="margin-top: 0!important;">
+							<button id="addresButton" style="margin-right: 10px;"><span style="font-size: 13px;font-weight: bold; margin-right: 10px;">주소 수정</span><i class="bi bi-arrow-right-circle" style="font-size: 20px;font-weight: 500;"></i></button>
+
+							</div>							
+							<div class="col-sm-4" style="margin-top: 0!important;" >
 								<label for="firstName" class="form-label title"></label>
-								<input type="text" class="form-control title" id="firstName" placeholder="우편번호"
+								<input type="hidden" id="addressId" name="addressId" th:value="${addressList.addressId}">
+
+								<input type="text" class="form-control title" id="addressZipcode" placeholder="우편번호"
 									th:value="${addressList.addressZipcode}" name="addressZipcode" required="">
 								<div class="invalid-feedback title">
 									우편번호를 입력하세요
@@ -121,7 +129,7 @@
 								</div>
 							</div>-->
 
-							<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 알림</h4>
+							<!--h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 알림</<!--h4>
 							<div class="my-3">
 								<div class="form-check">
 									<input id="time1" type="radio" class="form-check-input" checked="checked"
@@ -133,7 +141,7 @@
 										required="">
 									<label class="form-check-label title" for="time2">수거 및 배송 즉시</label>
 								</div>
-							</div>
+							</di-->
 
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁 서비스 유형</h4>
 							<div class="my-3">
@@ -332,7 +340,7 @@
 	<!-- Footer -->
 	<div th:replace="~{include/member/footer :: footer}"></div>
 
-	<script>
+	<!--<script>
 
 		const objTest = {
 			상의: ['셔츠', '블라우스', '맨투맨', '후드티', '조끼', '가디건'],
@@ -530,7 +538,7 @@
             <h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁물 삭제
                 <img class="address_minus" src="https://github.com/KHaeWon/MetanetJavaTask/assets/127920368/627ae73b-b8f9-4cfe-a7e1-beb3de9ec4bd" alt="">
             </h4>
-            <div class="col-md-6">
+            <div class="col-md-4 col-lg-4">
                 <label for="country" class="form-label title">대분류</label>
                 <select class="form-select laundryCategory title" name="laundryCategoryName" required="">
                 </select>
@@ -538,14 +546,22 @@
                     대분류 카테고리를 선택해주세요.
                 </div>
             </div>
-            <div class="col-md-6">
-                <label for="country" class="form-label title">소분류</label>
+            <div class="col-md-4 col-lg-4">
+                <label for="country" class="form-label title">수량</label>
                 <select class="form-select laundryName title" name="laundryName" required="">
                 </select>
                 <div class="invalid-feedback title">
                     소분류 카테고리를 선택해주세요.
                 </div>
             </div>
+            <div class="col-md-4 col-lg-4">
+                <label for="country" class="form-label title">소분류</label>
+                <select class="form-select laundryName title" name="laundryName" required="">
+                </select>
+                <div class="invalid-feedback title">
+                    수량을 선택해 주세요.
+                </div>
+            </div> 
         `;
 
 				document.getElementById('laundryPlus').appendChild(newRow);
@@ -829,8 +845,17 @@
 		// 페이지 로드 시 초기화
 		initRow(document.getElementById('laundryPlus'));
 
-	</script>
+	</script>-->
+	
+	<script th:src="@{https://cdn.jsdelivr.net/npm/sweetalert2@11}"></script>
 
+	<script>
+		let addressId = document.getElementById('addressId').value;
+		$("#newAddressId").val(addressId);
+		let swTitle = '수정 완료';
+		let swComment = '주소가 수정되었습니다.';
+		let swImage = 'success';
+</script>
 </body>
 
 </html>

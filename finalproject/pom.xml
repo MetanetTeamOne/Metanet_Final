@@ -98,13 +98,12 @@
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
 
-		<!--		swagger docs 사용할거라 이거 필요 x-->
-
-		<!--		<dependency>-->
-		<!--			<groupId>io.springfox</groupId>-->
-		<!--			<artifactId>springfox-boot-starter</artifactId>-->
-		<!--			<version>3.0.0</version>-->
-		<!--		</dependency>-->
+		<!-- Spring-websocket -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

@@ -123,4 +123,12 @@
 		</if>
 	</update>
 	
+	<update id="deleteCard">
+		update member
+		set MEMBER_CARD='0'
+		<if test="memberEmail != null">
+			where MEMBER_EMAIL=#{memberEmail}
+		</if>
+	</update>
+	
 </mapper>

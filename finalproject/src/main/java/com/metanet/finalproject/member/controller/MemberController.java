@@ -402,9 +402,10 @@ public class MemberController {
 	// 카드 해지 구현 필요
 	// 카드 등록 처리
 	@PostMapping("/card/delete")
-	public String deleteCard(Member member, Model model) {
+	public String deleteCard(Member member, Model model, String memberEmail) {
 		// 카드 해지 서비스 로직 필요
-		model.addAttribute("member", member);
+		memberService.deleteCard(memberEmail);
+//		model.addAttribute("member", member);
 		System.out.println("===카드 해지 완료===");
 		return "redirect:/member/card";
 	}

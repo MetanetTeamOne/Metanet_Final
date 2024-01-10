@@ -113,7 +113,7 @@
 }
 
 .price-table dl dd:hover {
-    background: var(--banner);
+    background: #ccccc9;
 
 }
 
