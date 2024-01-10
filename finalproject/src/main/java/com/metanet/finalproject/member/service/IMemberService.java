@@ -25,4 +25,6 @@ public interface IMemberService {
  	String selectSubscribe(String memberEmail);
  	// 카드등록(등록상태 : 0,1) -> 카드등록상태가 1이면 구독 신청 가능
  	void insertCard(String memberEmail);
+  	void deleteCard(String memberEmail);
+
 }

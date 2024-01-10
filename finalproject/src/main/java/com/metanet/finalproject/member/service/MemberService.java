@@ -76,4 +76,10 @@ public class MemberService implements IMemberService{
 	public void insertCard(String memberEmail) {
 		memberRepository.insertCard(memberEmail);
 	}
+
+	@Override
+	public void deleteCard(String memberEmail) {
+		memberRepository.deleteCard(memberEmail);
+		
+	}
 }

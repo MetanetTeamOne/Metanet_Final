@@ -122,6 +122,7 @@ CREATE TABLE ORDERS (
 	orders_date DATE NOT NULL, /* 주문날짜 */
 	orders_comment VARCHAR2(60), /* 요청사항 */
 	orders_status VARCHAR2(30) NOT NULL, /* 진행상태 */
+	orders_check_date VARCHAR2(30) NOT NULL, /* 세탁시간 */
 	member_id NUMBER NOT NULL, /* 회원 ID */
 	laundry_id NUMBER /* 세탁물 ID */
 );
@@ -403,7 +404,7 @@ insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 
 
 -- 주문 (ORDERS) 테이블 예시 데이터
-insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1);
+insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1, 1);
 
 -- 결제 (PAY) 테이블 예시 데이터
 INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id, member_id)
