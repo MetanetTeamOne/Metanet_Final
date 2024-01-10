@@ -37,10 +37,10 @@
                                         <table id="memberTable" th:fragment="memberTable">
                                             <colgroup>
                                                 
-                                                <col style="width:12%">
                                                 <col style="width:14%">
                                                 <col style="width:14%">
-                                                <col style="width:20%">
+                                                <col style="width:14%">
+                                                <col style="width:14%">
                                                 <col style="width:20%">
                                                 <col>
                                             </colgroup>
@@ -78,7 +78,7 @@
                                                         <td>
                                                             <div class="box-btn">
                                                                 <a th:href="@{/orders/update/__${order.washId}__}" class="btn05 c01 sitemCheckBtn">
-                                                                    <span>주문수정</span>
+                                                                    <span>주문확인</span>
                                                                 </a>
                                                                 <form method="post" th:action="@{/orders/delete/__${order.washId}__}">
 																    <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
@@ -157,5 +157,11 @@
             }
         });
     </script>
+    <script>
+		let swTitle = '주문 취소 완료';
+		let swComment = '주문이 취소되었습니다.';
+		let swImage = 'success';
+
+	</script>
 </body>
 </html>

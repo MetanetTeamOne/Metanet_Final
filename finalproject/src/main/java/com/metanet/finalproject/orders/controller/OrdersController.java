@@ -92,9 +92,7 @@ public class OrdersController {
 	public String getOrder(HttpServletRequest request, Model model) {
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
 		List<OrdersDetails> orders = ordersService.searchMemOrder(memberId);
-		List<Laundry> laundrys = laundryService.getLaundry();
 		model.addAttribute("orders", orders);
-		model.addAttribute("laundrys", laundrys);
 		return "member/orders_view";
 	}
 	
@@ -128,14 +126,14 @@ public class OrdersController {
 		return "member/orders_view :: memberTable";
 	}
 	
-	@Operation(summary = "회원 개월별 주문 조회")
-	@GetMapping("/{memberId}/{washId}")
-	@ResponseBody
-	public List<Orders> searchOrder(Model model, @PathVariable int memberId, @PathVariable int washId){
-//		System.out.println(memberId + " : m w : " + washId);
-//		log.info("memberId : {}, washId : {}", memberId, washId);
-		return ordersService.searchOrder(memberId, washId);
-	}
+//	@Operation(summary = "회원 개월별 주문 조회")
+//	@GetMapping("/{memberId}/{washId}")
+//	@ResponseBody
+//	public List<Orders> searchOrder(Model model, @PathVariable int memberId, @PathVariable int washId){
+////		System.out.println(memberId + " : m w : " + washId);
+////		log.info("memberId : {}, washId : {}", memberId, washId);
+//		return ordersService.searchOrder(memberId, washId);
+//	}
 
 	@Operation(summary = "주문 입력 view")
 	@GetMapping("/insert")
@@ -230,18 +228,19 @@ public class OrdersController {
 	@GetMapping("/update/{washId}")
 	public String updateOrder(Model model, @PathVariable int washId) {
 		List<Orders> orders = ordersService.searchOrderId(washId);
-		System.out.println(">>>>>>>>>>>>>>"+orders);
 		model.addAttribute("orders", orders);
+		List<Laundry> laundrys = laundryService.getLaundry();
+		model.addAttribute("laundrys", laundrys);
 		return "member/orders_update";
 	}
-	
-	@Operation(summary = "주문 수정")
-	@PostMapping("/update")
-	public String updateOrder(Model model, Orders orders) {
-//		System.out.println(orders);
-		ordersService.updateOrder(orders);
-		return "member/mypage_order";
-	}
+//	
+//	@Operation(summary = "주문 수정")
+//	@PostMapping("/update")
+//	public String updateOrder(Model model, Orders orders) {
+////		System.out.println(orders);
+//		ordersService.updateOrder(orders);
+//		return "member/mypage_order";
+//	}
 	
 	@Operation(summary = "주문 삭제")
 	@PostMapping("/delete/{washId}")
@@ -254,6 +253,9 @@ public class OrdersController {
 	@PostMapping("/delete/{ordersId}/{washId}")
 	public String deleteOrder(@PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
-		return "redirect:/orders";
+//		int ordersCount = ordersService.se
+		Orders orders = new Orders();
+//		ordersService.updateOrder(Orders)
+		return "redirect:/orders/update/"+washId;
 	}
 }

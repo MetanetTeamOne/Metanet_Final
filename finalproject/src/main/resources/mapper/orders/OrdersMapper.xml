@@ -57,7 +57,7 @@
 		laundryId
 		FROM ORDERS
 
-		WHERE orders_id = #{ordersId}
+		WHERE wash_id = #{washId}
 
 		ORDER BY wash_id
 	</select>

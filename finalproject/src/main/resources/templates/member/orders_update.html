@@ -21,7 +21,7 @@
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>주문 관리</h3>
+                            <h3>주문 상세</h3>
                             <!-- Content -->
                             <div class="my-month__wrap">
                                 <ul id="period" class="month_list">
@@ -37,17 +37,15 @@
                                         <table id="memberTable" th:fragment="memberTable">
                                             <colgroup>
                                                 <col>
-                                                <col style="width:14%">
-                                                <col style="width:14%">
                                                 <col style="width:20%">
-                                                <col style="width:16%">
+                                                <col style="width:20%">
+                                                <col style="width:24%">
                                             </colgroup>
                                             <thead>
                                                 <tr>
                                                     <th scope="col">상품정보</th>
                                                     <th scope="col">주문수량</th>
                                                     <th scope="col">주문금액</th>
-                                                    <th scope="col">진행상태</th>
                                                     <th scope="col">진행현황</th>
                                                 </tr>
                                             </thead>
@@ -66,7 +64,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <div class="ui-item order" data-item-section="">
+                                                            <div class="ui-item order">
                                                                 <div class="ui-item__inner">
                                                                     <div class="ui-item__info" th:each="laundry : ${laundrys}" th:if="${order.laundryId == laundry.laundryId}" >
                                                                         <div class="item_name" >
@@ -91,20 +89,14 @@
                                                             <span><strong th:text="${order.ordersCount}"></strong></span>개
                                                         </td>
                                                         <td>
-                                                            <span><strong th:text="${order.ordersPrice}"></strong></span>원
+                                                            <strong data-th-text="${#numbers.formatInteger(order.ordersPrice, 0, 'COMMA') + '원'}"></strong>
                                                         </td>
-                                                        <td>
-                                                            <span th:if="${order.ordersStatus} == 1"><strong>수거진행</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 2"><strong>수거완료</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 3"><strong>세탁진행</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 4"><strong>배송진행</strong></span>
-                                                            <span th:if="${order.ordersStatus} == 5"><strong>배송완료</strong></span>
-                                                        </td>
+                                                       
                                                         <td>
                                                             <div class="box-btn">
-                                                                <a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
+                                                                <!--<a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
                                                                     <span>주문수정</span>
-                                                                </a>
+                                                                </a>-->
                                                                 <form method="post" th:action="@{/orders/delete/{ordersId}/{washId} (ordersId=${order.ordersId}, washId=${order.washId})}">
 																	
 																
