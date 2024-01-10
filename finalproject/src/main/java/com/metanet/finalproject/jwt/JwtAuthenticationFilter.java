@@ -39,8 +39,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 for (Cookie cookie : cookies) {
 //            	System.out.println("쿠키 이름 Key : " + cookie.getName());
 //            	System.out.println("쿠키 데이터 : " + cookie.getValue());
-
-                    Jwt_value = cookie.getValue();
+                    if (cookie.getName().equals("token")) {
+                        Jwt_value = cookie.getValue();
+                    }
                 }
             }
             else{

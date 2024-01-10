@@ -57,6 +57,9 @@ CREATE TABLE MEMBER (
 ALTER TABLE MEMBER
 ADD CONSTRAINT unique_phone_number UNIQUE (member_phone_number);
 
+ALTER TABLE MEMBER
+ADD CONSTRAINT unique_member_email UNIQUE (member_email);
+
 CREATE UNIQUE INDEX PK_MEMBER
 	ON MEMBER (
 		member_id ASC
@@ -355,11 +358,14 @@ INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, m
 VALUES (2, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
 
 insert into member (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-values (1, 'admin', 'admin', 'admin', 'admin123', sysdate, '0', '0', sysdate, '0');
+values (1, 'admin', 'admin@admin', 'admin', 'admin123', sysdate, '1', '1', sysdate, '1');
 
 -- 권한 (ROLE) 테이블 예시 데이터
 INSERT INTO ROLE (member_id, role_name)
-VALUES (1, 'ROLE_USER');
+VALUES (1, 'ROLE_ADMIN');
+
+INSERT INTO ROLE (member_id, role_name)
+VALUES (2, 'ROLE_USER');
 
 -- 주소 (ADDRESS) 테이블 예시 데이터
 INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)

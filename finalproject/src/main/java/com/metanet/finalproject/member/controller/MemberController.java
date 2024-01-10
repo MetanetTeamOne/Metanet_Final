@@ -133,10 +133,17 @@ public class MemberController {
 			log.info("errors: {}", result);
 			return "member/signup";
 		}
+		Member phoneMember = memberService.searchMemberByPhonenumber(dto.getMemberPhoneNumber());
+		if (phoneMember != null) {
+			result.rejectValue("memberPhoneNumber", null, "같은 휴대폰번호가 있습니다.");
+			log.info("errors: {}", result);
+			return "member/signup";
+		}
+		Member findMember = memberService.selectMember(dto.getMemberEmail());
+
 		Member member = new Member();
 		Address address = new Address();
 		log.info("dto: {}", dto.getMemberEmail());
-		Member findMember = memberService.selectMember(dto.getMemberEmail());
 		log.info("아이디 {}", findMember);
 
 		if (findMember != null) {
@@ -166,28 +173,28 @@ public class MemberController {
 			int memberId = memberService.getMemberId(dto.getMemberEmail());
 			log.info("memberId: {}", memberId);
 
-			Role role = new Role();
-			role.setMemberId(memberId);
-			if(dto.getMemberEmail().equals("king@king")) {
-				//본사
-				role.setRoleName("ROLE_KING");
-				roleRepository.insertRole(role);
-			} else if(dto.getMemberEmail().equals("1dmin@admin")) {
-				//지점
-				role.setRoleName("ROLE_ADMIN");
-				roleRepository.insertRole(role);
-			} else {
-				//사용자
-				role.setRoleName("ROLE_USER");
-				roleRepository.insertRole(role);
-			}
+//			Role role = new Role();
+//			role.setMemberId(memberId);
+//			if(dto.getMemberEmail().equals("king@king")) {
+//				//본사
+//				role.setRoleName("ROLE_KING");
+//				roleRepository.insertRole(role);
+//			} else if(dto.getMemberEmail().equals("1dmin@admin")) {
+//				//지점
+//				role.setRoleName("ROLE_ADMIN");
+//				roleRepository.insertRole(role);
+//			} else {
+//				//사용자
+//				role.setRoleName("ROLE_USER");
+//				roleRepository.insertRole(role);
+//			}
 			
 			// 기존 코드
 			// 권한 부여
-//			Role role = new Role();
-//			role.setMemberId(memberId);
-//			role.setRoleName("ROLE_USER");
-//			roleRepository.insertRole(role);
+			Role role = new Role();
+			role.setMemberId(memberId);
+			role.setRoleName("ROLE_USER");
+			roleRepository.insertRole(role);
 
 			// 주소 저장
 			address.setAddressZipcode(dto.getAddressZipcode());
