@@ -41,6 +41,15 @@
 		GROUP BY wash_id
 		ORDER BY ordersDate DESC
 	</select>
+	
+	<select id="searchMaxWashId" parameterType="int"
+		resultType="int">
+		SELECT
+		    MAX(wash_id) as washId
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+
+	</select>
 
 	<select id="searchOrderId" parameterType="int"
 		resultType="com.metanet.finalproject.orders.model.Orders">
