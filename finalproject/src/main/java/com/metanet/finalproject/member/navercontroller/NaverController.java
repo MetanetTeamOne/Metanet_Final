@@ -5,7 +5,9 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -196,12 +198,14 @@ public class NaverController {
 			    
 			    String token = jwtTokenProvider.generateToken(getNaverUserInfoFromUserDB);
 //		        log.info("token: {}", token);
-			    System.out.println("카카오 jwt 토큰 : " + token);
+			    System.out.println("네이버 jwt 토큰 : " + token);
 			    
 			    // 로그아웃할때 외부에서 로그아웃에서 한번에 카카오 로그아웃까지 처리해야하는데 이게 안됨.
-		        // 그래서 추가적으로 세션으로 카카오 액세스 토큰 넘겨줌
+		        // 그래서 추가적으로 쿠키에 네이버 액세스 토큰 넘겨줌
 
-			    // 세션에 access_token 추가
+			    // 쿠키에 access_token 추가
+
+			    
 		        Cookie cookie_naver = new Cookie("naver_access_token", naverAccessToken);
 		        cookie_naver.setMaxAge(60 * 30);
 		        cookie_naver.setHttpOnly(true);
@@ -216,7 +220,7 @@ public class NaverController {
 		        cookie.setPath("/");
 		        response.addCookie(cookie);
 		        
-		        System.out.println("카카오 액세스 jwt 발급후 :" + naverAccessToken);
+		        System.out.println("네이버 액세스 jwt 발급후 :" + naverAccessToken);
 		        
 			    return "redirect:/";
 			} 
@@ -238,7 +242,57 @@ public class NaverController {
 	
 	// 네이버 로그아웃 로직
 	// 아직 구현 안함
-	public void naverLogout() {
+	public void naverLogout(Optional<Cookie> cookie_naver, HttpServletResponse response) {
 //		"https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&access_token=ACCESS_TOKEN";
+		String NaverLogoutURL = "https://nid.naver.com/oauth2.0/token";
+		
+		URL url;
+		try {
+			url = new URL(NaverLogoutURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			
+			if (cookie_naver.isPresent()) { // 쿠키가 존재하는지 확인
+		        Cookie naverCookie = cookie_naver.get();
+		        if (naverCookie.getName().equals("naver_access_token")) { // 원하는 쿠키인지 확인
+		        	naverAccessToken = naverCookie.getValue(); // access_token 값 가져오기
+
+		            cookie_naver.get().setMaxAge(0);
+		            response.addCookie(cookie_naver.get());
+		        }
+		    }
+			
+	        conn.setRequestMethod("POST");
+	        conn.setDoOutput(true);
+
+	        //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+	        StringBuilder sb = new StringBuilder();
+	            
+	        sb.append("grant_type=delete");
+	        sb.append("&client_id="+naverClientId); // TODO REST_API_KEY 입력
+	        sb.append("&client_secret="+naverClientSecret);
+	        sb.append("&access_token=" +naverAccessToken);
+	        bw.write(sb.toString());
+	        bw.flush();
+
+	        //결과 코드가 200이라면 성공
+	        int responseCode = conn.getResponseCode();
+	        System.out.println("responseCode : " + responseCode);
+	        //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        String line = "";
+	        String result = "";
+
+	        while ((line = br.readLine()) != null) {
+	           result += line;
+	        }
+	        
+	        // naver 정보 초기화
+		} catch (Exception e) {
+//			e.printStackTrace();
+			System.out.println("네이버 로그인이 아니라서 네이버 로그인 로직 처리 안함");
+		}
+		
 	}
 }
+
