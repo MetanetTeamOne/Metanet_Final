@@ -26,6 +26,9 @@ public class Orders {
 
 	// 진행상태
 	private String ordersStatus;
+	
+	// 세탁확인
+	private String ordersCheckDate;
 
 	// 유저 ID
 	private int memberId;

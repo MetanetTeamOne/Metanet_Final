@@ -12,7 +12,7 @@
 	<div th:replace="~{include/member/header :: header}"></div>
 
 	<div class="inner">
-		<div>
+		<form method="post" th:action="@{/orders/insert}">
 			<div class="service_info_text my-5 py-1" style="border-bottom: 1px solid #929292;">
 				<h2 class="title">세탁신청</h2>
 			</div>
@@ -43,21 +43,21 @@
 				</div>
 
 				<div class="col-md-7 col-lg-8">
-					<form class="needs-validation was-validated" method="post" th:action="@{/orders/insert}">
+					<div class="needs-validation was-validated" >
 						<div class="row g-3">
 
 							<!--넘어가는 값-->
-							<input type="hidden" name="ordersCount">
+							<!--<input type="hidden" name="ordersCount">
 							<input type="hidden" name="ordersPrice">
 							<!--주문 후 수거진행이라서 그냥 디폴트로 1 넣음-->
-							<input type="hidden" name="ordersStatus" value="1">
+							<!--<input type="hidden" name="ordersStatus" value="1">
 							<input type="hidden" name="memberId" th:value="${member.memberId}">
 							<input type="hidden" name="laundryId" th:value="${laundryList[0].laundryId}">
-							<input type="hidden" name="washId" th:value="${washId}">
+							<input type="hidden" name="washId" th:value="${washId}">-->
 							
 
 
-							<div class="col-12">
+							<!--<div class="col-12">
 								<label for="username" class="form-label title">이름</label>
 								<div class="input-group has-validation">
 									<input type="text" class="form-control title" id="username" placeholder="김워시"
@@ -107,7 +107,7 @@
 
 							
 							<input type="hidden" class="form-control" id="email" name="memberEmail"
-								th:value="${member.memberEmail}" placeholder="you@example.com">
+								th:value="${member.memberEmail}" placeholder="you@example.com">-->
 							
 
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁 서비스 유형</h4>
@@ -230,11 +230,11 @@
 								
 								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn">신청</button>
 							</div>
-					</form>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-
+		</form>
 	</div>
 
 	<div class="section-background section-cover"></div>
