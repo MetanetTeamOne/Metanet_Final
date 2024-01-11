@@ -41,6 +41,21 @@
 		GROUP BY wash_id
 		ORDER BY ordersDate DESC
 	</select>
+	
+	<select id="searchMemHelpOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus">
+		SELECT
+		    wash_id as washId,
+		    laundry_id as laundryId,
+		    COUNT(*) as ordersTotalCount,
+		    SUM(orders_price) as ordersTotalPrice,
+		    MAX(orders_date) as ordersDate,
+		    MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+		GROUP BY wash_id, laundry_id
+		ORDER BY ordersDate DESC
+	</select>
 
 	<select id="searchOrderId" parameterType="int"
 		resultType="com.metanet.finalproject.orders.model.Orders">

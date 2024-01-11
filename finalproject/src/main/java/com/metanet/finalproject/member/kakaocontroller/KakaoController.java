@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Kakao Login", description = "카카오 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
-		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*")
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 @Slf4j
 public class KakaoController {
 	@Autowired
