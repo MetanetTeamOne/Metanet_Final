@@ -44,6 +44,12 @@ public class HomeController {
 		return "member/how_use";
 	}
 	
+	// 고객 센터
+		@GetMapping("/customer")
+		public String customer(Model model) {	
+			return "member/customer_center";
+		}
+	
 	/* 관리자 */
 	// 관리자 홈
 	@GetMapping("/admin")
@@ -64,10 +70,10 @@ public class HomeController {
 	}
 	
 	// 세탁물 관리
-	@GetMapping("/admin/laundry")
-	public String adminLaundry() {
-		return "admin/adminLaundry";
-	}
+//	@GetMapping("/admin/laundry")
+//	public String adminLaundry() {
+//		return "admin/adminLaundry";
+//	}
 	
 	// 주문 관리
 	@GetMapping("/admin/order")
