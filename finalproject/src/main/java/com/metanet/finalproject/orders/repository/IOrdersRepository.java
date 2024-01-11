@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
+import com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus;
 
 @Repository
 @Mapper
@@ -18,6 +19,7 @@ public interface IOrdersRepository {
 	List<Orders> searchOrderId(int washId);
 	
 	List<OrdersDetails> searchMemOrder(int memberId);
+	List<OrdersDetailsLaundryPlus> searchMemHelpOrder(int memberId);
 	List<OrdersDetails> searchMonthOrder(int memberId, int month);
 	int searchMaxWashId(int memberId);
 	void insertOrder(Orders orders);
