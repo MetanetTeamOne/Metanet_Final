@@ -54,9 +54,15 @@
 
     <update id="deleteMember">
         update member
-        set member_join_state = #{state}
+        set member_join_state = #{state}, member_join_date = sysdate
         where member_email = #{memberEmail}
     </update>
+
+	<delete id="deleteWithDrawMember">
+		delete
+		from member
+		where member_id = #{memberId}
+	</delete>
 
 	<select id="getMemberId" resultType="int">
 		select member_id
