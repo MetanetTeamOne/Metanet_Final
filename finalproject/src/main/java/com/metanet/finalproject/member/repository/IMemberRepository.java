@@ -13,12 +13,15 @@ import com.metanet.finalproject.member.model.Member;
 public interface IMemberRepository {
     public Member getMember(@Param("memberId") int memberId);
     public List<Member> getMemberList();
+
     public void insertMember(@Param("member") Member member);
     public void updateMember(@Param("member") Member member, @Param("email") String email);
     public void deleteMember(@Param("memberEmail") String memberEmail, @Param("state") String memberJoinState);
 
 	public void deleteWithDrawMember(@Param("memberId") int memberId);
 	public int getMemberId(@Param("email") String email);
+	public List<Member> getMemberListByState(@Param("state") String state);
+
     
     //이메일로 특정 회원조회
   	Member selectMember(@Param("memberEmail") String memberEmail);

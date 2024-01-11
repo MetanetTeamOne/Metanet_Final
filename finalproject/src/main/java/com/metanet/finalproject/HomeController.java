@@ -52,7 +52,7 @@ public class HomeController {
 	}
 	
 	// 회원 관리
-	@GetMapping("/admin/member")
+//	@GetMapping("/admin/member")
 	public String adminMember() {
 		return "admin/adminMember";
 	}
