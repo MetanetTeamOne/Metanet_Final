@@ -30,6 +30,18 @@ DROP TABLE LAUNDRY
 DROP TABLE LAUNDRY_CATEGORY 
 	CASCADE CONSTRAINTS;
     
+/* 문의 */
+DROP TABLE MEMHELP 
+	CASCADE CONSTRAINTS;
+
+/* HELPCATEGORY */
+DROP TABLE HelpCategory 
+	CASCADE CONSTRAINTS;
+
+/* 답변 */
+DROP TABLE REPLY 
+	CASCADE CONSTRAINTS;
+    
 DROP SEQUENCE FILES_SEQ;
 
 DROP SEQUENCE LAUNDRY_SEQ;
@@ -39,6 +51,10 @@ DROP SEQUENCE LAUNDRY_CATEGORY_SEQ;
 DROP SEQUENCE ORDERS_SEQ;
 
 DROP SEQUENCE PAY_SEQ;
+
+DROP SEQUENCE MEMHELP_SEQ;
+
+DROP SEQUENCE REPLY_SEQ;
 
 /* 회원 */
 CREATE TABLE MEMBER (
@@ -126,6 +142,9 @@ CREATE TABLE ORDERS (
 	member_id NUMBER NOT NULL, /* 회원 ID */
 	laundry_id NUMBER /* 세탁물 ID */
 );
+
+ALTER TABLE ORDERS
+ADD ORDERS_IMAGE_DATA BLOB;
 
 CREATE UNIQUE INDEX PK_ORDERS
 	ON ORDERS (
@@ -234,6 +253,68 @@ ALTER TABLE LAUNDRY_CATEGORY
 		PRIMARY KEY (
 			laundry_category_id
 		);
+        
+/* 문의 */
+CREATE TABLE MEMHELP (
+	memHelpNum NUMBER NOT NULL, /* 문의번호 */
+	memHelpTitle VARCHAR2(30) NOT NULL, /* 문의제목 */
+	memHelpContent VARCHAR2(500) NOT NULL, /* 문의내용 */
+	memHelpFile BLOB, /* 첨부파일 */
+	memHelpState VARCHAR2(10) NOT NULL, /* 문의상태 */
+	memHelpDate DATE NOT NULL, /* 문의날짜 */
+	member_id NUMBER, /* 회원 ID */
+	memCategoryNum NUMBER /* 문의유형번호 */
+);
+
+CREATE UNIQUE INDEX PK_MEMHELP
+	ON MEMHELP (
+		memHelpNum ASC
+	);
+
+ALTER TABLE MEMHELP
+	ADD
+		CONSTRAINT PK_MEMHELP
+		PRIMARY KEY (
+			memHelpNum
+		);
+
+/* HELPCATEGORY */
+CREATE TABLE HelpCategory (
+	memCategoryNum NUMBER NOT NULL, /* 문의유형번호 */
+	memHelpCategory VARCHAR2(20) NOT NULL /* 문의유형 */
+);
+
+CREATE UNIQUE INDEX PK_HelpCategory
+	ON HelpCategory (
+		memCategoryNum ASC
+	);
+
+ALTER TABLE HelpCategory
+	ADD
+		CONSTRAINT PK_HelpCategory
+		PRIMARY KEY (
+			memCategoryNum
+		);
+
+/* 답변 */
+CREATE TABLE REPLY (
+	repNum NUMBER NOT NULL, /* 답변번호 */
+	repContent VARCHAR2(50) NOT NULL, /* 답변내용 */
+	repDate DATE NOT NULL, /* 답변일자 */
+	memHelpNum NUMBER /* 문의번호 */
+);
+
+CREATE UNIQUE INDEX PK_REPLY
+	ON REPLY (
+		repNum ASC
+	);
+
+ALTER TABLE REPLY
+	ADD
+		CONSTRAINT PK_REPLY
+		PRIMARY KEY (
+			repNum
+		);
 
 ALTER TABLE ROLE
 	ADD
@@ -306,6 +387,36 @@ ALTER TABLE LAUNDRY
 			laundry_category_id
 		)ON DELETE CASCADE;
         
+ALTER TABLE MEMHELP
+	ADD
+		CONSTRAINT FK_MEMBER_TO_MEMHELP
+		FOREIGN KEY (
+			member_id
+		)
+		REFERENCES MEMBER (
+			member_id
+		)ON DELETE CASCADE;
+
+ALTER TABLE MEMHELP
+	ADD
+		CONSTRAINT FK_HelpCategory_TO_MEMHELP
+		FOREIGN KEY (
+			memCategoryNum
+		)
+		REFERENCES HelpCategory (
+			memCategoryNum
+		)ON DELETE CASCADE;
+
+ALTER TABLE REPLY
+	ADD
+		CONSTRAINT FK_MEMHELP_TO_REPLY
+		FOREIGN KEY (
+			memHelpNum
+		)
+		REFERENCES MEMHELP (
+			memHelpNum
+		)ON DELETE CASCADE;
+        
 CREATE SEQUENCE PAY_SEQ
        INCREMENT BY 1
        START WITH 1
@@ -343,6 +454,26 @@ CREATE SEQUENCE LAUNDRY_SEQ
        NOORDER;
        
 CREATE SEQUENCE FILES_SEQ
+       INCREMENT BY 1
+       START WITH 1
+       MINVALUE 1
+       MAXVALUE 9999
+       NOCYCLE
+       NOCACHE
+       NOORDER;
+       
+       
+CREATE SEQUENCE MEMHELP_SEQ
+       INCREMENT BY 1
+       START WITH 1
+       MINVALUE 1
+       MAXVALUE 9999
+       NOCYCLE
+       NOCACHE
+       NOORDER;
+       
+       
+CREATE SEQUENCE REPLY_SEQ
        INCREMENT BY 1
        START WITH 1
        MINVALUE 1
@@ -404,7 +535,7 @@ insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 
 
 -- 주문 (ORDERS) 테이블 예시 데이터
-insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1, null);
+insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1, EMPTY_BLOB());
 
 -- 결제 (PAY) 테이블 예시 데이터
 INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)

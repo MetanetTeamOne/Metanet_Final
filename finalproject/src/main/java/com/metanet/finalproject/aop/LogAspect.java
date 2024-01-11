@@ -61,6 +61,22 @@ public class LogAspect {
 		log.info("[[AOP-Exception Log]]-{}", methodName, exception.getMessage());
 	}
 	
+	// NaverController AOP -> After
+	@After("execution(* com.metanet.finalproject..NaverController.*(..))")
+	public void naverAfterLog(JoinPoint joinPoint) {
+		Signature signature = joinPoint.getSignature();
+		String methodName = signature.getName();
+		log.info("[[AOP-After Log]]-{}", methodName);
+	}
+			
+	// NaverController AOP -> After Throwing
+	@AfterThrowing(pointcut="execution(* com.metanet.finalproject..NaverController.*(..))", throwing="exception")
+	public void naverAfterThrowing(JoinPoint joinPoint, Exception exception) {
+		Signature signature = joinPoint.getSignature();
+		String methodName = signature.getName();
+		log.info("[[AOP-Exception Log]]-{}", methodName, exception.getMessage());
+	}
+	
 	// PayController AOP -> After
 	@After("execution(* com.metanet.finalproject..PayController.*(..))")
 	public void payAfterLog(JoinPoint joinPoint) {

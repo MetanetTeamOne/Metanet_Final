@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Tag(name = "Pay", description = "결제 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
-		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*")
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class PayController {
 
 	@Autowired
