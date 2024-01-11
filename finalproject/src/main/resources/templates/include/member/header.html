@@ -14,14 +14,14 @@
 		            <li class="join title">
 		            <a th:href="@{/member/insert}">회원가입</a>
 		            </li>
-		        	<li class="title"><a href="#">고객센터</a></li>
+		        	<li class="title"><a href="/customer">고객센터</a></li>
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 		        <ul sec:authorize="isAuthenticated()">
 					<li class="storageClear title">
 					<a th:href="@{/logout2}" title="로그아웃 새창 열림">로그아웃</a>
 					</li>
-		        	<li class="title"><a href="#">고객센터</a></li>	
+		        	<li class="title"><a href="/customer">고객센터</a></li>	
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 	        </div>
