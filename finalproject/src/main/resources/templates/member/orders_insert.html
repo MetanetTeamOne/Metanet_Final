@@ -114,12 +114,12 @@
 							<div class="my-3">
 								<div class="form-check">
 									<input id="laundry_service1" type="radio" class="form-check-input"
-										name="ordersCheckDate"  required="" checked>
+										name="laundryType" required="" checked>
 									<label class="form-check-label title" for="laundry_service1">당일 세탁</label>
 								</div>
 								<div class="form-check">
 									<input id="laundry_service2" type="radio" class="form-check-input"
-										name="ordersCheckDate" required="">
+										name="laundryType" required="">
 									<label class="form-check-label title" for="laundry_service2">일반 세탁</label>
 								</div>
 							</div>
@@ -165,13 +165,13 @@
 
 							<div class="my-3" >
 								<div class="form-check" th:if="${member.memberSubscribe == '0'}">
-									<input id="credit" type="radio" class="form-check-input"
+									<input id="credit" name="ordersCheckDate" type="radio" class="form-check-input"
 										checked="" required="" value="1">
 									<label id="creditLabel" class="form-check-label title" for="credit">직접 결제</label>
 								</div>
 
 								<div class="form-check" th:if="${member.memberSubscribe == '1'}">
-									<input id="washPlus" type="radio" class="form-check-input"
+									<input id="washPlus" name="ordersCheckDate" type="radio" class="form-check-input"
 										checked="" required="" value="2">
 									<label id="washPlusLabel" class="form-check-label title"
 										for="washPlus">워시플러스</label>
