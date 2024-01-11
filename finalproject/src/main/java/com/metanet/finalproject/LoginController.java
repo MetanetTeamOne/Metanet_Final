@@ -78,16 +78,17 @@ public class LoginController {
 //				return "member/login";
 //			}
 //		}
-		if (member.getMemberJoinState().equals("0")) {
-			log.info("탈퇴한 회원입니다.");
-			result.rejectValue("memberEmail", null, "해당아이디는 탈퇴되었습니다.");
-			return "member/login";
-		}
 		if (member == null) {
 			log.info("계정이 존재하지 않음");
 			result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");
 			return "member/login";
 		}
+		if (member.getMemberJoinState().equals("0")) {
+			log.info("탈퇴한 회원입니다.");
+			result.rejectValue("memberEmail", null, "해당아이디는 탈퇴되었습니다.");
+			return "member/login";
+		}
+
 
 		if (!passwordEncoder.matches(loginMember.getMemberPassword(), member.getMemberPassword())) {
 			log.info("비밀번호가 일치하지 않음");
