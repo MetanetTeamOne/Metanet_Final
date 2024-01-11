@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
+import com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus;
 
 public interface IOrdersService {
 	// 회원
@@ -12,6 +13,7 @@ public interface IOrdersService {
 	List<Orders> searchOrderId(int washId); 
 	
 	List<OrdersDetails> searchMemOrder(int memberId);
+	List<OrdersDetailsLaundryPlus> searchMemHelpOrder(int memberId);
 	List<OrdersDetails> searchMonthOrder(int memberId, int month);
 	int searchMaxWashId(int memberId);
 

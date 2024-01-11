@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Laundry", description = "세탁물 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
-		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*")
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class LaundryController {
 	
 	@Autowired
