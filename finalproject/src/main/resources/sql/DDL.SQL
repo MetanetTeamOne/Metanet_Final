@@ -279,10 +279,10 @@ ALTER TABLE PAY
 	ADD
 		CONSTRAINT FK_ORDERS_TO_PAY
 		FOREIGN KEY (
-			orders_id
+			wash_id
 		)
 		REFERENCES ORDERS (
-			orders_id
+			wash_id
 		)
 		ON DELETE CASCADE;
 
