@@ -4,6 +4,8 @@
 <div th:replace="~{include/admin/head :: head}"></div>
 
 <body class="sb-nav-fixed">
+	  		<link rel="stylesheet" th:href="@{/css/member/orders.css}">
+
 	<nav th:replace="~{include/admin/header :: header}"></nav>
 
 	<div id="layoutSidenav">
@@ -18,11 +20,30 @@
 					</ol>
 					
 					<div class="card mb-4">
-						<div class="card-header title">
-							<i class="fas fa-table me-1"></i>
-							전체 결제 내역
-						</div>
-							<div class="card-body" style="overflow-x: auto;">
+							
+						<div class="card-body" style="overflow-x: auto;">
+							<div style="display: flex; justify-content: space-between; align-items: center;">
+								<div class="my-month__wrap" style="height: auto;padding: 0;">
+	                                <ul id="period" class="month_list" style="float: none; padding: 0px;">
+	                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="0" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">모든결제</label></li>
+	                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">결제완료</label></li>
+	                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_4" data-value="6:m" value="2" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_4">결제취소</label></li>
+	                                </ul>
+		                    	</div>
+		                    	<div class="my-month__wrap" style="height: auto;padding: 0;">
+	                                <ul id="period" class="month_list" style="float: none; padding: 0px;">
+	                                    <li style="
+    width: auto;
+"> <input style="width: auto"></li>
+	                                    <li style="
+    width: auto;
+"> <input type="submit"></li>
+	                                </ul>
+		                    	</div>
+		                    	
+							</div>
+							
+							
 							<table id="datatablesSimple" class="table table-striped table-hover info">
 								<thead>
 									<tr>
@@ -43,57 +64,11 @@
 										<td>2011/04/25</td>
 										<td>$320,800</td>
 									</tr>
-									<tr>
-										<td>Garrett Winters</td>
-										<td>Accountant</td>
-										<td>Tokyo</td>
-										<td>63</td>
-										<td>2011/07/25</td>
-										<td>$170,750</td>
-									</tr>
-									<tr>
-										<td>Ashton Cox</td>
-										<td>Junior Technical Author</td>
-										<td>San Francisco</td>
-										<td>66</td>
-										<td>2009/01/12</td>
-										<td>$86,000</td>
-									</tr>
-									<tr>
-										<td>Cedric Kelly</td>
-										<td>Senior Javascript Developer</td>
-										<td>Edinburgh</td>
-										<td>22</td>
-										<td>2012/03/29</td>
-										<td>$433,060</td>
-									</tr>
-									<tr>
-										<td>Airi Satou</td>
-										<td>Accountant</td>
-										<td>Tokyo</td>
-										<td>33</td>
-										<td>2008/11/28</td>
-										<td>$162,700</td>
-									</tr>
-									<tr>
-										<td>Brielle Williamson</td>
-										<td>Integration Specialist</td>
-										<td>New York</td>
-										<td>61</td>
-										<td>2012/12/02</td>
-										<td>$372,000</td>
-									</tr>
-									<tr>
-										<td>Herrod Chandler</td>
-										<td>Sales Assistant</td>
-										<td>San Francisco</td>
-										<td>59</td>
-										<td>2012/08/06</td>
-										<td>$137,500</td>
-									</tr>
+									
 									
 								</tbody>
 							</table>
+							
 						</div>
 						
 					</div>
