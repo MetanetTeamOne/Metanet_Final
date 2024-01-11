@@ -9,7 +9,7 @@
 	        	PAY_MONEY as payMoney, 
 	        	PAY_DATE as payDate, 
 	        	PAY_STATE as payState, 
-	        	ORDERS_ID as ordersId,
+	        	WASH_ID as washId,
 	        	MEMBER_ID as memberId
 	    from pay
 	    <if test="payId != null">
@@ -23,7 +23,7 @@
 	        	PAY_MONEY as payMoney, 
 	        	PAY_DATE as payDate, 
 	        	PAY_STATE as payState, 
-	        	ORDERS_ID as ordersId,
+	        	WASH_ID as washId,
 	        	MEMBER_ID as memberId
 	    from pay
 	    <if test="memberId != null">
@@ -37,7 +37,7 @@
 	        	PAY_MONEY as payMoney, 
 	        	PAY_DATE as payDate, 
 	        	PAY_STATE as payState, 
-	        	ORDERS_ID as ordersId,
+	        	WASH_ID as washId,
 	        	MEMBER_ID as memberId
 	    from pay
 	    <if test="payState != null">
@@ -46,9 +46,9 @@
 	</select>
 
 	<insert id="insertPay" parameterType="com.metanet.finalproject.pay.model.Pay">
-	    <selectKey order="BEFORE" keyProperty="payId" resultType="int">
-	    	select PAY_SEQ.nextval from dual
-	    </selectKey>
+	    <selectKey keyProperty="payId" resultType="int" order="BEFORE">
+			select nvl(max(pay_id), 0) + 1 from pay
+		</selectKey>
 	    
 	    insert into 
 	        pay (
@@ -57,7 +57,7 @@
 		        	PAY_MONEY, 
 		        	PAY_DATE, 
 		        	PAY_STATE, 
-		        	ORDERS_ID,
+		        	WASH_ID,
 		        	MEMBER_ID
 		        )
 	    values
@@ -67,11 +67,8 @@
 	            #{payMoney},
 	            sysdate,
 	            #{payState},
-        	    <if test="ordersId != null">
-	            #{ordersId},
+	            #{washId},
 	            #{memberId}
-	            
-	        	</if>
 	        )
 	    
 	</insert>

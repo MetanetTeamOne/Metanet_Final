@@ -30,6 +30,8 @@ import com.metanet.finalproject.orders.model.OrdersDetails;
 import com.metanet.finalproject.orders.model.OrdersInsert;
 import com.metanet.finalproject.orders.model.OrdersInsertList;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.pay.model.Pay;
+import com.metanet.finalproject.pay.service.IPayService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,6 +53,9 @@ public class OrdersController {
 	
 	@Autowired
 	IOrdersService ordersService;
+	
+	@Autowired
+	IPayService payService;
 	
 	@Autowired
 	IMemberService memberService;
@@ -160,7 +165,6 @@ public class OrdersController {
 		    //else {
 		    	int count = ordersService.countOrder(member.getMemberId());
 		    	int washId = count + 1;
-		    	System.out.println("count============"+count);
 		    	Address addressList = addressService.getAddress(member.getMemberId());
 				List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
 				System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
@@ -184,9 +188,9 @@ public class OrdersController {
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
 	public String insertOrder(Model model, @ModelAttribute(value="OrdersInsertList") OrdersInsertList ordersList, HttpServletRequest request) {
-		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		int count = ordersList.getOrderList().size();
-		System.out.println(count);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		int memberId = member.getMemberId();
+		int total = 0;
 		Orders order = new Orders();
 		order.setMemberId(memberId);
 		order.setOrdersCheckDate(ordersList.getOrdersCheckDate());
@@ -199,8 +203,23 @@ public class OrdersController {
 			order.setLaundryId(laundry.getLaundryId());
 			order.setOrdersCount(ord.getOrdersCount());
 			order.setOrdersPrice(laundry.getLaundryPrice()*ord.getOrdersCount());
+			total+=laundry.getLaundryPrice()*ord.getOrdersCount();
 			ordersService.insertOrder(order);
 		}
+		
+		Pay pay = new Pay();
+		if (member.getMemberSubscribe().equals("0")) {
+			pay.setPayDelivery(2500);
+			pay.setPayMoney(total+2500);
+		}else {
+			pay.setPayDelivery(0);
+			pay.setPayMoney(total);
+		}
+		pay.setPayState("1");
+		pay.setWashId(ordersService.searchMaxWashId(memberId));
+		pay.setMemberId(memberId);
+		
+		payService.insertPay(pay);
 		
 	    return "redirect:/orders/insertok";
 	}

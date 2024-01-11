@@ -146,7 +146,7 @@ CREATE TABLE PAY (
 	pay_money NUMBER NOT NULL, /* 결제 금액 */
 	pay_date DATE NOT NULL, /* 결제 일자 */
 	pay_state VARCHAR2(4) NOT NULL, /* 결제 상태 */
-	orders_id NUMBER NOT NULL, /* 주문 ID */
+	wash_id NUMBER NOT NULL, /* 주문 ID */
 	member_id number NOT NULL /* 회원 ID */
 );
 
@@ -407,10 +407,10 @@ insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1, null);
 
 -- 결제 (PAY) 테이블 예시 데이터
-INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id, member_id)
+INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
 VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1, 1);
 
-INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, orders_id, member_id)
+INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
 VALUES (2, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1, 1);
 
 COMMIT;

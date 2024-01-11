@@ -108,36 +108,36 @@ public class PayController {
 //	}
 	
 	//결제 진행 처리
-	@Operation(summary = "결제 정보 진행 처리")
-	@PostMapping("/pay/do/{ordersId}")
-	public String insertPay(@PathVariable int ordersId, Pay pay, Model model) {
-		//int ordersId = pay.getOrdersId();
-		try {
-	        String memberSubscribe = memberService2.selectSubscribe("chlrkdls1269@gmail.com");
-	        
-	        // 배송비 : 구독자 0원, 비구독자 2500원
-	        if (memberSubscribe.equals("0")) {
-	            pay.setPayDelivery(2500);
-	        } else if (memberSubscribe.equals("1")) {
-	            pay.setPayDelivery(0);
-	        }
-	        
-//	        System.out.println("ordersId 1111: " + ordersId);
-
-	        // pay 객체에 정수 값으로 설정
-	        pay.setOrdersId(ordersId);
-
-//	        System.out.println("ordersId 2222: " + pay.getOrdersId());
-//	        System.out.println("pay>>>"+pay.getOrdersId());
-	        payService.insertPay(pay);
-	        model.addAttribute("pay", pay);
-//	        System.out.println("==결제완료==");
-	        return "redirect:/pay/payok";
-	    } catch (NumberFormatException e) {
-	        // ordersId가 정수로 변환할 수 없는 경우의 예외 처리
-	        e.printStackTrace(); // 또는 로깅
-	        return "error!!!!!!!!!!!!!!!!!!!";
-	    }
-	}
+//	@Operation(summary = "결제 정보 진행 처리")
+//	@PostMapping("/pay/do/{ordersId}")
+//	public String insertPay(@PathVariable int ordersId, Pay pay, Model model) {
+//		//int ordersId = pay.getOrdersId();
+//		try {
+//	        String memberSubscribe = memberService2.selectSubscribe("chlrkdls1269@gmail.com");
+//	        
+//	        // 배송비 : 구독자 0원, 비구독자 2500원
+//	        if (memberSubscribe.equals("0")) {
+//	            pay.setPayDelivery(2500);
+//	        } else if (memberSubscribe.equals("1")) {
+//	            pay.setPayDelivery(0);
+//	        }
+//	        
+////	        System.out.println("ordersId 1111: " + ordersId);
+//
+//	        // pay 객체에 정수 값으로 설정
+//	        pay.setOrdersId(ordersId);
+//
+////	        System.out.println("ordersId 2222: " + pay.getOrdersId());
+////	        System.out.println("pay>>>"+pay.getOrdersId());
+//	        payService.insertPay(pay);
+//	        model.addAttribute("pay", pay);
+////	        System.out.println("==결제완료==");
+//	        return "redirect:/pay/payok";
+//	    } catch (NumberFormatException e) {
+//	        // ordersId가 정수로 변환할 수 없는 경우의 예외 처리
+//	        e.printStackTrace(); // 또는 로깅
+//	        return "error!!!!!!!!!!!!!!!!!!!";
+//	    }
+//	}
 	
 }
