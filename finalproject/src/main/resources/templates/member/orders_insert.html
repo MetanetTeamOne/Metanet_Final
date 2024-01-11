@@ -284,17 +284,18 @@
 	
 				// 할인 정보 표시
 			function totalCheck() {
-			    if (totalPrice <= 0 || currentCounter <= 0) {
+			    if (currentCounter <= 0 && totalPrice <= 0) {
 			        $('#discountPrice').text('0원');
-			        $('#totalPrice').text(`0원`);
+			        $('#totalPrice').text('0원');
 			    } else {
 			        if (selectedPaymentMethod === 'credit') {
 			            discount = 0;
 			        } else {
 			            discount = 2500;
 			        }
-			         $('#discountPrice').text(`-${discount}원`);
-			         $('#totalPrice').text(`${totalPrice}원`);
+			         $('#discountPrice').text(`-${discount.toLocaleString()}원`);
+					$('#totalPrice').text(`${totalPrice.toLocaleString()}원`);
+
 
 			    }
 			}
@@ -374,7 +375,10 @@
 				        <h6 class="my-0 title">세탁 상품</h6>
 				        <small id="selectedLaundryDescription_${addressCounter}" class="text-body-secondary title">선택된 상품</small>
 				    </div>
-				    <span id="selectedLaundryDescriptionPrice_${addressCounter}" class="text-body-secondary title"></span>
+				    <div style="text-align: right">
+					    <h6 id="selectedLaundryDescriptionPrice_${addressCounter}" class="my-0 title"></h6>
+					    <span id="selectedLaundryDescriptionCount_${addressCounter}" class="text-body-secondary title"></span>
+					</div>
 				`;
 				
 				document.getElementById('laundryUl').appendChild(newRow2);
@@ -383,41 +387,45 @@
 				currentCounter++;
 				
 				$('#totalLaundry').text(currentCounter);
-				document.querySelector('input[name="ordersCount"]').value = currentCounter;
+				totalCheck();
+				let ordersCountInput = document.querySelector('input[name="ordersCount"]');
+				if (ordersCountInput) {
+				    ordersCountInput.value = currentCounter;
+				}
 
 		});
+	
+		// 부모 요소에 이벤트 리스너 추가
+document.body.addEventListener('click', function(event) {
+    // 클릭 이벤트가 'address_minus' 클래스를 포함하고 있는 경우에만 실행
+    if (event.target.classList.contains('address_minus')) {
+        let closestDiv = event.target.closest('div[id^="selectedLaundry_"]');
+        
+        if (closestDiv) {
+            let numericPart = closestDiv.id.match(/\d+/);
+            if (numericPart) {
+                let selectedLaundryId = 'selectedLaundry_' + numericPart[0];
+                let selectedLaundryDescriptionId = 'laundryItem' + numericPart[0];
+                
+                let selectedLaundryDiv = document.getElementById(selectedLaundryId);
+                let selectedLaundryDescriptionDiv = document.getElementById(selectedLaundryDescriptionId);
+    
+                selectedLaundryDiv.remove();
+                selectedLaundryDescriptionDiv.remove();
+                
+                currentCounter--;
+                
+                $('#totalLaundry').text(currentCounter);
+                let ordersCountInput = document.querySelector('input[name="ordersCount"]');
+                if (ordersCountInput) {
+                    ordersCountInput.value = currentCounter;
+                }
+                calculateTotalPrice();
+            }
+        }
+    }
+});
 
-		document.addEventListener('click', function (event) {
-				let numericValue    
-				if (event.target.classList.contains('address_minus')) {
-		        let closestDiv = event.target.closest('div[id^="selectedLaundry_"]');
-		
-		        if (closestDiv) {
-		            let numericPart = closestDiv.id.match(/\d+/);
-		            if (numericPart) {
-		                //numericValue = parseInt(numericPart[0]);
-		                let selectedLaundryId = 'selectedLaundry_' + numericPart[0];
-            			let selectedLaundryDescriptionId = 'laundryItem' + numericPart[0];
-            			
-			            let selectedLaundryDiv = document.getElementById(selectedLaundryId);
-			            let selectedLaundryDescriptionDiv = document.getElementById(selectedLaundryDescriptionId);
-			
-			                selectedLaundryDiv.remove();
-			
-			                selectedLaundryDescriptionDiv.remove();
-			                
-			                currentCounter--;
-							
-							$('#totalLaundry').text(currentCounter);
-											document.querySelector('input[name="ordersCount"]').value = currentCounter;
-
-					            }
-					        }
-		    }
-		    
-		    
-		    calculateTotalPrice();
-		});
 
 
 		
@@ -470,7 +478,8 @@
 				const selectedCount = $(this).closest('.row').find('.laundryCount').val();
 
 				$(`#selectedLaundryDescription_${addressCounter}`).text(selectedLaundry);
-				$(`#selectedLaundryDescriptionPrice_${addressCounter}`).text(getPriceForLaundry(selectedLaundry) * selectedCount);
+				$(`#selectedLaundryDescriptionPrice_${addressCounter}`).text('합계 : ' + (getPriceForLaundry(selectedLaundry) * selectedCount).toLocaleString() + '원');
+				$(`#selectedLaundryDescriptionCount_${addressCounter}`).text('수량 : '+selectedCount+'개');
 
 				calculateTotalPrice();
 			});
@@ -480,8 +489,8 @@
 				const selectedLaundry = $(this).closest('.row').find('.laundryName').val();
 
 				$(`#selectedLaundryDescription_${addressCounter}`).text(selectedLaundry);
-		
-				$(`#selectedLaundryDescriptionPrice_${addressCounter}`).text(getPriceForLaundry(selectedLaundry) * selectedCount);
+				$(`#selectedLaundryDescriptionPrice_${addressCounter}`).text('합계 : ' + (getPriceForLaundry(selectedLaundry) * selectedCount).toLocaleString() + '원');
+				$(`#selectedLaundryDescriptionCount_${addressCounter}`).text('수량 : '+selectedCount+'개');
 
 				calculateTotalPrice();
 			});
@@ -489,17 +498,17 @@
 		}
 
 			function calculateTotalPrice() {
-        let basePrice = 0;
-        $('.laundryName').each(function () {
-            const selectedLaundry = $(this).val();
-            const selectedCount = $(this).closest('.row').find('.laundryCount').val();
-            basePrice += getPriceForLaundry(selectedLaundry) * selectedCount;
-        });
-
-        // 총액 계산
-        totalPrice = basePrice - discount;
-        totalCheck();
-    }
+	        let basePrice = 0;
+	        $('.laundryName').each(function () {
+	            const selectedLaundry = $(this).val();
+	            const selectedCount = $(this).closest('.row').find('.laundryCount').val();
+	            basePrice += getPriceForLaundry(selectedLaundry) * selectedCount;
+	        });
+	
+	        // 총액 계산
+	        totalPrice = basePrice - discount;
+	        totalCheck();
+	    }
 
 		function getPriceForLaundry(laundry) {
 			switch (laundry) {
@@ -513,20 +522,32 @@
 					return 5900;
 				case "조끼":
 					return 4900;
+				case "원피스":
+					return 7900;
+				case "정장상의":
+					return 2500;
 				case "가디건":
 					return 7900;
+				case "코트":
+					return 13900;
+				case "패딩":
+					return 15900;
+				case "가죽자켓":
+					return 17900;
+				case "정장하의":
+					return 4900;
 				case "반바지":
 					return 3900;
-				case "골덴바지":
-					return 5900;
-				case "슬랙스":
-					return 5900;
-				case "면바지":
+				case "바지":
+					return 2500;
+				case "스커트":
 					return 5900;
 				case "운동화":
 					return 5000;
-				case "구두":
+				case "캔버스":
 					return 5900;
+				case "골프화":
+					return 11900;
 				case "등산화":
 					return 11900;
 				case "넥타이":
