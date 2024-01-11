@@ -959,3 +959,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 .form-select {
 	font-size: 0.8rem;
 }
+
+.input-group {
+	width: 24%;
+}

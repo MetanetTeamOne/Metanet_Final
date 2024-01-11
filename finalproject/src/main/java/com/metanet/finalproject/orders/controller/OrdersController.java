@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,7 +27,11 @@ import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
+import com.metanet.finalproject.orders.model.OrdersInsert;
+import com.metanet.finalproject.orders.model.OrdersInsertList;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.pay.model.Pay;
+import com.metanet.finalproject.pay.service.IPayService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,6 +53,9 @@ public class OrdersController {
 	
 	@Autowired
 	IOrdersService ordersService;
+	
+	@Autowired
+	IPayService payService;
 	
 	@Autowired
 	IMemberService memberService;
@@ -90,8 +99,13 @@ public class OrdersController {
 	@Operation(summary = "주문")
 	@GetMapping("")
 	public String getOrder(HttpServletRequest request, Model model) {
-		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		List<OrdersDetails> orders = ordersService.searchMemOrder(memberId);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
+		if (member.getMemberSubscribe().equals("0")) {
+			for(OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+			}
+		}
 		model.addAttribute("orders", orders);
 		return "member/orders_view";
 	}
@@ -120,8 +134,13 @@ public class OrdersController {
 	@Operation(summary = "회원 회차별 주문 조회")
 	@GetMapping("/month/{month}")
 	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month){
-		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		List<OrdersDetails> orders = ordersService.searchMonthOrder(memberId,month);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(),month);
+		if (member.getMemberSubscribe().equals("0")) {
+			for(OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+			}
+		}
 		model.addAttribute("orders", orders);
 		return "member/orders_view :: memberTable";
 	}
@@ -146,7 +165,6 @@ public class OrdersController {
 		    //else {
 		    	int count = ordersService.countOrder(member.getMemberId());
 		    	int washId = count + 1;
-		    	System.out.println("count============"+count);
 		    	Address addressList = addressService.getAddress(member.getMemberId());
 				List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
 				System.out.println("laundryCategoryList>>>>"+laundryCategoryList);
@@ -169,13 +187,44 @@ public class OrdersController {
 
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
-	public String insertOrder(Model model, Orders orders, HttpServletRequest request) {
-		System.out.println("orders>>" + orders);
-//		System.out.println("OrdersCount>>>>"+orders.getOrdersCount());
-//		System.out.println("ordersPrice>>>>"+orders.getOrdersPrice());
-		ordersService.insertOrder(orders);
-		return "redirect:/orders/insertok";
+	public String insertOrder(Model model, @ModelAttribute(value="OrdersInsertList") OrdersInsertList ordersList, HttpServletRequest request) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		int memberId = member.getMemberId();
+		int total = 0;
+		int washId = ordersService.searchMaxWashId(memberId);
+		Orders order = new Orders();
+		order.setMemberId(memberId);
+		order.setOrdersCheckDate(ordersList.getOrdersCheckDate());
+		order.setOrdersComment(ordersList.getOrdersComment());
+		order.setOrdersImageData(ordersList.getOrdersImageData());
+		order.setOrdersStatus(ordersList.getOrdersStatus());
+		order.setWashId(washId);
+		for (OrdersInsert ord : ordersList.getOrderList() ) {
+			Laundry laundry = laundryService.getLaundryId(ord.getLaundryName());
+			order.setLaundryId(laundry.getLaundryId());
+			order.setOrdersCount(ord.getOrdersCount());
+			order.setOrdersPrice(laundry.getLaundryPrice()*ord.getOrdersCount());
+			total+=laundry.getLaundryPrice()*ord.getOrdersCount();
+			ordersService.insertOrder(order);
+		}
+		
+		Pay pay = new Pay();
+		if (member.getMemberSubscribe().equals("0")) {
+			pay.setPayDelivery(2500);
+			pay.setPayMoney(total+2500);
+		}else {
+			pay.setPayDelivery(0);
+			pay.setPayMoney(total);
+		}
+		pay.setPayState("1");
+		pay.setWashId(washId);
+		pay.setMemberId(memberId);
+		
+		payService.insertPay(pay);
+		
+	    return "redirect:/orders/insertok";
 	}
+
 	
 	@Operation(summary = "회원별 주문 건수 조회")
 	@GetMapping("/count/{memberId}")
@@ -246,16 +295,45 @@ public class OrdersController {
 	@PostMapping("/delete/{washId}")
 	public String deleteWashIdOrder(@PathVariable("washId") int washId) {
 		ordersService.deleteWashOrder(washId);
+		Pay pay = new Pay();
+		pay.setPayState("2");
+		pay.setWashId(washId);
+		payService.updatePay(pay);
 		return "redirect:/orders";
 	}
 	
 	@Operation(summary = "주문 상세 삭제")
 	@PostMapping("/delete/{ordersId}/{washId}")
-	public String deleteOrder(@PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
+	public String deleteOrder(HttpServletRequest request, @PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
-//		int ordersCount = ordersService.se
-		Orders orders = new Orders();
-//		ordersService.updateOrder(Orders)
+		//  주문 취소 시 결제 총금액 및 상태 업데이트 필요
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		int memberId = member.getMemberId();
+		
+		Pay pay = new Pay();
+		pay.setWashId(washId);
+
+		List<Orders> orders = ordersService.searchOrder(memberId, washId);
+	    if (orders.size() == 0) {
+	        pay.setPayState("2");
+	        payService.updatePay(pay);
+	        return "redirect:/orders";
+	    }
+	    
+//		int total = 0;
+//		
+//		for (Orders order : orders) {
+//			Laundry laundry = laundryService.getLaundry(order.getLaundryId());
+//			total += order.getOrdersCount()*laundry.getLaundryPrice();
+//		}
+//		
+//		if (member.getMemberSubscribe().equals("0")) {
+//			for(OrdersDetails order : orders) {
+//				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+//			}
+//		}
+//		pay.setPayMoney(total);
+//		payService.updatePay(pay);
 		return "redirect:/orders/update/"+washId;
 	}
 }

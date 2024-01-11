@@ -94,4 +94,9 @@ public class OrdersService implements IOrdersService{
 	public int countNewOrder() {
 		return ordersRepository.countNewOrder();
 	}
+
+	@Override
+	public int searchMaxWashId(int memberId) {
+		return ordersRepository.searchMaxWashId(memberId);
+	}
 }

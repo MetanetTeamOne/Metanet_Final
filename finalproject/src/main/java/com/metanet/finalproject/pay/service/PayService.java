@@ -34,4 +34,11 @@ public class PayService implements IPayService{
 		return payRepository.getMemberPay(memberId);
 	}
 
+	@Override
+	public void updatePay(Pay pay) {
+		payRepository.updatePay(pay);
+	}
+	
+	
+
 }

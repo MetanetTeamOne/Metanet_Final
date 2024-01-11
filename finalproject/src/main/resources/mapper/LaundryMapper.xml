@@ -29,4 +29,18 @@
 		</if>
 		ORDER BY laundry_category_id
 	</select>
+		<select id="getLaundryId" parameterType="String" resultType="com.metanet.finalproject.laundry.model.Laundry">
+		SELECT 
+			laundry_id AS laundryId,     
+			laundry_name AS laundryName,
+			laundry_category AS laundryCategory,
+			laundry_price AS laundryPrice,      
+			laundry_category_id AS laundryCategoryId
+		FROM laundry
+		<if test="laundryName != null">
+		WHERE laundry_name = #{laundryName}
+		</if>
+	</select>
+	
+	
 </mapper>

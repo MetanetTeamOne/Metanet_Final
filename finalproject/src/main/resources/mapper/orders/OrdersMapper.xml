@@ -42,19 +42,12 @@
 		ORDER BY ordersDate DESC
 	</select>
 	
-	<select id="searchMemHelpOrder" parameterType="int"
-		resultType="com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus">
+	<select id="searchMaxWashId" parameterType="int"
+		resultType="int">
 		SELECT
-		    wash_id as washId,
-		    laundry_id as laundryId,
-		    COUNT(*) as ordersTotalCount,
-		    SUM(orders_price) as ordersTotalPrice,
-		    MAX(orders_date) as ordersDate,
-		    MAX(orders_status) as orderState
+		    nvl(max(wash_id), 0) + 1 as washId
 		FROM ORDERS
 		WHERE member_id = #{memberId}
-		GROUP BY wash_id, laundry_id
-		ORDER BY ordersDate DESC
 	</select>
 
 	<select id="searchOrderId" parameterType="int"
@@ -62,14 +55,13 @@
 		SELECT
 		orders_id as ordersId,
 		wash_id as washId,
-		orders_count
-		as ordersCount,
+		orders_count as ordersCount,
 		orders_price as ordersPrice,
 		orders_date as ordersDate,
 		orders_status as OrdersStatus,
 		member_id as memberId,
-		laundry_id as
-		laundryId
+		laundry_id as laundryId,
+		orders_check_date as ordersCheckDate
 		FROM ORDERS
 
 		WHERE wash_id = #{washId}
@@ -111,7 +103,9 @@
 		orders_status,
 		member_id,
 		laundry_id,
-		ORDERS_IMAGE_DATA
+		<!-- ORDERS_IMAGE_DATA, -->
+		
+		orders_check_date
 		)
 		VALUES (
 		#{ordersId},
@@ -123,7 +117,8 @@
 		#{ordersStatus},
 		#{memberId},
 		#{laundryId},
-		#{ordersImageData,jdbcType=BLOB}
+		#{ordersCheckDate}
+		<!-- #{ordersImageData,jdbcType=BLOB} -->
 		)
 	</insert>
 	<!-- ORDERS_SEQ.NEXTVAL, -->
@@ -156,6 +151,7 @@
 			<if test="ordersDate != null">orders_date = #{ordersDate},</if>
 			<if test="ordersComment != null">orders_comment = #{ordersComment},</if>
 			<if test="ordersStatus != null">orders_status = #{ordersStatus},</if>
+			<if test="ordersCheckDate != null">orders_check_date = #{ordersCheckDate},</if>
 			<if test="memberId != null">member_id = #{memberId},</if>
 			<if test="laundryId != null">laundry_id = #{laundryId}</if>
 		</set>

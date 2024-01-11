@@ -14,7 +14,7 @@ public class Pay {
 	private int payMoney;
 	private Date payDate;
 	private String payState;
-	private int ordersId;
+	private int washId;
 	private int memberId;
 	
 }

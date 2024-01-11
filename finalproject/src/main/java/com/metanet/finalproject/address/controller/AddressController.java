@@ -98,7 +98,6 @@ public class AddressController {
 	@Operation(summary = "사용자 주소 수정")
 	@PostMapping("/update")
 	public String updateAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
-
 		if (result.hasErrors()) {
 			log.info("errors: {}", result);
 			return "member/address_update";
@@ -109,6 +108,18 @@ public class AddressController {
 //		log.info("update address: {}", address);
 		addressService.updateAddress(address);
 		return "redirect:/member/address";
+	}
+	
+	@Operation(summary = "사용자 주소 수정")
+	@PostMapping("/update2")
+	public String updateAddress(@Valid @ModelAttribute("address") Address address) {
+
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("사용자 주소 수정 : "+ address);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+//		log.info("update address: {}", address);
+		addressService.updateAddress(address);
+		return "redirect:/orders/insert";
 	}
 	
 	@Operation(summary = "사용자 주소 삭제")

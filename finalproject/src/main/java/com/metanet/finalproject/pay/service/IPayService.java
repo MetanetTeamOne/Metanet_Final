@@ -14,5 +14,6 @@ public interface IPayService {
 	List<Pay> getPayState(String payState);
 	//결제 진행
 	void insertPay(Pay pay);
-	
+	//결제 업데이트
+	void updatePay(Pay pay);
 }
