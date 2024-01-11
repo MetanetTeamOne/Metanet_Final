@@ -55,7 +55,7 @@
 	
 							
 							<label for="memhelpTitleName" class="form-label title" style="margin-top: 20px;">제목</label>
-							<div class="input-group has-validation">
+							<div class="input-group2 has-validation">
 	<!--								<input type="text" class="form-control title" id="username" placeholder="김워시"-->
 	<!--										name="memberName" th:value="${member.memberName}" required="">-->
 									<input th:field="${memhelp.memHelpTitle}" type="text" class="form-control title" id="memhelpTitle" name="memhelpTitle"  required="">
@@ -64,8 +64,10 @@
 								</div>
 							</div>
 							
-							<label for="memhelpContentName" class="form-label title" style="margin-top: 20px; width: 100%;">문의 내용</label>
-							<div class="input-group has-validation">
+
+							<label for="memhelpContentName" class="form-label title" style="margin-top: 20px;">문의 내용</label>
+							<div class="input-group2 has-validation">
+
 								<!--								<input type="text" class="form-control title" id="username" placeholder="김워시"-->
 							<!--										name="memberName" th:value="${member.memberName}" required="">-->		
 							    <textarea th:field="${memhelp.memHelpContent}" class="form-control title" id="memhelpContent" name="memhelpContent" rows="5" required=""></textarea>

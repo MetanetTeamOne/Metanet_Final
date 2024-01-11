@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.repository.IAddressRepository;
 
+import java.util.List;
+
 @Service
 public class AddressService implements IAddressService{
 
@@ -35,6 +37,11 @@ public class AddressService implements IAddressService{
 	@Override
 	public void deleteAddress(int address) {
 		addressRepository.deleteAddress(address);
+	}
+
+	@Override
+	public Address getAddressByMemberId(int memberId) {
+		return addressRepository.getAddressByMemberId(memberId);
 	}
 
 }
