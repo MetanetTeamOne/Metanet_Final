@@ -298,16 +298,42 @@ public class OrdersController {
 		Pay pay = new Pay();
 		pay.setPayState("2");
 		pay.setWashId(washId);
-		System.out.println("washId>>>>>>>>"+washId);
 		payService.updatePay(pay);
 		return "redirect:/orders";
 	}
 	
 	@Operation(summary = "주문 상세 삭제")
 	@PostMapping("/delete/{ordersId}/{washId}")
-	public String deleteOrder(@PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
+	public String deleteOrder(HttpServletRequest request, @PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
 		//  주문 취소 시 결제 총금액 및 상태 업데이트 필요
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		int memberId = member.getMemberId();
+		
+		Pay pay = new Pay();
+		pay.setWashId(washId);
+
+		List<Orders> orders = ordersService.searchOrder(memberId, washId);
+	    if (orders.size() == 0) {
+	        pay.setPayState("2");
+	        payService.updatePay(pay);
+	        return "redirect:/orders";
+	    }
+	    
+//		int total = 0;
+//		
+//		for (Orders order : orders) {
+//			Laundry laundry = laundryService.getLaundry(order.getLaundryId());
+//			total += order.getOrdersCount()*laundry.getLaundryPrice();
+//		}
+//		
+//		if (member.getMemberSubscribe().equals("0")) {
+//			for(OrdersDetails order : orders) {
+//				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+//			}
+//		}
+//		pay.setPayMoney(total);
+//		payService.updatePay(pay);
 		return "redirect:/orders/update/"+washId;
 	}
 }
