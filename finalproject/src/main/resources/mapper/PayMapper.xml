@@ -85,7 +85,7 @@
 	<update id="updatePay" parameterType="com.metanet.finalproject.pay.model.Pay">
 	    UPDATE pay
 	    <set>
-	        <if test="payMoney != null">pay_money = #{payMoney},</if>
+	        <!--  <if test="payMoney != null">pay_money = #{payMoney},</if>-->
 	        <if test="payState != null">pay_state = #{payState},</if>
 	    </set>
 	    WHERE wash_id = #{washId}
