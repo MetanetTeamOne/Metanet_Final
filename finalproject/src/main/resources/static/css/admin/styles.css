@@ -11258,3 +11258,12 @@ body {
     display: block;
     height: 80px;	
 }
+
+#datatablesSimple {
+    width: 100%;
+    white-space: nowrap; /* 긴 문자열이 한 줄로 표시되도록 설정 */
+}
+
+#datatablesSimple th, #datatablesSimple td {
+    text-align: center; /* 셀의 텍스트를 왼쪽으로 정렬 */
+}
