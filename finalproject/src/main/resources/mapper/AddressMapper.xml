@@ -68,4 +68,16 @@
 		DELETE FROM address 
 		WHERE address_id = #{addressId}
 	</delete>
+
+	<select id="getAddressByMemberId" resultType="com.metanet.finalproject.address.model.Address">
+		select address_id AS addressId,
+			   address_zipcode AS addressZipcode,
+			   address_road AS addressRoad,
+			   address_content AS addressContent,
+			   address_category AS addressCategory,
+			   address_detail AS addressDetail,
+			   member_id AS memberId
+		from address
+		where member_id = #{memberId}
+	</select>
 </mapper>

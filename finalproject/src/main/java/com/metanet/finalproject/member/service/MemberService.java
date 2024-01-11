@@ -1,7 +1,6 @@
 package com.metanet.finalproject.member.service;
 
 import com.metanet.finalproject.member.model.Member;
-import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.repository.IMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +28,7 @@ public class MemberService implements IMemberService{
         return memberRepository.getMemberList();
     }
 
+
     @Override
     @Transactional
     public void insertMember(Member member) {
@@ -52,7 +52,12 @@ public class MemberService implements IMemberService{
     public int getMemberId(String email){
        return memberRepository.getMemberId(email);
     }
-    
+
+    @Override
+    public List<Member> getMemberListByState(String state) {
+        return memberRepository.getMemberListByState(state);
+    }
+
     @Override
 	public Member selectMember(String memberEmail) {
 		return memberRepository.selectMember(memberEmail);
