@@ -94,8 +94,13 @@ public class OrdersController {
 	@Operation(summary = "주문")
 	@GetMapping("")
 	public String getOrder(HttpServletRequest request, Model model) {
-		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		List<OrdersDetails> orders = ordersService.searchMemOrder(memberId);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
+		if (member.getMemberSubscribe().equals("0")) {
+			for(OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+			}
+		}
 		model.addAttribute("orders", orders);
 		return "member/orders_view";
 	}
@@ -124,8 +129,13 @@ public class OrdersController {
 	@Operation(summary = "회원 회차별 주문 조회")
 	@GetMapping("/month/{month}")
 	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month){
-		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		List<OrdersDetails> orders = ordersService.searchMonthOrder(memberId,month);
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(),month);
+		if (member.getMemberSubscribe().equals("0")) {
+			for(OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+			}
+		}
 		model.addAttribute("orders", orders);
 		return "member/orders_view :: memberTable";
 	}

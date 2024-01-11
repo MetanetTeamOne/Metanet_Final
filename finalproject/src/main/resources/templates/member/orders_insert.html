@@ -284,16 +284,16 @@
 	
 				// 할인 정보 표시
 			function totalCheck() {
-			    if (currentCounter <= 0 && totalPrice <= 0) {
+			    if (currentCounter <= 0) {
 			        $('#discountPrice').text('0원');
 			        $('#totalPrice').text('0원');
 			    } else {
 			        if (selectedPaymentMethod === 'credit') {
-			            discount = 0;
-			        } else {
 			            discount = 2500;
+			        } else {
+			            discount = 0;
 			        }
-			         $('#discountPrice').text(`-${discount.toLocaleString()}원`);
+			         $('#discountPrice').text(`+${discount.toLocaleString()}원`);
 					$('#totalPrice').text(`${totalPrice.toLocaleString()}원`);
 
 
@@ -306,17 +306,20 @@
 				event.preventDefault();
 				alert('세탁물을 1개 이상 등록해주세요')
 			}else {
+				console.log("discount",discount);
+				console.log("totalPrice",totalPrice);
 				let laundryPlus = document.getElementById('laundryPlus');
 				let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
 				let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
 				let count = laundryPlus.children.length;
-
+				calculateTotalPrice();
 				for(let i=0; i<count;i++){
 					let inputlaundryName = selectlaundryName[i].value;
 					let inputlaundryCount = selectlaundryCount[i].value;
 
 					$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
 					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
+                	
 
 				
 				}
@@ -421,6 +424,7 @@ document.body.addEventListener('click', function(event) {
                     ordersCountInput.value = currentCounter;
                 }
                 calculateTotalPrice();
+                
             }
         }
     }
@@ -506,7 +510,7 @@ document.body.addEventListener('click', function(event) {
 	        });
 	
 	        // 총액 계산
-	        totalPrice = basePrice - discount;
+	        totalPrice = basePrice + discount;
 	        totalCheck();
 	    }
 
