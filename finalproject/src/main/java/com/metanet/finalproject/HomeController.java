@@ -1,10 +1,26 @@
 package com.metanet.finalproject;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.metanet.finalproject.laundry.model.Laundry;
+import com.metanet.finalproject.laundry.service.ILaundryService;
+import com.metanet.finalproject.laundry_category.model.LaundryCategory;
+import com.metanet.finalproject.laundry_category.service.ILaundryCategoryService;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	ILaundryService laundryService;
+	
+	@Autowired
+	ILaundryCategoryService laundryCategoryService;
+
 
 	// 홈
 	@GetMapping("/")
@@ -20,7 +36,11 @@ public class HomeController {
 	
 	// 이용 방법
 	@GetMapping("/howuse")
-	public String howUse() {
+	public String howUse(Model model) {
+		List<Laundry> laundrys = laundryService.getLaundry();
+		List<LaundryCategory> laundryCategorys = laundryCategoryService.getLaundryCategory();
+		model.addAttribute("laundrys",laundrys);
+		model.addAttribute("laundryCategorys",laundryCategorys);
 		return "member/how_use";
 	}
 	

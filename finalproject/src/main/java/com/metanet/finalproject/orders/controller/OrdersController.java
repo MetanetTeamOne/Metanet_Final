@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,6 +27,8 @@ import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
+import com.metanet.finalproject.orders.model.OrdersInsert;
+import com.metanet.finalproject.orders.model.OrdersInsertList;
 import com.metanet.finalproject.orders.service.IOrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -169,13 +173,28 @@ public class OrdersController {
 
 	@Operation(summary = "주문 입력")
 	@PostMapping("/insert")
-	public String insertOrder(Model model, Orders orders, HttpServletRequest request) {
-		System.out.println("orders>>" + orders);
-//		System.out.println("OrdersCount>>>>"+orders.getOrdersCount());
-//		System.out.println("ordersPrice>>>>"+orders.getOrdersPrice());
-		ordersService.insertOrder(orders);
-		return "redirect:/orders/insertok";
+	public String insertOrder(Model model, @ModelAttribute(value="OrdersInsertList") OrdersInsertList ordersList, HttpServletRequest request) {
+		int memberId = memberService.getMemberId(getTokenUserEmail(request));
+		int count = ordersList.getOrderList().size();
+		System.out.println(count);
+		Orders order = new Orders();
+		order.setMemberId(memberId);
+		order.setOrdersCheckDate(ordersList.getOrdersCheckDate());
+		order.setOrdersComment(ordersList.getOrdersComment());
+		order.setOrdersImageData(ordersList.getOrdersImageData());
+		order.setOrdersStatus(ordersList.getOrdersStatus());
+		order.setWashId(ordersService.searchMaxWashId(memberId));
+		for (OrdersInsert ord : ordersList.getOrderList() ) {
+			Laundry laundry = laundryService.getLaundryId(ord.getLaundryName());
+			order.setLaundryId(laundry.getLaundryId());
+			order.setOrdersCount(ord.getOrdersCount());
+			order.setOrdersPrice(laundry.getLaundryPrice()*ord.getOrdersCount());
+			ordersService.insertOrder(order);
+		}
+		
+	    return "redirect:/orders/insertok";
 	}
+
 	
 	@Operation(summary = "회원별 주문 건수 조회")
 	@GetMapping("/count/{memberId}")

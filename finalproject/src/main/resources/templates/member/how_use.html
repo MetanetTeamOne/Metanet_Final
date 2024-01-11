@@ -93,42 +93,20 @@
                 <h1><strong>세탁 가격</strong></h1>
                 <p>세탁 유형에 따라 가격이 달라질 수 있습니다.</p>
                 <div class="row mt-5">
-                    <div class="col-md-6 col-lg-6 price-table">
-                        <dl>
-                            <dt>상의</dt>
-                            <dd>
-                                <label>셔츠</label>
-                                <strong>5,500원</strong>
-                            </dd>
-                            <dd>
-                                <label>블라우스</label>
-                                <strong>500원</strong>
-                            </dd>
-                            <dd>
-                                <label>맨투맨</label>
-                                <strong>1,500원</strong>
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="col-md-6 col-lg-6 price-table">
-                        <dl>
-                            <dt>하의</dt>
-                            <dd>
-                                <label>일반 와이셔츠</label>
-                                <strong>2,500원</strong>
-                            </dd>
-                            <dd>
-                                <label>일반 와이셔츠</label>
-                                <strong>2,500원</strong>
-                            </dd>
-                            <dd>
-                                <label>일반 와이셔츠</label>
-                                <strong>2,500원</strong>
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-                <div class="row mt-5">
+					<div class="col-md-3 col-lg-3 price-table" th:each="laundryCategory : ${laundryCategorys}">
+	                    <dl>
+	                        <dt th:text="${laundryCategory.laundryCategoryName}"></dt>
+	                        <dd th:each=" laundry : ${laundrys}" th:if="${laundry.laundryCategoryId == laundryCategory.laundryCategoryId }">
+	                            <label th:text="${laundry.laundryName}">셔츠</label>
+	                            <strong th:text="${laundry.laundryPrice}">5,500원</strong>
+	                        </dd>
+	                        
+	                    </dl>
+	                </div>
+				</div>
+
+
+<!--                <div class="row mt-5">
                     <div class="col-md-6 col-lg-6 price-table">
                         <dl>
                             <dt>하의</dt>
@@ -163,7 +141,7 @@
                             </dd>
                         </dl>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

@@ -13,7 +13,8 @@ public interface IOrdersService {
 	
 	List<OrdersDetails> searchMemOrder(int memberId);
 	List<OrdersDetails> searchMonthOrder(int memberId, int month);
-	
+	int searchMaxWashId(int memberId);
+
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
 	void deleteOrder(int ordersId, int washId);

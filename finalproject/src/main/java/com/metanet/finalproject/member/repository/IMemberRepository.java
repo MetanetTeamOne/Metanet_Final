@@ -32,6 +32,6 @@ public interface IMemberRepository {
   	String selectSubscribe(@Param("memberEmail") String memberEmail);
   	//카드등록(등록상태 : 0,1) -> 카드등록상태가 1이면 구독 신청 가능, 기본값 0
   	void insertCard(@Param("memberEmail") String memberEmail);
-
+  	void deleteCard(@Param("memberEmail") String memberEmail);
 
 }
