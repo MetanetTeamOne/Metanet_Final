@@ -15,6 +15,8 @@
 	    <if test="payId != null">
 			where PAY_ID=#{payId}
 		</if>
+		ORDER BY PAY_ID
+		
 	</select>
 	
 	<select id="getMemberPay" resultType="com.metanet.finalproject.pay.model.Pay">
@@ -29,6 +31,7 @@
 	    <if test="memberId != null">
 			where MEMBER_ID=#{memberId}
 		</if>
+		ORDER BY PAY_ID
 	</select>
 	
 	<select id="getPayState" parameterType="int" resultType="com.metanet.finalproject.pay.model.Pay">
@@ -40,9 +43,10 @@
 	        	WASH_ID as washId,
 	        	MEMBER_ID as memberId
 	    from pay
-	    <if test="payState != null">
+	    <if test="payState != 0">
 			where PAY_STATE=#{payState}
 		</if>
+		ORDER BY PAY_ID
 	</select>
 
 	<insert id="insertPay" parameterType="com.metanet.finalproject.pay.model.Pay">
@@ -77,4 +81,13 @@
 		values
 			(4, #{payDelivery}, 5000, sysdate,1,1) -->
 	
+	
+	<update id="updatePay" parameterType="com.metanet.finalproject.pay.model.Pay">
+	    UPDATE pay
+	    <set>
+	        <if test="payMoney != null">pay_money = #{payMoney},</if>
+	        <if test="payState != null">pay_state = #{payState},</if>
+	    </set>
+	    WHERE wash_id = #{washId}
+	</update>
 </mapper>

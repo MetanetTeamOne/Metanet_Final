@@ -191,13 +191,14 @@ public class OrdersController {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		int memberId = member.getMemberId();
 		int total = 0;
+		int washId = ordersService.searchMaxWashId(memberId);
 		Orders order = new Orders();
 		order.setMemberId(memberId);
 		order.setOrdersCheckDate(ordersList.getOrdersCheckDate());
 		order.setOrdersComment(ordersList.getOrdersComment());
 		order.setOrdersImageData(ordersList.getOrdersImageData());
 		order.setOrdersStatus(ordersList.getOrdersStatus());
-		order.setWashId(ordersService.searchMaxWashId(memberId));
+		order.setWashId(washId);
 		for (OrdersInsert ord : ordersList.getOrderList() ) {
 			Laundry laundry = laundryService.getLaundryId(ord.getLaundryName());
 			order.setLaundryId(laundry.getLaundryId());
@@ -216,7 +217,7 @@ public class OrdersController {
 			pay.setPayMoney(total);
 		}
 		pay.setPayState("1");
-		pay.setWashId(ordersService.searchMaxWashId(memberId));
+		pay.setWashId(washId);
 		pay.setMemberId(memberId);
 		
 		payService.insertPay(pay);
@@ -294,6 +295,11 @@ public class OrdersController {
 	@PostMapping("/delete/{washId}")
 	public String deleteWashIdOrder(@PathVariable("washId") int washId) {
 		ordersService.deleteWashOrder(washId);
+		Pay pay = new Pay();
+		pay.setPayState("2");
+		pay.setWashId(washId);
+		System.out.println("washId>>>>>>>>"+washId);
+		payService.updatePay(pay);
 		return "redirect:/orders";
 	}
 	
@@ -301,9 +307,7 @@ public class OrdersController {
 	@PostMapping("/delete/{ordersId}/{washId}")
 	public String deleteOrder(@PathVariable("ordersId") int ordersId, @PathVariable("washId") int washId) {
 		ordersService.deleteOrder(ordersId, washId);
-//		int ordersCount = ordersService.se
-		Orders orders = new Orders();
-//		ordersService.updateOrder(Orders)
+		//  주문 취소 시 결제 총금액 및 상태 업데이트 필요
 		return "redirect:/orders/update/"+washId;
 	}
 }

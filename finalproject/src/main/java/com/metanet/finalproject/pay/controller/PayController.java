@@ -90,6 +90,7 @@ public class PayController {
 	@Operation(summary = "결제 상태 정보 조회")
 	@GetMapping("/search/{payState}")
 	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
+		System.out.println("pay>>>>>.."+payState);
 		List<Pay> pays = payService.getPayState(payState);
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("pays", pays);

@@ -85,7 +85,8 @@
 								<div class="row mt-2" style="justify-content: right;">
 									<div class="col-md-2 col-lg-2">
 										<select id="payState" class="form-select" aria-label="Default select example">
-										  <option value="1" selected>결제완료</option>
+											<option value="0" selected>선택</option>
+										  <option value="1">결제완료</option>
 										  <option value="2">결제취소</option>
 										</select>	
 									</div>
@@ -186,7 +187,7 @@
         function sendData(payState) {
             xhr = getInstance();
             xhr.onreadystatechange = handlerStateChange;
-
+			console.log(payState);
             xhr.open("GET", "/pay/search/" + payState);
             xhr.send();
         }
