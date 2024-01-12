@@ -25,7 +25,22 @@ public class MemhelpService implements IMemhelpService{
 	}
 
 	@Override
+	public void updateStateOfMemhelp(int memHelpNum) {
+		memhelpRepository.updateStateOfMemhelp(memHelpNum);
+	}
+
+	@Override
 	public void insertMemhelp(Memhelp memhelp) {
 		memhelpRepository.insertMemhelp(memhelp);
+	}
+
+	@Override
+	public Memhelp searchMemhelpByMemhelpId(int memHelpNum, int memberId) {
+		return memhelpRepository.searchMemhelpByMemhelpId(memHelpNum, memberId);
+	}
+
+	@Override
+	public Memhelp searchMemhelpByMemhelpIdOnly(int memHelpNum) {
+		return memhelpRepository.searchMemhelpByMemhelpIdOnly(memHelpNum);
 	}
 }

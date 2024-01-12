@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.metanet.finalproject.reply.repository.IReplyRepository">
+	
+	<select id="searchReplyOfMemhelp" parameterType="int"
+		resultType="com.metanet.finalproject.reply.model.Reply">
+		SELECT
+			repContent,
+			repDate
+		FROM
+			REPLY
+		WHERE 
+			memHelpNum = #{memHelpNum}
+	</select>
+	
+	<insert id="insertReplyToMemhelp"
+		parameterType="com.metanet.finalproject.reply.model.Reply">
+		INSERT INTO reply
+		VALUES(
+			reply_seq.nextval,
+			#{repContent},
+			sysdate,
+			#{memHelpNum}
+		)
+	</insert>
+	
+	
+
+	<!-- <![CDATA[ -->
+	<!-- ]]> -->
+
+</mapper>

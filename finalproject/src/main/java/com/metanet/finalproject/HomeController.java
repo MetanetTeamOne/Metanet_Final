@@ -63,11 +63,11 @@ public class HomeController {
 		return "admin/adminMember";
 	}
 	
-	// 게시판 관리
-	@GetMapping("/admin/board")
-	public String adminBoard() {
-		return "admin/adminBoard";
-	}
+//	// 게시판 관리
+//	@GetMapping("/admin/board")
+//	public String adminBoard() {
+//		return "admin/adminBoard";
+//	}
 	
 	// 세탁물 관리
 //	@GetMapping("/admin/laundry")

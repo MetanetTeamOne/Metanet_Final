@@ -4,6 +4,30 @@
 
 <mapper
 	namespace="com.metanet.finalproject.memhelp.repository.IMemhelpRepository">
+	<select id="searchAllMemhelp" resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
+		SELECT
+			memHelpNum,
+			memHelpTitle,
+			memHelpDate,
+			memCategoryNum,
+			memHelpState
+		FROM
+			MEMHELP
+		ORDER BY
+			MEMHELPNUM DESC	
+	</select>
+	
+	<select id="searchMemhelpByMemhelpIdOnly" parameterType="int" resultType="com.metanet.finalproject.memhelp.model.Memhelp">
+		SELECT
+			member_id as memberId,
+			memHelpTitle,
+			memHelpContent
+		FROM
+			MEMHELP
+		WHERE
+			memHelpNum = #{memHelpNum}
+	</select>
+	
 	<select id="searchMemhelp" parameterType="int"
 		resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
 		SELECT
@@ -16,6 +40,25 @@
 			MEMHELP
 		WHERE 
 			MEMBER_ID = #{memberId}
+		ORDER BY
+			MEMHELPNUM DESC
+	</select>
+		
+	<select id="searchMemhelpByMemhelpId" parameterType="map"
+		resultType="com.metanet.finalproject.memhelp.model.Memhelp">
+		SELECT
+			memHelpNum,
+			memHelpTitle,
+			memHelpContent,
+			memHelpFile,
+			memHelpState,
+			memHelpDate,
+			member_Id as memberId,
+			memCategoryNum
+		FROM
+			MEMHELP
+		WHERE 
+			MEMBER_ID = #{memberId} and memHelpNum = #{memHelpNum}
 		ORDER BY
 			MEMHELPNUM DESC
 	</select>
@@ -35,41 +78,12 @@
 		)
 	</insert>
 	
-	<insert id="insertOrder"
-		parameterType="com.metanet.finalproject.orders.model.Orders">
-		<selectKey keyProperty="ordersId" resultType="int"
-			order="BEFORE">
-			select
-			nvl(max(orders_id), 0) + 1
-			from orders
-		</selectKey>
-
-		INSERT INTO ORDERS (
-		orders_id,
-		wash_id,
-		orders_count,
-		orders_price,
-		orders_date,
-		orders_comment,
-		orders_status,
-		member_id,
-		laundry_id,
-		ORDERS_IMAGE_DATA
-		)
-		VALUES (
-		#{ordersId},
-		#{washId},
-		#{ordersCount},
-		#{ordersPrice},
-		sysdate,
-		#{ordersComment},
-		#{ordersStatus},
-		#{memberId},
-		#{laundryId},
-		#{ordersImageData,jdbcType=BLOB}
-		)
-	</insert>
-
+	<update id="updateStateOfMemhelp" parameterType="int">
+		UPDATE MEMHELP
+		SET memHelpState = 1
+		WHERE memHelpNum = #{memHelpNum}
+	</update>
+	
 
 	<!-- <![CDATA[ -->
 	<!-- ]]> -->
