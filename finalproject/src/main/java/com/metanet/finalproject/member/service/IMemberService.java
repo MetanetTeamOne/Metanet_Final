@@ -14,9 +14,9 @@ public interface IMemberService {
     public void updateMember(Member member, String email);
     public void deleteMember(String memberEmail, String memberJoinState);
 	public int getMemberId(String email);
-	public List<Member> getPagingMemberListByState(Pagination pagination, String state);
+	public List<Member> getPagingMemberListByState(int start, int end, String state);
 	public List<Member> getPagingMemberList(Pagination pagination);
-	public int getMemberCount();
+	public int getMemberCount(String state);
     //이메일로 특정 회원조회
   	Member selectMember(String memberEmail);
   	Member searchMemberByPhonenumber(String memberPhonenumber);

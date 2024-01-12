@@ -25,7 +25,9 @@ public class AdminMemberController {
     public String memberList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
                              @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
                              @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, Model model) {
-        int memberCount = memberService.getMemberCount();
+        String state = null;
+        int memberCount = memberService.getMemberCount(state);
+        log.info("memberCount: {}", memberCount);
         Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
         pagination.setTotalRecordCount(memberCount);
 
@@ -38,23 +40,42 @@ public class AdminMemberController {
         return "admin/adminMember";
     }
 
-//    @GetMapping("/admin/member/{state}")
+    @GetMapping("/admin/member/async")
+    public String memberAsyncList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+                             @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+                             @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                                  @RequestParam(value = "state", required = false) String state,  Model model) {
+        log.info("회원목록 비동기 요청");
+        log.info("state: {}", state);
+        int memberCount = memberService.getMemberCount(state);
+        log.info("memberCount: {}", memberCount);
+        Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+        pagination.setTotalRecordCount(memberCount);
+
+        log.info("memberCount: {}", memberCount);
+        log.info("pagination: {}", pagination);
+        model.addAttribute("pagination", pagination);
+        List<Member> memberList = memberService.getPagingMemberListByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), state);
+        log.info("memberList: {}", memberList);
+        model.addAttribute("list", memberList);
+        return "admin/adminMember:: memberTable";
+    }
+
+    @GetMapping("/admin/member/{state}")
     public String memberStatus(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
                                @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
                                @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, @PathVariable("state") String state, Model model) {
         log.info("탈퇴 여부 조회");
-        int memberCount = memberService.getMemberCount();
+        int memberCount = memberService.getMemberCount(state);
+        log.info("memberCount: {}", memberCount);
         Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
         pagination.setTotalRecordCount(memberCount);
 
         log.info("state: {}", state);
         log.info("pagination: {}", pagination);
         model.addAttribute("pagination", pagination);
-        model.addAttribute("list", memberService.getPagingMemberListByState(pagination, state));
         log.info("model에 list 담음");
-        if (state.equals("2")) {
-            model.addAttribute("list", memberService.getPagingMemberList(pagination));
-        }
+        model.addAttribute("list", memberService.getPagingMemberListByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), state));
         return "admin/adminMember:: memberTable";
     }
 }
