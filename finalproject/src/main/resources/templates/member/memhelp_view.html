@@ -21,35 +21,19 @@
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <span><h4 class="title">궁금한 점이 있다면 문의 해보세요.</h4></span>
-                             <!--Content--> 
-                            <div class="my-month__wrap">
-                                <ul id="period" class="month_list title">
-                                    <li>조회기간</li>
-                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">1개월</label></li>
-                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="3" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">3개월</label></li>
-                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_4" data-value="6:m" value="6" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_4">6개월</label></li>
-                                </ul>
-                            </div>
+                            <span><h4>궁금한 점이 있다면 문의 해보세요.</h4></span>
                             
-                            <div class="box-btn title">
-                                <a th:href="@{/memhelp/insert}" class="btn05 c01 sitemCheckBtn">
-<!--							<a th:href="" class="btn05 c01 sitemCheckBtn">-->
-                                    <span>문의하기</span>
-                                </a>
-<!--                            <form method="post" th:action="@{/orders/delete/__${order.washId}__}">-->
-<!--								<button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">-->
-<!--									<span>주문취소</span>-->
-<!--								</button>-->
-<!--							</form>-->
-                            </div>
-                                      
+                            <div class="box-btn" style="text-align: end;">
+							    <a th:href="@{/memhelp/insert}" class="btn05 c01 sitemCheckBtn">
+							        <span>문의하기</span>
+							    </a>
+							    <!-- Your other button/form code goes here -->
+							</div>          
                             <div class="order-item" style="margin-top: 20px;">
                                 <div class="mypage-table__wrap">
                                     <div class="mypage-table">
                                         <table id="memberTable" th:fragment="memberTable">
                                             <colgroup>
-                                                
                                                 <col style="width:14%">
                                                 <col style="width:14%">
                                                 <col style="width:14%">
@@ -71,7 +55,9 @@
 														    <span th:text="'#'+${memhelp.memHelpNum}"></span>
 														</td>
 														<td>
-														    <span th:text="${memhelp.memHelpTitle}"></span>
+														    <a th:href="@{/memhelp/search/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">
+														        <span th:text="${memhelp.memHelpTitle}"></span>
+														    </a>
 														</td>
                                                         <td>
 														    <span th:text="${memhelp.memHelpDate}"></span>
