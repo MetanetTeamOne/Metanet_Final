@@ -78,7 +78,9 @@
 								        	
                             </div>
                         </div>
-                    <div class="mypage_header mt-0">
+
+                    	</div>
+                    	<div class="mypage_header mt-0">
                             <h3>결제 내역</h3>
                             <!-- Content -->
                             <div class="my_page_form">
@@ -128,7 +130,6 @@
 								</div>            	
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -176,7 +177,6 @@
             if (xhr.readyState == 4) {
                 if (xhr.status >= 200 && xhr.status < 300) {
 				const fragment = xhr.responseText;
-				console.log(fragment);
                     document.getElementById("memberTable").innerHTML = fragment;
                 } else {
                     console.log("비정상 응답 : " + xhr.status);
@@ -187,7 +187,6 @@
         function sendData(payState) {
             xhr = getInstance();
             xhr.onreadystatechange = handlerStateChange;
-			console.log(payState);
             xhr.open("GET", "/pay/search/" + payState);
             xhr.send();
         }

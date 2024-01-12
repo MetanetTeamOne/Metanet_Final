@@ -82,10 +82,10 @@ public class HomeController {
 	}
 	
 	// 결제 관리
-	@GetMapping("/admin/pay")
-	public String getPay() {
-		return "admin/adminPay";
-	}
+//	@GetMapping("/admin/pay")
+//	public String getPay() {
+//		return "admin/adminPay";
+//	}
 	
 	// 매출 관리
 	@GetMapping("/admin/chart")

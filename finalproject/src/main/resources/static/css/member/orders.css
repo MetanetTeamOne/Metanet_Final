@@ -15149,6 +15149,7 @@ button.swiper-pagination-bullet {
  .my-month__wrap .month_list li label:hover {
   cursor: pointer;
 }
+
  .my-month__wrap .month_list li :checked + label {
   background: var(--sub);
   border: 1px solid var(--sub);
@@ -23736,3 +23737,16 @@ button.swiper-pagination-bullet {
   font-weight: 500;
 }
 
+
+ .my-month__wrap .month_list button {
+  position: relative;
+  height: 100%;
+  border: 1px solid #ddd;
+  color: #666;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+ .my-month__wrap .month_list li button:hover {
+  cursor: pointer;
+}

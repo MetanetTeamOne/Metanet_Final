@@ -14,7 +14,11 @@ public interface IPayRepository {
 	List<Pay> getMemberPay(@Param("memberId") int memberId);
 	//결제 정보 상세 조회
 	Pay getPay(@Param("payId") int payId);
+	
+	List<Pay> getPay();
+
 	//결제 상태 검색
+	List<Pay> getPayState(@Param("payState") String payState, @Param("memberId") int memberId);
 	List<Pay> getPayState(@Param("payState") String payState);
 	//결제 진행
 	void insertPay(Pay pay);
