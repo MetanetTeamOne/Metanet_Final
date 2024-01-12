@@ -43,7 +43,7 @@
 				</div>
 
 				<div class="col-md-7 col-lg-8">
-					<form class="needs-validation was-validated" method="post" th:action="@{/orders/insert}">
+					<form class="needs-validation was-validated" method="post" enctype="multipart/form=data" th:action="@{/orders/insert}">
 						<div class="row g-3">
 							<input type="hidden" id="ordersStatus" name="ordersStatus" value="1">
 							<!--넘어가는 값-->

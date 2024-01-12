@@ -15149,7 +15149,6 @@ button.swiper-pagination-bullet {
  .my-month__wrap .month_list li label:hover {
   cursor: pointer;
 }
-
  .my-month__wrap .month_list li :checked + label {
   background: var(--sub);
   border: 1px solid var(--sub);

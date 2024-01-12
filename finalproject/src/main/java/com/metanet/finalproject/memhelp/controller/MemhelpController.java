@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,9 @@ import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
 import com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.reply.model.Reply;
+import com.metanet.finalproject.reply.repository.IReplyRepository;
+import com.metanet.finalproject.reply.service.IReplyService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -68,6 +72,9 @@ public class MemhelpController {
 	
 	@Autowired
 	IMemhelpService memhelpService;
+	
+	@Autowired
+	IReplyService replyService;
 
 	Files files;
 	
@@ -109,9 +116,45 @@ public class MemhelpController {
 		return "member/memhelp_view";
 	}
 	
+	@Operation(summary = "회원이 등록한 문의사항의 Id로 문의사항 조회 -> 관리자 답변 달리면 답변 확인 가능")
+	@GetMapping("/search/{memhelpNum}")
+	public String getMemberhelpById(@PathVariable("memhelpNum") int memHelpNum,
+									HttpServletRequest request, Model model) {
+		System.out.println("pathvariable로 넘겨준 memhelpNum :" +memHelpNum);
+		
+		// jwt 토큰에서 멤버 정보 불러오기
+		int memberId = memberService.getMemberId(getTokenUserEmail(request));
+		
+		Memhelp searchMemhelpById = memhelpService.searchMemhelpByMemhelpId(memHelpNum, memberId);
+		
+		System.out.println("해당하는 문의사항 : " + searchMemhelpById);
+		
+		model.addAttribute("memHelp", searchMemhelpById);
+		
+		// 관리자 답변이 달렸을 경우 로직 처리
+		int checkAdminReply = Integer.parseInt(searchMemhelpById.getMemHelpState());
+		
+		System.out.println("관리자 답변 상태 : " + checkAdminReply);
+		
+		// 관리자의 답변이 있을 경우
+		if(checkAdminReply!=0&checkAdminReply==1) {
+			System.out.println("있다!!");
+			
+			Reply reply = replyService.searchReplyOfMemhelp(memHelpNum);
+			
+			System.out.println("유저가 자기 문의에 찾은 관리자 답변 : " + reply);
+			
+			// view에 th:if조건문을 통해서 관리자 답변 데이터 뿌려주기
+			model.addAttribute("adminReply", reply);
+		}
+		
+		
+		return "member/memhelp_detail_view";
+	}
+	
 	@Operation(summary = "회원별 문의사항 등록 view")
 	@GetMapping("/insert")
-	public String insertMemberhelp(HttpServletRequest request, Model model, String st) {
+	public String insertMemberhelp(HttpServletRequest request, Model model) {
 		MemhelpInsertDto memhelp = new MemhelpInsertDto();
 		
 		model.addAttribute("memhelp", memhelp);
