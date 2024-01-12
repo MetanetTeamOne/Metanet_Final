@@ -18,10 +18,10 @@
         <div class="col-sm-9 col-md-9 col-lg-9">
             <div class="mypage_right">
                 <div class="row">
-                    <h2>내 정보 관리</h2>
+                    <h2 class="title">내 정보 관리</h2>
                 </div>
                 <div class="row">
-                    <div class="mypage_header">
+                    <div class="mypage_header title">
                         <h3>배송지 추가</h3>
                         <!-- Content -->
                         <div class="my_page_form">
@@ -31,27 +31,27 @@
                                <table>
                                     <tbody>
                                     <tr>
-                                        <th><span class="important">새로운 주소</span></th>
+                                        <th><span class="important title">새로운 주소</span></th>
                                         <td class="member_address">
                                             <div class="address_postcode">
                                                 <input type="text" th:field="*{addressZipcode}" th:errorclass="field-error" id="addressZipcode"
-                                                       placeholder="우편번호" class="inputData" required readonly>
-                                                <button type="button" class="btn_post_search" onclick="daumPostcode()">
+                                                       placeholder="우편번호" class="inputData title" required readonly>
+                                                <button type="button" class="btn_post_search title" onclick="daumPostcode()">
                                                     우편번호 찾기
                                                 </button>
                                             </div>
                                             <div class="address_input">
                                                 <div class="member_warning">
                                                     <input type="text" th:field="*{addressRoad}" th:errorclass="field-error" id="addressRoad"
-                                                           name="addressRoad" placeholder="도로명주소" class="inputData"
+                                                           name="addressRoad" placeholder="도로명주소" class="inputData title"
                                                            required readonly>
                                                 </div>
                                                 <div class="member_warning js_address_sub">
                                                     <input type="text" th:field="*{addressContent}" th:errorclass="field-error" id="addressContent"
-                                                           name="addressContent" placeholder="상세주소" required>
+                                                           name="addressContent" placeholder="상세주소" class="title" required>
                                                 </div>
                                                 <div class="member_warning">
-                                                    <input type="text" th:field="*{addressDetail}" th:errorclass="field-error" name="addressDetail" placeholder="요청사항" required>
+                                                    <input type="text" th:field="*{addressDetail}" th:errorclass="field-error" name="addressDetail" class="title" placeholder="요청사항" required>
                                                 </div>
                                             </div>
                                         </td>
@@ -59,10 +59,10 @@
                                     </tbody>
                                 </table>
                                 <div class="btn_right_box">
-                                    <button type="button" id="btnCancel" class="btn_member_cancel"
+                                    <button type="button" id="btnCancel" class="btn_member_cancel title"
                                             onclick="location.href ='/member/address'">취소
                                     </button>
-                                    <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">완료</button>
+                                    <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join title">완료</button>
                                 </div>
                             </form>
                         </div>

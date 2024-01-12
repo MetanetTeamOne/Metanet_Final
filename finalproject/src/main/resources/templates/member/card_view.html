@@ -20,11 +20,11 @@
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
-                        <h2>내 정보 관리</h2>
+                        <h2 class="title">내 정보 관리</h2>
                     </div>
                     <div class="row" th:if="${member.memberCard == '0'}">
                         <div class="mypage_header" >
-                            <h3>카드 관리</h3>
+                            <h3 class="title">카드 관리</h3>
                             <!-- Content -->
                             <div class="my_page_form" >
                                 <form id="sendForm" class="base_info_sec" method="post" action="/member/card/insert">
@@ -32,7 +32,7 @@
                                         <tbody>
 											<tr >
                                                 <td class="member_address" style="text-align: center;">
-                                                    <p style="font-size: 20px;">등록된 카드가 없습니다. <br>카드를 추가하세요<p><br>
+                                                    <p class="title" style="font-size: 20px;">등록된 카드가 없습니다. <br>카드를 추가하세요<p><br>
                                                     <button id="cardButton" type="button">
 														<i class="bi bi-window-plus plusButton"></i>
                                                     </button>	
@@ -47,12 +47,12 @@
                     </div>
                     <div class="row" th:if="${member.memberCard == '1'}">
                         <div class="mypage_header">
-                            <h3>카드 관리</h3>
+                            <h3 class="title">카드 관리</h3>
                             <!-- Content -->
 
                             <div class="my_page_form">
 									<form method="post" action="/member/card/delete" class="mt-2" style="text-align: right;">
-										<button type="submit" class="btn_member_cancel" >카드 삭제</button>
+										<button type="submit" class="btn_member_cancel title" >카드 삭제</button>
 									</form>
 
                                 	<div class="credit-card mt-2 mb-5" id="card">
@@ -79,13 +79,13 @@
                             </div>
                         </div>
                     <div class="mypage_header mt-0">
-                            <h3>결제 내역</h3>
+                            <h3 class="title">결제 내역</h3>
                             <!-- Content -->
                             <div class="my_page_form">
 								<div class="row mt-2" style="justify-content: right;">
 									<div class="col-md-2 col-lg-2">
-										<select id="payState" class="form-select" aria-label="Default select example">
-											<option value="0" selected>선택</option>
+										<select id="payState" class="form-select title" aria-label="Default select example">
+										  <option value="0" selected>선택</option>
 										  <option value="1">결제완료</option>
 										  <option value="2">결제취소</option>
 										</select>	

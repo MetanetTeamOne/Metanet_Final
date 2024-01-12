@@ -17,14 +17,14 @@
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
-                        <h2>문의 사항</h2>
+                        <h2 class="title">문의 사항</h2>
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <span><h4>궁금한 점이 있다면 문의 해보세요.</h4></span>
+                            <span><h4 class="title">궁금한 점이 있다면 문의 해보세요.</h4></span>
                              <!--Content--> 
                             <div class="my-month__wrap">
-                                <ul id="period" class="month_list">
+                                <ul id="period" class="month_list title">
                                     <li>조회기간</li>
                                     <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">1개월</label></li>
                                     <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="3" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">3개월</label></li>
@@ -32,7 +32,7 @@
                                 </ul>
                             </div>
                             
-                            <div class="box-btn">
+                            <div class="box-btn title">
                                 <a th:href="@{/memhelp/insert}" class="btn05 c01 sitemCheckBtn">
 <!--							<a th:href="" class="btn05 c01 sitemCheckBtn">-->
                                     <span>문의하기</span>
@@ -58,11 +58,11 @@
                                             </colgroup>
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">문의번호</th>
-                                                    <th scope="col">문의제목</th>
-                                                    <th scope="col">문의날짜</th>
-                                                    <th scope="col">문의카테고리</th>
-                                                    <th scope="col">문의상태</th>
+                                                    <th scope="col" class="title">문의번호</th>
+                                                    <th scope="col" class="title">문의제목</th>
+                                                    <th scope="col" class="title">문의날짜</th>
+                                                    <th scope="col" class="title">문의카테고리</th>
+                                                    <th scope="col" class="title">문의상태</th>
                                                 </tr>
                                             </thead>
                                             <tbody >
@@ -78,21 +78,21 @@
 														</td>
 														<td>
 														    <span th:switch="${memhelp.memCategoryNum}">
-														        <span th:case="1">회원정보</span>
-														        <span th:case="2">설정/보안/인증</span>
-														        <span th:case="3">주문/결제</span>
-														        <span th:case="4">취소/환불</span>
-														        <span th:case="5">배송</span>
-														        <span th:case="6">영수증</span>
-														        <span th:case="7">고객의소리/기타</span>
-														        <span th:case="8">세탁정보</span>
+														        <span th:case="1" class="title">회원정보</span>
+														        <span th:case="2" class="title">설정/보안/인증</span>
+														        <span th:case="3" class="title">주문/결제</span>
+														        <span th:case="4" class="title">취소/환불</span>
+														        <span th:case="5" class="title">배송</span>
+														        <span th:case="6" class="title">영수증</span>
+														        <span th:case="7" class="title">고객의소리/기타</span>
+														        <span th:case="8" class="title">세탁정보</span>
 
 														    </span>
 														</td>
 														<td>
 														    <span th:switch="${memhelp.memHelpState}">
-														        <span th:case="0">답변 대기</span>
-														        <span th:case="1">답변 완료</span>
+														        <span th:case="0" class="title">답변 대기</span>
+														        <span th:case="1" class="title">답변 완료</span>
 														    </span>
 														</td>			
                                                     </tr>
@@ -100,7 +100,7 @@
                                         </table>
                                     </div>
                                     <div class="cm-pagination" id="ordListPaging">
-                                        <div class="pagination__inner"><a href="#" role="button" class="active" data-paging-btn="" data-value="1">1</a></div>
+                                        <div class="pagination__inner title"><a href="#" role="button" class="active" data-paging-btn="" data-value="1">1</a></div>
                                     </div>
                                 </div>
                             </div>
