@@ -963,3 +963,6 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 .input-group {
 	width: 24%;
 }
+.input-group2 {
+	width: 100%;
+}
