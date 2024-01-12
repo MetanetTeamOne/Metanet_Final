@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
-import com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus;
 import com.metanet.finalproject.orders.repository.IOrdersRepository;
 
 @Service
@@ -31,11 +30,6 @@ public class OrdersService implements IOrdersService{
 	@Override
 	public List<OrdersDetails> searchMemOrder(int memberId) {
 		return ordersRepository.searchMemOrder(memberId);
-	}
-	
-	@Override
-	public List<OrdersDetailsLaundryPlus> searchMemHelpOrder(int memberId) {
-		return ordersRepository.searchMemHelpOrder(memberId);
 	}
 	
 	@Override
@@ -99,4 +93,11 @@ public class OrdersService implements IOrdersService{
 	public int searchMaxWashId(int memberId) {
 		return ordersRepository.searchMaxWashId(memberId);
 	}
+
+	@Override
+	public void updateStatus(int washId, String ordersStatus) {
+		ordersRepository.updateStatus(washId, ordersStatus);
+	}
+
+	
 }

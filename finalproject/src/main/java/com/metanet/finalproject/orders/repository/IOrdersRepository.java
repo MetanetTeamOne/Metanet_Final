@@ -8,18 +8,16 @@ import org.springframework.stereotype.Repository;
 
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.model.OrdersDetails;
-import com.metanet.finalproject.orders.model.OrdersDetailsLaundryPlus;
 
 @Repository
 @Mapper
 public interface IOrdersRepository {
 	// 회원
 	List<Orders> searchOrder(int memberId);
-	List<Orders> searchOrder(int memberId, int washId); 
+	List<Orders> searchOrder(@Param("memberId") int memberId, @Param("washId") int washId); 
 	List<Orders> searchOrderId(int washId);
 	
 	List<OrdersDetails> searchMemOrder(int memberId);
-	List<OrdersDetailsLaundryPlus> searchMemHelpOrder(int memberId);
 	List<OrdersDetails> searchMonthOrder(int memberId, int month);
 	int searchMaxWashId(int memberId);
 	void insertOrder(Orders orders);
@@ -33,4 +31,5 @@ public interface IOrdersRepository {
 	int countNewOrder(); //10분마다 새로운 주문 건수 조회를 위해 추가
 	List<Orders> searchOrdersList();
 	List<Orders> searchOrdersList(Orders orders);
+	void updateStatus(@Param("washId") int washId, @Param("ordersStatus") String ordersStatus);
 }

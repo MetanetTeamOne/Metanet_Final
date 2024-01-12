@@ -2,6 +2,8 @@ package com.metanet.finalproject.member.service;
 
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.repository.IMemberRepository;
+import com.metanet.finalproject.paging.Pagination;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,9 +56,20 @@ public class MemberService implements IMemberService{
     }
 
     @Override
-    public List<Member> getMemberListByState(String state) {
-        return memberRepository.getMemberListByState(state);
+    public List<Member> getPagingMemberListByState(int start, int end ,String state) {
+        return memberRepository.getPagingMemberListByState(start, end, state);
     }
+
+    @Override
+    public List<Member> getPagingMemberList(Pagination pagination) {
+        return memberRepository.getPagingMemberList(pagination);
+    }
+
+    @Override
+    public int getMemberCount(String state) {
+        return memberRepository.getMemberCount(state);
+    }
+
 
     @Override
 	public Member selectMember(String memberEmail) {

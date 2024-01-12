@@ -17,7 +17,7 @@
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
-                        <h2>문의 사항</h2>
+                        <h2 class="title">문의 사항</h2>
                     </div>
                     <div class="row">
                         <div class="mypage_header">
@@ -28,8 +28,7 @@
 							        <span>문의하기</span>
 							    </a>
 							    <!-- Your other button/form code goes here -->
-							</div>
-                                      
+							</div>          
                             <div class="order-item" style="margin-top: 20px;">
                                 <div class="mypage-table__wrap">
                                     <div class="mypage-table">
@@ -43,11 +42,11 @@
                                             </colgroup>
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">문의번호</th>
-                                                    <th scope="col">문의제목</th>
-                                                    <th scope="col">문의날짜</th>
-                                                    <th scope="col">문의카테고리</th>
-                                                    <th scope="col">문의상태</th>
+                                                    <th scope="col" class="title">문의번호</th>
+                                                    <th scope="col" class="title">문의제목</th>
+                                                    <th scope="col" class="title">문의날짜</th>
+                                                    <th scope="col" class="title">문의카테고리</th>
+                                                    <th scope="col" class="title">문의상태</th>
                                                 </tr>
                                             </thead>
                                             <tbody >
@@ -65,21 +64,21 @@
 														</td>
 														<td>
 														    <span th:switch="${memhelp.memCategoryNum}">
-														        <span th:case="1">회원정보</span>
-														        <span th:case="2">설정/보안/인증</span>
-														        <span th:case="3">주문/결제</span>
-														        <span th:case="4">취소/환불</span>
-														        <span th:case="5">배송</span>
-														        <span th:case="6">영수증</span>
-														        <span th:case="7">고객의소리/기타</span>
-														        <span th:case="8">세탁정보</span>
+														        <span th:case="1" class="title">회원정보</span>
+														        <span th:case="2" class="title">설정/보안/인증</span>
+														        <span th:case="3" class="title">주문/결제</span>
+														        <span th:case="4" class="title">취소/환불</span>
+														        <span th:case="5" class="title">배송</span>
+														        <span th:case="6" class="title">영수증</span>
+														        <span th:case="7" class="title">고객의소리/기타</span>
+														        <span th:case="8" class="title">세탁정보</span>
 
 														    </span>
 														</td>
 														<td>
 														    <span th:switch="${memhelp.memHelpState}">
-														        <span th:case="0">답변 대기</span>
-														        <span th:case="1">답변 완료</span>
+														        <span th:case="0" class="title">답변 대기</span>
+														        <span th:case="1" class="title">답변 완료</span>
 														    </span>
 														</td>			
                                                     </tr>
@@ -87,7 +86,7 @@
                                         </table>
                                     </div>
                                     <div class="cm-pagination" id="ordListPaging">
-                                        <div class="pagination__inner"><a href="#" role="button" class="active" data-paging-btn="" data-value="1">1</a></div>
+                                        <div class="pagination__inner title"><a href="#" role="button" class="active" data-paging-btn="" data-value="1">1</a></div>
                                     </div>
                                 </div>
                             </div>

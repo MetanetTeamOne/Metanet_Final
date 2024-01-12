@@ -17,11 +17,11 @@
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
-                        <h2>내 정보 관리</h2>
+                        <h2 class="title">내 정보 관리</h2>
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>구독 관리</h3>
+                            <h3 class="title">구독 관리</h3>
                             <!-- Content -->
                             <!--해지 폼-->
                             <div th:if="${member.memberSubscribe == '1'}" class="my_page_form">
@@ -30,26 +30,26 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <th><span>아이디</span></th>
+                                                <th><span class="title">아이디</span></th>
                                                 <td>
-                                                    <div class="member_warning">
-                                                        <input type="text" id="memberEmail" th:value="${member.memberEmail}" class="inputData" readonly>
+                                                    <div class="member_warning title">
+                                                        <input type="text" id="memberEmail" th:value="${member.memberEmail}" class="inputData title" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th><span style="color: #0e8ff2;">워시플러스</span></th>
+                                                <th><span class="title" style="color: #0e8ff2;">워시플러스</span></th>
                                                 <td>
-                                                    <div class="member_warning">
+                                                    <div class="member_warning title">
                                                         워시플러스는 워시워시만의 깔끔 구독 서비스입니다.<br>
                                                         고객님께선 등록된 카드로 월 4900원 정기결제를 통해 무료배송 혜택을 받고 계십니다.
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th><span>구독해지</span></th>
+                                                <th><span class="title">구독해지</span></th>
                                                 <td>
-                                                    <div class="member_warning">
+                                                    <div class="member_warning title">
                                                         고객님께선 등록된 카드로 월 4900원 정기결제를 통해 무료배송 혜택을 받고 계십니다.<br>
                                                         결제수단 관리는 <span
                                                             style="color: #0e8ff2; padding-left: 3px;padding-right: 5px;">마이페이지 > 내 정보 관리 > 결제수단 관리</span>에서
@@ -61,7 +61,7 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join" >구독 해지</button>
+                                        <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join title">구독 해지</button>
                                     </div>
                                 </form>
                             </div>
@@ -72,26 +72,26 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <th><span>아이디</span></th>
+                                                <th><span class="title">아이디</span></th>
                                                 <td>
-                                                    <div class="member_warning">
-                                                        <input type="text" id="memberEmail" th:value="${member.memberEmail}" class="inputData" readonly>
+                                                    <div class="member_warning title">
+                                                        <input type="text" id="memberEmail" th:value="${member.memberEmail}" class="inputData title" readonly>
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th><span style="color: #0e8ff2;">워시플러스</span></th>
+                                                <th><span class="title" style="color: #0e8ff2;">워시플러스</span></th>
                                                 <td>
-                                                    <div class="member_warning">
+                                                    <div class="member_warning title">
                                                         워시플러스는 워시워시만의 깔끔 구독 서비스입니다.<br>
                                                         월 4900원으로 배송비 무료 혜택을 경험해보세요!
                                                     </div>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th><span>결제관리</span></th>
+                                                <th><span class="title">결제관리</span></th>
                                                 <td>
-                                                    <div class="member_warning">
+                                                    <div class="member_warning title">
                                                         등록된 카드로 월 4900원 정기결제를 진행합니다.<br>
                                                         워시플러스 구독 신청을 하시고 배송비 무료 혜택을 경험해보세요!<br>
                                                         결제수단 등록은 <span
@@ -103,7 +103,7 @@
                                         </tbody>
                                     </table>
                                     <div class="btn_right_box">
-                                        <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join">구독 신청</button>
+                                        <button type="button" id="btnUpdate" class="btn_comfirm js_btn_join title">구독 신청</button>
                                     </div>
                                 </form>
                             </div>
