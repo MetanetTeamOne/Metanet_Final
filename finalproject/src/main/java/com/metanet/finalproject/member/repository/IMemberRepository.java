@@ -2,6 +2,7 @@ package com.metanet.finalproject.member.repository;
 
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,9 @@ public interface IMemberRepository {
 
 	public void deleteWithDrawMember(@Param("memberId") int memberId);
 	public int getMemberId(@Param("email") String email);
-	public List<Member> getMemberListByState(@Param("state") String state);
+	public List<Member> getPagingMemberListByState(@Param("pagination") Pagination pagination, @Param("state") String state);
+	public List<Member> getPagingMemberList(Pagination pagination);
+	public int getMemberCount();
 
     
     //이메일로 특정 회원조회

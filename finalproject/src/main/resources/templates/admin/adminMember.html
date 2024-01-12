@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!--Header -->
 <div th:replace="~{include/admin/head :: head}"></div>
-
 <body class="sb-nav-fixed">
 	<nav th:replace="~{include/admin/header :: header}"></nav>
 
+
+
 	<div id="layoutSidenav">
 		<div th:replace="~{include/admin/nav :: navbar}"></div>
-
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
@@ -78,11 +78,11 @@
 						<div class="card-header title">
 							<i class="fas fa-table me-1"></i>
 							전체 회원 정보
-							<select id="stateId">
-								<option value="0">탈퇴한 회원</option>
-								<option value="1">탈퇴안한 회원</option>
-								<option value="2" selected>전체 회원</option>
-							</select>
+<!--							<select id="stateId">-->
+<!--								<option value="0">탈퇴한 회원</option>-->
+<!--								<option value="1">탈퇴안한 회원</option>-->
+<!--								<option value="2" selected>전체 회원</option>-->
+<!--							</select>-->
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple" class="table table-striped table-hover info">
@@ -106,29 +106,39 @@
 								</tbody>
 							</table>
 						</div>
-						<!--<div class="datatable-bottom">
-							<div class="datatable-info">Showing 21 to 30 of 57 entries</div>
-							<nav class="datatable-pagination">
-								<ul class="datatable-pagination-list">
-									<li class="datatable-pagination-list-item"><a data-page="2"
-											class="datatable-pagination-list-item-link">‹</a></li>
-									<li class="datatable-pagination-list-item"><a data-page="1"
-											class="datatable-pagination-list-item-link">1</a></li>
-									<li class="datatable-pagination-list-item"><a data-page="2"
-											class="datatable-pagination-list-item-link">2</a></li>
-									<li class="datatable-pagination-list-item datatable-active"><a data-page="3"
-											class="datatable-pagination-list-item-link">3</a></li>
-									<li class="datatable-pagination-list-item"><a data-page="4"
-											class="datatable-pagination-list-item-link">4</a></li>
-									<li class="datatable-pagination-list-item"><a data-page="5"
-											class="datatable-pagination-list-item-link">5</a></li>
-									<li class="datatable-pagination-list-item"><a data-page="6"
-											class="datatable-pagination-list-item-link">6</a></li>
-									<li class="datatable-pagination-list-item"><a data-page="4"
-											class="datatable-pagination-list-item-link">›</a></li>
-								</ul>
-							</nav>
-						</div>-->
+
+						<!--paginate-->
+						<div class="paginate">
+							<div class="paging">
+<!--								<a class="direction prev" href="javascript:void(0);"-->
+<!--								   th:onclick="'movePage(1,' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
+<!--									&lt;&lt; </a>-->
+<!--								<a class="direction prev" href="javascript:void(0);"-->
+<!--								   th:onclick="'movePage(' + (${pagination.currentPage} - (${pagination.hasPreviousPage} ? 1 : 0)) + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
+<!--									&lt; </a>-->
+
+								<th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
+									<a th:style="'color:' + (${pagination.currentPage} == ${idx} ? '#cc0000; font-weight:700; margin-bottom: 2px;' : '')"
+									   href="javascript:void(0);"
+									   th:onclick="'movePage(' + ${idx} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">
+<!--									   th:onclick="paging()">-->
+										<span id="idx" th:text="${idx}"></span>
+										<input id="currentPage" type="hidden" th:value="${idx}"/>
+										<input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>
+										<input id="pageSize" type="hidden" th:value="${pagination.pageSize}"/>
+									</a>
+								</th:block>
+
+<!--								<a class="direction next" href="javascript:void(0);"-->
+<!--								   th:onclick="'movePage(' + (${pagination.currentPage} + (${pagination.hasNextPage} ? 1 : 0)) + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
+<!--									&gt; </a>-->
+<!--								<a class="direction next" href="javascript:void(0);"-->
+<!--								   th:onclick="'movePage(' + ${pagination.totalRecordCount} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
+<!--									&gt;&gt; </a>-->
+							</div>
+						</div>
+						<!--/paginate-->
+
 					</div>
 				</div>
 
@@ -174,9 +184,84 @@
 			xhr = getInstance();
 			xhr.onreadystatechange = handlerStateChange;
 
-			xhr.open("GET", "/admin/member/" + state);
+			var url = "/admin/member/" + state;
+
+			xhr.open("GET", url, true);
 			xhr.send();
 		}
+
+		// function paging(){
+		// 	console.log("paging 실행")
+		// 	const num = document.querySelector('#idx');
+		// 	const currentPage = document.querySelector('#currentPage').value;
+		// 	const cntPerPage = document.querySelector('#cntPerPage').value;
+		// 	const pageSize = document.querySelector('#pageSize').value;
+		// 	num.addEventListener('click', function () {
+		// 		console.log("클릭 이벤트 발생");
+		// 		sendData(currentPage, cntPerPage, pageSize);
+		// 	});
+		//
+		// 	let xhr = null;
+		//
+		// 	function getInstance() {
+		// 		if (window.XMLHttpRequest) {
+		// 			xhr = new XMLHttpRequest();
+		// 		} else if (window.ActiveXObject) { //IE
+		// 			console.log("IE");
+		// 		} else {
+		// 			throw new Error("Ajax 비동기 지원하지 않아요");
+		// 		}
+		// 		return xhr;
+		// 	}
+		//
+		// 	function handlerStateChange() {
+		// 		if (xhr.readyState == 4) {
+		// 			if (xhr.status >= 200 && xhr.status < 300) {
+		// 				const fragment = xhr.responseText;
+		// 				console.log(fragment);
+		// 				document.getElementById("memberTable").innerHTML = fragment;
+		// 			} else {
+		// 				console.log("비정상 응답 : " + xhr.status);
+		// 			}
+		// 		}
+		// 	}
+		//
+		// 	function sendData(currentPage, cntPerPage, pageSize) {
+		// 		xhr = getInstance();
+		// 		xhr.onreadystatechange = handlerStateChange;
+		//
+		// 		var url = "/admin/member/" + '?' + currentPage + '&' + cntPerPage + '&' + pageSize;
+		//
+		// 		xhr.open("GET", url, true);
+		// 		console.log("데이터 보냄")
+		// 		xhr.send();
+		// 	}
+		// }
 	});
+
+
+
+
+
+	// 10, 20, 30개씩 selectBox 클릭 이벤트
+	function changeSelectBox(currentPage, cntPerPage, pageSize) {
+		var selectValue = $("#cntSelectBox").children("option:selected").val();
+		movePage(currentPage, selectValue, pageSize);
+	}
+
+	// 페이지 이동
+	function movePage(currentPage, cntPerPage, pageSize) {
+
+		const queryParam = {
+			currentPage: currentPage,
+			cntPerPage: cntPerPage,
+			pageSize: pageSize
+		}
+
+		var url = "/admin/member";
+
+
+		location.href = url+ '?' + new URLSearchParams(queryParam).toString();
+	}
 </script>
 </html>

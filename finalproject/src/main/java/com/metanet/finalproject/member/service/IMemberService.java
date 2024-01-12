@@ -4,6 +4,8 @@ import java.util.List;
 
 
 import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.paging.Pagination;
+import org.apache.ibatis.annotations.Param;
 
 public interface IMemberService {
     public Member getMember(int memberId);
@@ -12,7 +14,9 @@ public interface IMemberService {
     public void updateMember(Member member, String email);
     public void deleteMember(String memberEmail, String memberJoinState);
 	public int getMemberId(String email);
-	public List<Member> getMemberListByState(String state);
+	public List<Member> getPagingMemberListByState(Pagination pagination, String state);
+	public List<Member> getPagingMemberList(Pagination pagination);
+	public int getMemberCount();
     //이메일로 특정 회원조회
   	Member selectMember(String memberEmail);
   	Member searchMemberByPhonenumber(String memberPhonenumber);
