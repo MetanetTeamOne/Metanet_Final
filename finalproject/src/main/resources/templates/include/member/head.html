@@ -19,7 +19,8 @@
         crossorigin="anonymous"></script>
 	<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 	<script th:src="@{https://unpkg.com/sweetalert/dist/sweetalert.min.js}"></script>
-	
+    <script th:src="@{http://code.jquery.com/jquery-1.9.1.js}"></script>
+
 	<!-- Style.css -->
 	<link rel="stylesheet" th:href="@{/css/member/home.css}">
 	<link rel="stylesheet" th:href="@{/css/member/login.css}">
@@ -27,6 +28,10 @@
 	<link rel="stylesheet" th:href="@{/css/member/laundry_register.css}">
 	<link rel="stylesheet" th:href="@{/css/member/service_information.css}">
 	<link rel="stylesheet" th:href="@{/css/member/common.css}">
+	
+	<!-- Socket -->
+    <script th:src="@{/js/member/alarmReply.js}"></script>
+
 
 	<!--jua 글씨체-->
 	<style>
@@ -40,10 +45,10 @@
 	<!-- JS -->
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<script th:src="@{http://code.jquery.com/jquery-1.9.1.js}"></script>
-	<script th:src="@{http://code.jquery.com/jquery-1.9.1.js}"></script>
 	<script th:src="@{/js/member/header.js}" defer="defer"></script>
 	<script th:src="@{/js/member/sweetAlert.js}" defer="defer"></script>
 	<script th:src="@{/js/member/searchPost.js}"></script>
+	
 	<!-- WebSocket -->
 	<script th:src="@{https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js}"></script>
 

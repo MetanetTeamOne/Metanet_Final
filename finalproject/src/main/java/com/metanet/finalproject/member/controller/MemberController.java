@@ -1,36 +1,43 @@
 package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import com.metanet.finalproject.member.model.*;
-import com.metanet.finalproject.role.model.Role;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberDeleteDto;
+import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.model.MemberPasswordDto;
+import com.metanet.finalproject.member.model.MemberUpdateDto;
+import com.metanet.finalproject.member.model.ResponseDto;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
+import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

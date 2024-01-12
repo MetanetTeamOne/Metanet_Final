@@ -112,7 +112,9 @@ public class LoginController {
 //        log.info("token: {}", token);
 		Cookie cookie = new Cookie("token", token);
 		cookie.setMaxAge(60 * 30);
-		cookie.setHttpOnly(true);
+//		쿠키 정보 가져오기 위해 주석처리 후 true->false로 변경
+		cookie.setHttpOnly(false);
+		//cookie.setHttpOnly(true);
 		cookie.setSecure(true);
 		cookie.setPath("/");
 		response.addCookie(cookie);

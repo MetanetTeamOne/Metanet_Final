@@ -20,8 +20,8 @@ public class PayService implements IPayService{
 	}
 
 	@Override
-	public List<Pay> getPayState(String payState) {
-		return payRepository.getPayState(payState);
+	public List<Pay> getPayState(String payState, int membrId) {
+		return payRepository.getPayState(payState, membrId);
 	}
 	
 	@Override
@@ -38,7 +38,15 @@ public class PayService implements IPayService{
 	public void updatePay(Pay pay) {
 		payRepository.updatePay(pay);
 	}
-	
-	
+
+	@Override
+	public List<Pay> getPay() {
+		return payRepository.getPay();
+	}
+
+	@Override
+	public List<Pay> getPayState(String payState) {
+		return payRepository.getPayState(payState);
+	}
 
 }

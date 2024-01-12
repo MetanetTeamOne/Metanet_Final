@@ -78,20 +78,20 @@ public class PayController {
 	}
 	
 	//결제 상세 조회
-	@Operation(summary = "결제 상세 정보 조회")
-	@GetMapping("/{payId}")
-	public String getPay(@PathVariable int payId, Model model) {
-		Pay pay = payService.getPay(payId);
-		model.addAttribute("pay", pay);
-		return "member/pay_view";
-	}
+//	@Operation(summary = "결제 상세 정보 조회")
+//	@GetMapping("/{payId}")
+//	public String getPay(@PathVariable int payId, Model model) {
+//		Pay pay = payService.getPay(payId);
+//		model.addAttribute("pay", pay);
+//		return "member/pay_view";
+//	}
 	
 	//결제 상태 조회
 	@Operation(summary = "결제 상태 정보 조회")
 	@GetMapping("/search/{payState}")
 	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
-		List<Pay> pays = payService.getPayState(payState);
 		Member member = memberService.selectMember(getTokenUserEmail(request));
+		List<Pay> pays = payService.getPayState(payState, member.getMemberId());
 		model.addAttribute("pays", pays);
 		model.addAttribute("member", member);
 		return "member/card_view:: memberTable";

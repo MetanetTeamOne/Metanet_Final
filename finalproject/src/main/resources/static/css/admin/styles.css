@@ -11426,11 +11426,23 @@ body {
     display: block;
     position: relative;
     height: 100%;
-    padding-top: 5px;
+    padding: 7px;
     border: 1px solid #ddd;
     color: #666;
-    text-align: center;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
+<<<<<<< HEAD
+.my-month__wrap input,button {
+    /* display: block; */
+    /* position: relative; */
+    height: 30px;
+    padding: 7px;
+    border: 1px solid #ddd;
+    color: #666;
+    /*-webkit-box-sizing: border-box;*/
+    /* box-sizing: border-box; */
+}
+=======
+>>>>>>> branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git
