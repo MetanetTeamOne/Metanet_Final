@@ -21,9 +21,9 @@ public interface IMemberRepository {
 
 	public void deleteWithDrawMember(@Param("memberId") int memberId);
 	public int getMemberId(@Param("email") String email);
-	public List<Member> getPagingMemberListByState(@Param("pagination") Pagination pagination, @Param("state") String state);
+	public List<Member> getPagingMemberListByState(@Param("start") int start, @Param("end") int end, @Param("state") String state);
 	public List<Member> getPagingMemberList(Pagination pagination);
-	public int getMemberCount();
+	public int getMemberCount(String state);
 
     
     //이메일로 특정 회원조회

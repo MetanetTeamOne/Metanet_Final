@@ -56,8 +56,8 @@ public class MemberService implements IMemberService{
     }
 
     @Override
-    public List<Member> getPagingMemberListByState(Pagination pagination,String state) {
-        return memberRepository.getPagingMemberListByState(pagination, state);
+    public List<Member> getPagingMemberListByState(int start, int end ,String state) {
+        return memberRepository.getPagingMemberListByState(start, end, state);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class MemberService implements IMemberService{
     }
 
     @Override
-    public int getMemberCount() {
-        return memberRepository.getMemberCount();
+    public int getMemberCount(String state) {
+        return memberRepository.getMemberCount(state);
     }
 
 

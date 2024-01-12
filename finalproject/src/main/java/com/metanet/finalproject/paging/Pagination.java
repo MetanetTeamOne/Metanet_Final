@@ -59,6 +59,7 @@ public class Pagination {
 
         // 전체 페이지 수 (현재 페이지 번호가 전체 페이지 수보다 크면 현재 페이지 번호에 전체 페이지 수를 저장)
         totalPageCount = ((totalRecordCount - 1) / this.getCntPerPage()) + 1;
+
         if (this.getCurrentPage() > totalPageCount) {
             this.setCurrentPage(totalPageCount);
         }
