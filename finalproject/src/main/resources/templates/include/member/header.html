@@ -34,17 +34,23 @@
 	            	<a th:href="@{/member}" class="my_dongwonmall"><img th:src="@{/img/member/my.png}"></a>
 	            </div>
 	            <div sec:authorize="isAuthenticated()" class="btn-group">
-  					<button type="button" class="mydongwonmall" data-bs-toggle="dropdown" aria-expanded="false">
-    	            	<span class="cart_btn"><i class="bi bi-bell" style="font-size: 32px; color: #878787;"></i><em id="cartListCount"></em></span>
+  					<button  type="button" class="mydongwonmall" data-bs-toggle="dropdown" aria-expanded="false">
+    	            	<span id="alarmCount" class="cart_btn"><i class="bi bi-bell" style="font-size: 32px; color: #878787;"></i></span>
   					</button>
-				  <ul class="dropdown-menu dropdown-menu-end">
-					  <li><div class="dropdown-item title"  style="margin: 10px 0;">
-						<strong>알림</strong>
-					</div></li>
-				    <li><div class="dropdown-item title">
+				  <ul id="alarms" class="dropdown-menu dropdown-menu-end">
+					 <li>
+						 <div class="dropdown-item title"  style="margin: 10px 0;">
+							<strong>알림</strong>
+						</div>
+					</li>
+					<div id="msgStack">
+						<li><span class="title" style="padding: 0 10px;"> 알림이 없습니다. </span></p></li>
+						<!--<li><div class="dropdown-item title">
 						구독기한 만료 
 						<p><span class="title" style="padding: 0 10px;">구독기한 만료까지 10일 남았습니다. </span><button type="button" id="altCheck" class="btn btn-primary" style="background-color: var(--sub); font-size: 0.8rem;">확인</button></p>
-					</div></li>
+						</div></li>-->
+					</div>
+				    
 				  </ul>
 				</div>
 	        </div>
