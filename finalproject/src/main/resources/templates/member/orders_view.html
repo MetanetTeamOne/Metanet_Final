@@ -17,14 +17,14 @@
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
-                        <h2>서비스 관리</h2>
+                        <h2 class="title">서비스 관리</h2>
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>주문 관리</h3>
+                            <h3 class="title">주문 관리</h3>
                              <!--Content--> 
                             <div class="my-month__wrap">
-                                <ul id="period" class="month_list">
+                                <ul id="period" class="month_list title">
                                     <li>조회기간</li>
                                     <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">1개월</label></li>
                                     <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="3" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">3개월</label></li>
@@ -46,43 +46,43 @@
                                             </colgroup>
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">주문번호</th>
-                                                    <th scope="col">주문일자</th>
-                                                    <th scope="col">주문수량</th>
-                                                    <th scope="col">주문금액</th>
-                                                    <th scope="col">진행상태</th>
-                                                    <th scope="col">진행현황</th>
+                                                    <th scope="col" class="title">주문번호</th>
+                                                    <th scope="col" class="title">주문일자</th>
+                                                    <th scope="col" class="title">주문수량</th>
+                                                    <th scope="col" class="title">주문금액</th>
+                                                    <th scope="col" class="title">진행상태</th>
+                                                    <th scope="col" class="title">진행현황</th>
                                                 </tr>
                                             </thead>
                                             <tbody >
                                                     <tr th:each="order : ${orders}">
-                                                        <td>
+                                                        <td class="title">
 														    <span th:text="'#'+${order.washId}"></span>
 														</td>
-														<td>
+														<td class="title">
 														    <span th:text="${order.ordersDate}"></span>
 														</td>
-                                                        <td>
+                                                        <td class="title">
 														    <span th:text="${order.ordersTotalCount}+'개'"></span>
 														</td>
-														<td>
+														<td class="title">
 														    <span data-th-text="${#numbers.formatInteger(order.ordersTotalPrice, 0, 'COMMA') + '원'}"></span>
 														</td>
-                                                        <td>
+                                                        <td class="title">
                                                             <span th:if="${order.orderState} == 1"><strong>수거진행</strong></span>
                                                             <span th:if="${order.orderState} == 2"><strong>수거완료</strong></span>
                                                             <span th:if="${order.orderState} == 3"><strong>세탁진행</strong></span>
                                                             <span th:if="${order.orderState} == 4"><strong>배송진행</strong></span>
                                                             <span th:if="${order.orderState} == 5"><strong>배송완료</strong></span>
                                                         </td>
-                                                        <td>
+                                                        <td class="title">
                                                             <div class="box-btn">
                                                                 <a th:href="@{/orders/update/__${order.washId}__}" class="btn05 c01 sitemCheckBtn">
                                                                     <span>주문확인</span>
                                                                 </a>
                                                                 <form method="post" th:action="@{/orders/delete/__${order.washId}__}">
 																    <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
-																        <span>주문취소</span>
+																        <span class="title">주문취소</span>
 																    </button>
 																</form>
 
