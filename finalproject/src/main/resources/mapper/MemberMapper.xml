@@ -90,20 +90,57 @@
 		
 	</select>
 
-	<select id="getMemberListByState" resultType="com.metanet.finalproject.member.model.Member">
-		select member_id as memberId,
-			   member_name as memberName,
-			   member_email as memberEmail,
-			   member_phone_number as memberPhoneNumber,
-			   member_password as memberPassword,
-			   member_join_date as memberJoinDate,
-			   member_join_state as memberJoinState,
-			   member_subscribe as memberSubscribe,
-			   member_subscribe_date as memberSubScribeDate,
-			   member_card as memberCard
-		from member
+	<select id="getPagingMemberListByState" resultType="com.metanet.finalproject.member.model.Member">
+		SELECT *
+		FROM (
+		SELECT ROW_NUMBER() OVER(ORDER by member_id asc) AS
+		row_num,
+		member_id as memberId,
+		member_name as memberName,
+		member_email as memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as memberJoinState,
+		member_subscribe as memberSubscribe,
+		member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		FROM member
 		where member_join_state = #{state}
-		order by member_id
+		)
+		<if test="firstRecordIndex != null and lastRecordIndex != null">
+			WHERE row_num BETWEEN #{firstRecordIndex} AND
+			#{lastRecordIndex}
+		</if>
+
+	</select>
+
+	<select id="getPagingMemberList" resultType="com.metanet.finalproject.member.model.Member">
+		SELECT *
+		FROM (
+		SELECT ROW_NUMBER() OVER(ORDER by member_id asc) AS
+		row_num,
+		member_id as memberId,
+		member_name as memberName,
+		member_email as memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as memberJoinState,
+		member_subscribe as memberSubscribe,
+		member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		FROM member
+		)
+		<if test="firstRecordIndex != null and lastRecordIndex != null">
+			WHERE row_num BETWEEN #{firstRecordIndex} AND
+			#{lastRecordIndex}
+		</if>
+	</select>
+
+	<select id="getMemberCount" resultType="int">
+		SELECT count(*) FROM
+			member
 	</select>
 
 	<!-- 구독신청) MEMBER_SUBSCRIBE : 1, MEMBER_SUBSCRIBE_DATE:sysdate로 update -->
