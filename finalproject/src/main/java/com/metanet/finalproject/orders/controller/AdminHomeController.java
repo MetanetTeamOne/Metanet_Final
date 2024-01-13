@@ -1,6 +1,6 @@
 package com.metanet.finalproject.orders.controller;
 
-import java.sql.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +31,7 @@ public class AdminHomeController {
 
 	@Autowired
 	IOrdersService ordersService;
+	
 
 	@GetMapping("/admin")
 	public String adminHome(Model model, @ModelAttribute("member") Member member, @ModelAttribute("pay") Pay pay,
@@ -48,10 +49,14 @@ public class AdminHomeController {
 		int totalCount = ordersService.countOrder();
 		System.out.println("totalCount============="+totalCount);
 		
+		List<Orders> ordersAllList = ordersService.searchOrdersList();
+		
 		model.addAttribute("memberCount", memberCount);
 		model.addAttribute("totalPay", totalPay);
 		model.addAttribute("totalHelp", totalHelp);
 		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("ordersAllList", ordersAllList);
+		model.addAttribute("memhelpList", memHelpService.searchAllMemhelp());
 		return "admin/adminHome";
 	}
 
