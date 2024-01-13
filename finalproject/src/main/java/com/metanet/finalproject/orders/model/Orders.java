@@ -3,8 +3,9 @@ package com.metanet.finalproject.orders.model;
 import java.sql.Date;
 
 import lombok.Data;
+import lombok.ToString;
 
-@Data
+@Data @ToString
 public class Orders {
 	// 주문 ID
 	private int ordersId;

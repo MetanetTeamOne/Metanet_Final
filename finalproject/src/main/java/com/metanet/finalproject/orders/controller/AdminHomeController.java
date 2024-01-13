@@ -22,36 +22,37 @@ public class AdminHomeController {
 
 	@Autowired
 	IMemberService memberService;
-	
+
 	@Autowired
 	IPayService payService;
-	
+
 	@Autowired
 	IMemhelpService memHelpService;
-	
+
 	@Autowired
 	IOrdersService ordersService;
-	
+
 	@GetMapping("/admin")
-	public String adminHome(Model model, @ModelAttribute("member") Member member, @ModelAttribute("pay") Pay pay, @ModelAttribute("memhelp") Memhelp memhelp, @ModelAttribute("orders") Orders orders) {
+	public String adminHome(Model model, @ModelAttribute("member") Member member, @ModelAttribute("pay") Pay pay,
+			@ModelAttribute("memhelp") Memhelp memhelp, @ModelAttribute("orders") Orders orders) {
 		String memberJoinState = member.getMemberJoinState();
 		int memberCount = memberService.getMemberCount(memberJoinState);
-		//System.out.println("memberCount >>>> "+memberCount);
+		// System.out.println("memberCount >>>> "+memberCount);
 		int payMoney = pay.getPayMoney();
 		int totalPay = payService.sumPay(payMoney);
-		//System.out.println("totalPay>>>>"+totalPay);
-		
+		// System.out.println("totalPay>>>>"+totalPay);
+
 		String memHelpState = memhelp.getMemHelpState();
 		int totalHelp = memHelpService.countMemHelp(memHelpState);
 		
-		Date ordersDate = orders.getOrdersDate();
-		int todayOrders = ordersService.countNewOrder(ordersDate);
+		int totalCount = ordersService.countOrder();
+		System.out.println("totalCount============="+totalCount);
 		
 		model.addAttribute("memberCount", memberCount);
 		model.addAttribute("totalPay", totalPay);
 		model.addAttribute("totalHelp", totalHelp);
-		model.addAttribute("todayOrders", todayOrders);
+		model.addAttribute("totalCount", totalCount);
 		return "admin/adminHome";
 	}
-	
+
 }

@@ -35,7 +35,7 @@
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<div class="small text-white">
 										<i class="fas fa-angle-right"></i>
-										<span class="title" th:text="${totalPay}+'원'"></span>
+										 <span class="title" th:text="${#numbers.formatInteger(totalPay, 0, 'COMMA')}+'원'"></span>
 									</div>
 								</div>
 							</div>
@@ -53,11 +53,11 @@
 						</div>
 						<div class="col-xl-3 col-md-3">
 							<div class="card bg-dark text-white mb-3">
-								<div class="card-body title">금일 주문 건수</div>
+								<div class="card-body title">누적 주문 건수</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<div class="small text-white">
 										<i class="fas fa-angle-right"></i>
-										<span class="title" th:text="${todayOrders}+'개'"></span>
+										<span class="title" th:text="${totalCount}+'개'"></span>
 									</div>
 								</div>
 							</div>
