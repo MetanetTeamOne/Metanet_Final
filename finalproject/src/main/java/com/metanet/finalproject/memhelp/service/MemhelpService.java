@@ -58,4 +58,14 @@ public class MemhelpService implements IMemhelpService{
 	public int countMemHelp(String memHelpState) {
 		return memhelpRepository.countMemHelp(memHelpState);
 	}
+
+	@Override
+	public List<Memhelp> searchPagingAllMemhelp(int start, int end) {
+		return memhelpRepository.searchPagingAllMemhelp(start, end);
+	}
+
+	@Override
+	public int getAdminMemHelpCount() {
+		return memhelpRepository.getAdminMemHelpCount();
+	}
 }

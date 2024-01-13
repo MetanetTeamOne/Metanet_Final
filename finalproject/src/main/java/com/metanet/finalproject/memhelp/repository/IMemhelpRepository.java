@@ -37,4 +37,8 @@ public interface IMemhelpRepository {
 	
 	// 문의 개수(상태값에 따라 >> 대기 : 0, 완료 : 1)
 	int countMemHelp(@Param("memHelpState") String memHelpState);
+
+	List<Memhelp> searchPagingAllMemhelp(@Param("start") int start, @Param("end") int end);
+
+	int getAdminMemHelpCount();
 }
