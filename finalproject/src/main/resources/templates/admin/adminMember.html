@@ -107,12 +107,6 @@
 							<!--paginate-->
 							<div class="paginate">
 								<div class="paging">
-									<!--								<a class="direction prev" href="javascript:void(0);"-->
-									<!--								   th:onclick="'movePage(1,' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
-									<!--									&lt;&lt; </a>-->
-									<!--								<a class="direction prev" href="javascript:void(0);"-->
-									<!--								   th:onclick="'movePage(' + (${pagination.currentPage} - (${pagination.hasPreviousPage} ? 1 : 0)) + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
-									<!--									&lt; </a>-->
 
 									<th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
 										<input id="currentPage" type="hidden" th:value="${idx}"/>
@@ -125,17 +119,9 @@
 											<span id="idx" th:text="${idx}"></span>
 										</a>
 									</th:block>
-
-									<!--								<a class="direction next" href="javascript:void(0);"-->
-									<!--								   th:onclick="'movePage(' + (${pagination.currentPage} + (${pagination.hasNextPage} ? 1 : 0)) + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
-									<!--									&gt; </a>-->
-									<!--								<a class="direction next" href="javascript:void(0);"-->
-									<!--								   th:onclick="'movePage(' + ${pagination.totalRecordCount} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">-->
-									<!--									&gt;&gt; </a>-->
 								</div>
 							</div>
 							<!--/paginate-->
-
 						</div>
 					</div>
 				</div>
@@ -179,6 +165,7 @@
 		}
 
 		function sendData(state) {
+			console.log("여기요!!!")
 			xhr = getInstance();
 			xhr.onreadystatechange = handlerStateChange;
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import com.metanet.finalproject.orders.model.Orders;
@@ -34,4 +35,10 @@ public interface IOrdersRepository {
 	List<Orders> searchOrdersList();
 	List<Orders> searchOrdersList(Orders orders);
 	void updateStatus(@Param("washId") int washId, @Param("ordersStatus") String ordersStatus);
+
+    int getOrderCount(@Param("month") int month, @Param("memberId") int memberId);
+
+	List<OrdersDetails> searchPagingMemOrder(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
+
+	List<OrdersDetails> searchPagingMemMonthOrder(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId, @Param("month") int month);
 }
