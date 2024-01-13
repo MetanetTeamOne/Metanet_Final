@@ -86,12 +86,45 @@
 		WHERE memHelpNum = #{memHelpNum}
 	</update>
 
+
+	<select id="getMemHelpCount" resultType="int">
+		SELECT count(*) FROM
+		memhelp
+		<if test="memberId != null">
+			where member_id = #{memberId}
+		</if>
+	</select>
+
+	<select id="searchPagingMemhelp"
+			resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
+		SELECT *
+		FROM (
+		SELECT ROW_NUMBER() OVER(ORDER by memHelpNum asc) AS
+		row_num,
+		memHelpNum,
+		memHelpTitle,
+		memHelpDate,
+		memCategoryNum,
+		memHelpState
+		FROM
+		MEMHELP
+		WHERE
+		MEMBER_ID = #{memberId}
+		)
+		<if test="start != null and end != null">
+			WHERE row_num <![CDATA[>]]> #{start} AND
+			row_num <![CDATA[<=]]> #{end}
+		</if>
+	</select>
+	
+
 	<!-- 관리자 메인페이지에서 답변 대기인 문의 조회를 위해 추가 -->
 	<select id="countMemHelp" parameterType="int" resultType="int">
 		select count(MEMHELPNUM)
 		from MEMHELP
 		where MEMHELPSTATE='0'
 	</select>
+
 
 	<!-- <![CDATA[ -->
 	<!-- ]]> -->

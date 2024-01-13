@@ -20,7 +20,11 @@ public interface IMemhelpService {
 	
 	// 회원이 선택한 문의사항 조회 -> 관리자 답변시 관리자 답변도 보이도록
 	Memhelp searchMemhelpByMemhelpId(int memHelpNum, int memberId);
-	
-	// 상태값에 따른 문의 수
+
+    int getMemHelpCount(int memberId);
+
+	List<MemhelpSearchByMemberId> searchPagingMemhelp(int firstRecordIndex, int lastRecordIndex, int memberId);
+
 	int countMemHelp(String memHelpState);
+
 }
