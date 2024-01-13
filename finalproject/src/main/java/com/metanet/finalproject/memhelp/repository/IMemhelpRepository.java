@@ -29,4 +29,8 @@ public interface IMemhelpRepository {
 	
 	// 회원이 선택한 문의사항 조회 -> 관리자 답변시 관리자 답변도 보이도록
 	Memhelp searchMemhelpByMemhelpId(@Param("memHelpNum") int memHelpNum, @Param("memberId") int memberId);
+
+	int getMemHelpCount(int memberId);
+
+	List<MemhelpSearchByMemberId> searchPagingMemhelp(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
 }

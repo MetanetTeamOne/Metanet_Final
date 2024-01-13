@@ -93,7 +93,7 @@
 
                                         </table>
                                         <!--paginate-->
-                                        <div class="paginate">
+                                        <div class="cm-pagination" id="ordListPaging">
                                             <div class="paging">
                                                 <th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
                                                     <input id="currentPage" type="hidden" th:value="${idx}"/>

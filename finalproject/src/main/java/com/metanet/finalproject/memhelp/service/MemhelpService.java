@@ -40,6 +40,16 @@ public class MemhelpService implements IMemhelpService{
 	}
 
 	@Override
+	public int getMemHelpCount(int memberId) {
+		return memhelpRepository.getMemHelpCount(memberId);
+	}
+
+	@Override
+	public List<MemhelpSearchByMemberId> searchPagingMemhelp(int firstRecordIndex, int lastRecordIndex, int memberId) {
+		return memhelpRepository.searchPagingMemhelp(firstRecordIndex, lastRecordIndex, memberId);
+	}
+
+	@Override
 	public Memhelp searchMemhelpByMemhelpIdOnly(int memHelpNum) {
 		return memhelpRepository.searchMemhelpByMemhelpIdOnly(memHelpNum);
 	}
