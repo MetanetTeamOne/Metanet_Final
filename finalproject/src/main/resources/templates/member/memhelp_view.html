@@ -52,15 +52,15 @@
                                             <tbody >
                                                     <tr th:each="memhelp : ${memhelpList}">
                                                         <td>
-														    <span th:text="'#'+${memhelp.memHelpNum}"></span>
+														    <span class="title" th:text="'#'+${memhelp.memHelpNum}"></span>
 														</td>
 														<td>
 														    <a th:href="@{/memhelp/search/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">
-														        <span th:text="${memhelp.memHelpTitle}"></span>
+														        <span class="title" th:text="${memhelp.memHelpTitle}"></span>
 														    </a>
 														</td>
                                                         <td>
-														    <span th:text="${memhelp.memHelpDate}"></span>
+														    <span class="title" th:text="${memhelp.memHelpDate}"></span>
 														</td>
 														<td>
 														    <span th:switch="${memhelp.memCategoryNum}">

@@ -65,8 +65,16 @@ public class AlarmHandler extends TextWebSocketHandler {
 		}
 		
 		//문의 답변 등록
+		if("memReply".equals(cmd) && receiverSession !=null ) {
+			TextMessage sendMsg = new TextMessage(msgTitle+","+msgContent);
+			receiverSession.sendMessage(sendMsg);
+		}
 		
-		// 진행 상황 
+		// 진행 상황
+		if("ordState".equals(cmd) && receiverSession !=null ) {
+			TextMessage sendMsg = new TextMessage(msgTitle+","+msgContent);
+			receiverSession.sendMessage(sendMsg);
+		}
 		
 	}
 	// 클라이언트 웹 소켓 생성 연결 종료
