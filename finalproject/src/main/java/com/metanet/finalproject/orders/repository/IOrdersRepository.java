@@ -30,8 +30,8 @@ public interface IOrdersRepository {
 	 
 	// 관리자
 	int countOrder(); //전체 주문 건수 추가
-	//10분마다 새로운 주문 건수 조회를 위해 추가 -> 금일 주문 건수 조회로 변경
-	int countNewOrder(@Param("ordersDate") Date ordersDate); 
+	//10분마다 새로운 주문 건수 조회를 위해 추가
+	//int countNewOrder(@Param("ordersDate") Date ordersDate); 
 	List<Orders> searchOrdersList();
 	List<Orders> searchOrdersList(Orders orders);
 	void updateStatus(@Param("washId") int washId, @Param("ordersStatus") String ordersStatus);

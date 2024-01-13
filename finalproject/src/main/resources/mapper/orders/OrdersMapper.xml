@@ -145,19 +145,21 @@
 		</if>
 	</select>
 
-	<select id="countNewOrder" resultType="int">
-		select count(orders_id)
-		from orders
-		<if test="ordersDate != null">
-			where trunc(orders_date) = trunc(sysdate);
-		</if>
-	</select>
-	<!-- 10분마다 주문 건수 조회 
-		<![CDATA[ 
-			SELECT count(orders_id) 
-			FROM ORDERS 
-			where orders_date > sysdate-(10/1440) 
-	]]> -->
+	<!-- <select id="countNewOrder" parameterType="java.sql.Date"
+		resultType="int">
+
+		SELECT COUNT(orders_id)
+		FROM orders
+		WHERE TRUNC(orders_date) = TRUNC(TO_DATE(#{ordersDate, jdbcType=DATE},
+		'YYYY-MM-DD'))
+
+	</select> -->
+
+	<!-- select count(orders_id) from orders <if test="ordersDate != null"> 
+		where trunc(orders_date) = trunc(sysdate) </if> -->
+
+	<!-- 10분마다 주문 건수 조회 <![CDATA[ SELECT count(orders_id) FROM ORDERS where 
+		orders_date > sysdate-(10/1440) ]]> -->
 
 	<update id="updateOrder"
 		parameterType="com.metanet.finalproject.orders.model.Orders">
@@ -227,39 +229,43 @@
 		<if test="month != 0 and memberId != 0">
 			WHERE member_id =
 			#{memberId} AND orders_date
-			>= ADD_MONTHS(SYSDATE, -#{month})
+			>=
+			ADD_MONTHS(SYSDATE, -#{month})
 		</if>
 	</select>
 
 	<select id="searchPagingMemOrder"
-			resultType="com.metanet.finalproject.orders.model.OrdersDetails">
-        SELECT *
-        FROM(
-        SELECT ROW_NUMBER() OVER(ORDER by MAX(orders_date) asc) AS
-        rnum,
-        wash_id as washId,
-        COUNT(*) as ordersTotalCount,
-        SUM(orders_price) as ordersTotalPrice,
-        MAX(orders_date) as ordersDate,
-        MAX(orders_status) as orderState
-        FROM ORDERS
-        WHERE member_id = #{memberId}
-        GROUP BY wash_id
-        )
-        <if test="start != null and end != null">
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		SELECT *
+		FROM(
+		SELECT ROW_NUMBER() OVER(ORDER by MAX(orders_date) asc)
+		AS
+		rnum,
+		wash_id as washId,
+		COUNT(*) as ordersTotalCount,
+		SUM(orders_price) as ordersTotalPrice,
+		MAX(orders_date) as ordersDate,
+		MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id =
+		#{memberId}
+		GROUP BY wash_id
+		)
+		<if test="start != null and end != null">
             <![CDATA[
 			WHERE rnum > #{start} AND
 			rnum <= #{end}
 		]]>
-        </if>
-        ORDER BY ordersDate DESC
-    </select>
+		</if>
+		ORDER BY ordersDate DESC
+	</select>
 
 	<select id="searchPagingMemMonthOrder"
-			resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
 		SELECT *
 		FROM(
-		SELECT ROW_NUMBER() OVER(ORDER by MAX(orders_date) asc) AS
+		SELECT ROW_NUMBER() OVER(ORDER by MAX(orders_date) asc)
+		AS
 		rnum,
 		wash_id as washId,
 		COUNT(*) as ordersTotalCount,
@@ -270,7 +276,8 @@
 		WHERE member_id =
 		#{memberId} AND orders_date
 		>= ADD_MONTHS(SYSDATE, -#{month})
-		GROUP BY wash_id
+		GROUP BY
+		wash_id
 		)
 		<if test="start != null and end != null">
 			<![CDATA[

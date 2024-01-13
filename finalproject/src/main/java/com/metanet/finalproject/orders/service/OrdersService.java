@@ -84,10 +84,10 @@ public class OrdersService implements IOrdersService{
 		return ordersRepository.countOrder();
 	}
 
-	@Override
-	public int countNewOrder(Date ordersDate) {
-		return ordersRepository.countNewOrder(ordersDate);
-	}
+//	@Override
+//	public int countNewOrder(Date ordersDate) {
+//		return ordersRepository.countNewOrder(ordersDate);
+//	}
 	
 
 	@Override
