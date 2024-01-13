@@ -43,4 +43,9 @@ public class MemhelpService implements IMemhelpService{
 	public Memhelp searchMemhelpByMemhelpIdOnly(int memHelpNum) {
 		return memhelpRepository.searchMemhelpByMemhelpIdOnly(memHelpNum);
 	}
+
+	@Override
+	public int countMemHelp(String memHelpState) {
+		return memhelpRepository.countMemHelp(memHelpState);
+	}
 }

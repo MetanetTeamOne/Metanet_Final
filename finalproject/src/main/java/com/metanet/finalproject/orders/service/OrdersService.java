@@ -85,9 +85,10 @@ public class OrdersService implements IOrdersService{
 	}
 
 	@Override
-	public int countNewOrder() {
-		return ordersRepository.countNewOrder();
+	public int countNewOrder(Date ordersDate) {
+		return ordersRepository.countNewOrder(ordersDate);
 	}
+	
 
 	@Override
 	public int searchMaxWashId(int memberId) {
