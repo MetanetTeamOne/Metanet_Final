@@ -34,7 +34,7 @@ public class AlarmHandler extends TextWebSocketHandler {
 	//클라이언트 웹 소켓 생성
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("Socket 연결");
+		//log.info("Socket 연결");
 		sessions.add(session);
 		//log.info("username:"+currentUserName(session));//현재 접속한 사람
 		String senderId = currentUserName(session);
@@ -43,7 +43,7 @@ public class AlarmHandler extends TextWebSocketHandler {
 	// 클라이언트 메시지
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("message="+message.getPayload());
+		//log.info("message="+message.getPayload());
 		String[] payload =  message.getPayload().toString().split(",");
 		String cmd = payload[0];
 		String receiver = payload[1];
@@ -80,7 +80,7 @@ public class AlarmHandler extends TextWebSocketHandler {
 	// 클라이언트 웹 소켓 생성 연결 종료
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		log.info("Socket 연결 종료");
+		//log.info("Socket 연결 종료");
 		sessions.remove(session);
 		userSessionsMap.remove(currentUserName(session),session);
 	}
@@ -94,6 +94,9 @@ public class AlarmHandler extends TextWebSocketHandler {
 	// userEmail 반환 
 	private String currentUserName(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
+		if (httpSession.get("token") == null) {
+			return null;
+		}
 		String token = httpSession.get("token").toString();
 		return jwtTokenProvider.getUserId(token);
 	}
