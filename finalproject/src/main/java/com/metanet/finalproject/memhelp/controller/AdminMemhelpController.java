@@ -19,6 +19,8 @@ import com.metanet.finalproject.orders.service.IOrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -51,12 +53,9 @@ public class AdminMemhelpController {
 
 	Files files;
 	
-	@Autowired
-	JwtTokenProvider jwtTokenProvider;
-	
 	@Operation(summary = "관리자 주문 관리 API")
 	@GetMapping("/admin/memhelp")
-	public String searchTotalMemhelp(Model model) {
+	public String searchTotalMemhelp(HttpServletRequest request, Model model) {
 		System.out.println("모든 회원 문의사항 조회 : " + memhelpService.searchAllMemhelp());
 		model.addAttribute("memhelpList", memhelpService.searchAllMemhelp());
 		return "admin/adminMemhelp";

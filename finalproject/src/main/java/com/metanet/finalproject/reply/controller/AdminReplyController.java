@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.memhelp.controller.AdminMemhelpController;
 import com.metanet.finalproject.memhelp.model.Memhelp;
 import com.metanet.finalproject.memhelp.service.IMemhelpService;
@@ -18,6 +20,8 @@ import com.metanet.finalproject.reply.service.IReplyService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,6 +37,9 @@ public class AdminReplyController {
 	@Autowired
 	IMemhelpService memhelpService;
 	
+	@Autowired
+	IMemberService memberService;
+	
 	@Operation(summary = "관리자 답변 등록 view")
 	@GetMapping("/admin/reply/insert/{memHelpNum}")
 	public String insertReplyOfMemhelp(@PathVariable("memHelpNum") int memHelpNum, Model model) {
@@ -41,7 +48,8 @@ public class AdminReplyController {
 		Memhelp memhelp = memhelpService.searchMemhelpByMemhelpIdOnly(memHelpNum);
 		
 		System.out.println("쓴이 : " + memhelp.getMemberId() + " 제목 : " + memhelp.getMemHelpTitle() + " 내용 : " + memhelp.getMemHelpContent());;
-		
+		String memberEmail = memberService.getMember(memhelp.getMemberId()).getMemberEmail();
+		model.addAttribute("memberEmail", memberEmail);
 		model.addAttribute("memberId", memhelp.getMemberId());
 		model.addAttribute("memHelpTitle", memhelp.getMemHelpTitle());
 		model.addAttribute("memHelpContent", memhelp.getMemHelpContent());

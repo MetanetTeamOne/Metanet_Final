@@ -52,17 +52,36 @@ function onMessage(evt){
 
 function subscribeAlarm(){
 	$('#notifySendBtn').click(function(e){
-    ws.send("sub"+","+"wldmx@naver.com"+","+"구독안내"+","+"구독 만료까지 10일 남았습니다.");	
+	//let memberEmail = document.getElementById('memberEmail').value;
+    ws.send("sub"+","+memberEmail+","+"구독안내"+","+"구독 만료까지 10일 남았습니다.");	
 	});
 };
+
 function memReply(){
 	$('#insertBtn').click(function(e){
-    ws.send("memReply"+","+"wldmx@naver.com"+","+"문의답변"+","+"문의하신 내용에 답변이 달렸습니다.");	
+	let memberEmail = document.getElementById('memberEmail');
+    ws.send("memReply"+","+memberEmail.value+","+"문의답변"+","+"문의하신 내용에 답변이 달렸습니다.");	
 	});
 };
 
 function orderState(){
 	$('#orderStateChangeButton').click(function(e){
-    ws.send("ordState"+","+"wldmx@naver.com"+","+"주문상태"+","+"배송이 시작되었습니다.");	
+	let memberEmail = document.getElementById('memberEmail');
+	let orderStatus = document.getElementById('hiddenOrdersStatus');
+	if (orderStatus.value == '1' ){
+		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"수거 진행중입니다.");	
+	} else if (orderStatus.value == '2' ) {
+		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"수거가 완료되었습니다.");	
+
+	} else if (orderStatus.value == '3' ) {
+		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"세탁이 진행중입니다.");	
+
+	} else if (orderStatus.value == '4' ) {
+		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"배송이 진행중입니다.");	
+
+	} else {
+		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"배송이 완료되었습니다.");	
+
+	}
 	});
 };
