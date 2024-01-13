@@ -11433,7 +11433,7 @@ body {
     box-sizing: border-box;
 }
 
-<<<<<<< HEAD
+
 .my-month__wrap input,button {
     /* display: block; */
     /* position: relative; */
@@ -11444,5 +11444,11 @@ body {
     /*-webkit-box-sizing: border-box;*/
     /* box-sizing: border-box; */
 }
-=======
->>>>>>> branch 'main' of https://github.com/MetanetTeamOne/Metanet_Final.git
+
+#msgStack {
+	    display: flex;
+    position: fixed;
+    min-width: 300px;
+    bottom: 110px;
+    right: 0px;
+}

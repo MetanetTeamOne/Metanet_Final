@@ -7,6 +7,10 @@
 	<!-- JS -->
 	<script th:src="@{/js/member/addressModal.js}"></script>
 	<script th:src="@{/js/member/searchPost.js}"></script>
+	<!--Boot Pay -->
+	<script th:src="@{https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js}" type="application/javascript"></script>
+	<script th:src="@{/js/member/directPay.js}"></script>
+
 
 	<!--Header -->
 	<div th:replace="~{include/member/header :: header}"></div>
@@ -306,25 +310,26 @@
 				event.preventDefault();
 				alert('세탁물을 1개 이상 등록해주세요')
 			}else {
-				console.log("discount",discount);
-				console.log("totalPrice",totalPrice);
-				let laundryPlus = document.getElementById('laundryPlus');
-				let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
-				let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
-				let count = laundryPlus.children.length;
-				calculateTotalPrice();
-				for(let i=0; i<count;i++){
-					let inputlaundryName = selectlaundryName[i].value;
-					let inputlaundryCount = selectlaundryCount[i].value;
-
-					$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
-					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
-                	
-
-				
-				}
-
-        	$('form').submit();
+				//console.log("discount",discount);
+				//console.log("totalPrice",totalPrice);
+				//let laundryPlus = document.getElementById('laundryPlus');
+				//let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
+				//let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
+				//let count = laundryPlus.children.length;
+				//calculateTotalPrice();
+				//for(let i=0; i<count;i++){
+				//	let inputlaundryName = selectlaundryName[i].value;
+				//	let inputlaundryCount = selectlaundryCount[i].value;
+                //
+				//	$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
+				//	$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
+                //	
+                //
+				//
+				//}
+                //
+        	//$('form').submit();
+        	directPay();
 
 			}
 			

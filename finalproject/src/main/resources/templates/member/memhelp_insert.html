@@ -22,7 +22,7 @@
 	                
 	                <form class="needs-validation was-validated" method="post" th:action="@{/memhelp/insert}" id="memhelpForm">
 <!--					<div class="row g-3">-->
-
+						<input type="hidden" id="memberEmail" th:value="${memberEmail}">
 						<!--넘어가는 값-->
 <!--						<input type="hidden" name="ordersCount">-->
 <!--						<input type="hidden" name="ordersPrice">-->

@@ -156,9 +156,10 @@ public class MemhelpController {
 	@GetMapping("/insert")
 	public String insertMemberhelp(HttpServletRequest request, Model model) {
 		MemhelpInsertDto memhelp = new MemhelpInsertDto();
-		
+		String memberEmail = getTokenUserEmail(request);
+		System.out.println("memberEmail="+memberEmail);
 		model.addAttribute("memhelp", memhelp);
-		
+		model.addAttribute("memberEmail", memberEmail);
 		return "member/memhelp_insert";
 	}
 	
