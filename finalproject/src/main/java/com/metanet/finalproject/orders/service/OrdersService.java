@@ -99,5 +99,20 @@ public class OrdersService implements IOrdersService{
 		ordersRepository.updateStatus(washId, ordersStatus);
 	}
 
-	
+	@Override
+	public int getOrderCount(int month, int memberId) {
+		return ordersRepository.getOrderCount(month, memberId);
+	}
+
+	@Override
+	public List<OrdersDetails> searchPagingMemOrder(int firstRecordIndex, int lastRecordIndex, int memberId) {
+		return ordersRepository.searchPagingMemOrder(firstRecordIndex, lastRecordIndex, memberId);
+	}
+
+	@Override
+	public List<OrdersDetails> searchPagingMemMonthOrder(int firstRecordIndex, int lastRecordIndex, int memberId, int month) {
+		return ordersRepository.searchPagingMemMonthOrder(firstRecordIndex, lastRecordIndex, memberId, month);
+	}
+
+
 }
