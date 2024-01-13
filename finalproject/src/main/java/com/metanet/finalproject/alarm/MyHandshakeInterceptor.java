@@ -30,7 +30,10 @@ public class MyHandshakeInterceptor implements HandshakeInterceptor {
 	            // 쿠키 정보 전달
 	            if (servletRequest!=null) {
 	            	Cookie token = WebUtils.getCookie(servletRequest, "token");
-		            attributes.put("token", token.getValue());
+	            	if (token != null) {
+	            		attributes.put("token", token.getValue());
+	            	}
+		            
 		            //log.info("token="+token.getValue());
 	            }
 	            
