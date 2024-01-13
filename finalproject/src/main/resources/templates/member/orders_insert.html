@@ -47,7 +47,8 @@
 				</div>
 
 				<div class="col-md-7 col-lg-8">
-					<form class="needs-validation was-validated" method="post" enctype="multipart/form=data" th:action="@{/orders/insert}">
+					<form class="needs-validation was-validated" method="post" enctype="multipart/form-data"
+						id="uploadFileForm" th:action="@{/orders/insert}">
 						<div class="row g-3">
 							<input type="hidden" id="ordersStatus" name="ordersStatus" value="1">
 							<!--넘어가는 값-->
@@ -160,8 +161,7 @@
 							<div class="col-12">
 								<label for="ordersComment" class="form-label title">세탁물 사진 <span
 										class="text-body-secondary">(선택)</span></label>
-								<input type="file" class="form-control title" id="ordersImageData"
-									name="ordersImageData">
+								<input type="file" class="form-control title" id="ordersImageData" name="ordersDirPath">
 							</div>
 							<hr class="my-4">
 							<h4 class="mb-3 title" style="margin-top: 1rem;margin-bottom: 0!important;">결제방식</h4>
@@ -310,26 +310,26 @@
 				event.preventDefault();
 				alert('세탁물을 1개 이상 등록해주세요')
 			}else {
-				//console.log("discount",discount);
-				//console.log("totalPrice",totalPrice);
-				//let laundryPlus = document.getElementById('laundryPlus');
-				//let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
-				//let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
-				//let count = laundryPlus.children.length;
-				//calculateTotalPrice();
-				//for(let i=0; i<count;i++){
-				//	let inputlaundryName = selectlaundryName[i].value;
-				//	let inputlaundryCount = selectlaundryCount[i].value;
-                //
-				//	$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
-				//	$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
-                //	
-                //
-				//
-				//}
-                //
-        	//$('form').submit();
-        	directPay();
+				console.log("discount",discount);
+				console.log("totalPrice",totalPrice);
+				let laundryPlus = document.getElementById('laundryPlus');
+				let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
+				let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
+				let count = laundryPlus.children.length;
+				calculateTotalPrice();
+				for(let i=0; i<count;i++){
+					let inputlaundryName = selectlaundryName[i].value;
+					let inputlaundryCount = selectlaundryCount[i].value;
+                
+					$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
+					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
+                	
+                
+				
+				}
+                
+        	$('form').submit();
+        	//directPay();
 
 			}
 			
