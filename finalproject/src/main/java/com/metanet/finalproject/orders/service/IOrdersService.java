@@ -27,4 +27,10 @@ public interface IOrdersService {
 	List<Orders> searchOrdersList();
 	List<Orders> searchOrdersList(Orders orders);
 	void updateStatus(int washId, String ordersStatus);
+
+    int getOrderCount(int month, int memberId);
+
+	List<OrdersDetails> searchPagingMemOrder(int firstRecordIndex, int lastRecordIndex, int memberId);
+
+	List<OrdersDetails> searchPagingMemMonthOrder(int firstRecordIndex, int lastRecordIndex, int memberId, int month);
 }

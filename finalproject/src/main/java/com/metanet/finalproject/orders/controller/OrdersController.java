@@ -2,17 +2,11 @@ package com.metanet.finalproject.orders.controller;
 
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -98,16 +92,56 @@ public class OrdersController {
 
 	@Operation(summary = "주문")
 	@GetMapping("")
-	public String getOrder(HttpServletRequest request, Model model) {
+	public String getOrder(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+						   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+						   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, HttpServletRequest request, Model model) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
+		int orderCount = ordersService.getOrderCount(1, member.getMemberId());
+		log.info("orderCount: {}", orderCount);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(orderCount);
+
+		model.addAttribute("pagination", pagination);
+
+//		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
+		List<OrdersDetails> orders = ordersService.searchPagingMemOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId());
+		log.info("orders: {}", orders);
 		if (member.getMemberSubscribe().equals("0")) {
-			for(OrdersDetails order : orders) {
-				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+			for (OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice() + 2500);
 			}
 		}
 		model.addAttribute("orders", orders);
 		return "member/orders_view";
+	}
+
+	@Operation(summary = "주문")
+	@GetMapping("/async")
+	public String getOrderAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+						   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+						   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+						   @RequestParam(value = "pageSize", required = false, defaultValue = "1") int month,
+						   HttpServletRequest request, Model model) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		int orderCount = ordersService.getOrderCount(month, member.getMemberId());
+		log.info("orderCount: {}", orderCount);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(orderCount);
+
+		model.addAttribute("pagination", pagination);
+
+//		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
+		List<OrdersDetails> orders = ordersService.searchPagingMemMonthOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), month);
+		log.info("orders: {}", orders);
+		if (member.getMemberSubscribe().equals("0")) {
+			for (OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice() + 2500);
+			}
+		}
+		model.addAttribute("orders", orders);
+		return "member/orders_view:: memberTable";
 	}
 	
 //	@Operation(summary = "회원별 주문 조회")
@@ -129,16 +163,22 @@ public class OrdersController {
 //		
 //		return ordersService.searchOrder(memberId, -1);
 //	}
-	
+
 	//	비동기
 	@Operation(summary = "회원 회차별 주문 조회")
 	@GetMapping("/month/{month}")
-	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month){
+	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month) {
+		log.info("회원 월별 주문조회");
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(),month);
+		Pagination pagination = new Pagination(1, 10, 10);
+		int orderCount = ordersService.getOrderCount(month, member.getMemberId());
+		pagination.setTotalRecordCount(orderCount);
+		model.addAttribute("pagination", pagination);
+
+		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(), month);
 		if (member.getMemberSubscribe().equals("0")) {
-			for(OrdersDetails order : orders) {
-				order.setOrdersTotalPrice(order.getOrdersTotalPrice()+2500);
+			for (OrdersDetails order : orders) {
+				order.setOrdersTotalPrice(order.getOrdersTotalPrice() + 2500);
 			}
 		}
 		model.addAttribute("orders", orders);
