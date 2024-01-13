@@ -125,6 +125,30 @@
 		where MEMHELPSTATE='0'
 	</select>
 
+	<select id="searchPagingAllMemhelp"
+			resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
+		SELECT *
+		FROM (
+		SELECT ROW_NUMBER() OVER(ORDER by memHelpNum desc) AS
+		row_num,
+		memHelpNum,
+		memHelpTitle,
+		memHelpDate,
+		memCategoryNum,
+		memHelpState
+		FROM
+		MEMHELP
+		)
+		<if test="start != null and end != null">
+			WHERE row_num <![CDATA[>]]> #{start} AND
+			row_num <![CDATA[<=]]> #{end}
+		</if>
+	</select>
+
+	<select id="getAdminMemHelpCount" resultType="int">
+		SELECT count(*) FROM
+		memhelp
+	</select>
 
 	<!-- <![CDATA[ -->
 	<!-- ]]> -->

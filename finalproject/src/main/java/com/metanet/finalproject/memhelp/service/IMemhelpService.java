@@ -27,4 +27,7 @@ public interface IMemhelpService {
 
 	int countMemHelp(String memHelpState);
 
+	List<Memhelp> searchPagingAllMemhelp(int start, int end);
+
+	int getAdminMemHelpCount();
 }
