@@ -90,4 +90,8 @@
 	    </set>
 	    WHERE wash_id = #{washId}
 	</update>
+	
+	<select id="sumPay" parameterType="int" resultType="int">
+		select sum(pay_money) from pay
+	</select>
 </mapper>

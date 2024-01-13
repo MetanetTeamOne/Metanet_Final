@@ -13,12 +13,14 @@
 		orders_count as
 		ordersCount,
 		orders_price as ordersPrice,
-		ORDERS_COMMENT as ordersComment,
+		ORDERS_COMMENT as
+		ordersComment,
 		orders_date as ordersDate,
 		orders_status as OrdersStatus,
 		member_id as memberId,
 		laundry_id as laundryId,
-		ORDERS_DIR_PATH as ordersDirPath
+		ORDERS_DIR_PATH as
+		ordersDirPath
 		FROM ORDERS
 		WHERE member_id = #{memberId}
 		<if test="washId >= 0">
@@ -61,14 +63,16 @@
 		SELECT
 		orders_id as ordersId,
 		wash_id as washId,
-		orders_count as ordersCount,
+		orders_count
+		as ordersCount,
 		orders_price as ordersPrice,
 		orders_date as ordersDate,
 		ORDERS_COMMENT as ordersComment,
 		orders_status as OrdersStatus,
 		member_id as memberId,
 		laundry_id as laundryId,
-		orders_check_date as ordersCheckDate
+		orders_check_date as
+		ordersCheckDate
 		FROM ORDERS
 
 		WHERE wash_id = #{washId}
@@ -142,14 +146,18 @@
 	</select>
 
 	<select id="countNewOrder" resultType="int">
-	<![CDATA[
-		SELECT count(orders_id)
-		FROM ORDERS
-		where orders_date > sysdate-(10/1440)  
-	]]>
+		select count(orders_id)
+		from orders
+		<if test="ordersDate != null">
+			where trunc(orders_date) = trunc(sysdate);
+		</if>
 	</select>
-	<!-- WHERE orders_date > (SYSDATE - INTERVAL '10' MINUTE); -->
-	<!-- where add_months(sysdate,-1) > orders_date -->
+	<!-- 10분마다 주문 건수 조회 
+		<![CDATA[ 
+			SELECT count(orders_id) 
+			FROM ORDERS 
+			where orders_date > sysdate-(10/1440) 
+	]]> -->
 
 	<update id="updateOrder"
 		parameterType="com.metanet.finalproject.orders.model.Orders">
@@ -202,13 +210,13 @@
 		ordersCheckDate
 		FROM ORDERS
 	</select>
-	
+
 	<update id="updateStatus">
 		update orders
 		<set>
 			<if test="ordersStatus != null">
 				orders_status=#{ordersStatus}
-			</if>		
+			</if>
 		</set>
 		where wash_id=#{washId}
 	</update>

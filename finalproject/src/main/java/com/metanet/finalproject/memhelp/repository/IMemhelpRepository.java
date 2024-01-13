@@ -30,7 +30,11 @@ public interface IMemhelpRepository {
 	// 회원이 선택한 문의사항 조회 -> 관리자 답변시 관리자 답변도 보이도록
 	Memhelp searchMemhelpByMemhelpId(@Param("memHelpNum") int memHelpNum, @Param("memberId") int memberId);
 
+
 	int getMemHelpCount(int memberId);
 
 	List<MemhelpSearchByMemberId> searchPagingMemhelp(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
+	
+	// 문의 개수(상태값에 따라 >> 대기 : 0, 완료 : 1)
+	int countMemHelp(@Param("memHelpState") String memHelpState);
 }

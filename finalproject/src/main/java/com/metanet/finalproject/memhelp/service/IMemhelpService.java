@@ -24,4 +24,7 @@ public interface IMemhelpService {
     int getMemHelpCount(int memberId);
 
 	List<MemhelpSearchByMemberId> searchPagingMemhelp(int firstRecordIndex, int lastRecordIndex, int memberId);
+
+	int countMemHelp(String memHelpState);
+
 }
