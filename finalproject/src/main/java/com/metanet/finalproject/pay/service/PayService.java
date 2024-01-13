@@ -49,4 +49,9 @@ public class PayService implements IPayService{
 		return payRepository.getPayState(payState);
 	}
 
+	@Override
+	public int sumPay(int payMoney) {
+		return payRepository.sumPay(payMoney);
+	}
+
 }

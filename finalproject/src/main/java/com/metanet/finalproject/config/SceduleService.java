@@ -50,13 +50,13 @@ public class SceduleService {
 	// 스프링 웹 소켓 이용하기. 스케줄러에서는 세션 못 읽어서 사용자 지정 스케줄링 불가능
 	//@Scheduled(cron="*/10 * * * * *") >> 10초
 	// @Scheduled(cron="0 */10 * * * *") >> 10분마다 실행
-	@Scheduled(cron="0 */10 * * * *")
-	public void subscribeDate() {
+//	@Scheduled(cron="0 */10 * * * *")
+//	public void subscribeDate() {
 		
 		// 세탁소 사장에게 10분마다 방문해야 할 집이 몇 군데인지 조회 
 		
-		int count = ordersService.countNewOrder(); // 현재 시점에서 10분 이전 주문 개수 조회
-		System.out.println("count=============="+count);
+//		int count = ordersService.countNewOrder(); // 현재 시점에서 10분 이전 주문 개수 조회
+//		System.out.println("count=============="+count);
 		
 		//세탁소 사장에게 주기적으로 수거해야 할 세탁물이 몇 개인지 조회시키기 + 목록
 		//세션에 아이디 담아서 조회해야 함
@@ -64,6 +64,6 @@ public class SceduleService {
 //		Date subscribeDate = memberService.getMember(member.getMemberId()).getMemberSubscribeDate();
 		//System.out.println("=====스케줄러=====");
 		//System.out.println("구독일=============="+subscribeDate);
-	}
+//	}
 
 }

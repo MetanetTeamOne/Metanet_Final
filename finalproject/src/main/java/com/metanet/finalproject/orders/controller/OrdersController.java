@@ -255,7 +255,6 @@ public class OrdersController {
 		order.setMemberId(memberId);
 		order.setOrdersCheckDate(ordersList.getOrdersCheckDate());
 		order.setOrdersComment(ordersList.getOrdersComment());
-		// order.setOrdersImageData(ordersList.getOrdersImageData());
 		order.setOrdersStatus(ordersList.getOrdersStatus());
 		order.setWashId(washId);
 		for (OrdersInsert ord : ordersList.getOrderList()) {
@@ -271,7 +270,6 @@ public class OrdersController {
 
 			UUID uuid = UUID.randomUUID();
 			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
-			// String filePath = directoryPath + fileName;
 			File saveFile = new File(directoryPath, fileName);
 
 			try {
@@ -317,12 +315,12 @@ public class OrdersController {
 		return ordersService.countOrder();
 	}
 
-	@Operation(summary = "10분 간격 새로운 주문 건수 조회")
-	@GetMapping("/newcount")
-	@ResponseBody
-	public int countNewOrder() {
-		return ordersService.countNewOrder();
-	}
+//	@Operation(summary = "10분 간격 새로운 주문 건수 조회")
+//	@GetMapping("/newcount")
+//	@ResponseBody
+//	public int countNewOrder() {
+//		return ordersService.countNewOrder();
+//	}
 
 	/*
 	 * @Operation(summary = "주문 입력")

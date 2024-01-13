@@ -4,86 +4,94 @@
 
 <mapper
 	namespace="com.metanet.finalproject.memhelp.repository.IMemhelpRepository">
-	<select id="searchAllMemhelp" resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
+	<select id="searchAllMemhelp"
+		resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
 		SELECT
-			memHelpNum,
-			memHelpTitle,
-			memHelpDate,
-			memCategoryNum,
-			memHelpState
+		memHelpNum,
+		memHelpTitle,
+		memHelpDate,
+		memCategoryNum,
+		memHelpState
 		FROM
-			MEMHELP
+		MEMHELP
 		ORDER BY
-			MEMHELPNUM DESC	
+		MEMHELPNUM DESC
 	</select>
-	
-	<select id="searchMemhelpByMemhelpIdOnly" parameterType="int" resultType="com.metanet.finalproject.memhelp.model.Memhelp">
+
+	<select id="searchMemhelpByMemhelpIdOnly" parameterType="int"
+		resultType="com.metanet.finalproject.memhelp.model.Memhelp">
 		SELECT
-			member_id as memberId,
-			memHelpTitle,
-			memHelpContent
+		member_id as memberId,
+		memHelpTitle,
+		memHelpContent
 		FROM
-			MEMHELP
+		MEMHELP
 		WHERE
-			memHelpNum = #{memHelpNum}
+		memHelpNum = #{memHelpNum}
 	</select>
-	
+
 	<select id="searchMemhelp" parameterType="int"
 		resultType="com.metanet.finalproject.memhelp.model.MemhelpSearchByMemberId">
 		SELECT
-			memHelpNum,
-			memHelpTitle,
-			memHelpDate,
-			memCategoryNum,
-			memHelpState
+		memHelpNum,
+		memHelpTitle,
+		memHelpDate,
+		memCategoryNum,
+		memHelpState
 		FROM
-			MEMHELP
-		WHERE 
-			MEMBER_ID = #{memberId}
+		MEMHELP
+		WHERE
+		MEMBER_ID = #{memberId}
 		ORDER BY
-			MEMHELPNUM DESC
+		MEMHELPNUM DESC
 	</select>
-		
+
 	<select id="searchMemhelpByMemhelpId" parameterType="map"
 		resultType="com.metanet.finalproject.memhelp.model.Memhelp">
 		SELECT
-			memHelpNum,
-			memHelpTitle,
-			memHelpContent,
-			memHelpFile,
-			memHelpState,
-			memHelpDate,
-			member_Id as memberId,
-			memCategoryNum
+		memHelpNum,
+		memHelpTitle,
+		memHelpContent,
+		memHelpFile,
+		memHelpState,
+		memHelpDate,
+		member_Id as memberId,
+		memCategoryNum
 		FROM
-			MEMHELP
-		WHERE 
-			MEMBER_ID = #{memberId} and memHelpNum = #{memHelpNum}
+		MEMHELP
+		WHERE
+		MEMBER_ID = #{memberId} and memHelpNum = #{memHelpNum}
 		ORDER BY
-			MEMHELPNUM DESC
+		MEMHELPNUM DESC
 	</select>
-	
+
 	<insert id="insertMemhelp"
 		parameterType="com.metanet.finalproject.memhelp.model.Memhelp">
 		INSERT INTO MEMHELP
 		VALUES(
-			MEMHELP_SEQ.NEXTVAL,
-			#{memHelpTitle},
-			#{memHelpContent},
-			#{memHelpFile, jdbcType=BLOB},
-			#{memHelpState},
-			#{memHelpDate},
-			#{memberId},
-			#{memCategoryNum}
+		MEMHELP_SEQ.NEXTVAL,
+		#{memHelpTitle},
+		#{memHelpContent},
+		#{memHelpFile, jdbcType=BLOB},
+		#{memHelpState},
+		#{memHelpDate},
+		#{memberId},
+		#{memCategoryNum}
 		)
 	</insert>
-	
+
 	<update id="updateStateOfMemhelp" parameterType="int">
 		UPDATE MEMHELP
 		SET memHelpState = 1
 		WHERE memHelpNum = #{memHelpNum}
 	</update>
-	
+
+	<!-- 관리자 메인페이지에서 답변 대기인 문의 조회를 위해 추가 -->
+	<select id="countMemHelp" parameterType="int" resultType="int">
+		select count(MEMHELPNUM)
+		from MEMHELP
+		where MEMHELPSTATE='0'
+	</select>
 
 	<!-- <![CDATA[ -->
 	<!-- ]]> -->

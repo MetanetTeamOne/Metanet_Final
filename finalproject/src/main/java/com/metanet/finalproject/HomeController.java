@@ -52,10 +52,10 @@ public class HomeController {
 	
 	/* 관리자 */
 	// 관리자 홈
-	@GetMapping("/admin")
-	public String adminHome() {
-		return "admin/adminHome";
-	}
+//	@GetMapping("/admin")
+//	public String adminHome() {
+//		return "admin/adminHome";
+//	}
 	
 	// 회원 관리
 //	@GetMapping("/admin/member")

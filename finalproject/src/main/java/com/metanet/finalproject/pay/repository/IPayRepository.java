@@ -24,4 +24,7 @@ public interface IPayRepository {
 	void insertPay(Pay pay);
 	//결제 업데이트
 	void updatePay(Pay pay);
+	
+	// 결제 총액
+	int sumPay(@Param("payMoney") int payMoney);
 }
