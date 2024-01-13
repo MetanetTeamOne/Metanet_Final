@@ -34,16 +34,16 @@ public class AlarmHandler extends TextWebSocketHandler {
 	//클라이언트 웹 소켓 생성
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("Socket 연결");
+		//log.info("Socket 연결");
 		sessions.add(session);
-		log.info("username:"+currentUserName(session));//현재 접속한 사람
+		//log.info("username:"+currentUserName(session));//현재 접속한 사람
 		String senderId = currentUserName(session);
 		userSessionsMap.put(senderId,session);	}
 	
 	// 클라이언트 메시지
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("ssesion="+currentUserName(session));
+		//log.info("message="+message.getPayload());
 		String[] payload =  message.getPayload().toString().split(",");
 		String cmd = payload[0];
 		String receiver = payload[1];
@@ -57,16 +57,30 @@ public class AlarmHandler extends TextWebSocketHandler {
 			TextMessage sendMsg = new TextMessage(msgTitle+","+msgContent);
 			receiverSession.sendMessage(sendMsg);
 		}
-			
-		//문의 답변 등록
 		
-		// 진행 상황 
+		// 1대1 문의 요청 등록
+		if("memHelp".equals(cmd) && receiverSession !=null ) {
+			TextMessage sendMsg = new TextMessage(msgTitle+","+msgContent);
+			receiverSession.sendMessage(sendMsg);
+		}
+		
+		//문의 답변 등록
+		if("memReply".equals(cmd) && receiverSession !=null ) {
+			TextMessage sendMsg = new TextMessage(msgTitle+","+msgContent);
+			receiverSession.sendMessage(sendMsg);
+		}
+		
+		// 진행 상황
+		if("ordState".equals(cmd) && receiverSession !=null ) {
+			TextMessage sendMsg = new TextMessage(msgTitle+","+msgContent);
+			receiverSession.sendMessage(sendMsg);
+		}
 		
 	}
 	// 클라이언트 웹 소켓 생성 연결 종료
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		log.info("Socket 연결 종료");
+		//log.info("Socket 연결 종료");
 		sessions.remove(session);
 		userSessionsMap.remove(currentUserName(session),session);
 	}
@@ -74,12 +88,15 @@ public class AlarmHandler extends TextWebSocketHandler {
 	// 클라이언트 웹 소켓 생성 에러
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-		log.info(session.getId() + " 익셉션 발생: " + exception.getMessage());
+		log.info(currentUserName(session) + " 소켓 에러 발생: " + exception.getMessage());
 	}
 	
 	// userEmail 반환 
 	private String currentUserName(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
+		if (httpSession.get("token") == null) {
+			return null;
+		}
 		String token = httpSession.get("token").toString();
 		return jwtTokenProvider.getUserId(token);
 	}

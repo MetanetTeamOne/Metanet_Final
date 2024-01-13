@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.service.ILaundryService;
 import com.metanet.finalproject.member.model.Member;
@@ -19,6 +20,9 @@ import com.metanet.finalproject.member.service.MemberService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.service.IOrdersService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class AdminOrdersController {
 
@@ -26,7 +30,7 @@ public class AdminOrdersController {
 	IOrdersService ordersService;
 	
 	@Autowired
-	IMemberService memeberService;
+	IMemberService memberService;
 	
 	@Autowired
 	ILaundryService laundryService;
@@ -50,6 +54,8 @@ public class AdminOrdersController {
 		//List<Orders> orderList = ordersService.searchOrder(memberId);
 		List<Orders> orderList = ordersService.searchOrder(memberId, washId);
 		List<Laundry> laundryList = laundryService.getLaundry();
+		String memberEmail = memberService.getMember(memberId).getMemberEmail();
+		model.addAttribute("memberEmail", memberEmail);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("laundryList", laundryList);
 		return "admin/adminOrderView";

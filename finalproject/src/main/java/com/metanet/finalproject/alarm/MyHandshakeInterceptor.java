@@ -26,12 +26,15 @@ public class MyHandshakeInterceptor implements HandshakeInterceptor {
 	        if (request instanceof ServletServerHttpRequest) {
 	            ServletServerHttpRequest servletServerRequest = (ServletServerHttpRequest) request;
 	            HttpServletRequest servletRequest = servletServerRequest.getServletRequest();
-	            log.info("servletRequest="+servletRequest);
+	            //log.info("servletRequest="+servletRequest);
 	            // 쿠키 정보 전달
 	            if (servletRequest!=null) {
 	            	Cookie token = WebUtils.getCookie(servletRequest, "token");
-		            attributes.put("token", token.getValue());
-		            log.info("token="+token.getValue());
+	            	if (token != null) {
+	            		attributes.put("token", token.getValue());
+	            	}
+		            
+		            //log.info("token="+token.getValue());
 	            }
 	            
 	        }

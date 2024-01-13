@@ -17,8 +17,8 @@
 		orders_date as ordersDate,
 		orders_status as OrdersStatus,
 		member_id as memberId,
-		laundry_id as
-		laundryId
+		laundry_id as laundryId,
+		ORDERS_DIR_PATH as ordersDirPath
 		FROM ORDERS
 		WHERE member_id = #{memberId}
 		<if test="washId >= 0">
@@ -114,9 +114,8 @@
 		orders_status,
 		member_id,
 		laundry_id,
-		<!-- ORDERS_IMAGE_DATA, -->
-
-		orders_check_date
+		orders_check_date,
+		ORDERS_DIR_PATH
 		)
 		VALUES (
 		#{ordersId},
@@ -128,8 +127,8 @@
 		#{ordersStatus},
 		#{memberId},
 		#{laundryId},
-		#{ordersCheckDate}
-		<!-- #{ordersImageData,jdbcType=BLOB} -->
+		#{ordersCheckDate},
+		#{ordersDirPath}
 		)
 	</insert>
 	<!-- ORDERS_SEQ.NEXTVAL, -->
@@ -206,7 +205,11 @@
 	
 	<update id="updateStatus">
 		update orders
-		set orders_status=#{ordersStatus}
+		<set>
+			<if test="ordersStatus != null">
+				orders_status=#{ordersStatus}
+			</if>		
+		</set>
 		where wash_id=#{washId}
 	</update>
 

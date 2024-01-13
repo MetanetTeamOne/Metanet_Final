@@ -11445,3 +11445,13 @@ body {
     /* box-sizing: border-box; */
 }
 
+
+
+#msgStack {
+	    display: flex;
+    position: fixed;
+    min-width: 300px;
+    bottom: 110px;
+    right: 0px;
+}
+

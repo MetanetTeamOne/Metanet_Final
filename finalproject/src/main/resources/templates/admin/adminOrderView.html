@@ -62,16 +62,15 @@
 							주문내역 상세조회
 						</div>
 						<form method="post" th:action="@{/admin/order/update}">
+							<input type="hidden" id="memberEmail" th:value="${memberEmail}">
 							<input type="hidden" name="washId" th:value="${orderList[0].washId}">
 
 							<div class="card-body">
 								<table id="datatablesSimple" class="table table-striped table-hover info">
 									<tbody>
 										<tr>
-											<td class="col-md-4" rowspan="6">
-												<!--임시 이미지, 나중엔 db에서 사용자가 입력한 이미지로 대체-->
-												<img style="width: 100%; height: auto;"
-													src="https://github.com/KHaeWon/MetanetWebJSP_EL_JSTL/assets/127920368/94785d0b-b815-4100-bfd8-4015a86f2204">
+											<td class="col-md-4" rowspan="6" style="vertical-align: middle;">
+												<img style="width: 100%; height: auto;" th:src="${orderList[0].ordersDirPath}">
 											</td>
 										</tr>
 										<tr>
@@ -109,43 +108,9 @@
 														<option value="5" name="ordersStatus">배송완료</option>
 													</select>
 													<input type="hidden" id="hiddenOrdersStatus" name="ordersStatus">
-													<button type="submit" class="btn btn-primary title"
+													<button id="orderStateChangeButton" type="submit" class="btn btn-primary title"
 														onclick="updateStatus()" style="margin-left: 5px;">수정</button>
 												</td>
-												<!--<td class="col-md-1 title"
-												style="text-align: center;vertical-align: middle;">
-												<input type="button" class="btn btn-primary title" onclick="updateStatus()">수정</input>	
-											</td>-->
-
-												<!--<td class="col-md-2 title"
-												style="text-align: center;vertical-align: middle;">진행상태</td>
-											<th:block th:switch="${orderList[0].ordersStatus}">
-												<td class="col-md-2 title" th:case="1" style="vertical-align: middle;">
-													수거진행
-													<button id="statusBtn" class="modals title"
-														style="margin-left: 15px; border-radius: 10px; color: #fff; background: black;">수정</button>
-												</td>
-												<td class="col-md-2 title" th:case="2" style="vertical-align: middle;">
-													수거완료
-													<button id="statusBtn" class="title"
-														style="margin-left: 15px; border-radius: 10px; color: #fff; background: black;">수정</button>
-												</td>
-												<td class="col-md-2 title" th:case="3" style="vertical-align: middle;">
-													세탁진행
-													<button id="statusBtn" class="title"
-														style="margin-left: 15px; border-radius: 10px; color: #fff; background: black;">수정</button>
-												</td>
-												<td class="col-md-2 title" th:case="4" style="vertical-align: middle;">
-													배송진행
-													<button id="statusBtn" class="title"
-														style="margin-left: 15px; border-radius: 10px; color: #fff; background: black;">수정</button>
-												</td>
-												<td class="col-md-2 title" th:case="5" style="vertical-align: middle;">
-													배송완료
-													<button id="statusBtn" class="title"
-														style="margin-left: 15px; border-radius: 10px; color: #fff; background: black;">수정</button>
-												</td>
-											</th:block>-->
 
 											</div>
 										</tr>
@@ -212,75 +177,16 @@
 				</div>
 			</main>
 
-
-			<!--모달창-->
-			<!--<div class="black-bg">
-				<div class="white-bg">
-					<h4 class="title">진행상태 변경</h4>
-					<div class="card-body">
-						<form method="post" th:action="@{/orders/insert}">
-						<table id="datatablesSimple" class="table table-striped table-hover info">
-							<tbody>
-								<tr>
-									<div class="row">
-										<td class="col-md-4 title" style="text-align: center;vertical-align: middle;">
-											진행상태</td>
-										<td class="col-md-4 title">
-											<select id="statusSelect" class="col-md-3">
-												<option value="">선택하세요</option>
-												<option value="1">수거 진행</option>
-												<option value="2">수거 완료</option>
-												<option value="3">세탁 진행</option>
-												<option value="4">배송 진행</option>
-												<option value="5">배송 완료</option>
-											</select>
-										</td>
-									</div>
-								</tr>
-							</tbody>
-						</table>
-						</form>
-					</div>
-					<button type="button" class="btn btn-primary title" onclick="updateStatus()">수정</input>
-					<button type="button" class="btn btn-danger title" id="close" style="margin-left: 10px;">닫기</input>
-				</div>
-			</div>-->
-
 		</div>
 	</div>
 </body>
-<!--<style>
-	.black-bg {
-		display: none;
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		background: rgba(0, 0, 0, 0.5);
-		z-index: 5;
-		padding: 30px;
-	}
 
-	.white-bg {
-		background: white;
-		border-radius: 5px;
-		padding: 50px;
-	}
-</style>-->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<!--<script>
-	$(".modals").click(function () {
-		$(".black-bg").fadeIn();
-	}); //모달창 생성 
-	$(".btn-danger").click(function () {
-		$(".black-bg").fadeOut(); //닫기를 누르면 모달창 사라짐
-	});
-</script>-->
 <script>
 	function updateStatus() {
 		var selectedStatus = document.getElementById('ordersStatus').value;
 		console.log('selectedStatus>>>', selectedStatus);
 		document.getElementById('hiddenOrdersStatus').value = selectedStatus;
+		alert('수정되었습니다');
 	}
 </script>
 

@@ -14,11 +14,29 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4 title">워시워시</h1>
 					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active title">빠른 메뉴</li>
+						<li class="breadcrumb-item active title">관리자 메인 페이지</li>
 					</ol>
 					<div class="row">
 						<div class="col-xl-3 col-md-6">
 							<div class="card bg-primary text-white mb-4">
+								<div class="card-body title">회원 조회</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="/admin/order">회원 조회하기</a>
+									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-warning text-white mb-4">
+								<div class="card-body title">문의 조회</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="/admin/memhelp">문의 조회하기</a>
+									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-success text-white mb-4">
 								<div class="card-body title">주문 조회</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<a class="small text-white stretched-link" href="/admin/order">주문 조회하기</a>
@@ -27,28 +45,10 @@
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-6">
-							<div class="card bg-warning text-white mb-4">
+							<div class="card bg-danger text-white mb-4">
 								<div class="card-body title">결제 조회</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<a class="small text-white stretched-link" href="/admin/pay">결제 조회하기</a>
-									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-md-6">
-							<div class="card bg-success text-white mb-4">
-								<div class="card-body title">결제 삭제</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="#">결제 삭제하기</a>
-									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-3 col-md-6">
-							<div class="card bg-danger text-white mb-4">
-								<div class="card-body title">매출 조회</div>
-								<div class="card-footer d-flex align-items-center justify-content-between">
-									<a class="small text-white stretched-link" href="/admin/chart">매출 조회하기</a>
 									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
 								</div>
 							</div>
@@ -90,7 +90,7 @@
 </body>
 
 
-<script>
+<!--<script>
 	// 차트를 그럴 영역을 dom요소로 가져온다.
 	var chartArea = document.getElementById('myChart').getContext('2d');
 	// 차트를 생성한다. 
@@ -182,7 +182,7 @@ var myAreaChart = new Chart(ctx, {
       display: false
     }
   }
-});
+});-->
 
 </script>
 
