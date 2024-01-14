@@ -27,4 +27,13 @@ public interface IPayRepository {
 	
 	// 결제 총액
 	int sumPay(@Param("payMoney") int payMoney);
+
+	List<Pay> getPagingMemberPay(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
+
+	int getPayCount(int memberId);
+
+	List<Pay> getPagingMemberPayByState(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId, @Param("state") String state);
+
+	int getPayCountByState(@Param("memberId") int memberId, @Param("state") String state);
+
 }
