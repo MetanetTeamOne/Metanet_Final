@@ -67,7 +67,7 @@ public class AdminPayController {
 		pagination.setTotalRecordCount(payCount);
 		model.addAttribute("pagination", pagination);
 //		List<Pay> pays = payService.getPay();
-		List<Pay> pays = payService.getPagingPay(1, 10);
+		List<Pay> pays = payService.getPagingPayState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), "1");
 		model.addAttribute("pays",pays);
 		model.addAttribute("members",members);
 		return "admin/adminPay";
@@ -80,15 +80,16 @@ public class AdminPayController {
 							  @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
 							  @RequestParam(value = "state", required = false, defaultValue = "1") String state,
 							  Model model) {
+		log.info("결제 비동기 조회");
 		List<Member> members = memberService.getMemberList();
-		int payCount = payService.getPayCount();
+		int payCount = payService.getPayAllCountByState(state);
 		log.info("payCount: {}", payCount);
 		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
 		log.info("pagination: {}", pagination);
 		pagination.setTotalRecordCount(payCount);
 		model.addAttribute("pagination", pagination);
 //		List<Pay> pays = payService.getPay();
-		List<Pay> pays = payService.getPagingPay(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex());
+		List<Pay> pays = payService.getPagingPayState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), state);
 		model.addAttribute("pays",pays);
 		model.addAttribute("members",members);
 		return "admin/adminPay:: memberTable";
@@ -97,16 +98,19 @@ public class AdminPayController {
 	//결제 상태 조회
 	@Operation(summary = "결제 상태 정보 조회")
 	@GetMapping("/search/{payState}")
-	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
+	public String getPayState(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+							  @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+							  @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, @PathVariable String payState, Model model){
 		log.info("결제 상태 정보 조회");
+		log.info("payState: {}", payState);
 		List<Member> members = memberService.getMemberList();
-		Pagination pagination = new Pagination(1, 10, 10);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
 		int payCount = payService.getPayAllCountByState(payState);
 		log.info("payCount: {}", payCount);
 		pagination.setTotalRecordCount(payCount);
 		model.addAttribute("pagination", pagination);
 //		List<Pay> pays = payService.getPayState(payState);
-		List<Pay> pays = payService.getPagingPayState(1, 10, payState);
+		List<Pay> pays = payService.getPagingPayState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), payState);
 		log.info("pays: {}", pays);
 		model.addAttribute("pays", pays);
 		model.addAttribute("members",members);

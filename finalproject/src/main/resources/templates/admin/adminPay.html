@@ -50,7 +50,7 @@
                             <div class="my-month__wrap" style="height: auto;padding: 0;">
                                 <ul id="period" class="month_list" style="float: none; padding: 0px;">
                                     <li><input type="radio" name="payState" id="radio_d_1_3" data-value="1" value="1"
-                                               data-datepicker-push="unique_datepicker_name" data-push-align="back">
+                                               data-datepicker-push="unique_datepicker_name" data-push-align="back" checked>
                                         <label for="radio_d_1_3">결제완료</label></li>
                                     <li><input type="radio" name="payState" id="radio_d_1_4" data-value="2" value="2"
                                                data-datepicker-push="unique_datepicker_name" data-push-align="back">
@@ -132,9 +132,8 @@
                                     </th:block>
                                 </div>
                             </div>
+                            <!--/paginate-->
                         </div>
-
-                        <!--/paginate-->
                         <!--                            <div class="bd-example-snippet bd-code-snippet">-->
                         <!--                                <div class="bd-example m-0 border-0 d-flex justify-content-end">-->
                         <!--                                    <nav aria-label="Standard pagination example">-->
@@ -211,7 +210,8 @@
     });
 
     function movePage(currentPage, cntPerPage, pageSize) {
-        console.log("movepage동작")
+        var state = document.querySelector('input[name="payState"]:checked').value;
+        console.log(state);
         // radioButtons.forEach(function (radioButton) {
         //     radioButton.addEventListener("change", function () {
         //         month = this.value;
@@ -225,6 +225,7 @@
             currentPage: currentPage,
             cntPerPage: cntPerPage,
             pageSize: pageSize,
+            state: state
         }
 
         let xhr = null;

@@ -219,7 +219,7 @@
 		MEMBER_ID as memberId
 		from pay
 		<if test="state != 0">
-			where PAY_STATE=#{state}
+			where PAY_STATE = #{state}
 		</if>
 		)
 		<if test="start != null and end != null">
