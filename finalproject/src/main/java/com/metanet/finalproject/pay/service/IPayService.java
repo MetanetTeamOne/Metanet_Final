@@ -1,5 +1,6 @@
 package com.metanet.finalproject.pay.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.metanet.finalproject.pay.model.Pay;
@@ -9,7 +10,9 @@ public interface IPayService {
 
 	// 결제 정보 상세 조회
 	Pay getPay(int payId);
+
 	Pay getWashIdPay(int washId);
+
 	List<Pay> getPay();
 
 	List<Pay> getPayState(String payState, int memberId);
@@ -24,16 +27,21 @@ public interface IPayService {
 	void updatePay(Pay pay);
 
 	// 결제 총액
-	int sumPay(int payMoney);
+	int sumPay();
+
+	// 월별
+	int sumMonthPay(Date payDate);
 
 	List<Pay> getPagingMemberPay(int firstRecordIndex, int lastRecordIndex, int memberId);
 
 	int getPayCount(int memberId);
+
 	int getPayCount();
 
 	List<Pay> getPagingMemberPayByState(int firstRecordIndex, int lastRecordIndex, int memberId, String state);
 
 	int getPayCountByState(int memberId, String state);
+
 	int getPayCountByState(String state);
 
 	List<Pay> getPagingPay(int start, int end);
