@@ -3,8 +3,9 @@ package com.metanet.finalproject.orders.model;
 import java.sql.Date;
 
 import lombok.Data;
+import lombok.ToString;
 
-@Data
+@Data @ToString
 public class Orders {
 	// 주문 ID
 	private int ordersId;
@@ -26,7 +27,7 @@ public class Orders {
 
 	// 진행상태
 	private String ordersStatus;
-	
+
 	// 세탁확인
 	private String ordersCheckDate;
 
@@ -35,8 +36,11 @@ public class Orders {
 
 	// 세탁 ID
 	private int laundryId;
-	
+
+	// 이미지 경로
+	private String ordersDirPath;
+
 	// 이미지 데이터
-	private byte[] ordersImageData;
+	// private byte[] ordersImageData;
 
 }

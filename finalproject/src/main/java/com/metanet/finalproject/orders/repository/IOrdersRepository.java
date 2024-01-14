@@ -1,9 +1,11 @@
 package com.metanet.finalproject.orders.repository;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import com.metanet.finalproject.orders.model.Orders;
@@ -28,8 +30,15 @@ public interface IOrdersRepository {
 	 
 	// 관리자
 	int countOrder(); //전체 주문 건수 추가
-	int countNewOrder(); //10분마다 새로운 주문 건수 조회를 위해 추가
+	//10분마다 새로운 주문 건수 조회를 위해 추가
+	//int countNewOrder(@Param("ordersDate") Date ordersDate); 
 	List<Orders> searchOrdersList();
 	List<Orders> searchOrdersList(Orders orders);
 	void updateStatus(@Param("washId") int washId, @Param("ordersStatus") String ordersStatus);
+
+    int getOrderCount(@Param("month") int month, @Param("memberId") int memberId);
+
+	List<OrdersDetails> searchPagingMemOrder(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
+
+	List<OrdersDetails> searchPagingMemMonthOrder(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId, @Param("month") int month);
 }

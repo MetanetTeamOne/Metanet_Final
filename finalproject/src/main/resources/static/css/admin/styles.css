@@ -11426,11 +11426,32 @@ body {
     display: block;
     position: relative;
     height: 100%;
-    padding-top: 5px;
+    padding: 7px;
     border: 1px solid #ddd;
     color: #666;
-    text-align: center;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+
+.my-month__wrap input,button {
+    /* display: block; */
+    /* position: relative; */
+    height: 30px;
+    padding: 7px;
+    border: 1px solid #ddd;
+    color: #666;
+    /*-webkit-box-sizing: border-box;*/
+    /* box-sizing: border-box; */
+}
+
+
+
+#msgStack {
+	    display: flex;
+    position: fixed;
+    min-width: 300px;
+    bottom: 110px;
+    right: 0px;
 }
 

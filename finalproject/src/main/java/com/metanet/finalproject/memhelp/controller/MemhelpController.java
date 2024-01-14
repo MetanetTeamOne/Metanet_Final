@@ -4,16 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.files.model.Files;
@@ -105,15 +100,49 @@ public class MemhelpController {
 	public String getMemberhelp(HttpServletRequest request, Model model) {
 		// jwt 토큰에서 멤버 정보 불러오기
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
-		
+		int memHelpCount = memhelpService.getMemHelpCount(memberId);
+		log.info("memHelpCount: {}", memHelpCount);
+		Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(memHelpCount);
+		model.addAttribute("pagination", pagination);
+
+
 		System.out.println("접속회원 ID : " + memberId);
 		
-		List<MemhelpSearchByMemberId> memhelpSearchByMemberId = memhelpService.searchMemhelp(memberId);
-		
+//		List<MemhelpSearchByMemberId> memhelpSearchByMemberId = memhelpService.searchMemhelp(memberId);
+		List<MemhelpSearchByMemberId> memhelpSearchByMemberId = memhelpService.searchPagingMemhelp(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), memberId);
+
 		System.out.println("접속한 회원의 문의사항 리스트 : " + memhelpSearchByMemberId);
 				
 		model.addAttribute("memhelpList", memhelpSearchByMemberId);
 		return "member/memhelp_view";
+	}
+
+	@Operation(summary = "회원별 문의사항 비동기 조회")
+	@GetMapping("/async")
+	public String getMemberhelpAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+								@RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+								@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+								HttpServletRequest request, Model model) {
+		// jwt 토큰에서 멤버 정보 불러오기
+		int memberId = memberService.getMemberId(getTokenUserEmail(request));
+		int memHelpCount = memhelpService.getMemHelpCount(memberId);
+		log.info("memHelpCount: {}", memHelpCount);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(memHelpCount);
+		model.addAttribute("pagination", pagination);
+
+		System.out.println("접속회원 ID : " + memberId);
+
+//		List<MemhelpSearchByMemberId> memhelpSearchByMemberId = memhelpService.searchMemhelp(memberId);
+		List<MemhelpSearchByMemberId> memhelpSearchByMemberId = memhelpService.searchPagingMemhelp(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), memberId);
+
+		System.out.println("접속한 회원의 문의사항 리스트 : " + memhelpSearchByMemberId);
+
+		model.addAttribute("memhelpList", memhelpSearchByMemberId);
+		return "member/memhelp_view:: memberTable";
 	}
 	
 	@Operation(summary = "회원이 등록한 문의사항의 Id로 문의사항 조회 -> 관리자 답변 달리면 답변 확인 가능")
@@ -156,9 +185,10 @@ public class MemhelpController {
 	@GetMapping("/insert")
 	public String insertMemberhelp(HttpServletRequest request, Model model) {
 		MemhelpInsertDto memhelp = new MemhelpInsertDto();
-		
+		String memberEmail = getTokenUserEmail(request);
+		System.out.println("memberEmail="+memberEmail);
 		model.addAttribute("memhelp", memhelp);
-		
+		model.addAttribute("memberEmail", memberEmail);
 		return "member/memhelp_insert";
 	}
 	
