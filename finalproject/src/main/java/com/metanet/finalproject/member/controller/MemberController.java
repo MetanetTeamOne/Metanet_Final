@@ -1,14 +1,9 @@
 package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import com.metanet.finalproject.member.model.*;
-import com.metanet.finalproject.role.model.Role;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,21 +11,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
+import com.metanet.finalproject.member.model.Member;
+import com.metanet.finalproject.member.model.MemberDeleteDto;
+import com.metanet.finalproject.member.model.MemberInsertDto;
+import com.metanet.finalproject.member.model.MemberPasswordDto;
+import com.metanet.finalproject.member.model.MemberUpdateDto;
+import com.metanet.finalproject.member.model.ResponseDto;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
+import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -352,14 +355,49 @@ public class MemberController {
   	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
+		int payCount = payService.getPayCount(member.getMemberId());
+		log.info("payCount: {}", payCount);
+		Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(payCount);
+		model.addAttribute("pagination", pagination);
 		if (member.getMemberCard().equals("1")) {
-			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+//			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+			List<Pay> pays = payService.getPagingMemberPay(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId());
 			model.addAttribute("pays", pays);
 		}else {
 			model.addAttribute("pay",new Pay());
 		}
 		return "member/card_view";
   	}
+
+	@GetMapping("/card/async")
+	public String getCardAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+							   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+							   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+							   @RequestParam(value = "state", required = false, defaultValue = "1") String state,
+							   HttpServletRequest request, Model model) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member", member);
+		int payCount = payService.getPayCount(member.getMemberId());
+		log.info("payCount: {}", payCount);
+
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(payCount);
+		model.addAttribute("pagination", pagination);
+
+		if (member.getMemberCard().equals("1")) {
+//			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state);
+			model.addAttribute("pays", pays);
+			log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state));
+
+		}else {
+			model.addAttribute("pay",new Pay());
+		}
+		return "member/card_view:: memberTable";
+	}
 
 //	@GetMapping("/card")
 //	public String getCard(Model model, String memberEmail) {

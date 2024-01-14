@@ -2,6 +2,7 @@ package com.metanet.finalproject.pay.controller;
 
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,20 +79,25 @@ public class PayController {
 	}
 	
 	//결제 상세 조회
-	@Operation(summary = "결제 상세 정보 조회")
-	@GetMapping("/{payId}")
-	public String getPay(@PathVariable int payId, Model model) {
-		Pay pay = payService.getPay(payId);
-		model.addAttribute("pay", pay);
-		return "member/pay_view";
-	}
+//	@Operation(summary = "결제 상세 정보 조회")
+//	@GetMapping("/{payId}")
+//	public String getPay(@PathVariable int payId, Model model) {
+//		Pay pay = payService.getPay(payId);
+//		model.addAttribute("pay", pay);
+//		return "member/pay_view";
+//	}
 	
 	//결제 상태 조회
 	@Operation(summary = "결제 상태 정보 조회")
 	@GetMapping("/search/{payState}")
 	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
-		List<Pay> pays = payService.getPayState(payState);
 		Member member = memberService.selectMember(getTokenUserEmail(request));
+		Pagination pagination = new Pagination(1, 10, 10);
+		int payCount = payService.getPayCountByState(member.getMemberId(), payState);
+		pagination.setTotalRecordCount(payCount);
+		model.addAttribute("pagination", pagination);
+
+		List<Pay> pays = payService.getPagingMemberPayByState(1, 10, member.getMemberId(), payState);
 		model.addAttribute("pays", pays);
 		model.addAttribute("member", member);
 		return "member/card_view:: memberTable";

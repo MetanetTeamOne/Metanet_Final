@@ -1,5 +1,6 @@
 package com.metanet.finalproject.memhelp.controller;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,10 @@ import com.metanet.finalproject.orders.service.IOrdersService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -51,14 +55,36 @@ public class AdminMemhelpController {
 
 	Files files;
 	
-	@Autowired
-	JwtTokenProvider jwtTokenProvider;
-	
 	@Operation(summary = "관리자 주문 관리 API")
 	@GetMapping("/admin/memhelp")
-	public String searchTotalMemhelp(Model model) {
+	public String searchTotalMemhelp(HttpServletRequest request, Model model) {
 		System.out.println("모든 회원 문의사항 조회 : " + memhelpService.searchAllMemhelp());
-		model.addAttribute("memhelpList", memhelpService.searchAllMemhelp());
+		int memHelpCount = memhelpService.getAdminMemHelpCount();
+		log.info("memHelpCount: {}", memHelpCount);
+		Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(memHelpCount);
+		model.addAttribute("pagination", pagination);
+//		model.addAttribute("memhelpList", memhelpService.searchAllMemhelp());
+		model.addAttribute("memhelpList", memhelpService.searchPagingAllMemhelp(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex()));
 		return "admin/adminMemhelp";
+	}
+
+	@Operation(summary = "관리자 주문 관리 API")
+	@GetMapping("/admin/memhelp/async")
+	public String searchTotalMemhelp(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+									 @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+									 @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+									 HttpServletRequest request, Model model) {
+		log.info("비동기 관리자 문의관리");
+		int memHelpCount = memhelpService.getAdminMemHelpCount();
+		log.info("memHelpCount: {}", memHelpCount);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(memHelpCount);
+		model.addAttribute("pagination", pagination);
+//		model.addAttribute("memhelpList", memhelpService.searchAllMemhelp());
+		model.addAttribute("memhelpList", memhelpService.searchPagingAllMemhelp(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex()));
+		return "admin/adminMemhelp:: memberTable";
 	}
 }

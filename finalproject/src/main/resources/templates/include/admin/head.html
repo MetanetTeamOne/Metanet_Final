@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:fragment="head">
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>admin</title>
-    
-    <!-- Stylesheets -->
-    <link th:href="@{https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css}" rel="stylesheet" />
-    <link th:href="@{/css/admin/styles.css}" rel="stylesheet" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>admin</title>
 
-    <!-- Font Awesome -->
-    <script th:src="@{https://use.fontawesome.com/releases/v6.3.0/js/all.js}" crossorigin="anonymous"></script>
+	<!-- Stylesheets -->
+	<!--<link th:href="@{https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css}" rel="stylesheet" />
+    -->
+	<link th:href="@{/css/admin/styles.css}" rel="stylesheet" />
 
-    <!-- Bootstrap -->
-    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}" crossorigin="anonymous"></script>
+	<!-- Font Awesome -->
+	<script th:src="@{https://use.fontawesome.com/releases/v6.3.0/js/all.js}" crossorigin="anonymous"></script>
 
-    <!-- Custom Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-    <script th:src="@{/js/admin/scripts.js}"></script>
-    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js}" crossorigin="anonymous"></script>
-    <script th:src="@{/js/admin/demo/chart-area-demo.js}"></script>
-    <script th:src="@{/js/admin/demo/chart-bar-demo.js}"></script>
-    <script th:src="@{/js/admin/demo/chart-pie-demo.js}"></script>
-    <script th:src="@{/js/admin/datatables-simple-demo.js}"></script>
+	<!-- Bootstrap -->
+	<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js}"
+		crossorigin="anonymous"></script>
+	<link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css}"
+		rel="stylesheet">
 
-  	<!--jua 글씨체-->
-    <style>
-	  @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+	<!-- Custom Scripts -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+	<script th:src="@{/js/admin/scripts.js}"></script>
+	<script th:src="@{https://cdn.jsdelivr.net/npm/chart.js}"></script>
+	<script th:src="@{http://code.jquery.com/jquery-1.9.1.js}"></script>
+	<script th:src="@{https://unpkg.com/sweetalert/dist/sweetalert.min.js}"></script>
+
+	<script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"></script>
+	<script th:src="@{/js/admin/alarmAdmin.js}"></script>
+
+	<!--jua 글씨체-->
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 	</style>
 </head>
