@@ -29,8 +29,16 @@ public interface IPayService {
 	List<Pay> getPagingMemberPay(int firstRecordIndex, int lastRecordIndex, int memberId);
 
 	int getPayCount(int memberId);
+	int getPayCount();
 
 	List<Pay> getPagingMemberPayByState(int firstRecordIndex, int lastRecordIndex, int memberId, String state);
 
 	int getPayCountByState(int memberId, String state);
+	int getPayCountByState(String state);
+
+	List<Pay> getPagingPay(int start, int end);
+
+	List<Pay> getPagingPayState(int start, int end, String payState);
+
+	int getPayAllCountByState(String payState);
 }

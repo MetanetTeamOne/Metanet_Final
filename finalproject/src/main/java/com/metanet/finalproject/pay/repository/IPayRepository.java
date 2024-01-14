@@ -31,9 +31,18 @@ public interface IPayRepository {
 	List<Pay> getPagingMemberPay(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
 
 	int getPayCount(int memberId);
+	int getPayCount();
 
 	List<Pay> getPagingMemberPayByState(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId, @Param("state") String state);
 
 	int getPayCountByState(@Param("memberId") int memberId, @Param("state") String state);
 
+	int getPayCountByState(String state);
+
+	List<Pay> getPagingPay(@Param("start") int start, @Param("end") int end);
+
+
+	List<Pay> getPagingPayState(@Param("start") int start, @Param("end") int end, @Param("state") String state);
+
+	int getPayAllCountByState(String state);
 }
