@@ -107,7 +107,6 @@
 							<!--paginate-->
 							<div class="paginate">
 								<div class="paging">
-
 									<th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
 										<input id="currentPage" type="hidden" th:value="${idx}"/>
 										<input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>

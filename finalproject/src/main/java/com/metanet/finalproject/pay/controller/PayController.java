@@ -2,6 +2,7 @@ package com.metanet.finalproject.pay.controller;
 
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,7 +92,12 @@ public class PayController {
 	@GetMapping("/search/{payState}")
 	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		List<Pay> pays = payService.getPayState(payState, member.getMemberId());
+		Pagination pagination = new Pagination(1, 10, 10);
+		int payCount = payService.getPayCountByState(member.getMemberId(), payState);
+		pagination.setTotalRecordCount(payCount);
+		model.addAttribute("pagination", pagination);
+
+		List<Pay> pays = payService.getPagingMemberPayByState(1, 10, member.getMemberId(), payState);
 		model.addAttribute("pays", pays);
 		model.addAttribute("member", member);
 		return "member/card_view:: memberTable";

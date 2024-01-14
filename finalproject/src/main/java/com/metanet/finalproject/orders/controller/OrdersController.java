@@ -136,8 +136,9 @@ public class OrdersController {
 	public String getOrderAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
 						   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
 						   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-						   @RequestParam(value = "pageSize", required = false, defaultValue = "1") int month,
+						   @RequestParam(value = "month", required = false, defaultValue = "1") int month,
 						   HttpServletRequest request, Model model) {
+
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		int orderCount = ordersService.getOrderCount(month, member.getMemberId());
 		log.info("orderCount: {}", orderCount);
@@ -185,6 +186,7 @@ public class OrdersController {
 	@GetMapping("/month/{month}")
 	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month) {
 		log.info("회원 월별 주문조회");
+		log.info("month: {}", month);
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		Pagination pagination = new Pagination(1, 10, 10);
 		int orderCount = ordersService.getOrderCount(month, member.getMemberId());
@@ -192,7 +194,8 @@ public class OrdersController {
 		model.addAttribute("pagination", pagination);
 
 
-		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(), month);
+//		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(), month);
+		List<OrdersDetails> orders = ordersService.searchPagingMemMonthOrder(1, 10, member.getMemberId(), month);
 		if (member.getMemberSubscribe().equals("0")) {
 			for (OrdersDetails order : orders) {
 				order.setOrdersTotalPrice(order.getOrdersTotalPrice() + 2500);
