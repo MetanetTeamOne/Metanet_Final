@@ -362,17 +362,6 @@ ALTER TABLE ORDERS
          laundry_id
       ) ON DELETE CASCADE;
 
-ALTER TABLE PAY
-   ADD
-      CONSTRAINT FK_ORDERS_TO_PAY
-      FOREIGN KEY (
-         wash_id
-      )
-      REFERENCES ORDERS (
-         wash_id
-      )
-      ON DELETE CASCADE;
-
 ALTER TABLE FILES
    ADD
       CONSTRAINT FK_ORDERS_TO_FILES
@@ -541,7 +530,7 @@ insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 
 
 -- 주문 (ORDERS) 테이블 예시 데이터
-insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1, EMPTY_BLOB());
+insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', '1', 1, 1, null);
 
 -- 결제 (PAY) 테이블 예시 데이터
 INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
@@ -567,5 +556,4 @@ insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '영수증을 발급받고 싶�
 select * from MEMHELP where member_id = 2 order by memhelpnum desc;
 
 SELECT    memHelpNum, memHelpTitle,  memHelpDate,  memCategoryNum   FROM    MEMHELP   WHERE     MEMBER_ID = 2   ORDER BY    MEMHELPNUM DESC;
-
 COMMIT;

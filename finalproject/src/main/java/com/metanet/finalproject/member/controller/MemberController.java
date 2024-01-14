@@ -1,8 +1,17 @@
 package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+
+import com.metanet.finalproject.paging.Pagination;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
@@ -30,6 +41,8 @@ import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.member.service.TestService;
 import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
+import com.metanet.finalproject.pay.service.Bootpay;
+import com.metanet.finalproject.pay.service.BootpayObject;
 import com.metanet.finalproject.pay.service.IPayService;
 import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
@@ -357,11 +370,58 @@ public class MemberController {
 		return "member/subscribe_view";
 	}
 
-	@Operation(summary = "회원 구독")
+	@Operation(summary = "회원 구독 신청")
 	@PostMapping("/subscribe")
 	public String updateSubscribe(HttpServletRequest request, Member member, Model model) {
 		member.setMemberEmail(getTokenUserEmail(request));
+		//System.out.println("cardNumber"+member.getMemberCard());
 		memberService.updateSubscribe(member);
+		return "redirect:/member/subscribe";
+	}
+
+	@Operation(summary = "회원 구독 해제")
+	@PostMapping("/subscribe/delete")
+	public String DeleteSubscribe(HttpServletRequest request, Member member, Model model) throws Exception {
+		
+		 if(member.getMemberSubscribe().equals("0")) { 
+			 Bootpay bootpay = new Bootpay("65a160cc00c78a001d3460da", "w+lPLe/uLDoPOUXZxesF1bNUGpWPKgQ5n0dUtFmxwW8=");
+			 bootpay.getAccessToken();
+			 String billingKey = memberService.selectMember(getTokenUserEmail(request)).getMemberCard();
+			 try {
+				 HttpResponse res = bootpay.destroyBillingKey(billingKey);
+				 int statusCode = res.getStatusLine().getStatusCode();
+				 System.out.println("statusCode>>> "+statusCode);
+				 if (statusCode == 200) {
+				     // 성공적인 응답 처리
+				     System.out.println("destroyBillingKey success");
+				     
+				     member.setMemberEmail(getTokenUserEmail(request));
+					 memberService.updateSubscribe(member);
+					 
+					 return "redirect:/member/subscribe";
+					 
+				 } else {
+				     // 응답 본문을 문자열로 추출
+				     String responseBody = EntityUtils.toString(res.getEntity());
+				     System.out.println("responseBody: " + responseBody);
+
+				     // JSON 문자열을 JsonObject로 변환
+				     JsonParser jsonParser = new JsonParser();
+				     JsonObject json = jsonParser.parse(responseBody).getAsJsonObject();
+
+				     // 에러 코드 확인
+				     if (json.has("status") && json.get("status").getAsInt() != 200) {
+				         System.out.println("destroyBillingKey false: " + json);
+				     } else {
+				         System.out.println("Unknown error: " + responseBody);
+				     }
+				 }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		 
+		 }
+		
 		return "redirect:/member/subscribe";
 	}
 
@@ -468,6 +528,7 @@ public class MemberController {
 		System.out.println("===카드 해지 완료===");
 		return "redirect:/member/card";
 	}
+	
 
 	// coolSMS 연결
 	@PostMapping("/memberPhoneCheck")
