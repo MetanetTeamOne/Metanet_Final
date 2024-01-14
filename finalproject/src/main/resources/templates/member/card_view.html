@@ -3,6 +3,7 @@
 <head th:replace="~{/include/member/head :: head}"></head>
 <body>
     <link rel="stylesheet" th:href="@{/css/member/orders.css}">
+    <link rel="stylesheet" th:href="@{/css/member/test.css}">
 
 	<!-- JS -->
 	<script th:src="@{/js/member/cardModal.js}"></script>
@@ -46,16 +47,15 @@
                     	</div>
                     </div>-->
                     <div class="row">
-                        <!--<div class="mypage_header">
+                       <div class="mypage_header">
                             <h3 class="title">결제 관리</h3>
-                             Content 
 
                             <div class="my_page_form">
-									<form method="post" action="/member/card/delete" class="mt-2" style="text-align: right;">
+									<!--<form method="post" action="/member/card/delete" class="mt-2" style="text-align: right;">
 										<button type="submit" class="btn_member_cancel title" >카드 삭제</button>
-									</form>
+									</form>-->
 
-                                	<div class="credit-card mt-2 mb-5" id="card">
+                                	<div class="credit-card mt-5 mb-3 title" id="card">
 								        <div class="card-front">
 								          <div class="branding">
 								            <img th:src="@{/img/member/chip.png}" class="chip-img">
@@ -67,11 +67,11 @@
 								          <div class="details">
 								            <div>
 								              <span>Card Holder</span>
-								              <span th:text="${member.memberName}">Your Name Here</span>
+								              <span th:text="${member.memberName}"></span>
 								            </div>
 								            <div>
 								              <span>Expires</span>
-								              <span id="validity">xx/xx</span>
+								              <span id="validity" class="title">xx/xx</span>
 								            </div>
 								          </div>
 								        </div>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
 
-                    	</div>-->
+                    	</div>
                     	<div class="mypage_header">
                             <h3 class="title">결제 내역</h3>
                             <!-- Content -->

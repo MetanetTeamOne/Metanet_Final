@@ -248,7 +248,7 @@
         )
         <if test="start != null and end != null">
             <![CDATA[
-			WHERE rnum > #{start} AND
+			WHERE rnum >= #{start} AND
 			rnum <= #{end}
 		]]>
         </if>
@@ -274,7 +274,7 @@
 		)
 		<if test="start != null and end != null">
 			<![CDATA[
-			WHERE rnum > #{start} AND
+			WHERE rnum >= #{start} AND
 			rnum <= #{end}
 		]]>
 		</if>

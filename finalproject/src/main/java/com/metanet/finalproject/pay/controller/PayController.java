@@ -2,20 +2,18 @@ package com.metanet.finalproject.pay.controller;
 
 import java.util.List;
 
-import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.member.service.IMemberService;
+import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
@@ -65,18 +63,19 @@ public class PayController {
 		return jwtTokenProvider.getUserId(token);
 	}
 	
-	@Operation(summary = "결제 정보 조회 view")
-	@GetMapping("")
-	public String getpay() {
-		return "member/pay_view";
-	}
+	/*
+	 * @Operation(summary = "결제 정보 조회 view")
+	 * 
+	 * @GetMapping("") public String getpay() { return "member/pay_view"; }
+	 */
 	
-	//pay_ok 폼
-	@Operation(summary = "결제 완료 view")
-	@GetMapping("/payok")
-	public String payOk() {
-		return "member/pay_ok";
-	}
+	/*
+	 * //pay_ok 폼
+	 * 
+	 * @Operation(summary = "결제 완료 view")
+	 * 
+	 * @GetMapping("/payok") public String payOk() { return "member/pay_ok"; }
+	 */
 	
 	//결제 상세 조회
 //	@Operation(summary = "결제 상세 정보 조회")
@@ -145,5 +144,7 @@ public class PayController {
 //	        return "error!!!!!!!!!!!!!!!!!!!";
 //	    }
 //	}
+	
+
 	
 }
