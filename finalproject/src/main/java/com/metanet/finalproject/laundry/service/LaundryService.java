@@ -36,5 +36,25 @@ public class LaundryService implements ILaundryService{
 		return laundryRepository.getLaundryCategory(laundryCategoryId);
 	}
 
+	@Override
+	public List<Laundry> getPagingLaundry(int start, int end) {
+		return laundryRepository.getPagingLaundry(start, end);
+	}
+
+	@Override
+	public int getLaundryCount() {
+		return laundryRepository.getLaundryCount();
+	}
+
+	@Override
+	public int getLaundryCount(int id) {
+		return laundryRepository.getLaundryCount(id);
+	}
+
+	@Override
+	public List<Laundry> getPagingLaundryCategory(int start, int end, int id) {
+		return laundryRepository.getPagingLaundryCategory(start, end, id);
+	}
+
 
 }

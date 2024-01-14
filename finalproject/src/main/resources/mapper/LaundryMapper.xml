@@ -41,6 +41,54 @@
 		WHERE laundry_name = #{laundryName}
 		</if>
 	</select>
-	
-	
+	<select id="getPagingLaundry" resultType="com.metanet.finalproject.laundry.model.Laundry">
+		SELECT *
+		FROM(
+		SELECT ROW_NUMBER() OVER(ORDER by laundry_id asc) AS
+		rnum,
+		laundry_id AS laundryId,
+		laundry_name AS laundryName,
+		laundry_category AS laundryCategory,
+		laundry_price AS laundryPrice,
+		laundry_category_id AS laundryCategoryId
+		FROM laundry
+		)
+		<if test="start != null and end != null">
+			<![CDATA[
+			WHERE rnum > #{start} AND
+			rnum <= #{end}
+		]]>
+		</if>
+	</select>
+
+	<select id="getLaundryCount" resultType="int">
+		SELECT count(*) FROM
+		laundry
+		<if test="id != null">
+			where laundry_category_id = #{id}
+		</if>
+	</select>
+
+	<select id="getPagingLaundryCategory" resultType="com.metanet.finalproject.laundry.model.Laundry">
+		SELECT *
+		FROM(
+		SELECT ROW_NUMBER() OVER(ORDER by laundry_id asc) AS
+		rnum,
+		laundry_id AS laundryId,
+		laundry_name AS laundryName,
+		laundry_category AS laundryCategory,
+		laundry_price AS laundryPrice,
+		laundry_category_id AS laundryCategoryId
+		FROM laundry
+		<if test="id != null">
+			WHERE laundry_category_id = #{id}
+		</if>
+		)
+		<if test="start != null and end != null">
+			<![CDATA[
+			WHERE rnum > #{start} AND
+			rnum <= #{end}
+		]]>
+		</if>
+	</select>
 </mapper>
