@@ -17,11 +17,11 @@
             <div class="col-sm-9 col-md-9 col-lg-9">
                 <div class="mypage_right">
                     <div class="row">
-                        <h2>서비스 관리</h2>
+                        <h2 class="title">서비스 관리</h2>
                     </div>
                     <div class="row">
                         <div class="mypage_header">
-                            <h3>주문 상세</h3>
+                            <h3 class="title">주문 상세</h3>
                             <!-- Content -->
                             <div class="my-month__wrap " style="height: 0px;">
                                <!-- <ul id="period" class="month_list">
@@ -43,10 +43,10 @@
                                             </colgroup>
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">상품정보</th>
-                                                    <th scope="col">주문수량</th>
-                                                    <th scope="col">주문금액</th>
-                                                    <th scope="col">진행현황</th>
+                                                    <th class="title" scope="col">상품정보</th>
+                                                    <th class="title" scope="col">주문수량</th>
+                                                    <th class="title" scope="col">주문금액</th>
+                                                    <th class="title" scope="col">진행현황</th>
                                                 </tr>
                                             </thead>
                                             <tbody >
@@ -55,10 +55,10 @@
                                                         <td colspan="5" class="order-info__list">
                                                             <ul>
                                                                 <li>
-                                                                    <strong>주문번호 :</strong>
-                                                                    <span th:text="${order.ordersId}">1</span>
+                                                                    <span class="title">상세번호 :</span>
+                                                                    <span class="title" th:text="${order.ordersId}">1</span>
                                                                 </li>
-                                                                <li th:text="${order.ordersDate}">주문일 : 2024-01-04</li>
+                                                                <li class="title" th:text="${order.ordersDate}">주문일 : 2024-01-04</li>
                                                             </ul>
                                                         </td>
                                                     </tr>
@@ -68,17 +68,17 @@
                                                                 <div class="ui-item__inner">
                                                                     <div class="ui-item__info" th:each="laundry : ${laundrys}" th:if="${order.laundryId == laundry.laundryId}" >
                                                                         <div class="item_name" >
-                                                                            <strong th:if="${order.laundryId < 12}" class="brand">상의</strong>
-                                                                            <strong th:if="${order.laundryId >= 12 and order.laundryId < 16}" class="brand">하의</strong>
-                                                                            <strong th:if="${order.laundryId >= 16 and order.laundryId < 20}" class="brand">신발</strong>
-                                                                            <strong th:if="${order.laundryId >= 20}" class="brand">기타</strong>
-                                                                            <span class="prd" th:text="${laundry.laundryName}"></span>
+                                                                            <strong  th:if="${order.laundryId < 12}" class="title">상의 - </strong>
+                                                                            <strong  th:if="${order.laundryId >= 12 and order.laundryId < 16}" class="title">하의 - </strong>
+                                                                            <strong  th:if="${order.laundryId >= 16 and order.laundryId < 20}" class="title">신발 - </strong>
+                                                                            <strong  th:if="${order.laundryId >= 20}" class="title">기타</strong>
+                                                                            <span class="title" th:text="${laundry.laundryName}"></span>
                                                                         </div>
                                                                         <div class="item_detail">
                                                                         	<p class="order_option">
-																				<strong>세탁유형 : </strong>
-                                                                        		<span th:if="${laundry.laundryCategory == '1'}">생활빨래</span>
-                                                                        		<span th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>
+																				<strong class="title">세탁유형 : </strong>
+                                                                        		<span class="title" th:if="${laundry.laundryCategory == '1'}">생활빨래</span>
+                                                                        		<span class="title" th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>
                                                                         	</p>
                                                                     	</div>
                                                                     </div>
@@ -86,10 +86,10 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <span><strong th:text="${order.ordersCount}"></strong></span>개
+                                                            <span class="title"><strong class="title" th:text="${order.ordersCount}"></strong>개</span>
                                                         </td>
                                                         <td>
-                                                            <strong data-th-text="${#numbers.formatInteger(order.ordersPrice, 0, 'COMMA') + '원'}"></strong>
+                                                            <strong class="title" data-th-text="${#numbers.formatInteger(order.ordersPrice, 0, 'COMMA') + '원'}"></strong>
                                                         </td>
                                                        
                                                         <td>
@@ -101,7 +101,7 @@
 																	
 																
                                                                 <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
-                                                                    <span>주문취소</span>
+                                                                    <span class="title">주문취소</span>
                                                                 </button>
                                                                 </form>
                                                             </div>
@@ -110,12 +110,78 @@
                                                 </div>
                                             </tbody>
                                         </table>
-                                    </div>
-                                    <div class="cm-pagination" id="ordListPaging">
-                                        <div class="pagination__inner"><a href="#" role="button" class="active" data-paging-btn="" data-value="1">1</a></div>
-                                    </div>
+                                    </div>     
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">배송 정보</h3>
+                            <!-- Content -->
+                            <div class="my-month__wrap " style="height: 0px;">
+                              
+                            </div>
+                            <div class="order-item">
+                                <div class="mypage-table__wrap">
+                                    <div class="mypage-table">
+                                        <table>
+	                                        <tbody>
+	                                            <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">주문자명</span></th>
+	                                                <td style="border-top: 1px solid #000; text-align: left;">
+	                                                    <div class="member_warning title">
+															<p th:text="${member.memberName}"></p>
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">배송지</span></th>
+	                                                <td>
+	                                                    <div class="member_warning title" style="text-align: left;">
+	                                                        <p th:text="'주문자 : '+${member.memberName}" class="title" ></p>
+	                                                        <p th:text="'휴대폰 번호 : '+${member.memberPhoneNumber}" class="title"></p>
+	                                                        <p th:text="'주소 : ['+${address.addressZipcode}+'] '+${address.addressRoad} " class="title"></p>
+	                                                        <p th:text="'('+${address.addressContent}+')'" style="padding-left: 40px;"></p>
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">배송메시지</span></th>
+	                                                <td>
+    													<div class="member_warning title" th:utext="${orders[0].ordersComment}" style="text-align: left;">
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                             <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">배송비</span></th>
+	                                                <td>
+	                                                    <div class="member_warning title" style="text-align: left;" th:text="${pay.payDelivery}+'원'">
+	                                                        
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                        </tbody>
+                                    	</table>
+                                    </div>     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">주문 상세</h3>
+                            <!-- Content -->
+                            <div class="total_wrap c05">
+								<ul class="total_area">
+									<li class="total_txt01 title">상품금액<span class="total_price title"  data-th-text="${#numbers.formatInteger(pay.payMoney-pay.payDelivery, 0, 'COMMA') + '원'}">0</span></li>
+									<li class="total_txt03 title">총 배송비<span class="total_price title" data-th-text="${#numbers.formatInteger(pay.payDelivery, 0, 'COMMA') + '원'}">0</span></li>
+									<li class="total_txt04 title">
+									<span>총 결제금액</span>
+									<span class="title"><strong data-th-text="${#numbers.formatInteger(pay.payMoney, 0, 'COMMA') + '원'}">0</strong></span>
+									</li>
+								</ul>
+							</div>
                         </div>
                     </div>
                 </div>
