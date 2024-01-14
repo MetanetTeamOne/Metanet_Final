@@ -23,7 +23,8 @@
 		SELECT
 		member_id as memberId,
 		memHelpTitle,
-		memHelpContent
+		memHelpContent,
+		memHelpFile
 		FROM
 		MEMHELP
 		WHERE
@@ -72,7 +73,7 @@
 		MEMHELP_SEQ.NEXTVAL,
 		#{memHelpTitle},
 		#{memHelpContent},
-		#{memHelpFile, jdbcType=BLOB},
+		#{memHelpFile},
 		#{memHelpState},
 		#{memHelpDate},
 		#{memberId},
@@ -148,6 +149,18 @@
 	<select id="getAdminMemHelpCount" resultType="int">
 		SELECT count(*) FROM
 		memhelp
+	</select>
+	
+	<select id="getAdminMemHelpCompleteCount" resultType="int">
+		SELECT count(*) 
+		FROM memhelp
+		WHERE memHelpState = '1'
+	</select>
+	
+	<select id="getAdminMemHelpIncompleteCount" resultType="int">
+		SELECT count(*)
+		FROM memhelp
+		WHERE memHelpState = '0'
 	</select>
 
 	<!-- <![CDATA[ -->

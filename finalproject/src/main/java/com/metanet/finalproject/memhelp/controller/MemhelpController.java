@@ -1,14 +1,18 @@
 package com.metanet.finalproject.memhelp.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.files.model.Files;
@@ -194,7 +198,8 @@ public class MemhelpController {
 	
 	@Operation(summary = "회원별 문의사항 등록")
 	@PostMapping("/insert")
-	public String insertMemberhelp(@ModelAttribute("memhelp") MemhelpInsertDto memhelp, HttpServletRequest request, Model model) {
+	public String insertMemberhelp(@ModelAttribute("memhelp") MemhelpInsertDto memhelp, HttpServletRequest request, 
+								   @RequestParam("memHelpDirPath") MultipartFile file, Model model) {
 		System.out.println("프론트에서 신청버튼 눌러서 보낸 값" + memhelp);
 		
 		int memberId = memberService.getMemberId(getTokenUserEmail(request));
@@ -206,7 +211,39 @@ public class MemhelpController {
 		insertMemhelp.setMemHelpNum(0);
 		insertMemhelp.setMemHelpTitle(memhelp.getMemHelpTitle());
 		insertMemhelp.setMemHelpContent(memhelp.getMemHelpContent());
-		insertMemhelp.setMemHelpFile(memhelp.getMemHelpFile());
+		
+		// 파일 경로를 넣는걸로 변경
+		
+//		insertMemhelp.setMemHelpFile(memhelp.getMemHelpFile());
+		
+		System.out.println("사진이 null이여야함 데이터 확인 : " + file.getOriginalFilename());
+		
+		String file_name = file.getOriginalFilename();
+		
+		if(file_name!=null&!file_name.equals("")) {
+			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
+			if (!new File(directoryPath).exists()) {
+				new File(directoryPath).mkdirs();
+			}
+
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+			File saveFile = new File(directoryPath, fileName);
+			
+			System.out.println("파일 저장 이름은 : " + fileName);
+
+			try {
+				file.transferTo(saveFile);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			insertMemhelp.setMemHelpFile("/upload/" + fileName);
+		}
+		else {
+			insertMemhelp.setMemHelpFile(file_name);
+		}
+		
 		insertMemhelp.setMemHelpState("0");
 		insertMemhelp.setMemHelpDate(new java.sql.Date(now.getTime()));
 		insertMemhelp.setMemberId(memberId);
