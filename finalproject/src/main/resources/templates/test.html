@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="EUC-KR">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<div class="form-group phoneCertifyDiv">
+		<label class="inputTitle">휴대폰 번호</label><br>
+		<div class="phoneNum-formgroup">
+			<input th:if="${memberPhone != null}" type="text" name="memberPhone" class="phoneNum" readonly
+				th:value="${memberPhone}">
+			<input th:unless="${memberPhone != null}" type="text" name="memberPhone" class="phoneNum">
+			<input type="button" id="memberPhoneCheck" class="btn memberPhoneBtn active" value="인증번호 전송">
+		</div>
+		<div class="phoneNum-formgroup" id="phoneCertifyDiv">
+			<input type="text" name="memberPhoneCertify" class="phoneNum">
+			<input type="button" id="certifyCheck" class="btn memberPhoneBtn" value="인증하기">
+		</div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+	$('#memberPhoneCheck').click(function () {
+
+		var to = $('input[name="memberPhone"]').val();
+		$.ajax({
+			url: "/memberPhoneCheck",
+			type: "POST",
+			data: "to=" + to,
+			dataType: "json",
+			success: function (data) {
+				const checkNum = data;
+				alert('checkNum:' + checkNum);
+
+				//인증하기 버튼 클릭 이벤트
+				$('#certifyCheck').click(function () {
+					const userNum = $('input[name="memberPhoneCertify"]').val();
+					if (checkNum == userNum) {
+						alert('인증 성공하였습니다.');
+					} else {
+						alert('인증 실패하였습니다. 다시 입력해주세요.');
+					}
+				});
+
+			},
+			error: function () {
+				alert("에러")
+			}
+		});
+	});
+</script>
+
+</html>
