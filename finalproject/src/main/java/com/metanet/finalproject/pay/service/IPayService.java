@@ -25,4 +25,12 @@ public interface IPayService {
 
 	// 결제 총액
 	int sumPay(int payMoney);
+
+	List<Pay> getPagingMemberPay(int firstRecordIndex, int lastRecordIndex, int memberId);
+
+	int getPayCount(int memberId);
+
+	List<Pay> getPagingMemberPayByState(int firstRecordIndex, int lastRecordIndex, int memberId, String state);
+
+	int getPayCountByState(int memberId, String state);
 }

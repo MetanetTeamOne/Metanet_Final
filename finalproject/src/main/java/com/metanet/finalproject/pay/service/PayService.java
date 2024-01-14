@@ -54,4 +54,24 @@ public class PayService implements IPayService{
 		return payRepository.sumPay(payMoney);
 	}
 
+	@Override
+	public List<Pay> getPagingMemberPay(int firstRecordIndex, int lastRecordIndex, int memberId) {
+		return payRepository.getPagingMemberPay(firstRecordIndex, lastRecordIndex, memberId);
+	}
+
+	@Override
+	public int getPayCount(int memberId) {
+		return payRepository.getPayCount(memberId);
+	}
+
+	@Override
+	public List<Pay> getPagingMemberPayByState(int firstRecordIndex, int lastRecordIndex, int memberId, String state) {
+		return payRepository.getPagingMemberPayByState(firstRecordIndex, lastRecordIndex, memberId, state);
+	}
+
+	@Override
+	public int getPayCountByState(int memberId, String state) {
+		return payRepository.getPayCountByState(memberId, state);
+	}
+
 }

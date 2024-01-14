@@ -3,18 +3,14 @@ package com.metanet.finalproject.member.controller;
 import java.sql.Date;
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
@@ -359,14 +355,49 @@ public class MemberController {
   	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
+		int payCount = payService.getPayCount(member.getMemberId());
+		log.info("payCount: {}", payCount);
+		Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(payCount);
+		model.addAttribute("pagination", pagination);
 		if (member.getMemberCard().equals("1")) {
-			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+//			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+			List<Pay> pays = payService.getPagingMemberPay(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId());
 			model.addAttribute("pays", pays);
 		}else {
 			model.addAttribute("pay",new Pay());
 		}
 		return "member/card_view";
   	}
+
+	@GetMapping("/card/async")
+	public String getCardAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+							   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+							   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+							   @RequestParam(value = "state", required = false, defaultValue = "1") String state,
+							   HttpServletRequest request, Model model) {
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member", member);
+		int payCount = payService.getPayCount(member.getMemberId());
+		log.info("payCount: {}", payCount);
+
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(payCount);
+		model.addAttribute("pagination", pagination);
+
+		if (member.getMemberCard().equals("1")) {
+//			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state);
+			model.addAttribute("pays", pays);
+			log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state));
+
+		}else {
+			model.addAttribute("pay",new Pay());
+		}
+		return "member/card_view:: memberTable";
+	}
 
 //	@GetMapping("/card")
 //	public String getCard(Model model, String memberEmail) {
