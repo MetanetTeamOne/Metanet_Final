@@ -8,9 +8,7 @@
 	<script th:src="@{/js/member/addressModal.js}"></script>
 	<script th:src="@{/js/member/searchPost.js}"></script>
 	<!--Boot Pay -->
-	<script th:src="@{https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js}" type="application/javascript"></script>
 	<script th:src="@{/js/member/directPay.js}"></script>
-
 
 	<!--Header -->
 	<div th:replace="~{include/member/header :: header}"></div>
@@ -51,70 +49,7 @@
 						id="uploadFileForm" th:action="@{/orders/insert}">
 						<div class="row g-3">
 							<input type="hidden" id="ordersStatus" name="ordersStatus" value="1">
-							<!--넘어가는 값-->
-							<!--<input type="hidden" name="ordersCount">
-							<input type="hidden" name="ordersPrice">
-							<!--주문 후 수거진행이라서 그냥 디폴트로 1 넣음-->
-							<!--<input type="hidden" name="ordersStatus" value="1">
-							<input type="hidden" name="memberId" th:value="${member.memberId}">
-							<input type="hidden" name="laundryId" th:value="${laundryList[0].laundryId}">
-							<input type="hidden" name="washId" th:value="${washId}">-->
 							
-
-
-							<!--<div class="col-12">
-								<label for="username" class="form-label title">이름</label>
-								<div class="input-group has-validation">
-									<input type="text" class="form-control title" id="username" placeholder="김워시"
-										name="memberName" th:value="${member.memberName}" required="">
-									<div class="invalid-feedback title">
-										이름을 입력하세요
-									</div>
-								</div>
-							</div>
-							<div style="display: flex; justify-content: space-between; align-items: center;">
-								<h4 class="mb-3 title" style="margin-bottom: 0!important;">수거 및 배송 주소</h4>
-								<button id="addresButton" style="margin-right: 10px;"><span
-										style="font-size: 13px;font-weight: bold; margin-right: 10px;">주소 수정</span><i
-										class="bi bi-arrow-right-circle"
-										style="font-size: 20px;font-weight: 500;"></i></button>
-
-							</div>
-							<div class="col-sm-4" style="margin-top: 0!important;">
-								<label for="firstName" class="form-label title"></label>
-								<input type="hidden" id="addressId" name="addressId"
-									th:value="${addressList.addressId}">
-
-								<input type="text" class="form-control title" id="addressZipcode" placeholder="우편번호"
-									th:value="${addressList.addressZipcode}" name="addressZipcode" required="">
-								<div class="invalid-feedback title">
-									우편번호를 입력하세요
-								</div>
-							</div>
-
-							<div class="col-sm-4" style="margin-top: 0!important;">
-								<label for="lastName" class="form-label title"></label>
-								<input type="text" class="form-control title" id="lastName" placeholder="도로명 주소"
-									th:value="${addressList.addressRoad}" name="addressRoad" required="">
-								<div class="invalid-feedback title">
-									도로명 주소를 입력하세요
-								</div>
-							</div>
-
-							<div class="col-sm-4" style="margin-top: 0!important;">
-								<label for="lastName" class="form-label title"></label>
-								<input type="text" class="form-control title" id="lastName" placeholder="상세주소"
-									th:value="${addressList.addressContent}" name="addressContent" required="">
-								<div class="invalid-feedback title">
-									상세주소를 입력하세요
-								</div>
-							</div>
-
-							
-							<input type="hidden" class="form-control" id="email" name="memberEmail"
-								th:value="${member.memberEmail}" placeholder="you@example.com">-->
-							
-
 							<h4 class="mb-3 title" style="margin-bottom: 0!important;">세탁 서비스 유형</h4>
 							<div class="my-3">
 								<div class="form-check">
@@ -183,7 +118,7 @@
 							</div>
 
 
-							<div class="row gy-3" id="directPaymentForm" th:if="${member.memberSubscribe == '0'}">
+							<!--<div class="row gy-3" id="directPaymentForm" th:if="${member.memberSubscribe == '0'}">
 								<div class="col-md-12">
 									<label for="cc-number" class="form-label title">카드번호</label>
 									<input type="text" class="form-control" id="cc-number" placeholder="" required="">
@@ -194,8 +129,8 @@
 
 								<div class="col-md-4">
 									<label for="cc-name" class="form-label title">카드사</label>
-									<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
-								<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
+									<input type="text" class="form-control" id="cc-name" placeholder="" required="">
+								<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>
 									<select class="form-select title" id="cc-company" required="">
 										<option value="">선택하세요.</option>
 										<option>국민</option>
@@ -225,7 +160,7 @@
 									</div>
 								</div>
 							</div>
-							<hr class="my-4">
+							<hr class="my-4">-->
 
 
 							<div class="btn_center_box">
@@ -257,6 +192,13 @@
 			하의: {'정장하의': 12, '반바지': 13, '바지': 14, '스커트': 15},
 			신발: {'운동화': 16, '캔버스': 17, '골프화': 18, '등산화': 19},
 			기타: {'넥타이': 20, '모자': 21, '목도리': 22, '스카프': 23}
+		};
+		
+		const laundryId = {
+			'셔츠': '1', '블라우스': '2', '맨투맨': '3', '후드티': '4', '조끼': '5', '원피스': '6', '정장상의': '7', '가디건': '8', '코트': '9', '패딩': '10', '가죽자켓': '11',
+			'정장하의': '12', '반바지': '13', '바지': '14', '스커트': '15',
+			'운동화': '16', '캔버스': '17', '골프화': '18', '등산화': '19',
+			'넥타이': '20', '모자': '21', '목도리': '22', '스카프': '23'
 		};
 		
 		let totalPrice = 0;
@@ -304,35 +246,50 @@
 			    }
 			}
 
-			
 				document.getElementById('insertBtn').addEventListener('click', function () {
 			if (currentCounter < 1) {
 				event.preventDefault();
 				alert('세탁물을 1개 이상 등록해주세요')
 			}else {
-				console.log("discount",discount);
-				console.log("totalPrice",totalPrice);
+
+				//console.log("discount",discount);
+				//console.log("totalPrice",totalPrice);
 				let laundryPlus = document.getElementById('laundryPlus');
 				let selectlaundryName = laundryPlus.querySelectorAll('.laundryName');
 				let selectlaundryCount = laundryPlus.querySelectorAll('.laundryCount');
 				let count = laundryPlus.children.length;
 				calculateTotalPrice();
+				
+				let items = [];
+				
 				for(let i=0; i<count;i++){
 					let inputlaundryName = selectlaundryName[i].value;
 					let inputlaundryCount = selectlaundryCount[i].value;
-                
+                	items.push({
+						item_name: inputlaundryName, //상품명
+			            qty: inputlaundryCount, //수량
+			            unique: laundryId[inputlaundryName], //해당 상품을 구분짓는 primary key
+			            price: getPriceForLaundry(inputlaundryName),
+					});
 					$('<input type="hidden" name="orderList[' + i + '].laundryName" value="' + inputlaundryName + '">').appendTo('#laundryPlus');
 					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
-                	
-                
-				
 				}
-                
-        	$('form').submit();
-        	//directPay();
+                //console.log(items);
+        	//$('form').submit();
 
+			//let items = [
+			//	          {
+			//	              item_name: '나는 아이템', //상품명
+			//	              qty: 1, //수량
+			//	              unique: '123', //해당 상품을 구분짓는 primary key
+			//	              price: 1000, //상품 단가
+			//	          }
+		    //			];
+		    let orderId =[[${washId}]];
+        	// 빨간색 오류나는거 괜찮음
+				directPay(totalPrice,currentCounter,items,orderId);
+        	
 			}
-			
 		});
 
 		document.getElementById('address_plus').addEventListener('click', function () {
@@ -522,7 +479,7 @@ document.body.addEventListener('click', function(event) {
 		function getPriceForLaundry(laundry) {
 			switch (laundry) {
 				case "셔츠":
-					return 15000;
+					return 2500;
 				case "블라우스":
 					return 4900;
 				case "맨투맨":
