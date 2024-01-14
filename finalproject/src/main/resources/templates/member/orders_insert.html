@@ -8,9 +8,7 @@
 	<script th:src="@{/js/member/addressModal.js}"></script>
 	<script th:src="@{/js/member/searchPost.js}"></script>
 	<!--Boot Pay -->
-	<script th:src="@{https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js}" type="application/javascript"></script>
 	<script th:src="@{/js/member/directPay.js}"></script>
-
 
 	<!--Header -->
 	<div th:replace="~{include/member/header :: header}"></div>
@@ -287,13 +285,9 @@
 			//	              price: 1000, //상품 단가
 			//	          }
 		    //			];
-		    let orderId ='1010';
+		    let orderId =[[${washId}]];
         	// 빨간색 오류나는거 괜찮음
-        	if([[${member.memberSubscribe}]] === 0){
 				directPay(totalPrice,currentCounter,items,orderId);
-			} else {
-				//autoPay();	
-			}
         	
 			}
 		});

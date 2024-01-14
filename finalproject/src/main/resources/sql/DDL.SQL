@@ -67,7 +67,7 @@ CREATE TABLE MEMBER (
    member_join_state VARCHAR2(4) NOT NULL, /* 가입상태 */
    member_subscribe VARCHAR2(4) NOT NULL, /* 구독상태 */
    member_subscribe_date DATE, /* 구독날짜 */
-   member_card VARCHAR2(4) NOT NULL /* 카드등록상태 */
+   member_card VARCHAR2(100) NOT NULL /* 카드등록상태 */
 );
 
 ALTER TABLE MEMBER
