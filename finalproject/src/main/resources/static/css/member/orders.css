@@ -5424,6 +5424,7 @@ button.swiper-pagination-bullet {
  .btn05.c01 {
   border: 1px solid #ccc;
   background: #fff;
+  text-decoration: none;
 }
  .btn05.c01 span {
   color: #333;
@@ -6153,7 +6154,6 @@ button.swiper-pagination-bullet {
   display: left;
   width: 80%;
   vertical-align: middle;
-  *zoom: 1;
 }
  .card_inputs:after {
   display: block;
@@ -15103,7 +15103,7 @@ button.swiper-pagination-bullet {
   background: url("https://static.elandrs.com/f/img/pc/ico_arrow05.png") 0 0 no-repeat;
 }
  .my-month__wrap {
-  height: 76px;
+ /* height: 76px;*/
 	padding: 23px 0 0;
 }
  .my-month__wrap::after {
@@ -17110,8 +17110,8 @@ button.swiper-pagination-bullet {
 }
  .total_wrap.c05 {
   margin: 20px 0 0;
-  height: 64px;
-  padding: 20px 0 0 0;
+  height: 70px;
+  padding: 10px 0 0 0;
   border: 2px solid #494949;
   text-align: center;
 }
@@ -17157,7 +17157,6 @@ button.swiper-pagination-bullet {
  .total_wrap.c05 .total_area li.total_txt04 > span {
   display: block;
   line-height: 22px;
-  vertical-align: middle;
   color: #E5132E;
 }
  .total_wrap.c05 .total_area li.total_txt04 strong {

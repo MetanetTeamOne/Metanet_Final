@@ -9,7 +9,7 @@ public interface IPayService {
 
 	// 결제 정보 상세 조회
 	Pay getPay(int payId);
-
+	Pay getWashIdPay(int washId);
 	List<Pay> getPay();
 
 	List<Pay> getPayState(String payState, int memberId);

@@ -359,12 +359,12 @@ public class MemberController {
   	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
-		if (member.getMemberCard().equals("1")) {
+//		if (member.getMemberCard().equals("1")) {
 			List<Pay> pays = payService.getMemberPay(member.getMemberId());
 			model.addAttribute("pays", pays);
-		}else {
+		/*}else {
 			model.addAttribute("pay",new Pay());
-		}
+		}*/
 		return "member/card_view";
   	}
 

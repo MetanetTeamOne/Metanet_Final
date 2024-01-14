@@ -22,10 +22,10 @@
                     <div class="row">
                         <h2 class="title">내 정보 관리</h2>
                     </div>
-                    <div class="row" th:if="${member.memberCard == '0'}">
+                    <!--<div class="row" th:if="${member.memberCard == '0'}">
                         <div class="mypage_header" >
                             <h3 class="title">카드 관리</h3>
-                            <!-- Content -->
+                             Content 
                             <div class="my_page_form" >
                                 <form id="sendForm" class="base_info_sec" method="post" action="/member/card/insert">
                                     <table>
@@ -44,11 +44,11 @@
                                 </form>
                             </div>
                     	</div>
-                    </div>
-                    <div class="row" th:if="${member.memberCard == '1'}">
-                        <div class="mypage_header">
-                            <h3 class="title">카드 관리</h3>
-                            <!-- Content -->
+                    </div>-->
+                    <div class="row">
+                        <!--<div class="mypage_header">
+                            <h3 class="title">결제 관리</h3>
+                             Content 
 
                             <div class="my_page_form">
 									<form method="post" action="/member/card/delete" class="mt-2" style="text-align: right;">
@@ -79,11 +79,11 @@
                             </div>
                         </div>
 
-                    	</div>
-                    	<div class="mypage_header mt-0">
-                            <h3>결제 내역</h3>
+                    	</div>-->
+                    	<div class="mypage_header">
+                            <h3 class="title">결제 내역</h3>
                             <!-- Content -->
-                            <div class="my_page_form">
+                            <div class="my_page_form" style="border: none;">
 								<div class="row mt-2" style="justify-content: right;">
 									<div class="col-md-2 col-lg-2">
 										<select id="payState" class="form-select title" aria-label="Default select example">
