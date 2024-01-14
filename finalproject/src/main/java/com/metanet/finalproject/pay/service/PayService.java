@@ -65,6 +65,11 @@ public class PayService implements IPayService{
 	}
 
 	@Override
+	public int getPayCount() {
+		return payRepository.getPayCount();
+	}
+
+	@Override
 	public List<Pay> getPagingMemberPayByState(int firstRecordIndex, int lastRecordIndex, int memberId, String state) {
 		return payRepository.getPagingMemberPayByState(firstRecordIndex, lastRecordIndex, memberId, state);
 	}
@@ -72,6 +77,26 @@ public class PayService implements IPayService{
 	@Override
 	public int getPayCountByState(int memberId, String state) {
 		return payRepository.getPayCountByState(memberId, state);
+	}
+
+	@Override
+	public int getPayCountByState(String state) {
+		return payRepository.getPayCountByState(state);
+	}
+
+	@Override
+	public List<Pay> getPagingPay(int start, int end) {
+		return payRepository.getPagingPay(start, end);
+	}
+
+	@Override
+	public List<Pay> getPagingPayState(int start, int end, String payState) {
+		return payRepository.getPagingPayState(start, end, payState);
+	}
+
+	@Override
+	public int getPayAllCountByState(String payState) {
+		return payRepository.getPayAllCountByState(payState);
 	}
 
 }

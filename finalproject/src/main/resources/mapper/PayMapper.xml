@@ -125,13 +125,23 @@
 			where member_id = #{memberId}
 		</if>
 	</select>
+
 	<select id="getPayCountByState" resultType="int">
-		SELECT count(*) FROM
-		pay
+        SELECT count(*) FROM
+        pay
 		<if test="memberId != null">
 			where member_id = #{memberId} and pay_state = #{state}
 		</if>
+    </select>
+
+	<select id="getPayAllCountByState" resultType="int">
+		SELECT count(*) FROM
+		pay
+		<if test="state != null">
+			where pay_state = #{state}
+		</if>
 	</select>
+
 
 	<select id="getPagingMemberPayByState"
 			resultType="com.metanet.finalproject.pay.model.Pay">
@@ -147,6 +157,54 @@
 		WASH_ID as washId,
 		MEMBER_ID as memberId
 		from pay where MEMBER_ID = #{memberId} and PAY_STATE = #{state}
+		)
+		<if test="start != null and end != null">
+			<![CDATA[
+			WHERE rnum > #{start} AND
+			rnum <= #{end}
+		]]>
+		</if>
+	</select>
+
+	<select id="getPagingPay"
+			resultType="com.metanet.finalproject.pay.model.Pay">
+		SELECT *
+		FROM(
+		SELECT ROW_NUMBER() OVER(ORDER by PAY_ID asc) AS
+		rnum,
+		PAY_ID as payId,
+		PAY_DELIVERY as payDelivery,
+		PAY_MONEY as payMoney,
+		PAY_DATE as payDate,
+		PAY_STATE as payState,
+		WASH_ID as washId,
+		MEMBER_ID as memberId
+		from pay
+		)
+		<if test="start != null and end != null">
+			<![CDATA[
+			WHERE rnum > #{start} AND
+			rnum <= #{end}
+		]]>
+		</if>
+	</select>
+
+	<select id="getPagingPayState" resultType="com.metanet.finalproject.pay.model.Pay">
+		SELECT *
+		FROM(
+		SELECT ROW_NUMBER() OVER(ORDER by PAY_ID asc) AS
+		rnum,
+		PAY_ID as payId,
+		PAY_DELIVERY as payDelivery,
+		PAY_MONEY as payMoney,
+		PAY_DATE as payDate,
+		PAY_STATE as payState,
+		WASH_ID as washId,
+		MEMBER_ID as memberId
+		from pay
+		<if test="state != 0">
+			where PAY_STATE=#{state}
+		</if>
 		)
 		<if test="start != null and end != null">
 			<![CDATA[
