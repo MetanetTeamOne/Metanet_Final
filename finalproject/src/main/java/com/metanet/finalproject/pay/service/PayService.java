@@ -1,5 +1,6 @@
 package com.metanet.finalproject.pay.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,13 @@ public class PayService implements IPayService{
 	}
 
 	@Override
-	public int sumPay(int payMoney) {
-		return payRepository.sumPay(payMoney);
+	public int sumPay() {
+		return payRepository.sumPay();
+	}
+
+	@Override
+	public int sumMonthPay(Date payDate) {
+		return payRepository.sumMonthPay(payDate);
 	}
 
 	@Override
