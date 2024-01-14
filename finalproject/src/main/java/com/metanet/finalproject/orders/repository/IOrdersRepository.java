@@ -41,4 +41,8 @@ public interface IOrdersRepository {
 	List<OrdersDetails> searchPagingMemOrder(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId);
 
 	List<OrdersDetails> searchPagingMemMonthOrder(@Param("start") int firstRecordIndex, @Param("end") int lastRecordIndex, @Param("memberId") int memberId, @Param("month") int month);
+
+	List<Orders> searchPagingOrdersList(@Param("start") int start, @Param("end") int end);
+
+	int getOrderCount();
 }

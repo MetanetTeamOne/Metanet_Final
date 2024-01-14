@@ -106,6 +106,11 @@ public class OrdersService implements IOrdersService{
 	}
 
 	@Override
+	public int getOrderCount() {
+		return ordersRepository.getOrderCount();
+	}
+
+	@Override
 	public List<OrdersDetails> searchPagingMemOrder(int firstRecordIndex, int lastRecordIndex, int memberId) {
 		return ordersRepository.searchPagingMemOrder(firstRecordIndex, lastRecordIndex, memberId);
 	}
@@ -113,6 +118,11 @@ public class OrdersService implements IOrdersService{
 	@Override
 	public List<OrdersDetails> searchPagingMemMonthOrder(int firstRecordIndex, int lastRecordIndex, int memberId, int month) {
 		return ordersRepository.searchPagingMemMonthOrder(firstRecordIndex, lastRecordIndex, memberId, month);
+	}
+
+	@Override
+	public List<Orders> searchPagingOrdersList(int start, int end) {
+		return ordersRepository.searchPagingOrdersList(start, end);
 	}
 
 
