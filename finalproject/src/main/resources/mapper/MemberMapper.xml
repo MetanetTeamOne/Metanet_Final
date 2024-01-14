@@ -162,7 +162,10 @@
 		<set>
 			MEMBER_SUBSCRIBE_DATE=sysdate,
 			<if test="memberSubscribe != null">
-				member_subscribe=#{memberSubscribe}
+				member_subscribe=#{memberSubscribe},
+			</if>
+			<if test="memberCard != null">
+				member_card=#{memberCard},
 			</if>
 		</set>
 		where member_email=#{memberEmail}
