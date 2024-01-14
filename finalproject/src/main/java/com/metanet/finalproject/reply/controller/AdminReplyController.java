@@ -53,6 +53,9 @@ public class AdminReplyController {
 		model.addAttribute("memberId", memhelp.getMemberId());
 		model.addAttribute("memHelpTitle", memhelp.getMemHelpTitle());
 		model.addAttribute("memHelpContent", memhelp.getMemHelpContent());
+		model.addAttribute("memHelpFile", memhelp.getMemHelpFile());
+		
+		System.out.println("첨부 파일 이름은 !!!1 : " + memhelp.getMemHelpContent());
 		
 		
 		InsertReplyDto replyDto = new InsertReplyDto();
@@ -84,6 +87,18 @@ public class AdminReplyController {
 		
 		// 문의사항 번호에 맞는 문의사항에 대해서 상태 업데이트를 한다. 답변 대기 -> 답변 완료
 		memhelpService.updateStateOfMemhelp(replyDto.getMemHelpNum());
+		
+		return "redirect:/admin/memhelp";
+	}
+	
+	@Operation(summary = "관리자 - 사용자 답변 강제 삭제")
+	@PostMapping("/admin/reply/delete/{memHelpNum}")
+	public String deleteReplyOfMemhelp(@PathVariable("memHelpNum") int memHelpNum) {
+		System.out.println("삭제 API 접근, number은 : " + memHelpNum);
+		
+		// Reply는 memHelp테이블의 PK를 FK로 사용하기 때문에
+		// Reply를 삭제하는 것이 아닌, memHelp테이블에 접근하여 삭제를 해야한다.
+		replyService.deleteMemhelp(memHelpNum);
 		
 		return "redirect:/admin/memhelp";
 	}

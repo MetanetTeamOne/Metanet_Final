@@ -31,8 +31,11 @@ public interface IOrdersService {
 	void updateStatus(int washId, String ordersStatus);
 
     int getOrderCount(int month, int memberId);
+    int getOrderCount();
 
 	List<OrdersDetails> searchPagingMemOrder(int firstRecordIndex, int lastRecordIndex, int memberId);
 
 	List<OrdersDetails> searchPagingMemMonthOrder(int firstRecordIndex, int lastRecordIndex, int memberId, int month);
+
+	List<Orders> searchPagingOrdersList(int start, int end);
 }

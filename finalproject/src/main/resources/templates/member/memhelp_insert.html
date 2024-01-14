@@ -20,7 +20,7 @@
 	                    <h2>문의 신청하기</h2>
 	                </div>
 	                
-	                <form class="needs-validation was-validated" method="post" th:action="@{/memhelp/insert}" id="memhelpForm">
+	                <form class="needs-validation was-validated" method="post" enctype="multipart/form-data" th:action="@{/memhelp/insert}" id="memhelpForm">
 <!--					<div class="row g-3">-->
 						<input type="hidden" id="memberEmail" th:value="${memberEmail}">
 						<!--넘어가는 값-->
@@ -78,10 +78,11 @@
 							</div>
 							
 							<div class="col-12" style="margin-top: 20px;">
-								<label for="ordersComment" class="form-label title">세탁물 사진 <span
+								<label for="ordersComment" class="form-label title">첨부 사진 <span
 									class="text-body-secondary">(선택)</span></label>
-								<input th:field="${memhelp.memHelpFile}" type="file" class="form-control title" id="memHelpFile"
-									name="ordersImageData">
+<!--								<input th:field="${memhelp.memHelpFile}" type="file" class="form-control title" id="memHelpFile"-->
+<!--									name="ordersImageData">-->
+								<input type="file" class="form-control title" id="memHelpImageData" name="memHelpDirPath">
 							</div>
 							
 	<!--						<hr class="my-4">-->

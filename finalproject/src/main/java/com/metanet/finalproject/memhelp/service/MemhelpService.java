@@ -68,4 +68,14 @@ public class MemhelpService implements IMemhelpService{
 	public int getAdminMemHelpCount() {
 		return memhelpRepository.getAdminMemHelpCount();
 	}
+
+	@Override
+	public int getAdminMemHelpCompleteCount() {
+		return memhelpRepository.getAdminMemHelpCompleteCount();
+	}
+
+	@Override
+	public int getAdminMemHelpIncompleteCount() {
+		return memhelpRepository.getAdminMemHelpIncompleteCount();
+	}
 }

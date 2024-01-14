@@ -40,5 +40,10 @@ public interface IMemhelpRepository {
 
 	List<Memhelp> searchPagingAllMemhelp(@Param("start") int start, @Param("end") int end);
 
+	// 문의 현황 로직
 	int getAdminMemHelpCount();
+	
+	int getAdminMemHelpCompleteCount();
+	
+	int getAdminMemHelpIncompleteCount();
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-Header
 <div th:replace="~{include/admin/head :: head}"></div>
 <style>
 	#datatablesSimple:hover {
@@ -24,7 +23,7 @@ Header
 
 					<div class="row">
 						<div class="col-xl-3 col-md-3">
-							<div class="card mb-3" style="background-color: #b5f2ff";>
+							<div class="card mb-3" style="background-color: #ff6384;">
 								<div class="card-body title">회원 수</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<div class="small text-black">
@@ -35,7 +34,7 @@ Header
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-3">
-							<div class="card text-black mb-3" style="background-color: #ffeb9b";>
+							<div class="card text-black mb-3" style="background-color: #36a2eb;">
 								<div class="card-body title">총 매출</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<div class="small text-black">
@@ -47,7 +46,7 @@ Header
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-3">
-							<div class="card text-black mb-3" style="background-color: #b5f2ff";>
+							<div class="card text-black mb-3" style="background-color: #ff6384;">
 								<div class="card-body title">문의대기</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<div class="small text-black">
@@ -58,7 +57,7 @@ Header
 							</div>
 						</div>
 						<div class="col-xl-3 col-md-3">
-							<div class="card text-black mb-3" style="background-color: #ffeb9b";>
+							<div class="card text-black mb-3" style="background-color: #36a2eb;">
 								<div class="card-body title">누적 주문 건수</div>
 								<div class="card-footer d-flex align-items-center justify-content-between">
 									<div class="small text-black">
@@ -71,18 +70,20 @@ Header
 					</div>
 
 					<div class="row mb-4">
-						<div class="col-xl-3 col-md-3" style="margin-bottom: 30px;">
+						<div class="col-xl-4 col-md-3" style="margin-bottom: 30px;">
 							<div class="card mb-6">
 								<div class="card-header title">
 									<i class="fas fa-chart-area me-1"></i>
+									<input id="payDate" type="hidden" th:value="${payDateList}">
+									<input id="payMoney" type="hidden" th:value="${payMoneyList}">
 									월별 매출 통계
 								</div>
 								<div class="card-body">
-									<canvas id="paychart" style="align-items: center; width: 50%;"></canvas>
+									<canvas id="paychart" style="align-items: center; width: 100%;"></canvas>
 								</div>
 							</div>
 						</div>
-						<div class="card col-xl-9" style="padding-left: 0;padding-right: 0;">
+						<div class="card col-xl-8" style="padding-left: 0;padding-right: 0;">
 							<div class="card-header title">
 								<i class="fas fa-table me-1"></i>
 								전체 주문내역 조회
@@ -123,21 +124,20 @@ Header
 							</div>
 						</div>
 
-
 					</div>
-					<div class="row">
-						<div class="col-xl-3 col-md-3" style="margin-bottom: 30px;">
+					<div class="row mb-4">
+						<div class="col-xl-4 col-md-3" style="margin-bottom: 30px;">
 							<div class="card mb-6">
 								<div class="card-header title">
 									<i class="fas fa-chart-area me-1"></i>
 									목표 매출액 진척도
 								</div>
 								<div class="card-body" style="align-items: center!important; max-width: 500px;">
-									<canvas id="chart8" style="align-items: center; width: 50%;"></canvas>
+									<canvas id="chart8" style="align-items: center; width: 100%;"></canvas>
 								</div>
 							</div>
 						</div>
-						<div class="card col-lg-9" style="padding-left: 0;padding-right: 0;">
+						<div class="card col-xl-8" style="padding-left: 0;padding-right: 0;">
 							<div class="card-header title">
 								<i class="fas fa-table me-1"></i>
 								문의내역
@@ -226,9 +226,9 @@ Header
 				datasets: [
 					{
 						label: '(단위 : 원)',
-						data: [currentTotalPay, 1000000],
-						backgroundColor: ["#ffeb9b", "#b5f2ff"],
-						borderColor: ["#ffeb9b", "#b5f2ff"],
+						data: [currentTotalPay, 10000000],
+						//backgroundColor: ["#ffeb9b", "#b5f2ff"],
+						//borderColor: ["#ffeb9b", "#b5f2ff"],
 						circumference: 180,
 						rotation: 270
 					},
@@ -236,50 +236,57 @@ Header
 			},
 
 		});
+
+		var payDateList = document.getElementById('payDate').value;
+		var matches = payDateList.match(/\d+-\d+-\d+/g);
+
+		var payMoneyList = document.getElementById('payMoney').value;
+		console.log('payMoneyList>>>>>', payMoneyList);
+		var moneyMatches = payMoneyList.match(/\d+/g);
+		console.log('moneyMatches>>>', moneyMatches);
+
+		var monthlyData = {};
+		for (var i = 0; i < matches.length; i++) {
+			console.log(matches[i]);
+			var yearmonth = matches[i].substring(0, 7);
+			console.log('yearmonth ===', yearmonth);
+
+			if (monthlyData[yearmonth] === undefined) {
+				monthlyData[yearmonth] = 0;
+			}
+
+			monthlyData[yearmonth] += parseInt(moneyMatches[i], 10);
+
+		}
+
+		var labels = Object.keys(monthlyData).sort();
+		var datasets = labels.map(function (label) {
+			return monthlyData[label];
+		});
+
+		var chartArea = document.getElementById('paychart').getContext('2d');
+		var paychart = new Chart(chartArea, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [
+					{
+						label: '(단위 : 원)',
+						data: datasets,
+						backgroundColor:["#ff6384"],
+						borderColor:["#36a2eb"]
+						//backgroundColor: ["#ffeb9b", "#b5f2ff"],
+						//borderColor: ["#ffeb9b", "#b5f2ff"]
+					},
+				],
+			},
+
+		});
+
 	});
 
 
 
 </script>
-
-<!--
-	// 차트를 그럴 영역을 dom요소로 가져온다.
-var chartArea = document.getElementById('myChart').getContext('2d');
-// 차트를 생성한다.
-var myChart = new Chart(chartArea, {
-// ①차트의 종류(String)
-type: 'line',
-// ②차트의 데이터(Object)
-data: {
-// ③x축에 들어갈 이름들(Array)
-labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-// ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
-datasets: [{
-// ⑤dataset의 이름(String)
-label: '# of Votes',
-// ⑥dataset값(Array)
-data: [12, 19, 3, 5, 2, 3],
-// ⑦dataset의 배경색(rgba값을 String으로 표현)
-backgroundColor: 'rgba(255, 99, 132, 0.2)',
-// ⑧dataset의 선 색(rgba값을 String으로 표현)
-borderColor: 'rgba(255, 99, 132, 1)',
-// ⑨dataset의 선 두께(Number)
-borderWidth: 1
-}]
-},
-// ⑩차트의 설정(Object)
-options: {
-// ⑪축에 관한 설정(Object)
-scales: {
-// ⑫y축에 대한 설정(Object)
-y: {
-// ⑬시작을 0부터 하게끔 설정(최소값이 0보다 크더라도)(boolean)
-beginAtZero: true
-}
-}
-}
-});
-	
--->
 
 </html>
