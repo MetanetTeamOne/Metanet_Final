@@ -252,7 +252,7 @@ public class OrdersController {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		int memberId = member.getMemberId();
 		int total = 0;
-		int washId = ordersService.searchMaxWashId(memberId);
+		int washId = ordersService.searchMaxWashId();
 
 		Orders order = new Orders();
 		order.setMemberId(memberId);
