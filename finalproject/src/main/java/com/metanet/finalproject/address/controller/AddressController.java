@@ -82,6 +82,7 @@ public class AddressController {
 		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
 		address.setAddressCategory("3");
 		address.setMemberId(memberId);
+		address.setAddressDetail("");
 		addressService.insertAddress(address);
 		return "redirect:/member/address";
 	}
@@ -109,18 +110,18 @@ public class AddressController {
 		addressService.updateAddress(address);
 		return "redirect:/member/address";
 	}
-	
-	@Operation(summary = "사용자 주소 수정")
-	@PostMapping("/update2")
-	public String updateAddress(@Valid @ModelAttribute("address") Address address) {
-
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-		System.out.println("사용자 주소 수정 : "+ address);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
-//		log.info("update address: {}", address);
-		addressService.updateAddress(address);
-		return "redirect:/orders/insert";
-	}
+//	
+//	@Operation(summary = "사용자 주소 수정")
+//	@PostMapping("/update2")
+//	public String updateAddress(@Valid @ModelAttribute("address") Address address) {
+//
+//		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+//		System.out.println("사용자 주소 수정 : "+ address);
+//		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+////		log.info("update address: {}", address);
+//		addressService.updateAddress(address);
+//		return "redirect:/orders/insert";
+//	}
 	
 	@Operation(summary = "사용자 주소 삭제")
 	@PostMapping("/delete")

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.service.ILaundryService;
@@ -41,11 +40,10 @@ public class LaundryController {
 	// return : JSON
 	@Operation(summary = "세탁물 카테고리별 조회")
 	@GetMapping("/{laundryCategoryId}")
-	@ResponseBody
-	public List<Laundry> getLaundryCategory(Model model, @PathVariable int laundryCategoryId) {
+	public String getLaundryCategory(Model model, @PathVariable int laundryCategoryId) {
 		List<Laundry> getLaundryCategory = laundryService.getLaundryCategory(laundryCategoryId);
 		
-		return getLaundryCategory;
+		return "member/home";
 	}
 	
 }
