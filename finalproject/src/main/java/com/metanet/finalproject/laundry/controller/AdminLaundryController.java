@@ -38,7 +38,7 @@ public class AdminLaundryController {
 	@GetMapping("")
 	public String getLaundry(Model model) {
 //		List<Laundry> laundrys = laundryService.getLaundry();
-		List<Laundry> laundrys = laundryService.getPagingLaundryCategory(1,10, 1);
+		List<Laundry> laundrys = laundryService.getPagingLaundryCategory(0,10, 1);
 		List<LaundryCategory> laundryCategorys = laundryCategoryService.getLaundryCategory();
 		int laundryCount = laundryService.getLaundryCount(1);
 		log.info("laundryCount: {}", laundryCount);
