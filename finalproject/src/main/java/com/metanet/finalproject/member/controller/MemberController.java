@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import com.metanet.finalproject.paging.Pagination;
 
 import org.apache.http.HttpEntity;
@@ -17,7 +18,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,6 +38,8 @@ import com.metanet.finalproject.member.model.MemberPasswordDto;
 import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.model.ResponseDto;
 import com.metanet.finalproject.member.service.IMemberService;
+import com.metanet.finalproject.member.service.TestService;
+import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.Bootpay;
 import com.metanet.finalproject.pay.service.BootpayObject;
@@ -46,6 +55,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Slf4j
 @Controller
@@ -72,6 +82,9 @@ public class MemberController {
 
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	TestService smsService;
 
 	// Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
@@ -517,4 +530,9 @@ public class MemberController {
 	}
 	
 
+	// coolSMS 연결
+	@PostMapping("/memberPhoneCheck")
+	public @ResponseBody String memberPhoneCheck(@RequestParam(value = "to") String to) throws CoolsmsException {
+		return smsService.PhoneNumberCheck(to);
+	}
 }
