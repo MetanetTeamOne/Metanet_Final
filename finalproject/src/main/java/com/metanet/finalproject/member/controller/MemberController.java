@@ -61,6 +61,7 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 @Controller
 @RequestMapping("/member")
 @Tag(name = "Member", description = "회원 관리 API")
+
 @CrossOrigin(origins = { "http://localhost:8085", "http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
 		"http://metawash.kro.kr:8888/" }, allowedHeaders = "*", allowCredentials = "true")
 public class MemberController {
@@ -214,6 +215,7 @@ public class MemberController {
 //				role.setRoleName("ROLE_USER");
 //				roleRepository.insertRole(role);
 //			}
+
 
 			// 기존 코드
 			// 권한 부여
@@ -425,53 +427,50 @@ public class MemberController {
 		return "redirect:/member/subscribe";
 	}
 
-	@GetMapping("/card")
-	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
-		int payCount = payService.getPayCount(member.getMemberId());
-		log.info("payCount: {}", payCount);
-		Pagination pagination = new Pagination(1, 10, 10);
-		log.info("pagination: {}", pagination);
-		pagination.setTotalRecordCount(payCount);
-		model.addAttribute("pagination", pagination);
+   @GetMapping("/card")
+    public String getCard(HttpServletRequest request, Model model) {
+        Member member = memberService.selectMember(getTokenUserEmail(request));
+        model.addAttribute("member", member);
+        int payCount = payService.getPayCountByState(member.getMemberId(), "1");
+        log.info("payCount: {}", payCount);
+        Pagination pagination = new Pagination(1, 10, 10);
+        log.info("pagination: {}", pagination);
+        pagination.setTotalRecordCount(payCount);
+        model.addAttribute("pagination", pagination);
 //			List<Pay> pays = payService.getMemberPay(member.getMemberId());
-		List<Pay> pays = payService.getPagingMemberPay(pagination.getFirstRecordIndex(),
-				pagination.getLastRecordIndex(), member.getMemberId());
-		model.addAttribute("pays", pays);
-		return "member/card_view";
-	}
+        List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), "1");
+        model.addAttribute("pays", pays);
+        return "member/card_view";
+    }
 
-	@GetMapping("/card/async")
-	public String getCardAsync(
-			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-			@RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-			@RequestParam(value = "state", required = false, defaultValue = "1") String state,
-			HttpServletRequest request, Model model) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
-		int payCount = payService.getPayCount(member.getMemberId());
-		log.info("payCount: {}", payCount);
+    @GetMapping("/card/async")
+    public String getCardAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+                               @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+                               @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+                               @RequestParam(value = "state", required = false, defaultValue = "1") String state,
+                               HttpServletRequest request, Model model) {
+        Member member = memberService.selectMember(getTokenUserEmail(request));
+        model.addAttribute("member", member);
+        int payCount = payService.getPayCountByState(member.getMemberId(), state);
+        log.info("payCount: {}", payCount);
 
-		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
-		log.info("pagination: {}", pagination);
-		pagination.setTotalRecordCount(payCount);
-		model.addAttribute("pagination", pagination);
+        Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+        log.info("pagination: {}", pagination);
+        pagination.setTotalRecordCount(payCount);
+        model.addAttribute("pagination", pagination);
 
-		if (member.getMemberCard().equals("1")) {
+        if (member.getMemberCard().equals("1")) {
 //			List<Pay> pays = payService.getMemberPay(member.getMemberId());
-			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(),
-					pagination.getLastRecordIndex(), member.getMemberId(), state);
-			model.addAttribute("pays", pays);
-			log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(),
-					pagination.getLastRecordIndex(), member.getMemberId(), state));
+            List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state);
+            model.addAttribute("pays", pays);
+            log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state));
 
-		} else {
-			model.addAttribute("pay", new Pay());
-		}
-		return "member/card_view:: memberTable";
-	}
+        } else {
+            model.addAttribute("pay", new Pay());
+        }
+        return "member/card_view:: memberTable";
+    }
+
 
 //	@GetMapping("/card")
 //	public String getCard(Model model, String memberEmail) {
@@ -499,32 +498,33 @@ public class MemberController {
 ////          }
 //	}
 
-	// 카드 등록 폼
-	@GetMapping("/card/insert")
-	public String insertCard(HttpServletRequest request, Model model) {
+    // 카드 등록 폼
+    @GetMapping("/card/insert")
+    public String insertCard(HttpServletRequest request, Model model) {
 //  			if(memberEmail != null && !memberEmail.equals("")) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
-		model.addAttribute("member", member);
-		return "member/card_insert";
+        Member member = memberService.selectMember(getTokenUserEmail(request));
+        model.addAttribute("member", member);
+        return "member/card_insert";
 //  			}else {
 //  				return "member/login";
 //  			}
-	}
+    }
 
-	// 카드 등록 처리
-	@PostMapping("/card/insert")
-	public String insertCard(Member member, Model model, String memberEmail) {
-		memberService.insertCard(memberEmail);
-		return "redirect:/member/card";
-	}
+    // 카드 등록 처리
+    @PostMapping("/card/insert")
+    public String insertCard(Member member, Model model, String memberEmail) {
+        memberService.insertCard(memberEmail);
+        return "redirect:/member/card";
+    }
 
-	// 카드 해지 구현 필요
-	// 카드 등록 처리
-	@PostMapping("/card/delete")
-	public String deleteCard(Member member, Model model, String memberEmail) {
-		// 카드 해지 서비스 로직 필요
-		memberService.deleteCard(memberEmail);
+    // 카드 해지 구현 필요
+    // 카드 등록 처리
+    @PostMapping("/card/delete")
+    public String deleteCard(Member member, Model model, String memberEmail) {
+        // 카드 해지 서비스 로직 필요
+        memberService.deleteCard(memberEmail);
 //		model.addAttribute("member", member);
+
 		System.out.println("===카드 해지 완료===");
 		return "redirect:/member/card";
 	}

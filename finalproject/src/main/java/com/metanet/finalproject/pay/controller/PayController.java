@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.member.model.Member;
@@ -89,14 +87,16 @@ public class PayController {
 	//결제 상태 조회
 	@Operation(summary = "결제 상태 정보 조회")
 	@GetMapping("/search/{payState}")
-	public String getPayState(HttpServletRequest request, @PathVariable String payState, Model model){
+	public String getPayState(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+							  @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+							  @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, HttpServletRequest request, @PathVariable String payState, Model model){
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		Pagination pagination = new Pagination(1, 10, 10);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
 		int payCount = payService.getPayCountByState(member.getMemberId(), payState);
 		pagination.setTotalRecordCount(payCount);
 		model.addAttribute("pagination", pagination);
 
-		List<Pay> pays = payService.getPagingMemberPayByState(1, 10, member.getMemberId(), payState);
+		List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), payState);
 		model.addAttribute("pays", pays);
 		model.addAttribute("member", member);
 		return "member/card_view:: memberTable";
