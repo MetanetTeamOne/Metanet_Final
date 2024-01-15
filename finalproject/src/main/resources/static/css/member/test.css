@@ -1,4 +1,4 @@
-/*
+
 .credit-card {
     margin: 10px 0;
     position: relative;
@@ -38,7 +38,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.8em;
-  margin-top: 3em;
+  margin-top: 2em;
 }
 .details {
   color: #ffffff;
@@ -78,4 +78,3 @@
   margin-top: 4em;
   right: 1em;
 }
-*/

@@ -4,279 +4,348 @@
 <head th:replace="~{include/member/head :: head}"></head>
 
 <body>
-<!-- JS -->
-<script th:src="@{/js/member/searchPost.js}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<!-- JS -->
+	<script th:src="@{/js/member/searchPost.js}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-<!--Header -->
-<div th:replace="~{include/member/header :: header}"></div>
+	<!--Header -->
+	<div th:replace="~{include/member/header :: header}"></div>
 
-<div th:if="${showAlert}" class="alert alert-danger" role="alert">
-	최초 1회 회원가입 후 네이버, 카카오 로그인이 가능합니다.
-</div>
+	<div th:if="${showAlert}" class="alert alert-danger" role="alert">
+		최초 1회 회원가입 후 네이버, 카카오 로그인이 가능합니다.
+	</div>
 
-<!-- Main -->
-<div class="container">
-    <div id="contents">
-        <!-- 본문 시작 -->
-        <!-- //location_wrap -->
-        <div class="sub_content">
-            <!-- //side_cont -->
-            <div class="inner">
-                <div class="section-background section-cover"></div>
+	<!-- Main -->
+	<div class="container title">
+		<div id="contents">
+			<!-- 본문 시작 -->
+			<!-- //location_wrap -->
+			<div class="sub_content">
+				<!-- //side_cont -->
+				<div class="inner">
+					<div class="section-background section-cover"></div>
 
-                <div class="member_tit inner">
-                    <h2>회원가입</h2>
-                    <ol>
-                        <li class="page_on"><span>01</span> 정보입력<span><img
-                                src="https://apslovtr2600.cdn-nhncommerce.com/data/skin/front/wg-210803/img/member/icon_join_step_on.png"
-                                alt=""></span></li>
-                        <li><span>02</span> 가입완료</li>
-                    </ol>
-                </div>
-                <!-- //member_tit -->
-                <div class="member_cont">
-                    <form method="post" action="/member/insert" th:object="${dto}" onsubmit="return valid()">
-                        <!-- 회원가입/정보 기본정보 -->
-                        <div class="base_info_box">
-                            <h3>기본정보</h3>
-                            <span class="important">표시는 반드시 입력하셔야 하는 항목입니다.</span>
-                            <div class="base_info_sec">
-                                <table border="0" cellpadding="0" cellspacing="0">
-                                    <colgroup>
-                                        <col width="25%">
-                                        <col width="75%">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th><span class="important">아이디</span></th>
-                                        <td>
-                                            <div class="member_warning">
-                                                <input type="email" th:field="*{memberEmail}" th:errorclass="field-error" id="memberEmail" name="memberEmail"
-                                                       data-pattern="memberEmail"
-                                                       placeholder="이메일" required>
-                                                <div class="field-error" th:errors="*{memberEmail}">
-                                                    이메일 오류
-                                                </div>
-                                                <button type="button" class="btn_post_search"
-                                                        onclick="check()">아이디 확인
-                                                </button>
-                                                <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()" class="btn_post_search">
-                                                    인증번호 받기
-                                                </button>
-                                                <div id="mail_number" name="mail_number" style="display: none">
-                                                    <br>
-                                                    <input type="text" name="number" id="number" placeholder="인증번호 입력">
-                                                    <button type="button" name="confirmBtn" id="confirmBtn" class="btn_post_search" onclick="confirmNumber()">이메일 인증</button>
-                                                </div>
-                                                <input type="text" id="Confirm" name="Confirm" style="display: none" value="">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="">
-                                        <th><span class="important">비밀번호</span></th>
-                                        <td class="member_password">
-                                            <div class="member_warning">
-                                                <input type="password" oninput="pwCheck()" th:field="*{memberPassword}" th:errorclass="field-error" id="memberPassword" name="memberPassword"
-                                                       autocomplete="off" placeholder="비밀번호" required>
-                                            </div>
-                                            <div class="field-error" th:errors="*{memberPassword}">
-                                                비밀번호 오류
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="">
-                                        <th><span class="important">비밀번호 확인</span></th>
-                                        <td>
-                                            <div class="member_warning">
-                                                <input type="password" class="check-id" oninput="pwCheck()" th:field="*{reMemberPassword}" th:errorclass="field-error" id="reMemberPassword"
-                                                       autocomplete="off" placeholder="비밀번호 재입력" required>
-                                            </div>
-                                            <span id="pwConfirm"></span>
-                                            <div class="field-error" th:errors="*{reMemberPassword}">
-                                                비밀번호 오류
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><span class="important">이름</span></th>
-                                        <td>
-                                            <div class="member_warning">
-                                                <input type="text" th:field="*{memberName}" th:errorclass="field-error" id="memberName" name="memberName"
-                                                       data-pattern="memberName"
-                                                       value="" maxlength="30" placeholder="이름" required>
-                                            </div>
-                                            <div class="field-error" th:errors="*{memberName}">
-                                                이름 오류
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><span class="important">휴대폰번호</span></th>
-                                        <td class="member_address">
-                                            <div class="address_postcode">
-                                                <input type="text" th:field="*{memberPhoneNumber}" th:errorclass="field-error" id="memberPhoneNumber" name="memberPhoneNumber"
-                                                       maxlength="12" placeholder="- 없이 입력하세요."
-                                                       data-pattern="gdNum" value="" required>
-                                            </div>
-                                            <div class="field-error" th:errors="*{memberPhoneNumber}">
-                                                휴대폰 오류
-                                            </div>
-                                            <div class="form_element">
-                                                <input type="checkbox" id="smsFl" name="smsFl" value="y"
-                                                       required>
-                                                <label for="smsFl" class="check_box ">정보/이벤트 SMS 수신에
-                                                    동의합니다.</label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><span class="important">주소</span></th>
-                                        <td class="member_address">
-                                            <div class="address_postcode">
-                                                <input type="text" th:field="*{addressZipcode}" th:errorclass="field-error" id="addressZipcode" name="addressZipcode"
-                                                       placeholder="우편번호"
-                                                       class="inputData" readonly>
-                                                <div class="field-error" th:errors="*{addressZipcode}">
-                                                    우편번호 오류
-                                                </div>
-                                                <button type="button" class="btn_post_search"
-                                                        onclick="daumPostcode()">우편번호 찾기
-                                                </button>
-                                            </div>
-                                            <div class="address_input">
-                                                <div class="member_warning">
-                                                    <input type="text" th:field="*{addressRoad}" th:errorclass="field-error" id="addressRoad" name="addressRoad"
-                                                           placeholder="도로명/지번주소" class="inputData" readonly>
-                                                </div>
-                                                <div class="field-error" th:errors="*{addressRoad}">
-                                                    도로명/지번주소 오류
-                                                </div>
-                                                <div class="member_warning js_address_sub">
-                                                    <input type="text" th:field="*{addressContent}" th:errorclass="field-error" id="addressContent"
-                                                           name="addressContent" placeholder="상세주소"
-                                                           required>
-                                                    <div class="field-error" th:errors="*{addressContent}">
-                                                        상세주소 오류
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- //base_info_sec -->
-                        </div>
+					<div class="member_tit inner">
+						<h2>회원가입</h2>
+						<ol>
+							<li class="page_on"><span>01</span> 정보입력<span><img
+										src="https://apslovtr2600.cdn-nhncommerce.com/data/skin/front/wg-210803/img/member/icon_join_step_on.png"
+										alt=""></span></li>
+							<li><span>02</span> 가입완료</li>
+						</ol>
+					</div>
+					<!-- //member_tit -->
+					<div class="member_cont">
+						<form method="post" action="/member/insert" th:object="${dto}" onsubmit="return valid()">
+							<!-- 회원가입/정보 기본정보 -->
+							<div class="base_info_box">
+								<h3>기본정보</h3>
+								<span class="important">표시는 반드시 입력하셔야 하는 항목입니다.</span>
+								<div class="base_info_sec">
+									<table border="0" cellpadding="0" cellspacing="0">
+										<colgroup>
+											<col width="25%">
+											<col width="75%">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th><span class="important title">아이디</span></th>
+												<td>
+													<div class="member_warning">
+														<input type="email" th:field="*{memberEmail}"
+															th:errorclass="field-error" id="memberEmail"
+															name="memberEmail" data-pattern="memberEmail" class="title"
+															placeholder="이메일" required>
+														<div class="field-error title" th:errors="*{memberEmail}">
+															이메일 오류
+														</div>
+														<button type="button" class="btn_post_search title"
+															onclick="check()">아이디 확인
+														</button>
+														<button type="button" id="sendBtn" name="sendBtn"
+															onclick="sendNumber()" class="btn_post_search title">
+															인증번호 받기
+														</button>
+														<div id="mail_number" name="mail_number" style="display: none">
+															<br>
+															<input type="text" name="number" id="number"
+																placeholder="인증번호 입력">
+															<button type="button" name="confirmBtn" id="confirmBtn"
+																class="btn_post_search" onclick="confirmNumber()">이메일
+																인증</button>
+														</div>
+														<input type="text" id="Confirm" name="Confirm"
+															style="display: none" value="">
+													</div>
+												</td>
+											</tr>
+											<tr class="">
+												<th><span class="important title">비밀번호</span></th>
+												<td class="member_password">
+													<div class="member_warning">
+														<input type="password" oninput="pwCheck()"
+															th:field="*{memberPassword}" th:errorclass="field-error"
+															id="memberPassword" name="memberPassword" class="title"
+															autocomplete="off" placeholder="비밀번호" required>
+													</div>
+													<div class="field-error title" th:errors="*{memberPassword}">
+														비밀번호 오류
+													</div>
+												</td>
+											</tr>
+											<tr class="">
+												<th><span class="important title">비밀번호 확인</span></th>
+												<td>
+													<div class="member_warning">
+														<input type="password" class="check-id title"
+															oninput="pwCheck()" th:field="*{reMemberPassword}"
+															th:errorclass="field-error" id="reMemberPassword"
+															autocomplete="off" placeholder="비밀번호 재입력" required>
+													</div>
+													<span id="pwConfirm"></span>
+													<div class="field-error title" th:errors="*{reMemberPassword}">
+														비밀번호 오류
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<th><span class="important title">이름</span></th>
+												<td>
+													<div class="member_warning">
+														<input type="text" th:field="*{memberName}"
+															th:errorclass="field-error" id="memberName"
+															name="memberName" data-pattern="memberName" class="title"
+															value="" maxlength="30" placeholder="이름" required>
+													</div>
+													<div class="field-error title" th:errors="*{memberName}">
+														이름 오류
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<th><span class="important title">휴대폰번호</span></th>
+												<td class="member_address">
+													<div class="address_postcode">
+														<input type="text" th:field="*{memberPhoneNumber}"
+															th:errorclass="field-error" id="to" name="memberPhoneNumber"
+															maxlength="12" placeholder="- 없이 입력하세요." class="title"
+															data-pattern="gdNum" value="" required>
+														<button type="button" id="memberPhoneCheck"
+															class="btn_post_search title">인증번호 발송</button>
+													</div>
 
-                        <div class="btn_center_box">
-                            <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/'|">
-                                홈
-                            </button>
-                            <button type="submit" class="btn_comfirm js_btn_join">회원가입</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="section-background section-cover"></div>
+													<!--<div class="address_postcode" style="margin-top: 5px;">
+														<input type="text" th:field="*{memberPhoneNumber}"
+															th:errorclass="field-error" maxlength="4"
+															name="memberPhoneCertify" placeholder="4자리 숫자 입력"
+															class="title" value="" id="userNum" required>
+														<button type="button" id="certifyCheck"
+															class="btn_post_search title">인증번호 확인</button>
+													</div>-->
 
-        </div>
-    </div>
-</div>
+													<div class="field-error title" th:errors="*{memberPhoneNumber}">
+														휴대폰 오류
+													</div>
+													<div class="form_element">
+														<input type="checkbox" id="smsFl" name="smsFl" value="y"
+															required>
+														<label for="smsFl" class="check_box title">정보/이벤트 SMS 수신에
+															동의합니다.</label>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<th><span class="important title">주소</span></th>
+												<td class="member_address">
+													<div class="address_postcode">
+														<input type="text" th:field="*{addressZipcode}"
+															th:errorclass="field-error" id="addressZipcode"
+															name="addressZipcode" placeholder="우편번호"
+															class="inputData title" readonly>
+														<div class="field-error title" th:errors="*{addressZipcode}">
+															우편번호 오류
+														</div>
+														<button type="button" class="btn_post_search title"
+															onclick="daumPostcode()">우편번호 찾기
+														</button>
+													</div>
+													<div class="address_input">
+														<div class="member_warning">
+															<input type="text" th:field="*{addressRoad}"
+																th:errorclass="field-error" id="addressRoad"
+																name="addressRoad" placeholder="도로명/지번주소"
+																class="inputData title" readonly>
+														</div>
+														<div class="field-error title" th:errors="*{addressRoad}">
+															도로명/지번주소 오류
+														</div>
+														<div class="member_warning js_address_sub">
+															<input type="text" th:field="*{addressContent}"
+																th:errorclass="field-error" id="addressContent"
+																name="addressContent" placeholder="상세주소" class="title"
+																required>
+															<div class="field-error title"
+																th:errors="*{addressContent}">
+																상세주소 오류
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- //base_info_sec -->
+							</div>
 
-<!-- Top Button -->
-<div th:replace="~{include/member/topButton :: topButton}"></div>
+							<div class="btn_center_box">
+								<button type="button" class="btn_member_cancel title"
+									th:onclick="|javascript:location.href='/'|">
+									홈
+								</button>
+								<button type="submit" class="btn_comfirm js_btn_join title">회원가입</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="section-background section-cover"></div>
 
-<!-- Footer -->
-<div th:replace="~{include/member/footer :: footer}"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Top Button -->
+	<div th:replace="~{include/member/topButton :: topButton}"></div>
+
+	<!-- Footer -->
+	<div th:replace="~{include/member/footer :: footer}"></div>
 
 </body>
 <script>
-    let submitCheck = false;
-    let authCheck = false;
-    let emailCheck = false;
+	let submitCheck = false;
+	let authCheck = false;
+	let emailCheck = false;
 
-    function valid() {
-        if (submitCheck && authCheck) { // true 가 되면 회원가입 버튼 동작함
-            return true;
-        } else if(submitCheck === false) {
-            alert('이메일 중복체크를 먼저 하세요');
-            // 회원가입 버튼누르면 뜬다
-            return false; // 회원가입 버튼을 막는다
-        } else if(authCheck === false){ //이메일 인증안하면 가입 못함
-            alert('이메일 인증을 하세요')
-            return false;
-        }
-    }
-    function check() {
-        let email = $('#memberEmail').val()
-        emailCheck = isValidEmail(email);
-        if(!emailCheck){
-            alert('이메일 형식이 유효하지 않습니다.')
-        } else {
-            emailCheck = true;
-            $.ajax({
-                type: "get",
-                url: "/member/emailCheck?email=" + email
-            }).done((res) => {
-                //console.log(res);
-                if (res.data == true) {
-                    alert(res.msg);
-                    submitCheck = true; // 중복 체크 완료
-                } else {
-                    alert(res.msg);
-                    submitCheck = false;
-                }
+	function valid() {
+		if (submitCheck && authCheck) { // true 가 되면 회원가입 버튼 동작함
+			return true;
+		} else if (submitCheck === false) {
+			alert('이메일 중복체크를 먼저 하세요');
+			// 회원가입 버튼누르면 뜬다
+			return false; // 회원가입 버튼을 막는다
+		} else if (authCheck === false) { //이메일 인증안하면 가입 못함
+			alert('이메일 인증을 하세요')
+			return false;
+		}
+	}
+	function check() {
+		let email = $('#memberEmail').val()
+		emailCheck = isValidEmail(email);
+		if (!emailCheck) {
+			alert('이메일 형식이 유효하지 않습니다.')
+		} else {
+			emailCheck = true;
+			$.ajax({
+				type: "get",
+				url: "/member/emailCheck?email=" + email
+			}).done((res) => {
+				//console.log(res);
+				if (res.data == true) {
+					alert(res.msg);
+					submitCheck = true; // 중복 체크 완료
+				} else {
+					alert(res.msg);
+					submitCheck = false;
+				}
 
-            }).fail((err) => {
-                console.log('상태코드 200밖에 없어서 실행 안됨')
-            });
-        }
-    }
+			}).fail((err) => {
+				console.log('상태코드 200밖에 없어서 실행 안됨')
+			});
+		}
+	}
 
-    function pwCheck(){ // 비밀번호 일치 여부 체크
-        if($('#memberPassword').val() == $('#reMemberPassword').val()){
-            $('#pwConfirm').text('비밀번호 일치').css('color', 'green')
-        }else{
-            $('#pwConfirm').text('비밀번호 불일치').css('color', 'red')
-        }
-    }
+	function pwCheck() { // 비밀번호 일치 여부 체크
+		if ($('#memberPassword').val() == $('#reMemberPassword').val()) {
+			$('#pwConfirm').text('비밀번호 일치').css('color', 'green')
+		} else {
+			$('#pwConfirm').text('비밀번호 불일치').css('color', 'red')
+		}
+	}
 
-    function sendNumber(){ //이메일 인증번호 전송
-        if(!submitCheck){
-            alert('아이디 확인을 먼저 해주세요.')
-        } else {
-            $("#mail_number").css("display","block");
-            $.ajax({
-                url:"/mail",
-                type:"post",
-                dataType:"json",
-                data:{"mail" : $("#memberEmail").val()},
-                success: function(data){
-                    alert("인증번호를 전송했습니다. 메일함을 확인해주세요.");
-                    $("#Confirm").attr("value",data);
-                }
-            });
-        }
-    }
+	function sendNumber() { //이메일 인증번호 전송
+		if (!submitCheck) {
+			alert('아이디 확인을 먼저 해주세요.')
+		} else {
+			$("#mail_number").css("display", "block");
+			$.ajax({
+				url: "/mail",
+				type: "post",
+				dataType: "json",
+				data: {"mail": $("#memberEmail").val()},
+				success: function (data) {
+					alert("인증번호를 전송했습니다. 메일함을 확인해주세요.");
+					$("#Confirm").attr("value", data);
+				}
+			});
+		}
+	}
 
-    function confirmNumber(){
-        var number1 = $("#number").val();
-        var number2 = $("#Confirm").val();
-        if(number1 === number2){
-            alert("인증되었습니다.");
-            authCheck = true;
-        }else{
-            alert("번호가 다릅니다.");
-        }
-    }
+	function confirmNumber() {
+		var number1 = $("#number").val();
+		var number2 = $("#Confirm").val();
+		if (number1 === number2) {
+			alert("인증되었습니다.");
+			authCheck = true;
+		} else {
+			alert("번호가 다릅니다.");
+		}
+	}
 
-    function isValidEmail(email) {
-        // 이메일 형식을 체크하는 정규표현식
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	function isValidEmail(email) {
+		// 이메일 형식을 체크하는 정규표현식
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-        // 정규표현식을 사용하여 이메일 형식이 맞는지 체크
-        return emailRegex.test(email);
-    }
+		// 정규표현식을 사용하여 이메일 형식이 맞는지 체크
+		return emailRegex.test(email);
+	}
+
+	$('#memberPhoneCheck').click(function () {
+
+		var to = $('input[name="memberPhoneNumber"]').val();
+		$.ajax({
+			url: "/memberPhoneCheck",
+			type: "POST",
+			data: "to=" + to,
+			dataType: "json",
+			success: function (data) {
+				const checkNum = data;
+				alert(to + '로 인증번호를 전송하였습니다.');
+
+				// 이전에 등록된 클릭 이벤트 핸들러 제거
+				$('#certifyCheck').off('click');
+
+				//인증하기 버튼 클릭 이벤트
+				$('#certifyCheck').click(function () {
+					if (userNum !== "") {  // 입력된 값이 있는 경우에만 비교 수행
+						console.log("checkNum>>",checkNum);
+						console.log("userNum>>",userNum.value);
+						if (checkNum == userNum.value) 
+						{
+							alert('인증이 성공적으로 완료되었습니다.');
+						} else {
+							alert('인증에 실패하였습니다. \n다시 입력해주세요.');
+						}
+					} else {
+						alert('인증번호를 입력해주세요.');  // 입력값이 없는 경우에 대한 처리
+					}
+				});
+
+			},
+			error: function () {
+				alert("담당자 잔액 이슈");
+			}
+		});
+	});
 </script>
+
 </html>

@@ -229,4 +229,24 @@
 		]]>
 		</if>
 	</select>
+	
+	<select id="sumMonthPay" resultType="int">
+		SELECT 
+			TO_CHAR(pay_date, 'YYYY-MM') AS month,
+			SUM(pay_money) AS monthly_sales
+		FROM 
+			pay
+		WHERE 
+			pay_date >= ADD_MONTHS(SYSDATE, -12)
+		GROUP BY 
+			TO_CHAR(pay_date, 'YYYY-MM')
+		ORDER BY 
+			month
+	</select>
+	
+	<!-- 12개월 누적 매출액
+		select sum(pay_money)
+		from pay
+		WHERE pay_date >= ADD_MONTHS(SYSDATE, -12);
+	 -->
 </mapper>

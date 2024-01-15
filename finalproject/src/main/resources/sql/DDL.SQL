@@ -362,17 +362,6 @@ ALTER TABLE ORDERS
          laundry_id
       ) ON DELETE CASCADE;
 
-ALTER TABLE PAY
-   ADD
-      CONSTRAINT FK_ORDERS_TO_PAY
-      FOREIGN KEY (
-         wash_id
-      )
-      REFERENCES ORDERS (
-         wash_id
-      )
-      ON DELETE CASCADE;
-
 ALTER TABLE FILES
    ADD
       CONSTRAINT FK_ORDERS_TO_FILES
@@ -491,11 +480,11 @@ CREATE SEQUENCE REPLY_SEQ
 COMMIT;
 
 -- 회원 (MEMBER) 테이블 예시 데이터
-INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-VALUES (2, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
-
-insert into member (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
-values (1, 'admin', 'admin@admin', 'admin', 'admin123', sysdate, '1', '1', sysdate, '1');
+--INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
+--VALUES (2, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
+--
+--insert into member (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
+--values (1, 'admin', 'admin@admin', 'admin', 'admin123', sysdate, '1', '1', sysdate, '1');
 
 -- 권한 (ROLE) 테이블 예시 데이터
 INSERT INTO ROLE (member_id, role_name)
@@ -505,8 +494,8 @@ INSERT INTO ROLE (member_id, role_name)
 VALUES (2, 'ROLE_USER');
 
 -- 주소 (ADDRESS) 테이블 예시 데이터
-INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
-VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', '3', '최가인 교육장', 1);
+--INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
+--VALUES (1, '03077', '창경궁로 254', '한성대학교 에듀센터 7층', '3', '최가인 교육장', 1);
 
 -- 세탁 카테고리 테이블 예시 데이터
 insert into laundry_category values (LAUNDRY_CATEGORY_SEQ.NEXTVAL, '상의', '정장상의, 셔츠, 블라우스, 맨투맨, 후드티, 코트, 패딩 등');
@@ -541,14 +530,14 @@ insert into laundry values (LAUNDRY_SEQ.NEXTVAL, '스카프', 2, 6900, 4);
 
 
 -- 주문 (ORDERS) 테이블 예시 데이터
-insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', 1, 1, EMPTY_BLOB());
+--insert into orders values(ORDERS_SEQ.NEXTVAL, 1, 3, 5000, sysdate, '깨끗하게 빨아주세요', '1', '1', 1, 1, null);
 
 -- 결제 (PAY) 테이블 예시 데이터
-INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
-VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1,1);
-
-INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
-VALUES (2, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1, 1);
+--INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
+--VALUES (1, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1,1);
+--
+--INSERT INTO PAY (pay_id, pay_delivery, pay_money, pay_date, pay_state, wash_id, member_id)
+--VALUES (2, 2500, 32500, TO_DATE('2023-01-21', 'YYYY-MM-DD'), '1', 1, 1);
 
 insert into HELPCATEGORY values (1, '회원정보');
 insert into HELPCATEGORY values (2, '설정/보안/인증');
@@ -559,13 +548,13 @@ insert into HELPCATEGORY values (6, '영수증');
 insert into HELPCATEGORY values (7, '고객의소리/기타');
 insert into HELPCATEGORY values (8, '세탁정보');
 
-desc memhelp;
-
-insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '세탁이 잘 안됐어여', '세탁물을 수령했는데 오염이 남아있네요', null, '1', SYSDATE, 2, 7);
-insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '영수증을 발급받고 싶어요', '저번주에 세탁을 맡겼는데 영수증을 발급받고싶습니다', null, '1', SYSDATE, 2, 6);
-
-select * from MEMHELP where member_id = 2 order by memhelpnum desc;
-
-SELECT    memHelpNum, memHelpTitle,  memHelpDate,  memCategoryNum   FROM    MEMHELP   WHERE     MEMBER_ID = 2   ORDER BY    MEMHELPNUM DESC;
+--desc memhelp;
+--
+--insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '세탁이 잘 안됐어여', '세탁물을 수령했는데 오염이 남아있네요', null, '1', SYSDATE, 2, 7);
+--insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '영수증을 발급받고 싶어요', '저번주에 세탁을 맡겼는데 영수증을 발급받고싶습니다',null, '1', SYSDATE, 2, 6);
+--
+--select * from MEMHELP where member_id = 2 order by memhelpnum desc;
+--
+--SELECT    memHelpNum, memHelpTitle,  memHelpDate,  memCategoryNum   FROM    MEMHELP   WHERE     MEMBER_ID = 2   ORDER BY    MEMHELPNUM DESC;
 
 COMMIT;
