@@ -69,15 +69,26 @@ public class LoginController {
 		Member member = memberService.selectMember(loginMember.getMemberEmail());
 //        log.info("member: {}", member);
 
-//		if (roleRepository.getRoleName(member.getMemberId()).equals("ROLE_ADMIN")) { 관리자 로그인 로직
-//			if (member.getMemberPassword().equals(loginMember.getMemberPassword())) {
-//				log.info("관리자 로그인 성공");
-//				return "redirect:/admin";
-//			} else {
-//				result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
-//				return "member/login";
-//			}
-//		}
+		if (roleRepository.getRoleName(member.getMemberId()).equals("ROLE_ADMIN")) {
+			if (member.getMemberPassword().equals(loginMember.getMemberPassword())) {
+				log.info("관리자 로그인 성공");
+				String token = jwtTokenProvider.generateToken(member);
+//        log.info("token: {}", token);
+				Cookie cookie = new Cookie("token", token);
+				cookie.setMaxAge(60 * 30);
+//		쿠키 정보 가져오기 위해 주석처리 후 true->false로 변경
+				cookie.setHttpOnly(false);
+				//cookie.setHttpOnly(true);
+				cookie.setSecure(true);
+				cookie.setPath("/");
+				response.addCookie(cookie);
+				log.info("로그인 성공...");
+				return "redirect:/admin";
+			} else {
+				result.rejectValue("memberPassword", null, "비밀번호가 일치하지 않습니다.");
+				return "member/login";
+			}
+		}
 		if (member == null) {
 			log.info("계정이 존재하지 않음");
 			result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");

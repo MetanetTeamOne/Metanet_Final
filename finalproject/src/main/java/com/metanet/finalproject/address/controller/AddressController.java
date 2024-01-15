@@ -82,6 +82,7 @@ public class AddressController {
 		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
 		address.setAddressCategory("3");
 		address.setMemberId(memberId);
+		address.setAddressDetail("");
 		addressService.insertAddress(address);
 		return "redirect:/member/address";
 	}
