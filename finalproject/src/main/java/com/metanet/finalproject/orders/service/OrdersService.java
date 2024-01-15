@@ -91,8 +91,8 @@ public class OrdersService implements IOrdersService{
 	
 
 	@Override
-	public int searchMaxWashId(int memberId) {
-		return ordersRepository.searchMaxWashId(memberId);
+	public int searchMaxWashId() {
+		return ordersRepository.searchMaxWashId();
 	}
 
 	@Override
