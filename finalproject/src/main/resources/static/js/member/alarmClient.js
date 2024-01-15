@@ -67,7 +67,7 @@ function onMessage(evt){
 function memHelp(){
 	$('#insertBtn').click(function(e){
 		
-	let memberEmail = "admin@wash.com";
+	let memberEmail = "admin@admin.com";
     //cmd, send 계정, title, content
  	ws.send("memHelp"+","+memberEmail+","+"1대1 문의"+","+"문의가 등록되었습니다.");
 	});
