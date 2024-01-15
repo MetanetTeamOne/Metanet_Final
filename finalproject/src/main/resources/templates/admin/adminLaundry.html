@@ -4,126 +4,135 @@
 <div th:replace="~{include/admin/head :: head}"></div>
 
 <body class="sb-nav-fixed">
-	<nav th:replace="~{include/admin/header :: header}"></nav>
-	<div id="layoutSidenav">
-		<div th:replace="~{include/admin/nav :: navbar}"></div>
+<nav th:replace="~{include/admin/header :: header}"></nav>
+<div id="layoutSidenav">
+    <div th:replace="~{include/admin/nav :: navbar}"></div>
 
-		<div id="layoutSidenav_content">
-			<main>
-				<div class="container-fluid px-4">
-					<h1 class="mt-4 title">워시워시 세탁물 관리</h1>
-					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item active title">세탁물 관리</li>
-					</ol>
-					
-					<div class="card mb-4">
-						<div class="card-header bg-primary text-white title">
-							<i class="fas fa-table me-1"></i>
-							전체 카테고리 내역
-						</div>
-						<div class="card-body border border-primary" style="overflow-x: auto;">
-							<table id="datatablesSimple" class="table table-bordered table-hover">
-								<colgroup>
-									<col style="width:5%">
-                                    <col style="width:15%">
-                                    <col style="width:23%">
-                                    <col >
-                                </colgroup>
-								<thead>
-									<tr>
-										<th class="title">선택</th>
-										<th class="title">카테고리 번호</th>
-										<th class="title">카테고리명</th>
-										<th class="title">카테고리 설명</th>
-									</tr>
-								</thead>
-								<tbody>
-								    <tr th:each="laundryCategory : ${laundryCategorys}">
-								        <td><input type="radio" name="selectedLaundry" th:value="${laundryCategory.laundryCategoryId}" /></td>
-								        <td><strong th:text="${laundryCategory.laundryCategoryId} + '번'"></strong></td>
-								        <td th:text="${laundryCategory.laundryCategoryName}">61</td>
-								        <td th:text="${laundryCategory.laundryCategoryDescription}">2011/04/25</td>
-								    </tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					
-					<div class="card mb-4 ">
-						<div class="card-header bg-primary text-white title ">
-							<i class="fas fa-table me-1"></i>
-							전체 세탁물 내역
-						</div>
-							<div class="card-body border border-primary" style="overflow-x: auto;">
-								<table id="datatablesSimple" class="table table-hover">
-									<colgroup>
-										<col style="width:10%">
-                                        <col style="width:15%">
-                                        <col style="width:15%">
-                                        <col>
-                                        <col style="width:23%">
-                                        <col style="width:23%">
-                                    </colgroup>
-									<thead>
-										<tr>
-											<th class="title">번호</th>
-											<th class="title">세탁물 번호</th>
-											<th class="title">세탁물 카테고리</th>
-											<th class="title">세탁물명</th>
-											<th class="title">세탁물 유형</th>
-											<th class="title">세탁물 가격</th>
-										</tr>
-									</thead>
-									<tbody id="memberTable" th:fragment="memberTable">
-										<tr th:each="laundry, index : ${laundrys}">
-											<td><strong th:text="${index.count}"></strong></td>
-											<td th:text="'#'+${laundry.laundryId}"></td>
-											<td th:switch="${laundry.laundryCategoryId}">
-											    <span th:case="1" th:text="상의">상의(1)</span>
-											    <span th:case="2" th:text="하의">하의(2)</span>
-											    <span th:case="3" th:text="신발">신발(3)</span>
-											    <span th:case="4" th:text="기타">기타(4)</span>
-											</td>
-											<td th:text="${laundry.laundryName}" >Edinburgh</td>
-											<td th:if="${laundry.laundryCategory == '1'}" th:text="생활빨래">61</td>
-											<td th:if="${laundry.laundryCategory == '2'}" th:text="개별클리닝">61</td>
-											<td data-th-text="${#numbers.formatInteger(laundry.laundryPrice, 0, 'COMMA') + '원'}">2555</td>
-										</tr>
-										
-									</tbody>
-									
-								</table>
-							<div class="bd-example-snippet bd-code-snippet">
-        						<div class="bd-example m-0 border-0 d-flex justify-content-center">
-							        <nav aria-label="Standard pagination example">
-							          <ul class="pagination">
-							            <li class="page-item">
-							              <a class="page-link" href="#" aria-label="Previous">
-							                <span aria-hidden="true">«</span>
-							              </a>
-							            </li>
-							            <li class="page-item"><a class="page-link" href="#">1</a></li>
-							            <li class="page-item">
-							              <a class="page-link" href="#" aria-label="Next">
-							                <span aria-hidden="true">»</span>
-							              </a>
-							            </li>
-							          </ul>
-							        </nav>
-			        			</div>
-							</div>
-				        </div>
-					</div>
-				</div>
-			</main>
-			<footer th:replace="~{include/admin/footer :: footer}"></footer>
-		</div>
-	</div>
-	
-	<!--xmlHttpRequest-->
-	<script th:inline="javascript">
-	
-     document.addEventListener("DOMContentLoaded", function () {
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4 title">워시워시 세탁물 관리</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active title">세탁물 관리</li>
+                </ol>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white title">
+                        <i class="fas fa-table me-1"></i>
+                        전체 카테고리 내역
+                    </div>
+                    <div class="card-body border border-primary" style="overflow-x: auto;">
+                        <table id="datatablesSimple" class="table table-bordered table-hover">
+                            <colgroup>
+                                <col style="width:5%">
+                                <col style="width:15%">
+                                <col style="width:23%">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th class="title">선택</th>
+                                <th class="title">카테고리 번호</th>
+                                <th class="title">카테고리명</th>
+                                <th class="title">카테고리 설명</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="laundryCategory : ${laundryCategorys}">
+                                <td><input type="radio" name="selectedLaundry"
+                                           th:value="${laundryCategory.laundryCategoryId}"/></td>
+                                <td><strong th:text="${laundryCategory.laundryCategoryId} + '번'"></strong></td>
+                                <td th:text="${laundryCategory.laundryCategoryName}">61</td>
+                                <td th:text="${laundryCategory.laundryCategoryDescription}">2011/04/25</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card mb-4 ">
+                    <div class="card-header bg-primary text-white title ">
+                        <i class="fas fa-table me-1"></i>
+                        전체 세탁물 내역
+                    </div>
+                    <div class="card-body border border-primary" style="overflow-x: auto;" id="memberTable"
+                         th:fragment="memberTable">
+                        <table id="datatablesSimple" class="table table-hover">
+                            <colgroup>
+                                <col style="width:10%">
+                                <col style="width:15%">
+                                <col style="width:15%">
+                                <col>
+                                <col style="width:23%">
+                                <col style="width:23%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th class="title">번호</th>
+                                <th class="title">세탁물 번호</th>
+                                <th class="title">세탁물 카테고리</th>
+                                <th class="title">세탁물명</th>
+                                <th class="title">세탁물 유형</th>
+                                <th class="title">세탁물 가격</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="laundry, index : ${laundrys}">
+                                <td><strong th:text="${index.count}"></strong></td>
+                                <td th:text="'#'+${laundry.laundryId}"></td>
+                                <td th:switch="${laundry.laundryCategoryId}">
+                                    <span th:case="1" th:text="상의">상의(1)</span>
+                                    <span th:case="2" th:text="하의">하의(2)</span>
+                                    <span th:case="3" th:text="신발">신발(3)</span>
+                                    <span th:case="4" th:text="기타">기타(4)</span>
+                                </td>
+                                <td th:text="${laundry.laundryName}">Edinburgh</td>
+                                <td th:if="${laundry.laundryCategory == '1'}" th:text="생활빨래">61</td>
+                                <td th:if="${laundry.laundryCategory == '2'}" th:text="개별클리닝">61</td>
+                                <td data-th-text="${#numbers.formatInteger(laundry.laundryPrice, 0, 'COMMA') + '원'}">
+                                    2555
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+                        <!--paginate-->
+                        <div class="paginate">
+                            <div class="paging">
+                                <th:block
+                                        th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
+                                    <input id="currentPage" type="hidden" th:value="${idx}"/>
+                                    <input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>
+                                    <input id="pageSize" type="hidden" th:value="${pagination.pageSize}"/>
+                                    <a th:style="'color:' + (${pagination.currentPage} == ${idx} ? '#cc0000; font-weight:700; margin-bottom: 2px;' : '')"
+                                       href="javascript:void(0);"
+                                       th:onclick="'movePage(' + ${idx} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">
+                                        <!--									   th:onclick="paging()">-->
+                                        <span id="idx" th:text="${idx}"></span>
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                        <!--/paginate-->
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{include/admin/footer :: footer}"></footer>
+    </div>
+</div>
+
+<!--xmlHttpRequest-->
+<script th:inline="javascript">
+    window.onload = function() {
+        var firstRadioButton = document.querySelector('input[name="selectedLaundry"]');
+        if (firstRadioButton) {
+            firstRadioButton.checked = true;
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
         const radioButtons = document.querySelectorAll('input[name="selectedLaundry"]');
 
         radioButtons.forEach(function (radioButton) {
@@ -150,7 +159,7 @@
         function handlerStateChange() {
             if (xhr.readyState == 4) {
                 if (xhr.status >= 200 && xhr.status < 300) {
-				const fragment = xhr.responseText;
+                    const fragment = xhr.responseText;
                     document.getElementById("memberTable").innerHTML = fragment;
                 } else {
                     console.log("비정상 응답 : " + xhr.status);
@@ -165,6 +174,72 @@
             xhr.send();
         }
     });
+
+    function movePage(currentPage, cntPerPage, pageSize) {
+        console.log("movepage동작")
+        // 라디오 버튼이 선택된지 확인
+        var selectedRadioButton = document.querySelector('input[name="selectedLaundry"]:checked');
+        var categoryId;
+        // 선택된 경우에 값을 가져오기
+        if (selectedRadioButton) {
+            categoryId = selectedRadioButton.value;
+            console.log("선택된 라디오 버튼의 값:", categoryId);
+        } else {
+            categoryId = 1
+        }
+        // radioButtons.forEach(function (radioButton) {
+        //     radioButton.addEventListener("change", function () {
+        //         month = this.value;
+        //     });
+        // });
+
+        // let currentPage = document.querySelector("#currentPage").value;
+        // let cntPerPage = document.querySelector("#cntPerPage").value;
+        // let pageSize = document.querySelector("#pageSize").value;
+        const queryParam = {
+            currentPage: currentPage,
+            cntPerPage: cntPerPage,
+            pageSize: pageSize,
+            categoryId: categoryId
+        }
+
+        let xhr = null;
+
+        function getInstance() {
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) { //IE
+                console.log("IE");
+            } else {
+                throw new Error("Ajax 비동기 지원하지 않아요");
+            }
+            return xhr;
+        }
+
+        function handlerStateChange() {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const fragment = xhr.responseText;
+                    console.log(fragment);
+                    document.getElementById("memberTable").innerHTML = fragment;
+                } else {
+                    console.log("비정상 응답 : " + xhr.status);
+                }
+            }
+        }
+
+        function sendData() {
+            xhr = getInstance();
+            xhr.onreadystatechange = handlerStateChange;
+
+            var url = "/admin/laundry/async" + '?' + new URLSearchParams(queryParam).toString();
+
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        sendData(queryParam);
+    }
 </script>
 
 </body>

@@ -55,6 +55,10 @@ public class PayService implements IPayService{
 	}
 
 	@Override
+	public Pay getWashIdPay(int washId) {
+		return payRepository.getWashIdPay(washId);
+	}
+	
 	public List<Pay> getPagingMemberPay(int firstRecordIndex, int lastRecordIndex, int memberId) {
 		return payRepository.getPagingMemberPay(firstRecordIndex, lastRecordIndex, memberId);
 	}
