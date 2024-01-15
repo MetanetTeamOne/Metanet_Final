@@ -58,6 +58,17 @@ public class AdminMemhelpController {
 	@Operation(summary = "관리자 주문 관리 API")
 	@GetMapping("/admin/memhelp")
 	public String searchTotalMemhelp(HttpServletRequest request, Model model) {
+		// 문의 현황 구현 로직
+		
+		// 문의 전체 카운트
+		model.addAttribute("maxcount", memhelpService.getAdminMemHelpCount());
+		
+		// 문의 처리 완료 카운트
+		model.addAttribute("complete_cnt", memhelpService.getAdminMemHelpCompleteCount());		
+		
+		// 문의 처리 미완료 카운트
+		model.addAttribute("incomplete_cnt", memhelpService.getAdminMemHelpIncompleteCount());
+		
 		System.out.println("모든 회원 문의사항 조회 : " + memhelpService.searchAllMemhelp());
 		int memHelpCount = memhelpService.getAdminMemHelpCount();
 		log.info("memHelpCount: {}", memHelpCount);

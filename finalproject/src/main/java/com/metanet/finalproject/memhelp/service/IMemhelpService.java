@@ -29,5 +29,10 @@ public interface IMemhelpService {
 
 	List<Memhelp> searchPagingAllMemhelp(int start, int end);
 
+	// 문의 현황 로직
 	int getAdminMemHelpCount();
+	
+	int getAdminMemHelpCompleteCount();
+	
+	int getAdminMemHelpIncompleteCount();
 }
