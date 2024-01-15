@@ -68,10 +68,13 @@
 														</button>
 														<div id="mail_number" name="mail_number" style="display: none">
 															<br>
-															<input type="text" name="number" id="number"
-																placeholder="인증번호 입력" required>
+
+															<input type="text" name="number" id="number" class="title"
+																placeholder="인증번호 입력">
+
 															<button type="button" name="confirmBtn" id="confirmBtn"
-																class="btn_post_search" onclick="confirmNumber()">이메일
+																class="title btn_post_search"
+																onclick="confirmNumber()">이메일
 																인증</button>
 														</div>
 														<input type="text" id="Confirm" name="Confirm"
@@ -130,9 +133,12 @@
 															th:errorclass="field-error" id="to" name="memberPhoneNumber"
 															maxlength="12" placeholder="- 없이 입력하세요." class="title"
 															data-pattern="gdNum" value="" required>
+														<!--<button type="button" id="memberPhoneValid"
+															class="btn_post_search title">중복확인</button>-->
 														<button type="button" id="memberPhoneCheck"
 															class="btn_post_search title">인증번호 발송</button>
 													</div>
+
 
 													<div class="address_postcode" style="margin-top: 5px;">
 														<input type="text" th:field="*{memberPhoneNumber}"
@@ -145,6 +151,15 @@
 
 													<div class="field-error title" th:errors="*{memberPhoneNumber}">
 														휴대폰 오류
+													</div>
+
+													<div id="phoneCheckDiv" class="address_postcode title"
+														style="display: none">
+														<br>
+														<input type="text" name="memberPhoneCertify" id="userNum"
+															class="title" placeholder="4자리 숫자를 입력">
+														<button type="button" id="certifyCheck"
+															class="title btn_post_search">인증번호 확인</button>
 													</div>
 													<div class="form_element">
 														<input type="checkbox" id="smsFl" name="smsFl" value="y"
@@ -222,6 +237,7 @@
 
 </body>
 <script>
+
 	let submitCheck = false;
 	let authCheck = false;
 	let emailCheck = false;
@@ -316,11 +332,16 @@
 		return emailRegex.test(email);
 	}
 
+
 	$('#memberPhoneCheck').click(function () {
+
+		const showElement = document.getElementById('phoneCheckDiv');
+		//console.log('showElement>>>>',showElement);
+		showElement.style.display = 'block';
 
 		var to = $('input[name="memberPhoneNumber"]').val();
 		$.ajax({
-			url: "/memberPhoneCheck",
+			url: "/memberphonecheck",
 			type: "POST",
 			data: "to=" + to,
 			dataType: "json",
@@ -334,10 +355,9 @@
 				//인증하기 버튼 클릭 이벤트
 				$('#certifyCheck').click(function () {
 					if (userNum !== "") {  // 입력된 값이 있는 경우에만 비교 수행
-						console.log("checkNum>>",checkNum);
-						console.log("userNum>>",userNum.value);
-						if (checkNum == userNum.value) 
-						{
+						console.log("checkNum>>", checkNum);
+						console.log("userNum>>", userNum.value);
+						if (checkNum == userNum.value) {
 							alert('인증이 성공적으로 완료되었습니다.');
 						} else {
 							alert('인증에 실패하였습니다. \n다시 입력해주세요.');
