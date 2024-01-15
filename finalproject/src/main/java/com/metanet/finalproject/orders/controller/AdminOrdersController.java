@@ -2,6 +2,8 @@ package com.metanet.finalproject.orders.controller;
 
 import java.util.List;
 
+import com.metanet.finalproject.paging.Pagination;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
+@Slf4j
 public class AdminOrdersController {
 
 	@Autowired
@@ -37,9 +40,34 @@ public class AdminOrdersController {
 	
 	@GetMapping("/admin/order")
 	public String searchOrdersList(Model model) {
-		List<Orders> ordersAllList = ordersService.searchOrdersList();
+//		List<Orders> ordersAllList = ordersService.searchOrdersList();
+
+		int orderCount = ordersService.getOrderCount();
+		log.info("orderCount: {}", orderCount);
+		Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(orderCount);
+		model.addAttribute("pagination", pagination);
+		List<Orders> ordersAllList = ordersService.searchPagingOrdersList(1, 10);
 		model.addAttribute("ordersAllList", ordersAllList);
 		return "admin/adminOrder";
+	}
+
+	@GetMapping("/admin/order/async")
+	public String searchOrdersListAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+										@RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+										@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, Model model) {
+//		List<Orders> ordersAllList = ordersService.searchOrdersList();
+
+		int orderCount = ordersService.getOrderCount();
+		log.info("orderCount: {}", orderCount);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(orderCount);
+		model.addAttribute("pagination", pagination);
+		List<Orders> ordersAllList = ordersService.searchPagingOrdersList(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex());
+		model.addAttribute("ordersAllList", ordersAllList);
+		return "admin/adminOrder:: memberTable";
 	}
 	
 //	@GetMapping("/all")

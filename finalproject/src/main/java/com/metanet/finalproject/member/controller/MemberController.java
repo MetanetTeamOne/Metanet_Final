@@ -345,29 +345,25 @@ public class MemberController {
 
 	@Operation(summary = "회원 구독")
 	@PostMapping("/subscribe")
-	public String updateSubscribe(HttpServletRequest request, Member member, Model model) {
+	public String updateSubscribe(HttpServletRequest request, Member member) {
 		member.setMemberEmail(getTokenUserEmail(request));
 		memberService.updateSubscribe(member);
 		return "redirect:/member/subscribe";
 	}
 
   	@GetMapping("/card")
-  	public String getCard(HttpServletRequest request, Model model, String memberEmail) {
+  	public String getCard(HttpServletRequest request, Model model) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
-		int payCount = payService.getPayCount(member.getMemberId());
+		int payCount = payService.getPayCountByState(member.getMemberId(),"1");
 		log.info("payCount: {}", payCount);
 		Pagination pagination = new Pagination(1, 10, 10);
 		log.info("pagination: {}", pagination);
 		pagination.setTotalRecordCount(payCount);
 		model.addAttribute("pagination", pagination);
-		if (member.getMemberCard().equals("1")) {
 //			List<Pay> pays = payService.getMemberPay(member.getMemberId());
-			List<Pay> pays = payService.getPagingMemberPay(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId());
+			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), "1");
 			model.addAttribute("pays", pays);
-		}else {
-			model.addAttribute("pay",new Pay());
-		}
 		return "member/card_view";
   	}
 
@@ -379,7 +375,7 @@ public class MemberController {
 							   HttpServletRequest request, Model model) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
-		int payCount = payService.getPayCount(member.getMemberId());
+		int payCount = payService.getPayCountByState(member.getMemberId(),state);
 		log.info("payCount: {}", payCount);
 
 		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);

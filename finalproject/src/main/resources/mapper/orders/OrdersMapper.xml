@@ -224,7 +224,7 @@
 	<select id="getOrderCount" resultType="int">
 		SELECT count(*) FROM
 		orders
-		<if test="month != 0 and memberId != 0">
+		<if test="month != null and memberId != null">
 			WHERE member_id =
 			#{memberId} AND orders_date
 			>= ADD_MONTHS(SYSDATE, -#{month})
@@ -279,6 +279,30 @@
 		]]>
 		</if>
 		ORDER BY ordersDate DESC
+	</select>
+
+	<select id="searchPagingOrdersList"
+			resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT *
+		FROM (
+		SELECT ROW_NUMBER() OVER(ORDER by orders_id desc) AS
+		row_num,
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count as ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		orders_comment as ordersComment,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as laundryId,
+		orders_check_date as ordersCheckDate
+		FROM ORDERS
+		)
+		<if test="start != null and end != null">
+			WHERE row_num <![CDATA[>]]> #{start} AND
+			row_num <![CDATA[<=]]> #{end}
+		</if>
 	</select>
 
 	<!-- <![CDATA[ -->

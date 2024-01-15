@@ -147,7 +147,7 @@
     font-weight: bold;
 }
 
-.mypage_right .row:nth-child(2) .mypage_header {
+.mypage_right .row .mypage_header {
     margin: 30px 0;
     padding: 0 30px;
 }

@@ -348,11 +348,19 @@ public class OrdersController {
 
 	@Operation(summary = "주문 수정 view")
 	@GetMapping("/update/{washId}")
-	public String updateOrder(Model model, @PathVariable int washId) {
+	public String updateOrder(HttpServletRequest request, Model model, @PathVariable int washId) {
 		List<Orders> orders = ordersService.searchOrderId(washId);
 		model.addAttribute("orders", orders);
 		List<Laundry> laundrys = laundryService.getLaundry();
 		model.addAttribute("laundrys", laundrys);
+		
+		Member member = memberService.selectMember(getTokenUserEmail(request));
+		model.addAttribute("member", member);
+		Address address = addressService.getAddress(memberService.getMemberId(getTokenUserEmail(request)));
+		model.addAttribute("address", address);
+		
+		Pay pay = payService.getWashIdPay(washId);
+		model.addAttribute("pay", pay);
 		return "member/orders_update";
 	}
 //	
