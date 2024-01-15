@@ -68,10 +68,8 @@
 														</button>
 														<div id="mail_number" name="mail_number" style="display: none">
 															<br>
-
 															<input type="text" name="number" id="number" class="title"
 																placeholder="인증번호 입력">
-
 															<button type="button" name="confirmBtn" id="confirmBtn"
 																class="title btn_post_search"
 																onclick="confirmNumber()">이메일
@@ -139,15 +137,14 @@
 															class="btn_post_search title">인증번호 발송</button>
 													</div>
 
-
-													<div class="address_postcode" style="margin-top: 5px;">
+													<!--<div class="address_postcode" style="margin-top: 5px;">
 														<input type="text" th:field="*{memberPhoneNumber}"
 															th:errorclass="field-error" maxlength="4"
 															name="memberPhoneCertify" placeholder="4자리 숫자 입력"
 															class="title" value="" id="userNum" required>
 														<button type="button" id="certifyCheck"
 															class="btn_post_search title">인증번호 확인</button>
-													</div>
+													</div>-->
 
 													<div class="field-error title" th:errors="*{memberPhoneNumber}">
 														휴대폰 오류
@@ -282,9 +279,11 @@
 
 	function pwCheck() { // 비밀번호 일치 여부 체크
 		if ($('#memberPassword').val() == $('#reMemberPassword').val()) {
-			$('#pwConfirm').text('비밀번호 일치').css('color', 'green')
+			$('#pwConfirm').text('비밀번호 일치').css('color', 'green');
+			document.getElementById("pwConfirm").classList.add("title");
 		} else {
-			$('#pwConfirm').text('비밀번호 불일치').css('color', 'red')
+			$('#pwConfirm').text('비밀번호 불일치').css('color', 'red');
+			document.getElementById("pwConfirm").classList.add("title");
 		}
 	}
 
