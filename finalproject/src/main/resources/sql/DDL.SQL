@@ -475,12 +475,12 @@ COMMIT;
 --INSERT INTO MEMBER (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
 --VALUES (2, '최가인', 'chlrkdls1269@gmail.com', '010-1234-5678', 'password123', TO_DATE('2023-01-15', 'YYYY-MM-DD'), '1', '1', TO_DATE('2023-01-17', 'YYYY-MM-DD'), '1');
 --
---insert into member (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
---values (1, 'admin', 'admin@admin', 'admin', 'admin123', sysdate, '1', '1', sysdate, '1');
+insert into member (member_id, member_name, member_email, member_phone_number, member_password, member_join_date, member_join_state, member_subscribe, member_subscribe_date, member_card)
+values (1, '관리자', 'admin@admin.com', 'admin', 'admin123', sysdate, '1', '0', sysdate, '0');
 
 -- 권한 (ROLE) 테이블 예시 데이터
---INSERT INTO ROLE (member_id, role_name)
---VALUES (1, 'ROLE_ADMIN');
+INSERT INTO ROLE (member_id, role_name)
+VALUES (1, 'ROLE_ADMIN');
 --
 --INSERT INTO ROLE (member_id, role_name)
 --VALUES (2, 'ROLE_USER');
