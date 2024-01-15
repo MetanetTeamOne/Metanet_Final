@@ -52,10 +52,7 @@
 		resultType="int">
 		SELECT
 		nvl(max(wash_id), 0) + 1 as washId
-		FROM ORDERS
-		WHERE
-		member_id = #{memberId}
-
+		FROM pay
 	</select>
 
 	<select id="searchOrderId" parameterType="int"
