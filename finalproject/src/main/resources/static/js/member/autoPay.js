@@ -7,7 +7,7 @@ function autoPay () {
 	BootPay.request({
 		price: 0, // 0으로 해야 한다.
 		application_id: "65a160cc00c78a001d3460d7",
-		name: '자동 결제', //결제창에서 보여질 이름
+		name: '구독 결제', //결제창에서 보여질 이름
 		pg: 'nicepay',
 		method: 'card_rebill', // 빌링키를 받기 위한 결제 수단
 		show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
