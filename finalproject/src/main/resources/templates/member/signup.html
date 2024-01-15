@@ -69,7 +69,7 @@
 														<div id="mail_number" name="mail_number" style="display: none">
 															<br>
 															<input type="text" name="number" id="number"
-																placeholder="인증번호 입력">
+																placeholder="인증번호 입력" required>
 															<button type="button" name="confirmBtn" id="confirmBtn"
 																class="btn_post_search" onclick="confirmNumber()">이메일
 																인증</button>
@@ -291,6 +291,13 @@
 	}
 
 	function confirmNumber() {
+		var inputNumber = document.getElementById('number').value;
+
+		// 간단한 유효성 검사: 입력된 인증 번호가 비어있는지 확인
+		if (inputNumber.trim() === "") {
+			alert("인증 번호를 입력하세요.");
+			return;
+		}
 		var number1 = $("#number").val();
 		var number2 = $("#Confirm").val();
 		if (number1 === number2) {
