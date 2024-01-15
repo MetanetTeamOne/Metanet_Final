@@ -458,16 +458,12 @@ public class MemberController {
         log.info("pagination: {}", pagination);
         pagination.setTotalRecordCount(payCount);
         model.addAttribute("pagination", pagination);
-
-        if (member.getMemberCard().equals("1")) {
+		
 //			List<Pay> pays = payService.getMemberPay(member.getMemberId());
             List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state);
             model.addAttribute("pays", pays);
             log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state));
 
-        } else {
-            model.addAttribute("pay", new Pay());
-        }
         return "member/card_view:: memberTable";
     }
 
