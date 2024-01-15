@@ -265,7 +265,7 @@ CREATE TABLE MEMHELP (
    memHelpNum NUMBER NOT NULL, /* 문의번호 */
    memHelpTitle VARCHAR2(100) NOT NULL, /* 문의제목 */
    memHelpContent VARCHAR2(500) NOT NULL, /* 문의내용 */
-   memHelpFile BLOB, /* 첨부파일 */
+   memHelpFile VARCHAR2(350), /* 첨부파일 */
    memHelpState VARCHAR2(10) NOT NULL, /* 문의상태 */
    memHelpDate DATE NOT NULL, /* 문의날짜 */
    member_id NUMBER, /* 회원 ID */
@@ -561,8 +561,8 @@ insert into HELPCATEGORY values (8, '세탁정보');
 
 desc memhelp;
 
-insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '세탁이 잘 안됐어여', '세탁물을 수령했는데 오염이 남아있네요', EMPTY_BLOB(), '1', SYSDATE, 2, 7);
-insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '영수증을 발급받고 싶어요', '저번주에 세탁을 맡겼는데 영수증을 발급받고싶습니다', EMPTY_BLOB(), '1', SYSDATE, 2, 6);
+insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '세탁이 잘 안됐어여', '세탁물을 수령했는데 오염이 남아있네요', null, '1', SYSDATE, 2, 7);
+insert into MEMHELP values(MEMHELP_SEQ.NEXTVAL, '영수증을 발급받고 싶어요', '저번주에 세탁을 맡겼는데 영수증을 발급받고싶습니다', null, '1', SYSDATE, 2, 6);
 
 select * from MEMHELP where member_id = 2 order by memhelpnum desc;
 
