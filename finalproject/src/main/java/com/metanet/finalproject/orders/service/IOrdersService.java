@@ -14,7 +14,7 @@ public interface IOrdersService {
 	
 	List<OrdersDetails> searchMemOrder(int memberId);
 	List<OrdersDetails> searchMonthOrder(int memberId, int month);
-	int searchMaxWashId(int memberId);
+	int searchMaxWashId();
 
 	void insertOrder(Orders orders);
 	void updateOrder(Orders orders);
