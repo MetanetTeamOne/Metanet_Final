@@ -260,7 +260,8 @@
     });
 
     function movePage(currentPage, cntPerPage, pageSize) {
-        console.log("movepage동작")
+        console.log("movepage동작");
+        let state = document.querySelector("#payState > option:checked").value;
         // radioButtons.forEach(function (radioButton) {
         //     radioButton.addEventListener("change", function () {
         //         month = this.value;
@@ -274,6 +275,7 @@
             currentPage: currentPage,
             cntPerPage: cntPerPage,
             pageSize: pageSize,
+            state: state
         }
 
         let xhr = null;
