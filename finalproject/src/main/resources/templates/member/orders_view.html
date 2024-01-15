@@ -27,7 +27,7 @@
                             <ul id="period" class="month_list title">
                                 <li>조회기간</li>
                                 <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="1"
-                                           data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label
+                                           data-datepicker-push="unique_datepicker_name" data-push-align="back" checked> <label
                                         for="radio_d_1_2">1개월</label></li>
                                 <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="3"
                                            data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label
@@ -190,24 +190,15 @@
     // }
     function movePage(currentPage, cntPerPage, pageSize) {
         console.log("movepage동작")
-        const radioButtons = document.querySelectorAll('input[name="radio_name_d"]');
 
-        let month = 1
-        // radioButtons.forEach(function (radioButton) {
-        //     radioButton.addEventListener("change", function () {
-        //         month = this.value;
-        //     });
-        // });
+        let month = document.querySelector('input[name="radio_name_d"]:checked').value;
 
-        // let currentPage = document.querySelector("#currentPage").value;
-        // let cntPerPage = document.querySelector("#cntPerPage").value;
-        // let pageSize = document.querySelector("#pageSize").value;
         console.log(month);
         const queryParam = {
             currentPage: currentPage,
             cntPerPage: cntPerPage,
             pageSize: pageSize,
-            state: month
+            month: month
         }
 
         let xhr = null;

@@ -111,7 +111,8 @@ public class OrdersController {
 		model.addAttribute("pagination", pagination);
 
 //		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
-		List<OrdersDetails> orders = ordersService.searchPagingMemOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId());
+		List<OrdersDetails> orders = ordersService.searchPagingMemMonthOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), 1);
+
 		log.info("orders: {}", orders);
 		if (member.getMemberSubscribe().equals("0")) {
 			for (OrdersDetails order : orders) {
@@ -182,6 +183,7 @@ public class OrdersController {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		Pagination pagination = new Pagination(1, 10, 10);
 		int orderCount = ordersService.getOrderCount(month, member.getMemberId());
+		log.info("orderCount: {}", orderCount);
 		pagination.setTotalRecordCount(orderCount);
 		model.addAttribute("pagination", pagination);
 
