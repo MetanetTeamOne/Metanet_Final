@@ -1,17 +1,33 @@
 package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 import com.metanet.finalproject.paging.Pagination;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
@@ -22,7 +38,11 @@ import com.metanet.finalproject.member.model.MemberPasswordDto;
 import com.metanet.finalproject.member.model.MemberUpdateDto;
 import com.metanet.finalproject.member.model.ResponseDto;
 import com.metanet.finalproject.member.service.IMemberService;
+import com.metanet.finalproject.member.service.TestService;
+import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
+import com.metanet.finalproject.pay.service.Bootpay;
+import com.metanet.finalproject.pay.service.BootpayObject;
 import com.metanet.finalproject.pay.service.IPayService;
 import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;
@@ -35,14 +55,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @Slf4j
 @Controller
 @RequestMapping("/member")
 @Tag(name = "Member", description = "회원 관리 API")
-@CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
-		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
+@CrossOrigin(origins = { "http://localhost:8085", "http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://metawash.kro.kr:8888/" }, allowedHeaders = "*", allowCredentials = "true")
 public class MemberController {
 
 	@Autowired
@@ -56,12 +76,15 @@ public class MemberController {
 
 	@Autowired
 	IPayService payService;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	TestService smsService;
 
 	// Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
@@ -87,26 +110,26 @@ public class MemberController {
 	public String getMember(Model model, HttpServletRequest request) {
 		Member emptyMember = new Member();
 		try {
-			
-		    String userEmail = getTokenUserEmail(request);
-		    if (userEmail == null || userEmail.isEmpty()) {
-		    	model.addAttribute("dto",emptyMember);
-		        return "member/login";
-		    }
-		    
-		    Member member = memberService.selectMember(userEmail);
 
-		    if (member == null) {
-		    	model.addAttribute("dto",emptyMember);
-		        return "member/login";
-		    } else {
-		        model.addAttribute("member", member);
-		        return "member/member_view";
-		    }
-		} catch(Exception e){
-	    	model.addAttribute("dto",emptyMember);
+			String userEmail = getTokenUserEmail(request);
+			if (userEmail == null || userEmail.isEmpty()) {
+				model.addAttribute("dto", emptyMember);
+				return "member/login";
+			}
+
+			Member member = memberService.selectMember(userEmail);
+
+			if (member == null) {
+				model.addAttribute("dto", emptyMember);
+				return "member/login";
+			} else {
+				model.addAttribute("member", member);
+				return "member/member_view";
+			}
+		} catch (Exception e) {
+			model.addAttribute("dto", emptyMember);
 			return "member/login";
-		}  
+		}
 	}
 
 	@Operation(summary = "회원 가입 view")
@@ -191,7 +214,7 @@ public class MemberController {
 //				role.setRoleName("ROLE_USER");
 //				roleRepository.insertRole(role);
 //			}
-			
+
 			// 기존 코드
 			// 권한 부여
 			Role role = new Role();
@@ -222,7 +245,7 @@ public class MemberController {
 
 	@ResponseBody
 	@GetMapping("/emailCheck")
-	public ResponseDto<?> check(String email){
+	public ResponseDto<?> check(String email) {
 		Member member = memberService.selectMember(email);
 		if (email == null || email.isEmpty()) {
 			return new ResponseDto<>(-1, "이메일을 입력해주세요.", null);
@@ -233,7 +256,6 @@ public class MemberController {
 			return new ResponseDto<>(1, "회원가입 가능한 이메일입니다.", true);
 		}
 	}
-
 
 	@Operation(summary = "회원 가입 완료 view")
 	@GetMapping("/signup_ok")
@@ -284,20 +306,24 @@ public class MemberController {
 
 	@Operation(summary = "회원 비밀번호 수정")
 	@PostMapping("/password")
-	public String updatePasswordMember(@Valid @ModelAttribute("dto") MemberPasswordDto dto, BindingResult result, HttpServletRequest request) {
+	public String updatePasswordMember(@Valid @ModelAttribute("dto") MemberPasswordDto dto, BindingResult result,
+			HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "member/member_password";
 		}
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		log.info("member: {}", member);
-		if (!passwordEncoder.matches(dto.getMemberPassword(), member.getMemberPassword())) { //원래 비밀번호와 폼에서 입력받은 비밀번호 비교
+		if (!passwordEncoder.matches(dto.getMemberPassword(), member.getMemberPassword())) { // 원래 비밀번호와 폼에서 입력받은 비밀번호
+																								// 비교
 			result.rejectValue("memberPassword", null, "잘못된 비밀번호를 입력했습니다.");
 			return "member/member_password";
 		}
-		/*if(member.getMemberPassword() == null && !passwordEncoder.matches(member.getMemberPassword(), dbMember.getMemberPassword())) {
-			model.addFlashAttribute("message", "비밀번호가 맞지 않습니다.");
-			return "redirect:/member/password";
-		}*/
+		/*
+		 * if(member.getMemberPassword() == null &&
+		 * !passwordEncoder.matches(member.getMemberPassword(),
+		 * dbMember.getMemberPassword())) { model.addFlashAttribute("message",
+		 * "비밀번호가 맞지 않습니다."); return "redirect:/member/password"; }
+		 */
 		member.setMemberPassword(passwordEncoder.encode(dto.getNewPassword()));
 		memberService.updateMember(member, dto.getMemberEmail());
 		return "redirect:/member";
@@ -316,7 +342,8 @@ public class MemberController {
 
 	@Operation(summary = "회원 삭제")
 	@PostMapping("/delete")
-	public String deleteMember(@Valid @ModelAttribute("dto") MemberDeleteDto dto, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+	public String deleteMember(@Valid @ModelAttribute("dto") MemberDeleteDto dto, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) {
 		if (result.hasErrors()) {
 			log.info("필드에러 발생");
 			return "member/member_delete";
@@ -343,17 +370,64 @@ public class MemberController {
 		return "member/subscribe_view";
 	}
 
-	@Operation(summary = "회원 구독")
+	@Operation(summary = "회원 구독 신청")
 	@PostMapping("/subscribe")
 	public String updateSubscribe(HttpServletRequest request, Member member) {
 		member.setMemberEmail(getTokenUserEmail(request));
+		//System.out.println("cardNumber"+member.getMemberCard());
 		memberService.updateSubscribe(member);
 		return "redirect:/member/subscribe";
 	}
 
-  	@GetMapping("/card")
-  	public String getCard(HttpServletRequest request, Model model) {
-		Member member = memberService.selectMember(getTokenUserEmail(request));
+
+	@Operation(summary = "회원 구독 해제")
+	@PostMapping("/subscribe/delete")
+	public String DeleteSubscribe(HttpServletRequest request, Member member, Model model) throws Exception {
+		
+		 if(member.getMemberSubscribe().equals("0")) { 
+			 Bootpay bootpay = new Bootpay("65a160cc00c78a001d3460da", "w+lPLe/uLDoPOUXZxesF1bNUGpWPKgQ5n0dUtFmxwW8=");
+			 bootpay.getAccessToken();
+			 String billingKey = memberService.selectMember(getTokenUserEmail(request)).getMemberCard();
+			 try {
+				 HttpResponse res = bootpay.destroyBillingKey(billingKey);
+				 int statusCode = res.getStatusLine().getStatusCode();
+				 System.out.println("statusCode>>> "+statusCode);
+				 if (statusCode == 200) {
+				     // 성공적인 응답 처리
+				     System.out.println("destroyBillingKey success");
+				     
+				     member.setMemberEmail(getTokenUserEmail(request));
+					 memberService.updateSubscribe(member);
+					 
+					 return "redirect:/member/subscribe";
+					 
+				 } else {
+				     // 응답 본문을 문자열로 추출
+				     String responseBody = EntityUtils.toString(res.getEntity());
+				     System.out.println("responseBody: " + responseBody);
+
+				     // JSON 문자열을 JsonObject로 변환
+				     JsonParser jsonParser = new JsonParser();
+				     JsonObject json = jsonParser.parse(responseBody).getAsJsonObject();
+
+				     // 에러 코드 확인
+				     if (json.has("status") && json.get("status").getAsInt() != 200) {
+				         System.out.println("destroyBillingKey false: " + json);
+				     } else {
+				         System.out.println("Unknown error: " + responseBody);
+				     }
+				 }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		 
+		 }
+		
+		return "redirect:/member/subscribe";
+	}
+
+	@GetMapping("/card")
+de		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
 		int payCount = payService.getPayCountByState(member.getMemberId(),"1");
 		log.info("payCount: {}", payCount);
@@ -362,17 +436,19 @@ public class MemberController {
 		pagination.setTotalRecordCount(payCount);
 		model.addAttribute("pagination", pagination);
 //			List<Pay> pays = payService.getMemberPay(member.getMemberId());
+
 			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), "1");
 			model.addAttribute("pays", pays);
 		return "member/card_view";
-  	}
+	}
 
 	@GetMapping("/card/async")
-	public String getCardAsync(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-							   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-							   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-							   @RequestParam(value = "state", required = false, defaultValue = "1") String state,
-							   HttpServletRequest request, Model model) {
+	public String getCardAsync(
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+			@RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(value = "state", required = false, defaultValue = "1") String state,
+			HttpServletRequest request, Model model) {
 		Member member = memberService.selectMember(getTokenUserEmail(request));
 		model.addAttribute("member", member);
 		int payCount = payService.getPayCountByState(member.getMemberId(),state);
@@ -385,12 +461,14 @@ public class MemberController {
 
 		if (member.getMemberCard().equals("1")) {
 //			List<Pay> pays = payService.getMemberPay(member.getMemberId());
-			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state);
+			List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(),
+					pagination.getLastRecordIndex(), member.getMemberId(), state);
 			model.addAttribute("pays", pays);
-			log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), state));
+			log.info("list: {}", payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(),
+					pagination.getLastRecordIndex(), member.getMemberId(), state));
 
-		}else {
-			model.addAttribute("pay",new Pay());
+		} else {
+			model.addAttribute("pay", new Pay());
 		}
 		return "member/card_view:: memberTable";
 	}
@@ -450,5 +528,11 @@ public class MemberController {
 		System.out.println("===카드 해지 완료===");
 		return "redirect:/member/card";
 	}
+	
 
+	// coolSMS 연결
+	@PostMapping("/memberPhoneCheck")
+	public @ResponseBody String memberPhoneCheck(@RequestParam(value = "to") String to) throws CoolsmsException {
+		return smsService.PhoneNumberCheck(to);
+	}
 }

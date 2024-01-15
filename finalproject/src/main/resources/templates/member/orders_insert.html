@@ -275,7 +275,7 @@
 					$('<input type="hidden" name="orderList[' + i + '].ordersCount" value="' + inputlaundryCount + '">').appendTo('#laundryPlus');
 				}
                 //console.log(items);
-        	$('form').submit();
+        	//$('form').submit();
 
 			//let items = [
 			//	          {
@@ -287,7 +287,7 @@
 		    //			];
 		    let orderId =[[${washId}]];
         	// 빨간색 오류나는거 괜찮음
-				//directPay(totalPrice,currentCounter,items,orderId);
+				directPay(totalPrice,currentCounter,items,orderId);
         	
 			}
 		});

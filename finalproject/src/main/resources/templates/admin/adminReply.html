@@ -93,8 +93,12 @@
 										<div class="col-md-12" style="margin-top: 10px;">
 											<label for="memHelpState" class="form-label title">문의내용</label>
 											<span class="form-control title" th:text="${memHelpContent}"></span>
-
 										</div>
+										<div class="col-md-12" style="margin-top: 10px;"> <!-- 변경: col-md-6으로 수정 -->
+									        <label for="memHelpFile" class="form-label title">첨부 파일</label>
+											<img class="form-control title" style="width: 200px; height: auto;" th:src="${memHelpFile}"
+															onerror="this.onerror=null; this.src='/img/ImgError1.png';">
+									    </div>
 	 
                             <div class="card-body">
                                 <form class="needs-validation was-validated" method="post" th:action="@{/admin/reply/insert}" id="replyForm">
@@ -113,12 +117,12 @@
 <!--										</script>-->
 
 	
-							<div class="btn_right_box" style="margin-top: 15px;">
-								<button type="button" class="btn_member_cancel title"
-									th:onclick="|javascript:location.href='/admin/memhelp'|">취소</button>
-	<!--							<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn"-->
-	<!--								th:onclick="|javascript:location.href='/memhelp'|">신청</button>-->
-								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" onclick="submitForm()">등록하기</button>
+							<div style="width: 100%; text-align: right;">
+							    <div class="btn_right_box" style="margin-top: 15px;">
+							        <button type="button" class="btn_member_cancel title" th:onclick="|javascript:location.href='/admin/memhelp'|">취소</button>
+							        <!-- <button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" th:onclick="|javascript:location.href='/memhelp'|">신청</button> -->
+							        <button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" onclick="submitForm()">등록하기</button>
+							    </div>
 							</div>
 						</form>
                             </div>

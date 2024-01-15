@@ -27,6 +27,11 @@
 		)
 	</insert>
 	
+	<delete id="deleteMemhelp" parameterType="int">
+		DELETE FROM MEMHELP
+		WHERE memHelpNum = #{memHelpNum}
+	</delete>
+	
 	
 
 	<!-- <![CDATA[ -->

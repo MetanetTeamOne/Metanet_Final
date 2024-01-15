@@ -54,26 +54,40 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="card mb-4">
+						    <div class="card-header">
+						        <i class="fas fa-table me-1"></i>
+						        문의현황
+						    </div>
+						    <div class="card-body">
+						        <div class="row">
+						            <div class="col-md-4">
+						                <div class="text-center">
+						                    <h4 class="fancy-font">총 문의 개수</h4>
+						                    <h5 class="fancy-font-small" style="margin-top:15px">
+												<span th:text="${maxcount}"></span>
+											</h5>
+						                </div>
+						            </div>
+						            <div class="col-md-4">
+						                <div class="text-center">
+						                    <h4 class="fancy-font1">답변한 문의 수</h4>
+						                    <h5 class="fancy-font-small" style="margin-top:15px">
+												<span th:text="${complete_cnt}"></span>
+											</h5>
+						                </div>
+						            </div>
+						            <div class="col-md-4">
+						                <div class="text-center">
+						                    <h4 class="fancy-font2">답변하지 않은 문의 수</h4>
+						                    <h5 class="fancy-font-small" style="margin-top:15px">
+												<span th:text="${incomplete_cnt}"></span>
+											</h5>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
@@ -87,6 +101,7 @@
                                                 <col style="width:14%">
                                                 <col style="width:14%">
                                                 <col style="width:20%">
+                                                <col style="width:20%">
                                             </colgroup>
                                             <thead>
                                                 <tr>
@@ -95,6 +110,7 @@
                                                     <th scope="col">문의날짜</th>
                                                     <th scope="col">문의카테고리</th>
                                                     <th scope="col">문의상태</th>
+                                                    <th scope="col">문의삭제</th>
                                                 </tr>
                                             </thead>
                                             <tbody >
@@ -102,12 +118,24 @@
                                                         <td>
 														    <span th:text="'#'+${memhelp.memHelpNum}"></span>
 														</td>
+														
 														<td>
 <!--														    <a th:href="@{/admin/reply/insert/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})/{memberId}(memberId=${memhelp.memberId})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">-->
-															<a th:href="@{/admin/reply/insert/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">
-														        <span th:text="${memhelp.memHelpTitle}"></span>
-														    </a>
+															
+															<span th:switch="${memhelp.memHelpState}">
+														        <span th:case="0">
+																	<a th:href="@{/admin/reply/insert/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">
+																        <span th:text="${memhelp.memHelpTitle}"></span>
+																    </a>
+																</span>
+														        <span th:case="1">
+																	<span th:text="${memhelp.memHelpTitle}"></span>
+																</span>
+														    </span>
+															
+															
 														</td>
+														
                                                         <td>
 														    <span th:text="${memhelp.memHelpDate}"></span>
 														</td>
@@ -129,7 +157,13 @@
 														        <span th:case="0">답변 대기</span>
 														        <span th:case="1">답변 완료</span>
 														    </span>
-														</td>			
+														</td>		
+														<td>
+														    <form method="post" th:action="@{/admin/reply/delete/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}">
+<!--														        <input type="hidden" name="memHelpNum" th:value="${memhelp.memHelpNum}" />-->
+														        <button type="submit" class="btn btn-outline-danger">삭제</button>
+														    </form>
+														</td>	
                                                     </tr>
                                             </tbody>
                                 </table>
@@ -205,4 +239,38 @@
         sendData(queryParam);
     }
 </script>
+
+<style>
+        /* 예쁜 폰트를 웹페이지에 추가 (예: Google Fonts) */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+        /* 스타일을 적용할 클래스에 새로운 폰트 적용 */
+        .fancy-font {
+            font-family: 'Noto Sans KR', sans-serif; /* 원하는 폰트로 변경 */
+            font-weight: 700; /* 원하는 굵기로 변경 */
+            color: #007bff; /* 원하는 색상으로 변경 */
+            /* 다른 스타일 속성 추가 가능 */
+        }
+        
+        .fancy-font1 {
+            font-family: 'Noto Sans KR', sans-serif; /* 원하는 폰트로 변경 */
+            font-weight: 700; /* 원하는 굵기로 변경 */
+            color: rgb(0, 0, 0); /* 원하는 색상으로 변경 */
+            /* 다른 스타일 속성 추가 가능 */
+        }
+        
+        .fancy-font2 {
+            font-family: 'Noto Sans KR', sans-serif; /* 원하는 폰트로 변경 */
+            font-weight: 700; /* 원하는 굵기로 변경 */
+            color: rgb(255, 136, 136); /* 원하는 색상으로 변경 */
+            /* 다른 스타일 속성 추가 가능 */
+        }
+        
+        .fancy-font-small {
+            font-family: 'Noto Sans KR', sans-serif; /* 원하는 폰트로 변경 */
+            font-weight: 300; /* 원하는 굵기로 변경 */
+            color: rgb(0, 0, 0); /* 원하는 색상으로 변경 */
+            /* 다른 스타일 속성 추가 가능 */
+        }
+</style>
 </html>
