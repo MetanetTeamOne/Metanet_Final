@@ -108,7 +108,7 @@
 	</update>
 	
 	<select id="sumPay" parameterType="int" resultType="int">
-		select sum(pay_money) from pay
+		select nvl(sum(pay_money), 0) from pay
 	</select>
 
 	<select id="getPagingMemberPay"
@@ -121,7 +121,6 @@
 		PAY_DELIVERY as payDelivery,
 		PAY_MONEY as payMoney,
 		PAY_DATE as payDate,
-		PAY_STATE as payState,
 		WASH_ID as washId,
 		MEMBER_ID as memberId
 		from pay where MEMBER_ID = #{memberId}
