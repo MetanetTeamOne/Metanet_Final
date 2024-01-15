@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{include/member/head :: head}"></head>
+<body>
+    <link rel="stylesheet" th:href="@{/css/member/orders.css}">
+
+    <!-- Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+            <!--Section left--> 
+            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+
+            <!-- Section right -->
+            <div class="col-sm-9 col-md-9 col-lg-9">
+                <div class="mypage_right">
+                    <div class="row">
+                        <h2 class="title">문의 사항</h2>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">궁금한 점이 있다면 문의 해보세요.</h3>
+                            
+                            <div class="box-btn" style="text-align: end;">
+							    <a th:href="@{/memhelp/insert}" class="btn05 c01 sitemCheckBtn">
+							        <span class="title">문의하기</span>
+							    </a>
+							    <!-- Your other button/form code goes here -->
+							</div>          
+                            <div class="order-item" style="margin-top: 20px;">
+                                <div class="mypage-table__wrap">
+                                    <div class="mypage-table" id="memberTable" th:fragment="memberTable">
+                                        <table>
+                                            <colgroup>
+                                                <col style="width:14%">
+                                                <col style="width:14%">
+                                                <col style="width:14%">
+                                                <col style="width:14%">
+                                                <col style="width:20%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="title">문의번호</th>
+                                                    <th scope="col" class="title">문의제목</th>
+                                                    <th scope="col" class="title">문의날짜</th>
+                                                    <th scope="col" class="title">문의카테고리</th>
+                                                    <th scope="col" class="title">문의상태</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                    <tr th:each="memhelp : ${memhelpList}">
+                                                        <td>
+														    <span class="title" th:text="'#'+${memhelp.memHelpNum}"></span>
+														</td>
+														<td>
+														    <a th:href="@{/memhelp/search/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">
+														        <span class="title" th:text="${memhelp.memHelpTitle}"></span>
+														    </a>
+														</td>
+                                                        <td>
+														    <span class="title" th:text="${memhelp.memHelpDate}"></span>
+														</td>
+														<td>
+														    <span th:switch="${memhelp.memCategoryNum}">
+														        <span th:case="1" class="title">회원정보</span>
+														        <span th:case="2" class="title">설정/보안/인증</span>
+														        <span th:case="3" class="title">주문/결제</span>
+														        <span th:case="4" class="title">취소/환불</span>
+														        <span th:case="5" class="title">배송</span>
+														        <span th:case="6" class="title">영수증</span>
+														        <span th:case="7" class="title">고객의소리/기타</span>
+														        <span th:case="8" class="title">세탁정보</span>
+
+														    </span>
+														</td>
+														<td>
+														    <span th:switch="${memhelp.memHelpState}">
+														        <span th:case="0" class="title">답변 대기</span>
+														        <span th:case="1" class="title">답변 완료</span>
+														    </span>
+														</td>			
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                        <!--paginate-->
+                                        <div class="cm-pagination" id="ordListPaging">
+                                            <div class="paging">
+                                                <th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
+                                                    <input id="currentPage" type="hidden" th:value="${idx}"/>
+                                                    <input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>
+                                                    <input id="pageSize" type="hidden" th:value="${pagination.pageSize}"/>
+                                                    <a th:style="'color:' + (${pagination.currentPage} == ${idx} ? '#cc0000; font-weight:700; margin-bottom: 2px;' : '')"
+                                                       href="javascript:void(0);"
+                                                       th:onclick="'movePage(' + ${idx} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">
+                                                        <!--									   th:onclick="paging()">-->
+                                                        <span id="idx" th:text="${idx}"></span>
+                                                    </a>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                        <!--/paginate-->
+                                    </div>
+                                    <!--<div class="cm-pagination" id="ordListPaging">
+                                        <div class="pagination__inner title"><a href="#" role="button" class="active" data-paging-btn="" data-value="1">1</a></div>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+
+    <!-- Footer -->
+    <div th:replace="~{include/member/footer :: footer}"></div>
+    
+    <!--xmlHttpRequest-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const radioButtons = document.querySelectorAll('input[name="radio_name_d"]');
+
+            radioButtons.forEach(function (radioButton) {
+                radioButton.addEventListener("change", function () {
+                    const selectedMonth = this.value;
+                    sendData(selectedMonth);
+                });
+            });
+
+            let xhr = null;
+
+            function getInstance() {
+                if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else if (window.ActiveXObject) { //IE
+                    console.log("IE");
+                } else {
+                    throw new Error("Ajax 비동기 지원하지 않아요");
+                }
+                return xhr;
+            }
+
+            function handlerStateChange() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+ 					const fragment = xhr.responseText;
+ 					console.log(fragment);
+                        document.getElementById("memberTable").innerHTML = fragment;
+                    } else {
+                        console.log("비정상 응답 : " + xhr.status);
+                    }
+                }
+            }
+
+            function sendData(month) {
+                xhr = getInstance();
+                xhr.onreadystatechange = handlerStateChange;
+				
+                xhr.open("GET", "/orders/month/" + month);
+                xhr.send();
+            }
+        });
+
+        function movePage(currentPage, cntPerPage, pageSize) {
+            console.log("movepage동작")
+            const queryParam = {
+                currentPage: currentPage,
+                cntPerPage: cntPerPage,
+                pageSize: pageSize,
+            }
+
+            let xhr = null;
+
+            function getInstance() {
+                if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else if (window.ActiveXObject) { //IE
+                    console.log("IE");
+                } else {
+                    throw new Error("Ajax 비동기 지원하지 않아요");
+                }
+                return xhr;
+            }
+
+            function handlerStateChange() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        const fragment = xhr.responseText;
+                        console.log(fragment);
+                        document.getElementById("memberTable").innerHTML = fragment;
+                    } else {
+                        console.log("비정상 응답 : " + xhr.status);
+                    }
+                }
+            }
+
+            function sendData() {
+                xhr = getInstance();
+                xhr.onreadystatechange = handlerStateChange;
+
+                var url = "/memhelp/async" + '?' + new URLSearchParams(queryParam).toString();
+
+                xhr.open("GET", url, true);
+                xhr.send();
+            }
+
+            sendData(queryParam);
+        }
+    </script>
+    <script>
+		let swTitle = '주문 취소 완료';
+		let swComment = '주문이 취소되었습니다.';
+		let swImage = 'success';
+
+	</script>
+</body>
+</html>

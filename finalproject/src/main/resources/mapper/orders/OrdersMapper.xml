@@ -2,11 +2,310 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
-	<insert id="insertMember" parameterType="com.example.myapp.member.model.Member">
-	<![CDATA[
-		INSERT INTO member (userid, name, password, phone, email) 
-		VALUES (#{userid}, #{name}, #{password}, #{phone}, #{email})
-	]]>
+<mapper
+	namespace="com.metanet.finalproject.orders.repository.IOrdersRepository">
+
+	<select id="searchOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count as
+		ordersCount,
+		orders_price as ordersPrice,
+		ORDERS_COMMENT as
+		ordersComment,
+		orders_date as ordersDate,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as laundryId,
+		ORDERS_DIR_PATH as
+		ordersDirPath
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+		<if test="washId >= 0">
+			AND wash_id = #{washId}
+		</if>
+
+		ORDER BY wash_id desc, orders_id DESC
+
+		<!--<if test="washId >= 0"> AND wash_id = #{washId} </if> -->
+
+	</select>
+
+	<select id="searchMemOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		SELECT
+		wash_id as washId,
+		COUNT(*) as ordersTotalCount,
+		SUM(orders_price) as ordersTotalPrice,
+		MAX(orders_date) as ordersDate,
+		MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id =
+		#{memberId}
+		GROUP BY wash_id
+		ORDER BY ordersDate DESC
+	</select>
+
+	<select id="searchMaxWashId" parameterType="int"
+		resultType="int">
+		SELECT
+		nvl(max(wash_id), 0) + 1 as washId
+		FROM ORDERS
+		WHERE
+		member_id = #{memberId}
+
+	</select>
+
+	<select id="searchOrderId" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count
+		as ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		ORDERS_COMMENT as ordersComment,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as laundryId,
+		orders_check_date as
+		ordersCheckDate
+		FROM ORDERS
+
+		WHERE wash_id = #{washId}
+
+		ORDER BY wash_id desc
+	</select>
+
+	<select id="searchMonthOrder" parameterType="int"
+		resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+
+		SELECT
+		wash_id as washId,
+		COUNT(*) as ordersTotalCount,
+		SUM(orders_price) as ordersTotalPrice,
+		MAX(orders_date) as ordersDate,
+		MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id =
+		#{memberId} AND orders_date
+		>= ADD_MONTHS(SYSDATE, -#{month})
+		GROUP BY
+		wash_id
+		ORDER BY ordersDate
+		DESC
+	</select>
+
+	<insert id="insertOrder"
+		parameterType="com.metanet.finalproject.orders.model.Orders">
+		<selectKey keyProperty="ordersId" resultType="int"
+			order="BEFORE">
+			select
+			nvl(max(orders_id), 0) + 1
+			from orders
+		</selectKey>
+
+		INSERT INTO ORDERS (
+		orders_id,
+		wash_id,
+		orders_count,
+		orders_price,
+		orders_date,
+		orders_comment,
+		orders_status,
+		member_id,
+		laundry_id,
+		orders_check_date,
+		ORDERS_DIR_PATH
+		)
+		VALUES (
+		#{ordersId},
+		#{washId},
+		#{ordersCount},
+		#{ordersPrice},
+		sysdate,
+		#{ordersComment},
+		#{ordersStatus},
+		#{memberId},
+		#{laundryId},
+		#{ordersCheckDate},
+		#{ordersDirPath}
+		)
 	</insert>
+	<!-- ORDERS_SEQ.NEXTVAL, -->
+
+	<select id="countOrder" parameterType="int" resultType="int">
+		SELECT count(orders_id)
+		FROM ORDERS
+		<if test="memberId != null">
+			WHERE member_id = #{memberId}
+		</if>
+	</select>
+
+	<select id="countNewOrder" resultType="int">
+		select count(orders_id)
+		from orders
+		<if test="ordersDate != null">
+			where trunc(orders_date) = trunc(sysdate);
+		</if>
+	</select>
+	<!-- 10분마다 주문 건수 조회 
+		<![CDATA[ 
+			SELECT count(orders_id) 
+			FROM ORDERS 
+			where orders_date > sysdate-(10/1440) 
+	]]> -->
+
+	<update id="updateOrder"
+		parameterType="com.metanet.finalproject.orders.model.Orders">
+		UPDATE ORDERS
+		<set>
+			<if test="washId != null">wash_id = #{washId},</if>
+			<if test="ordersCount != null">orders_count = #{ordersCount},</if>
+			<if test="ordersPrice != null">orders_price = #{ordersPrice},</if>
+			<if test="ordersDate != null">orders_date = #{ordersDate},</if>
+			<if test="ordersComment != null">orders_comment = #{ordersComment},</if>
+			<if test="ordersStatus != null">orders_status = #{ordersStatus},</if>
+			<if test="ordersCheckDate != null">orders_check_date = #{ordersCheckDate},</if>
+			<if test="memberId != null">member_id = #{memberId},</if>
+			<if test="laundryId != null">laundry_id = #{laundryId}</if>
+		</set>
+		WHERE orders_id = #{ordersId}
+	</update>
+
+	<delete id="deleteWashOrder">
+		DELETE FROM ORDERS
+		<where>
+			<if test="washId != null">AND wash_id = #{washId} </if>
+			<!-- <if test="ordersId != null">AND orders_id = #{ordersId} </if> -->
+		</where>
+	</delete>
+
+	<delete id="deleteOrder">
+		DELETE FROM ORDERS
+		<where>
+			<if test="washId != null">AND wash_id = #{washId} </if>
+			<if test="ordersId != null">AND orders_id = #{ordersId} </if>
+
+		</where>
+	</delete>
+
+	<select id="searchOrdersList"
+		resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count
+		as ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		orders_comment as ordersComment,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as laundryId,
+		orders_check_date as
+		ordersCheckDate
+		FROM ORDERS
+	</select>
+
+	<update id="updateStatus">
+		update orders
+		<set>
+			<if test="ordersStatus != null">
+				orders_status=#{ordersStatus}
+			</if>
+		</set>
+		where wash_id=#{washId}
+	</update>
+
+	<select id="getOrderCount" resultType="int">
+		SELECT count(*) FROM
+		orders
+		<if test="month != null and memberId != null">
+			WHERE member_id =
+			#{memberId} AND orders_date
+			>= ADD_MONTHS(SYSDATE, -#{month})
+		</if>
+	</select>
+
+	<select id="searchPagingMemOrder"
+			resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+        SELECT *
+        FROM(
+        SELECT ROW_NUMBER() OVER(ORDER by MAX(orders_date) asc) AS
+        rnum,
+        wash_id as washId,
+        COUNT(*) as ordersTotalCount,
+        SUM(orders_price) as ordersTotalPrice,
+        MAX(orders_date) as ordersDate,
+        MAX(orders_status) as orderState
+        FROM ORDERS
+        WHERE member_id = #{memberId}
+        GROUP BY wash_id
+        )
+        <if test="start != null and end != null">
+            <![CDATA[
+			WHERE rnum > #{start} AND
+			rnum <= #{end}
+		]]>
+        </if>
+        ORDER BY ordersDate DESC
+    </select>
+
+	<select id="searchPagingMemMonthOrder"
+			resultType="com.metanet.finalproject.orders.model.OrdersDetails">
+		SELECT *
+		FROM(
+		SELECT ROW_NUMBER() OVER(ORDER by MAX(orders_date) asc) AS
+		rnum,
+		wash_id as washId,
+		COUNT(*) as ordersTotalCount,
+		SUM(orders_price) as ordersTotalPrice,
+		MAX(orders_date) as ordersDate,
+		MAX(orders_status) as orderState
+		FROM ORDERS
+		WHERE member_id =
+		#{memberId} AND orders_date
+		>= ADD_MONTHS(SYSDATE, -#{month})
+		GROUP BY wash_id
+		)
+		<if test="start != null and end != null">
+			<![CDATA[
+			WHERE rnum > #{start} AND
+			rnum <= #{end}
+		]]>
+		</if>
+		ORDER BY ordersDate DESC
+	</select>
+
+	<select id="searchPagingOrdersList"
+			resultType="com.metanet.finalproject.orders.model.Orders">
+		SELECT *
+		FROM (
+		SELECT ROW_NUMBER() OVER(ORDER by orders_id desc) AS
+		row_num,
+		orders_id as ordersId,
+		wash_id as washId,
+		orders_count as ordersCount,
+		orders_price as ordersPrice,
+		orders_date as ordersDate,
+		orders_comment as ordersComment,
+		orders_status as OrdersStatus,
+		member_id as memberId,
+		laundry_id as laundryId,
+		orders_check_date as ordersCheckDate
+		FROM ORDERS
+		)
+		<if test="start != null and end != null">
+			WHERE row_num <![CDATA[>]]> #{start} AND
+			row_num <![CDATA[<=]]> #{end}
+		</if>
+	</select>
+
+	<!-- <![CDATA[ -->
+	<!-- ]]> -->
+
 </mapper>

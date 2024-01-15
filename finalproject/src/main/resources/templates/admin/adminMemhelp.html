@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--Header -->
+	<div th:replace="~{include/admin/head :: head}"></div>
+
+    <body class="sb-nav-fixed">
+       <nav th:replace="~{include/admin/header :: header}"></nav>
+        
+        <div id="layoutSidenav">
+            <div th:replace="~{include/admin/nav :: navbar}"></div>
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">워시워시</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">워시워시</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Primary Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">Warning Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Success Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        Area Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Bar Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                문의내역
+                            </div>
+                            <div class="card-body" id="memberTable" th:fragment="memberTable">
+                                <table id="datatablesSimple" class="table table-striped">
+                                    <colgroup>
+                                                <col style="width:14%">
+                                                <col style="width:14%">
+                                                <col style="width:14%">
+                                                <col style="width:14%">
+                                                <col style="width:20%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">문의번호</th>
+                                                    <th scope="col">문의제목</th>
+                                                    <th scope="col">문의날짜</th>
+                                                    <th scope="col">문의카테고리</th>
+                                                    <th scope="col">문의상태</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                    <tr th:each="memhelp : ${memhelpList}">
+                                                        <td>
+														    <span th:text="'#'+${memhelp.memHelpNum}"></span>
+														</td>
+														<td>
+<!--														    <a th:href="@{/admin/reply/insert/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})/{memberId}(memberId=${memhelp.memberId})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">-->
+															<a th:href="@{/admin/reply/insert/{memHelpNum}(memHelpNum=${memhelp.memHelpNum})}" style="color: #007BFF; text-decoration: underline; font-weight: bold;">
+														        <span th:text="${memhelp.memHelpTitle}"></span>
+														    </a>
+														</td>
+                                                        <td>
+														    <span th:text="${memhelp.memHelpDate}"></span>
+														</td>
+														<td>
+														    <span th:switch="${memhelp.memCategoryNum}">
+														        <span th:case="1">회원정보</span>
+														        <span th:case="2">설정/보안/인증</span>
+														        <span th:case="3">주문/결제</span>
+														        <span th:case="4">취소/환불</span>
+														        <span th:case="5">배송</span>
+														        <span th:case="6">영수증</span>
+														        <span th:case="7">고객의소리/기타</span>
+														        <span th:case="8">세탁정보</span>
+
+														    </span>
+														</td>
+														<td>
+														    <span th:switch="${memhelp.memHelpState}">
+														        <span th:case="0">답변 대기</span>
+														        <span th:case="1">답변 완료</span>
+														    </span>
+														</td>			
+                                                    </tr>
+                                            </tbody>
+                                </table>
+                                <!--paginate-->
+                                <div class="paginate">
+                                    <div class="paging">
+                                        <th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
+                                            <input id="currentPage" type="hidden" th:value="${idx}"/>
+                                            <input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>
+                                            <input id="pageSize" type="hidden" th:value="${pagination.pageSize}"/>
+                                            <a th:style="'color:' + (${pagination.currentPage} == ${idx} ? '#cc0000; font-weight:700; margin-bottom: 2px;' : '')"
+                                               href="javascript:void(0);"
+                                               th:onclick="'movePage(' + ${idx} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">
+                                                <!--									   th:onclick="paging()">-->
+                                                <span id="idx" th:text="${idx}"></span>
+                                            </a>
+                                        </th:block>
+                                    </div>
+                                </div>
+                                <!--/paginate-->
+                            </div>
+                        </div>
+                    </div>
+                </main>
+				<footer th:replace="~{include/admin/footer :: footer}"></footer>
+            </div>
+        </div>
+    </body>
+<script>
+    function movePage(currentPage, cntPerPage, pageSize) {
+        console.log("movepage동작")
+        const queryParam = {
+            currentPage: currentPage,
+            cntPerPage: cntPerPage,
+            pageSize: pageSize,
+        }
+
+        let xhr = null;
+
+        function getInstance() {
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) { //IE
+                console.log("IE");
+            } else {
+                throw new Error("Ajax 비동기 지원하지 않아요");
+            }
+            return xhr;
+        }
+
+        function handlerStateChange() {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const fragment = xhr.responseText;
+                    console.log(fragment);
+                    document.getElementById("memberTable").innerHTML = fragment;
+                } else {
+                    console.log("비정상 응답 : " + xhr.status);
+                }
+            }
+        }
+
+        function sendData() {
+            xhr = getInstance();
+            xhr.onreadystatechange = handlerStateChange;
+
+            var url = "/admin/memhelp/async" + '?' + new URLSearchParams(queryParam).toString();
+
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        sendData(queryParam);
+    }
+</script>
+</html>

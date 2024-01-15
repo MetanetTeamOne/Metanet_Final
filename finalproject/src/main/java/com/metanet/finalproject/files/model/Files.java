@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Files {
 	// 파일 ID
-	private int files;
+	private int filesID;
 	
 	// 사진 원본이름
 	private String files_oname;
@@ -18,4 +18,8 @@ public class Files {
 	
 	// 파일타입
 	private String files_type;
+	
+	private byte[] files_data;
+	
+	private int ordersId;
 }

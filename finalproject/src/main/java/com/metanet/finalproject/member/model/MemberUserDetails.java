@@ -1,22 +1,22 @@
 package com.metanet.finalproject.member.model;
 
-import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-public class MemberUserDetails extends User{
-	private static final long serialVersionUID = -4679039456330600424L;
+import java.util.Collection;
 
-	private String studentEmail;
-	
-	public MemberUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, authorities);
+public class MemberUserDetails extends User {
+    private static final long serialVersionUID = 1L;
 
-		this.studentEmail = studentEmail;
-	}
-	
-	public String getStudentEmail() {
-		return this.studentEmail;
-	}
+    private int id;
+
+    public MemberUserDetails(String username, String password,
+                             Collection<? extends GrantedAuthority> authorities, int id) {
+        super(username, password, authorities);
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
+    }
 }

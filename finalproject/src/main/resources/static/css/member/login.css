@@ -1,3 +1,8 @@
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
+}
+
 #container {
     position: relative;
     width: 1090px;
@@ -90,7 +95,7 @@
     padding-left: 15px
 }
 
-.login_page a.btn_login_cont {
+.login_page button.btn_login_cont {
     width: 100%;
     display: block;
     height: 70px;
@@ -100,12 +105,27 @@
     color: #fff;
     font-weight: 700;
     background: var(--sub);
-    box-sizing: border-box
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+.login_page button.btn_login_cont:hover {
+    width: 100%;
+    display: block;
+    height: 70px;
+    line-height: 65px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 700;
+    background: var(--main);
+    box-sizing: border-box;
+    text-decoration: none;
 }
 
 .login_page .chks {
     font-size: 15px;
-    display: inline
+    display: inline;
 }
 
 .login_page .chks label {
@@ -144,4 +164,49 @@
 .login_page .chks label.on span.bl {
     background-position: 0 100%;
     background-size: cover
+}
+
+.cmem_sns_login {
+    display: table;
+    table-layout: fixed;
+    width: 334px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.cmem_sns_login li {
+    display: table-cell;
+    text-align: center;
+}
+
+.cmem_sns_login li a {
+    display: block;
+}
+
+.cmem_sns_login .sp_cmem_sns.cmem_ico_naver {
+    background-image: url(https://dev-img.dongwonmall.com/dwmall/web/images/icon/icon_sns_login.png);
+    background-position: 0 0;
+    width: 56px;
+    height: 56px;
+}
+
+.cmem_sns_login .sp_cmem_sns {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cmem_sns_login .cmem_sns_name {
+    display: block;
+    margin-top: 5px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333;
+    letter-spacing: -.5px;
+}
+
+.cmem_sns_login .sp_cmem_sns.cmem_ico_kakao {
+    background-image: url(https://dev-img.dongwonmall.com/dwmall/web/images/icon/icon_sns_login.png);
+    background-position: -83px -56px;
+    width: 56px;
+    height: 56px;
 }

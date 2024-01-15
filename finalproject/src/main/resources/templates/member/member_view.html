@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{include/member/head :: head}">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+        
+            <!-- Section left -->
+            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+            
+            <!-- Section right -->
+            <div class="col-sm-9 col-md-9 col-lg-9">
+                <div class="mypage_right">
+                    <div class="row">
+                        <h2 class="title">내 정보 관리</h2>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">계정 관리</h3>
+                            <div class="my_page_form">
+                                <div class="base_info_sec">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th><span class="important title">아이디</span></th>
+                                                <td class="member_email">
+                                                    <div class="member_warning">
+                                                        <input type="text" id="memberEmail" th:value="${member.memberEmail}" class="inputData title" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span class="important title">이름</span></th>
+                                                <td class="member_email">
+                                                    <div class="member_warning">
+                                                        <input type="text" id="memberName" maxlength="30" th:value="${member.memberName}" class="inputData title" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th><span class="important title">휴대폰번호</span></th>
+                                                <td class="member_address">
+                                                    <div class="address_postcode">
+                                                        <input type="text" id="memberPhoneNumber" maxlength="12" placeholder="- 없이 입력하세요." th:value="${member.memberPhoneNumber}" class="inputData title" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                    <div class="btn_right_box">
+                                        <button type="button" class="btn_comfirm js_btn_join title" value="" onclick="location.href ='/member/update'">수정</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+    <div th:replace="~{include/member/footer :: footer}"></div>
+
+</body>
+</html>

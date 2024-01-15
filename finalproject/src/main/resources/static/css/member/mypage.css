@@ -1,3 +1,8 @@
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
+}
+
 /* CSS Document */
 .member_wrap{width:593px; margin:20px auto 40px auto;}
 .member_pwd_wrap{margin:20px auto 40px auto;}
@@ -142,15 +147,20 @@
     font-weight: bold;
 }
 
-.mypage_right .row:nth-child(2) .mypage_header {
+.mypage_right .row .mypage_header {
     margin: 30px 0;
     padding: 0 30px;
 }
 
-.mypage_right .row:nth-child(2) .mypage_header h3 {
+.mypage_right .row .mypage_header h3 {
     font-size: 20px;
     font-weight: bold;
 }
+
+/*.mypage_right .row:nth-child(2) .mypage_header h3 {
+    font-size: 20px;
+    font-weight: bold;
+}*/
 
 .mypage_right .row:nth-child(2) .mypage_header .my_page_form {
     margin: 10px 0;
@@ -167,15 +177,17 @@
     font-size: 14px;
 } 
 
-.mypage_right tbody td input[id="memId"]{
-    font-size: 14px;
-    background-color: var(--sub-gray);
-} 
-
 .btn_post_search {
     margin: 0 0 0 5px;
     padding: 5px 10px 5px 10px;
     border: 1px solid #989898;
+}
+
+.btn_post_search:hover {
+    margin: 0 0 0 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #989898;
+    background-color: #dcdcdc;
 }
 
 .mypage_right tbody tr .member_address .address_input .member_warning {
@@ -184,4 +196,13 @@
 
 .mypage_right tbody tr .member_address .address_postcode input {
     width: 190px;
+}
+
+.plusButton {
+	color: var(--sub); 
+	font-size: 45px;
+}
+
+.plusButton:hover {
+	color: var(--main); 
 }

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--Header -->
+<div th:replace="~{include/admin/head :: head}"></div>
+<body class="sb-nav-fixed">
+	<nav th:replace="~{include/admin/header :: header}"></nav>
+
+
+
+	<div id="layoutSidenav">
+		<div th:replace="~{include/admin/nav :: navbar}"></div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4 title">워시워시 회원 관리</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active title">빠른 메뉴</li>
+					</ol>
+					<div class="row">
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-primary text-white mb-4">
+								<div class="card-body title">주문 조회</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="/admin/order">주문 조회하기</a>
+									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-warning text-white mb-4">
+								<div class="card-body title">결제 조회</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="/admin/pay">결제 조회하기</a>
+									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-success text-white mb-4">
+								<div class="card-body title">결제 삭제</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="#">결제 삭제하기</a>
+									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6">
+							<div class="card bg-danger text-white mb-4">
+								<div class="card-body title">매출 조회</div>
+								<div class="card-footer d-flex align-items-center justify-content-between">
+									<a class="small text-white stretched-link" href="/admin/chart">매출 조회하기</a>
+									<div class="small text-white"><i class="fas fa-angle-right"></i></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        Area Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Bar Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>-->
+					<div class="card mb-4">
+						<div class="card-header title">
+							<i class="fas fa-table me-1"></i>
+							전체 회원 정보
+							<select id="stateId">
+								<option value="0">탈퇴한 회원</option>
+								<option value="1" selected>탈퇴안한 회원</option>
+							</select>
+						</div>
+						<div class="card-body" id="memberTable" th:fragment="memberTable">
+							<table id="datatablesSimple" class="table table-striped table-hover info">
+								<thead>
+									<tr>
+										<th class="title">ID</th>
+										<th class="title">이메일</th>
+										<th class="title">이름</th>
+										<th class="title">휴대폰번호</th>
+										<th class="title">가입날짜</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="member : ${list}">
+										<td th:text="${member.memberId}"></td>
+										<td th:text="${member.memberEmail}"></td>
+										<td th:text="${member.memberName}"></td>
+										<td th:text="${member.memberPhoneNumber}"></td>
+										<td th:text="${member.memberJoinDate}"></td>
+									</tr>
+								</tbody>
+							</table>
+							<!--paginate-->
+							<div class="paginate">
+								<div class="paging">
+									<th:block th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
+										<input id="currentPage" type="hidden" th:value="${idx}"/>
+										<input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>
+										<input id="pageSize" type="hidden" th:value="${pagination.pageSize}"/>
+										<a th:style="'color:' + (${pagination.currentPage} == ${idx} ? '#cc0000; font-weight:700; margin-bottom: 2px;' : '')"
+										   href="javascript:void(0);"
+										   th:onclick="'movePage(' + ${idx} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">
+											<!--									   th:onclick="paging()">-->
+											<span id="idx" th:text="${idx}"></span>
+										</a>
+									</th:block>
+								</div>
+							</div>
+							<!--/paginate-->
+						</div>
+					</div>
+				</div>
+
+			</main>
+			<footer th:replace="~{include/admin/footer :: footer}"></footer>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+	document.addEventListener("DOMContentLoaded", function () {
+		const optVal = document.querySelector('#stateId');
+		optVal.addEventListener("change", function () {
+			const selected = this.value;
+			sendData(selected);
+		});
+
+		let xhr = null;
+
+		function getInstance() {
+			if (window.XMLHttpRequest) {
+				xhr = new XMLHttpRequest();
+			} else if (window.ActiveXObject) { //IE
+				console.log("IE");
+			} else {
+				throw new Error("Ajax 비동기 지원하지 않아요");
+			}
+			return xhr;
+		}
+
+		function handlerStateChange() {
+			if (xhr.readyState == 4) {
+				if (xhr.status >= 200 && xhr.status < 300) {
+					const fragment = xhr.responseText;
+					console.log(fragment);
+					document.getElementById("memberTable").innerHTML = fragment;
+				} else {
+					console.log("비정상 응답 : " + xhr.status);
+				}
+			}
+		}
+
+		function sendData(state) {
+			console.log("여기요!!!")
+			xhr = getInstance();
+			xhr.onreadystatechange = handlerStateChange;
+
+			var url = "/admin/member/" + state;
+
+			xhr.open("GET", url, true);
+			xhr.send();
+		}
+
+		// function paging(){
+		// 	console.log("paging 실행")
+		// 	const num = document.querySelector('#idx');
+		// 	const currentPage = document.querySelector('#currentPage').value;
+		// 	const cntPerPage = document.querySelector('#cntPerPage').value;
+		// 	const pageSize = document.querySelector('#pageSize').value;
+		// 	num.addEventListener('click', function () {
+		// 		console.log("클릭 이벤트 발생");
+		// 		sendData(currentPage, cntPerPage, pageSize);
+		// 	});
+		//
+		// 	let xhr = null;
+		//
+		// 	function getInstance() {
+		// 		if (window.XMLHttpRequest) {
+		// 			xhr = new XMLHttpRequest();
+		// 		} else if (window.ActiveXObject) { //IE
+		// 			console.log("IE");
+		// 		} else {
+		// 			throw new Error("Ajax 비동기 지원하지 않아요");
+		// 		}
+		// 		return xhr;
+		// 	}
+		//
+		// 	function handlerStateChange() {
+		// 		if (xhr.readyState == 4) {
+		// 			if (xhr.status >= 200 && xhr.status < 300) {
+		// 				const fragment = xhr.responseText;
+		// 				console.log(fragment);
+		// 				document.getElementById("memberTable").innerHTML = fragment;
+		// 			} else {
+		// 				console.log("비정상 응답 : " + xhr.status);
+		// 			}
+		// 		}
+		// 	}
+		//
+		// 	function sendData(currentPage, cntPerPage, pageSize) {
+		// 		xhr = getInstance();
+		// 		xhr.onreadystatechange = handlerStateChange;
+		//
+		// 		var url = "/admin/member/" + '?' + currentPage + '&' + cntPerPage + '&' + pageSize;
+		//
+		// 		xhr.open("GET", url, true);
+		// 		console.log("데이터 보냄")
+		// 		xhr.send();
+		// 	}
+		// }
+	});
+
+
+
+
+
+	// 10, 20, 30개씩 selectBox 클릭 이벤트
+	function changeSelectBox(currentPage, cntPerPage, pageSize) {
+		var selectValue = $("#cntSelectBox").children("option:selected").val();
+		movePage(currentPage, selectValue, pageSize);
+	}
+
+	// 페이지 이동
+	function movePage(currentPage, cntPerPage, pageSize) {
+		let state = document.querySelector("#stateId > option:checked").value;
+		// let currentPage = document.querySelector("#currentPage").value;
+		// let cntPerPage = document.querySelector("#cntPerPage").value;
+		// let pageSize = document.querySelector("#pageSize").value;
+		console.log(state);
+		const queryParam = {
+			currentPage: currentPage,
+			cntPerPage: cntPerPage,
+			pageSize: pageSize,
+			state: state
+		}
+
+		let xhr = null;
+
+		function getInstance() {
+			if (window.XMLHttpRequest) {
+				xhr = new XMLHttpRequest();
+			} else if (window.ActiveXObject) { //IE
+				console.log("IE");
+			} else {
+				throw new Error("Ajax 비동기 지원하지 않아요");
+			}
+			return xhr;
+		}
+
+		function handlerStateChange() {
+			if (xhr.readyState == 4) {
+				if (xhr.status >= 200 && xhr.status < 300) {
+					const fragment = xhr.responseText;
+					console.log(fragment);
+					document.getElementById("memberTable").innerHTML = fragment;
+				} else {
+					console.log("비정상 응답 : " + xhr.status);
+				}
+			}
+		}
+
+		function sendData() {
+			xhr = getInstance();
+			xhr.onreadystatechange = handlerStateChange;
+
+			var url = "/admin/member/async" + '?' + new URLSearchParams(queryParam).toString();
+
+			xhr.open("GET", url, true);
+			xhr.send();
+		}
+
+		sendData(queryParam);
+	}
+</script>
+</html>

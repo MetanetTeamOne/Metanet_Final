@@ -34,7 +34,7 @@
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #0d6efd;
+  --bs-primary: #0e8ff2;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
@@ -42,7 +42,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 13, 110, 253;
+  --bs-primary-rgb: 14, 143, 242;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
@@ -77,12 +77,27 @@
   --bs-link-hover-color: #0a58ca;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
+	--main: #0d74cb;
+	--sub: #0e8ff2;
+	--banner: #f3faff;
+	--service-info-banner: #f8f2f4;
+	--main-gray: #f8f8f8;
+	--sub-gray: #f2f2f2;
+	--white-text: #ffffff;
+	--gray-text: #898989;
+	--gray-box: #898989;
+	--how-use-main: #292929;
+
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -3640,7 +3655,7 @@ textarea.form-control-lg {
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
   font-size: var(--bs-nav-link-font-size);
   font-weight: var(--bs-nav-link-font-weight);
-  color: var(--bs-nav-link-color);
+  color: var(--bs-white);
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -10958,7 +10973,7 @@ body {
 
 .sb-topnav {
   padding-left: 0;
-  height: 56px;
+  height: 70px;
   z-index: 1039;
 }
 .sb-topnav .navbar-brand {
@@ -10987,7 +11002,7 @@ body {
 }
 .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-heading {
   padding: 1.75rem 1rem 0.75rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -11241,3 +11256,202 @@ body {
   font-size: 0.75rem;
   border-radius: 0.375rem !important;
 }
+
+#admin_logo {
+	width: 230px;
+   /* background: url(/img/logo.png) no-repeat center center / 77%;*/
+/*   background-image: url("https://github.com/KHaeWon/MetanetWebJSP_EL_JSTL/assets/127920368/3a30ece8-4105-4da6-93f3-b19f832e08c3");
+*/   
+
+   background: url(/img/logo1.png) no-repeat center center / 85%;
+
+    margin-top: 8px;
+    display: block;
+    height: 80px;	
+}
+
+.paginate {
+  padding: 0;
+  line-height: normal;
+  text-align: center;
+  position: relative;
+  margin: 20px 0 20px 0;
+  z-index: 1;
+}
+
+.paginate .paging {
+  text-align: center;
+}
+
+.paginate .paging a, .paginate .paging strong {
+  margin: 0;
+  padding: 0;
+  width: 20px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  color: #848484;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 12px;
+}
+
+.paginate .paging a:hover, .paginate .paging strong {
+  color: #DAA520;
+  font-weight: 600;
+  font-weight: normal;
+}
+
+.paginate .paging .direction {
+  z-index: 3;
+  vertical-align: middle;
+  background-color: none;
+  margin: 0 2px;
+  border: 1px solid #777;
+  border-radius: 2px;
+  width: 28px;
+}
+
+.paginate .paging .direction:hover {
+  border: 1px solid #C40639;
+}
+
+.paginate .paging .direction.prev {
+  margin-right: 4px;
+}
+
+.paginate .paging .direction.next {
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.paginate .paging img {
+  vertical-align: middle;
+}
+
+.paginate .right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.bottom-left, .bottom-right {
+  position: relative;
+  z-index: 5;
+}
+
+.paginate ~ .bottom {
+  margin-top: -50px;
+}
+
+.bottom select {
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+}
+
+/* paginate */
+.paginate {
+  padding: 0;
+  line-height: normal;
+  text-align: center;
+  position: relative;
+  margin: 20px 0 20px 0;
+}
+
+.paginate .paging {
+  text-align: center;
+}
+
+.paginate .paging a, .paginate .paging strong {
+  margin: 0;
+  padding: 0;
+  width: 20px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  color: #999;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 14px;
+}
+
+.paginate .paging a:hover, .paginate .paging strong {
+  color: #C40639;
+  font-weight: 600;
+  font-weight: normal;
+}
+
+.paginate .paging .direction {
+  z-index: 3;
+  vertical-align: middle;
+  background-color: none;
+  margin: 0 2px;
+}
+
+.paginate .paging .direction:hover {
+  background-color: transparent;
+}
+
+.paginate .paging .direction.prev {
+  margin-right: 4px;
+}
+
+.paginate .paging .direction.next {
+  margin-left: 4px;
+}
+
+.paginate .paging img {
+  vertical-align: middle;
+}
+
+.paginate .right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#datatablesSimple {
+    width: 100%;
+    white-space: nowrap; /* 긴 문자열이 한 줄로 표시되도록 설정 */
+}
+
+#datatablesSimple th, #datatablesSimple td {
+    text-align: center; /* 셀의 텍스트를 왼쪽으로 정렬 */
+}
+
+.my-month__wrap .month_list li input {
+    display: block;
+    position: relative;
+    height: 100%;
+    padding: 7px;
+    border: 1px solid #ddd;
+    color: #666;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.my-month__wrap input,button {
+    /* display: block; */
+    /* position: relative; */
+    height: 30px;
+    padding: 7px;
+    border: 1px solid #ddd;
+    color: #666;
+    /*-webkit-box-sizing: border-box;*/
+    /* box-sizing: border-box; */
+}
+
+
+
+#msgStack {
+	    display: flex;
+    position: fixed;
+    min-width: 300px;
+    bottom: 110px;
+    right: 0px;
+}
+

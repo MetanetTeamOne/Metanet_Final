@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{include/member/head :: head}"></head>
+<body>
+    <link rel="stylesheet" th:href="@{/css/member/orders.css}">
+
+    <!-- Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+            <!-- Section left -->
+            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+
+            <!-- Section right -->
+            <div class="col-sm-9 col-md-9 col-lg-9">
+                <div class="mypage_right">
+                    <div class="row">
+                        <h2 class="title">서비스 관리</h2>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">주문 상세</h3>
+                            <!-- Content -->
+                            <div class="my-month__wrap " style="height: 0px;">
+                               <!-- <ul id="period" class="month_list">
+                                    <li>조회기간</li>
+                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_2" data-value="1:m" value="1" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_2">1개월</label></li>
+                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_3" data-value="3:m" value="3" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_3">3개월</label></li>
+                                    <li><input type="radio" name="radio_name_d" id="radio_d_1_4" data-value="6:m" value="6" data-datepicker-push="unique_datepicker_name" data-push-align="back"> <label for="radio_d_1_4">6개월</label></li>
+                                </ul>-->
+                            </div>
+                            <div class="order-item">
+                                <div class="mypage-table__wrap">
+                                    <div class="mypage-table">
+                                        <table id="memberTable" th:fragment="memberTable">
+                                            <colgroup>
+                                                <col>
+                                                <col style="width:20%">
+                                                <col style="width:20%">
+                                                <col style="width:24%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th class="title" scope="col">상품정보</th>
+                                                    <th class="title" scope="col">주문수량</th>
+                                                    <th class="title" scope="col">주문금액</th>
+                                                    <th class="title" scope="col">진행현황</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                <div th:each="order : ${orders}">
+                                                    <tr>
+                                                        <td colspan="5" class="order-info__list">
+                                                            <ul>
+                                                                <li>
+                                                                    <span class="title">상세번호 :</span>
+                                                                    <span class="title" th:text="${order.ordersId}">1</span>
+                                                                </li>
+                                                                <li class="title" th:text="${order.ordersDate}">주문일 : 2024-01-04</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="ui-item order">
+                                                                <div class="ui-item__inner">
+                                                                    <div class="ui-item__info" th:each="laundry : ${laundrys}" th:if="${order.laundryId == laundry.laundryId}" >
+                                                                        <div class="item_name" >
+                                                                            <strong  th:if="${order.laundryId < 12}" class="title">상의 - </strong>
+                                                                            <strong  th:if="${order.laundryId >= 12 and order.laundryId < 16}" class="title">하의 - </strong>
+                                                                            <strong  th:if="${order.laundryId >= 16 and order.laundryId < 20}" class="title">신발 - </strong>
+                                                                            <strong  th:if="${order.laundryId >= 20}" class="title">기타</strong>
+                                                                            <span class="title" th:text="${laundry.laundryName}"></span>
+                                                                        </div>
+                                                                        <div class="item_detail">
+                                                                        	<p class="order_option">
+																				<strong class="title">세탁유형 : </strong>
+                                                                        		<span class="title" th:if="${laundry.laundryCategory == '1'}">생활빨래</span>
+                                                                        		<span class="title" th:if="${laundry.laundryCategory == '2'}">개별클리닝</span>
+                                                                        	</p>
+                                                                    	</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <span class="title"><strong class="title" th:text="${order.ordersCount}"></strong>개</span>
+                                                        </td>
+                                                        <td>
+                                                            <strong class="title" data-th-text="${#numbers.formatInteger(order.ordersPrice, 0, 'COMMA') + '원'}"></strong>
+                                                        </td>
+                                                       
+                                                        <td>
+                                                            <div class="box-btn">
+                                                                <!--<a th:href="@{/orders/update/__${order.ordersId}__}" class="btn05 c01 sitemCheckBtn">
+                                                                    <span>주문수정</span>
+                                                                </a>-->
+                                                                <form method="post" th:action="@{/orders/delete/{ordersId}/{washId} (ordersId=${order.ordersId}, washId=${order.washId})}">
+																	
+																
+                                                                <button type="submit" class="btn05 mainC03 itemReviewWrite mt-2">
+                                                                    <span class="title">주문취소</span>
+                                                                </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </div>
+                                            </tbody>
+                                        </table>
+                                    </div>     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">배송 정보</h3>
+                            <!-- Content -->
+                            <div class="my-month__wrap " style="height: 0px;">
+                              
+                            </div>
+                            <div class="order-item">
+                                <div class="mypage-table__wrap">
+                                    <div class="mypage-table">
+                                        <table>
+	                                        <tbody>
+	                                            <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">주문자명</span></th>
+	                                                <td style="border-top: 1px solid #000; text-align: left;">
+	                                                    <div class="member_warning title">
+															<p th:text="${member.memberName}"></p>
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">배송지</span></th>
+	                                                <td>
+	                                                    <div class="member_warning title" style="text-align: left;">
+	                                                        <p th:text="'주문자 : '+${member.memberName}" class="title" ></p>
+	                                                        <p th:text="'휴대폰 번호 : '+${member.memberPhoneNumber}" class="title"></p>
+	                                                        <p th:text="'주소 : ['+${address.addressZipcode}+'] '+${address.addressRoad} " class="title"></p>
+	                                                        <p th:text="'('+${address.addressContent}+')'" style="padding-left: 40px;"></p>
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                            <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">배송메시지</span></th>
+	                                                <td>
+    													<div class="member_warning title" th:utext="${orders[0].ordersComment}" style="text-align: left;">
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                             <tr>
+	                                                <th style="background-color: #f6f6f6;"><span class="title">배송비</span></th>
+	                                                <td>
+	                                                    <div class="member_warning title" style="text-align: left;" th:text="${pay.payDelivery}+'원'">
+	                                                        
+	                                                    </div>
+	                                                </td>
+	                                            </tr>
+	                                        </tbody>
+                                    	</table>
+                                    </div>     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mypage_header">
+                            <h3 class="title">주문 상세</h3>
+                            <!-- Content -->
+                            <div class="total_wrap c05">
+								<ul class="total_area">
+									<li class="total_txt01 title">상품금액<span class="total_price title"  data-th-text="${#numbers.formatInteger(pay.payMoney-pay.payDelivery, 0, 'COMMA') + '원'}">0</span></li>
+									<li class="total_txt03 title">총 배송비<span class="total_price title" data-th-text="${#numbers.formatInteger(pay.payDelivery, 0, 'COMMA') + '원'}">0</span></li>
+									<li class="total_txt04 title">
+									<span>총 결제금액</span>
+									<span class="title"><strong data-th-text="${#numbers.formatInteger(pay.payMoney, 0, 'COMMA') + '원'}">0</strong></span>
+									</li>
+								</ul>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+
+    <!-- Footer -->
+    <div th:replace="~{include/member/footer :: footer}"></div>
+    
+    <!--xmlHttpRequest-->
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const radioButtons = document.querySelectorAll('input[name="radio_name_d"]');
+
+            radioButtons.forEach(function (radioButton) {
+                radioButton.addEventListener("change", function () {
+                    const selectedMonth = this.value;
+                    sendData(selectedMonth);
+                });
+            });
+
+            let xhr = null;
+
+            function getInstance() {
+                if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                } else if (window.ActiveXObject) { //IE
+                    console.log("IE");
+                } else {
+                    throw new Error("Ajax 비동기 지원하지 않아요");
+                }
+                return xhr;
+            }
+
+            function handlerStateChange() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+ 					const fragment = xhr.responseText;
+ 					console.log(fragment);
+                        document.getElementById("memberTable").innerHTML = fragment;
+                    } else {
+                        console.log("비정상 응답 : " + xhr.status);
+                    }
+                }
+            }
+
+            function sendData(month) {
+                xhr = getInstance();
+                xhr.onreadystatechange = handlerStateChange;
+				
+                xhr.open("GET", "/orders/month/" + month);
+                xhr.send();
+            }
+        });
+    </script>
+</body>
+</html>

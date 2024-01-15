@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--Header -->
+	<div th:replace="~{include/admin/head :: head}"></div>
+
+    <body class="sb-nav-fixed">
+       <nav th:replace="~{include/admin/header :: header}"></nav>
+        
+        <div id="layoutSidenav">
+            <div th:replace="~{include/admin/nav :: navbar}"></div>
+
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">워시워시</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">워시워시</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Primary Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">Warning Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Success Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        Area Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Bar Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                문의 - 답변
+                            </div>
+		                        		<div class="col-md-12" style="margin-top: 10px;">
+											<label for="memHelpNum" class="form-label title">회원 ID</label>
+											<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
+										<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
+											<span class="form-control title" th:text="'# '+${memberId}"></span>
+										</div>
+		
+										<div class="col-md-12" style="margin-top: 10px;">
+											<label for="memberId" class="form-label title">제목</label>
+											<span class="form-control title" th:text="${memHelpTitle}"></span>
+										</div>
+										<div class="col-md-12" style="margin-top: 10px;">
+											<label for="memHelpState" class="form-label title">문의내용</label>
+											<span class="form-control title" th:text="${memHelpContent}"></span>
+
+										</div>
+	 
+                            <div class="card-body">
+                                <form class="needs-validation was-validated" method="post" th:action="@{/admin/reply/insert}" id="replyForm">
+									<input type="hidden" id="memberEmail" th:value="${memberEmail}">
+									<label for="memhelpContentName" class="form-label title" style="margin-top: 20px;">답변 내용</label>
+										<div class="input-group2 has-validation">
+											<input type="hidden" th:field="${replyDto.memHelpNum}" id="memHelpNum" name="memHelpNum" />
+										    <textarea th:field="${replyDto.repContent}" class="form-control title" id="repContent" name="repContent" rows="5" required=""></textarea>
+										    <div class="invalid-feedback title">
+										        내용을 입력하세요
+										    </div>
+										</div>
+										
+<!--										<script>-->
+<!--										    document.getElementById("memHelpNum").value = "${replyDto.memHelpNum}"/* 여기에 값을 설정 */;-->
+<!--										</script>-->
+
+	
+							<div class="btn_right_box" style="margin-top: 15px;">
+								<button type="button" class="btn_member_cancel title"
+									th:onclick="|javascript:location.href='/admin/memhelp'|">취소</button>
+	<!--							<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn"-->
+	<!--								th:onclick="|javascript:location.href='/memhelp'|">신청</button>-->
+								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" onclick="submitForm()">등록하기</button>
+							</div>
+						</form>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+				<footer th:replace="~{include/admin/footer :: footer}"></footer>
+            </div>
+        </div>
+    </body>
+</html>

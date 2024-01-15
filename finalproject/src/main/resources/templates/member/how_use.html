@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/include/member/head :: head}"></head>
+<head th:replace="~{include/member/head :: head}"></head>
 <body>
-	<!--Header -->
-	<div th:replace="~{/include/member/header :: header}"></div>
-
+    <!-- Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
 
     <!-- Main -->
     <div>
         <!-- Section 1 -->
-        <div class="how_use_section1">
+        <div class="how_use_section1 title">
             <div class="inner">
                 <div class="row">
                     <div class="col-md-6 col-12 mt-10 banner">
                         <div class="text">
-                            <span >세탁을 간편하게!</span><strong > 모바일세탁소 워시워시<br >이렇게 이용하세요!</strong>
+                            <span>세탁을 간편하게!</span><strong> 모바일세탁소 워시워시<br>이렇게 이용하세요!</strong>
                         </div>
                     </div>
                     <div class="col-md-6 col-12 image">
@@ -25,7 +24,7 @@
         </div>
 
         <!-- Section 2 -->
-        <div class="how_use_section2" id="how_use_section1">
+        <div class="how_use_section2  title" id="how_use_section1">
             <div class="inner">
                 <div class="text_center">
                     <p class="fs-1"><strong>이용방법</strong></p>
@@ -33,86 +32,82 @@
                 <!-- Step 1 -->
                 <div class="row featurette how_use">
                     <div class="col-md-6 col-lg-6 left">
-                    <h2><strong>STEP1</strong></h2>
-                    <strong>세탁신청하기</strong>
-                    <p>워시워시 서비스를 통해 세탁을 신청하세요</p>
+                        <h2><strong>STEP1</strong></h2>
+                        <strong>세탁신청하기</strong>
+                        <p>워시워시 서비스를 통해 세탁을 신청하세요</p>
                     </div>
-                    <div class="col-md-6 col-lg-6 how_use_img image" >
+                    <div class="col-md-6 col-lg-6 how_use_img image">
                         <img th:src="@{/img/member/how_use1.png}">
                     </div>
                 </div>
                 <!-- Step 2 -->
                 <div class="row featurette how_use">
-                    <div class="col-md-6 col-lg-6 how_use_img image" >
+                    <div class="col-md-6 col-lg-6 how_use_img image">
                         <img th:src="@{/img/member/how_use2.png}">
                     </div>
                     <div class="col-md-6 col-lg-6 right">
-                    <h2><strong>STEP2</strong></h2>
-                    <strong>세탁물 결제</strong>
-                    <p>세탁물 내역을 확인하고, 결제를 해주세요.</p>
+                        <h2><strong>STEP2</strong></h2>
+                        <strong>세탁물 결제</strong>
+                        <p>세탁물 내역을 확인하고, 결제를 해주세요.</p>
                     </div>
                 </div>
                 <!-- Step 3 -->
                 <div class="row featurette how_use">
                     <div class="col-md-6 col-lg-6 left">
-                    <h2><strong>STEP3</strong></h2>
-                    <strong>세탁물 수거</strong>
-                    <p>세탁물을 문 앞에 놔두시면 워시워시 기사님이 수거합니다.</p>
+                        <h2><strong>STEP3</strong></h2>
+                        <strong>세탁물 수거</strong>
+                        <p>세탁물을 문 앞에 놔두시면 워시워시 기사님이 수거합니다.</p>
                     </div>
-                    <div class="col-md-6 col-lg-6 how_use_img image" >
+                    <div class="col-md-6 col-lg-6 how_use_img image">
                         <img th:src="@{/img/member/how_use3.png}">
                     </div>
                 </div>
                 <!-- Step 4 -->
                 <div class="row featurette how_use">
-                    <div class="col-md-6 col-lg-6 how_use_img image" >
+                    <div class="col-md-6 col-lg-6 how_use_img image">
                         <img th:src="@{/img/member/how_use4.png}">
                     </div>
                     <div class="col-md-6 col-lg-6 right">
-                    <h2><strong>STEP4</strong></h2>
-                    <strong>세탁물 세탁</strong>
-                    <p>신청하신 내용을 참고하여, 최선을 다해 세탁을 진행합니다.</p>
+                        <h2><strong>STEP4</strong></h2>
+                        <strong>세탁물 세탁</strong>
+                        <p>신청하신 내용을 참고하여, 최선을 다해 세탁을 진행합니다.</p>
                     </div>
                 </div>
                 <!-- Step 5 -->
                 <div class="row featurette how_use">
                     <div class="col-md-6 col-lg-6 left">
-                    <h2><strong>STEP5</strong></h2>
-                    <strong>문 앞 배송</strong>
-                    <p>세탁이 완료된 세탁물은 아침 7시 전, 문 앞에 배송합니다.</p>
+                        <h2><strong>STEP5</strong></h2>
+                        <strong>문 앞 배송</strong>
+                        <p>세탁이 완료된 세탁물은 아침 7시 전, 문 앞에 배송합니다.</p>
                     </div>
-                    <div class="col-md-6 col-lg-6 how_use_img image" >
+                    <div class="col-md-6 col-lg-6 how_use_img image">
                         <img th:src="@{/img/member/how_use5.png}">
                     </div>
                 </div>
-                
             </div>
         </div>
 
         <!-- Section 3 -->
-        <div class="how_use_section3" id="how_use_section2">
+        <div class="how_use_section3 title" id="how_use_section2">
             <div class="inner how_use">
                 <h1><strong>세탁 가격</strong></h1>
                 <p>세탁 유형에 따라 가격이 달라질 수 있습니다.</p>
                 <div class="row mt-5">
-                    <div class="col-md-6 col-lg-6 price-table" >
-                        <dl>
-                            <dt>상의</dt>
-                            <dd>
-                                <label>셔츠</label>
-                                <strong>5,500원</strong>
-                            </dd>
-                            <dd>
-                                <label>블라우스</label>
-                                <strong>500원</strong>
-                            </dd>
-                            <dd>
-                                <label>맨투맨</label>
-                                <strong>1,500원</strong>
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="col-md-6 col-lg-6 price-table" >
+					<div class="col-md-3 col-lg-3 price-table" th:each="laundryCategory : ${laundryCategorys}">
+	                    <dl>
+	                        <dt th:text="${laundryCategory.laundryCategoryName}"></dt>
+	                        <dd th:each=" laundry : ${laundrys}" th:if="${laundry.laundryCategoryId == laundryCategory.laundryCategoryId }">
+	                            <label th:text="${laundry.laundryName}">셔츠</label>
+	                            <strong th:text="${laundry.laundryPrice}">5,500원</strong>
+	                        </dd>
+	                        
+	                    </dl>
+	                </div>
+				</div>
+
+
+<!--                <div class="row mt-5">
+                    <div class="col-md-6 col-lg-6 price-table">
                         <dl>
                             <dt>하의</dt>
                             <dd>
@@ -129,26 +124,7 @@
                             </dd>
                         </dl>
                     </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col-md-6 col-lg-6 price-table" >
-                        <dl>
-                            <dt>하의</dt>
-                            <dd>
-                                <label>일반 와이셔츠</label>
-                                <strong>2,500원</strong>
-                            </dd>
-                            <dd>
-                                <label>일반 와이셔츠</label>
-                                <strong>2,500원</strong>
-                            </dd>
-                            <dd>
-                                <label>일반 와이셔츠</label>
-                                <strong>2,500원</strong>
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="col-md-6 col-lg-6 price-table" >
+                    <div class="col-md-6 col-lg-6 price-table">
                         <dl>
                             <dt>상의</dt>
                             <dd>
@@ -165,16 +141,16 @@
                             </dd>
                         </dl>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
 
     <!-- Top Button -->
-	<div th:replace="~{/include/member/topButton :: topButton}"></div>
-    
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+
     <!-- Footer -->
-	<div th:replace="~{/include/member/footer :: footer}"></div>
+    <div th:replace="~{include/member/footer :: footer}"></div>
     
 </body>
 </html>

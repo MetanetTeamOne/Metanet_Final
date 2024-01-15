@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{include/admin/head :: head}"></head>
+
+<body class="sb-nav-fixed">
+<!--Style $ JS -->
+
+<script th:src="@{/js/admin/payCategory.js}"></script>
+<script th:src="@{/js/admin/paySales.js}"></script>
+<script th:src="@{/js/admin/scripts.js}"></script>
+
+<link rel="stylesheet" th:href="@{/css/member/orders.css}">
+
+<nav th:replace="~{include/admin/header :: header}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{include/admin/nav :: navbar}"></div>
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4 title">워시워시 결제 관리</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active title">결제 관리</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4" style="text-align: center; font-weight: bold;">현재년도 매출액</h4>
+                                <div>
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="card mb-4"
+                             style="display: flex;justify-content: center;align-items: center;padding-bottom: 10px;">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4" style="text-align: center; font-weight: bold;">결제수단</h4>
+                                <canvas id="myCharts"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body" style="overflow-x: auto;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="my-month__wrap" style="height: auto;padding: 0;">
+                                <ul id="period" class="month_list" style="float: none; padding: 0px;">
+                                    <li><input type="radio" name="payState" id="radio_d_1_3" data-value="1" value="1"
+                                               data-datepicker-push="unique_datepicker_name" data-push-align="back" checked>
+                                        <label for="radio_d_1_3">결제완료</label></li>
+                                    <li><input type="radio" name="payState" id="radio_d_1_4" data-value="2" value="2"
+                                               data-datepicker-push="unique_datepicker_name" data-push-align="back">
+                                        <label for="radio_d_1_4">결제취소</label></li>
+                                </ul>
+                            </div>
+                            <!--                                <div class="my-month__wrap" style="height: auto;padding: 0;display: flex;justify-content: center;">-->
+                            <!--                                	<div class="dropdown">-->
+                            <!--										  <button class="" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="-->
+                            <!--										    text-align: center;-->
+                            <!--										    display: flex;-->
+                            <!--										    justify-content: center;-->
+                            <!--										    align-items: center;-->
+                            <!--										    padding: 6px;-->
+                            <!--										    font-size: 14px;-->
+                            <!--										    color: #666;-->
+                            <!--										">-->
+                            <!--										    <i class="bi bi-filter-square" ></i><span style="margin: 0 8px;">필터</span><i class="bi bi-chevron-down"></i>-->
+                            <!--										  </button>-->
+                            <!--										  <ul class="dropdown-menu">-->
+                            <!--										    <li><a class="dropdown-item" href="#">회원</a></li>-->
+                            <!--										    <li><a class="dropdown-item" href="#">결제번호</a></li>-->
+                            <!--										    <li><a class="dropdown-item" href="#">결제일자</a></li>-->
+                            <!--										  </ul>-->
+                            <!--										</div>-->
+                            <!--                                	<input type="text" id="textSearch" name="textSearch" placeholder="검색어를 입력하세요" style="font-size: 14px;">-->
+                            <!--                                    <button type="button" onclick="search()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-search"></i></button>-->
+                            <!--                                </div>-->
+                        </div>
+
+                        <div id="memberTable" th:fragment="memberTable">
+                            <table id="datatablesSimple" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="title">번호</th>
+                                    <th class="title">결제번호</th>
+                                    <th class="title">결제방식</th>
+                                    <th class="title">회원</th>
+                                    <th class="title">결제금액(배송비)</th>
+                                    <th class="title">결제일시</th>
+                                    <th class="title">확인/취소</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="pay, index : ${pays}">
+                                    <td th:text="${index.count}"></td>
+                                    <td th:text="${pay.payId}"></td>
+                                    <td th:if="${pay.payDelivery == 2500}" th:text="직접결제"></td>
+                                    <td th:if="${pay.payDelivery != 2500}" th:text="자동결제"></td>
+
+                                    <td>
+                                        <span th:each="member : ${members}" th:if="${pay.memberId == member.memberId}"
+                                              th:text="${member.memberEmail}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:text="${#numbers.formatInteger(pay.payMoney, 0, 'COMMA')}"></span>
+                                        <span th:text="'('+${#numbers.formatInteger(pay.payDelivery, 0, 'COMMA')}+')원'"></span>
+                                    </td>
+                                    <td th:text="${pay.payDate}"></td>
+                                    <td th:if="${pay.payState == '1' || pay.payState == 1}" th:text="결제완료">$320,800</td>
+                                    <td th:if="${pay.payState == '2' || pay.payState == 2}" th:text="결제취소">$320,800</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--paginate-->
+                            <div class="cm-pagination" id="ordListPaging">
+                                <div class="paging">
+                                    <th:block
+                                            th:each="idx : ${#numbers.sequence(pagination.firstPage, pagination.lastPage)}">
+                                        <input id="currentPage" type="hidden" th:value="${idx}"/>
+                                        <input id="cntPerPage" type="hidden" th:value="${pagination.cntPerPage}"/>
+                                        <input id="pageSize" type="hidden" th:value="${pagination.pageSize}"/>
+                                        <a th:style="'color:' + (${pagination.currentPage} == ${idx} ? '#cc0000; font-weight:700; margin-bottom: 2px;' : '')"
+                                           href="javascript:void(0);"
+                                           th:onclick="'movePage(' + ${idx} + ',' + ${pagination.cntPerPage} + ',' + ${pagination.pageSize} + ');'">
+                                            <!--									   th:onclick="paging()">-->
+                                            <span id="idx" th:text="${idx}"></span>
+                                        </a>
+                                    </th:block>
+                                </div>
+                            </div>
+                            <!--/paginate-->
+                        </div>
+                        <!--                            <div class="bd-example-snippet bd-code-snippet">-->
+                        <!--                                <div class="bd-example m-0 border-0 d-flex justify-content-end">-->
+                        <!--                                    <nav aria-label="Standard pagination example">-->
+                        <!--                                        <ul class="pagination">-->
+                        <!--                                            <li class="page-item">-->
+                        <!--                                                <a class="page-link" href="#" aria-label="Previous">-->
+                        <!--                                                    <span aria-hidden="true">«</span>-->
+                        <!--                                                </a>-->
+                        <!--                                            </li>-->
+                        <!--                                            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+                        <!--                                            <li class="page-item">-->
+                        <!--                                                <a class="page-link" href="#" aria-label="Next">-->
+                        <!--                                                    <span aria-hidden="true">»</span>-->
+                        <!--                                                </a>-->
+                        <!--                                            </li>-->
+                        <!--                                        </ul>-->
+                        <!--                                    </nav>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{include/admin/footer :: footer}"></footer>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    //function search() {
+    //    const payState = document.querySelector('input[name="textSearch"]').value;
+    //    //console.log(payState);
+    //    sendData(payState);
+    //}
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const payStateRadios = document.querySelectorAll('input[name="payState"]');
+        payStateRadios.forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                const selected = this.value;
+                sendData(selected);
+            });
+        });
+
+        let xhr = null;
+
+        function getInstance() {
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) { //IE
+                console.log("IE");
+            } else {
+                throw new Error("Ajax 비동기 지원하지 않아요");
+            }
+            return xhr;
+        }
+
+        function handlerStateChange() {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const fragment = xhr.responseText;
+                    document.getElementById("memberTable").innerHTML = fragment;
+                } else {
+                    console.log("비정상 응답 : " + xhr.status);
+                }
+            }
+        }
+
+        function sendData(payState) {
+            xhr = getInstance();
+            xhr.onreadystatechange = handlerStateChange;
+            xhr.open("GET", "/admin/pay/search/" + payState);
+            xhr.send();
+        }
+    });
+
+    function movePage(currentPage, cntPerPage, pageSize) {
+        var state = document.querySelector('input[name="payState"]:checked').value;
+        console.log(state);
+        // radioButtons.forEach(function (radioButton) {
+        //     radioButton.addEventListener("change", function () {
+        //         month = this.value;
+        //     });
+        // });
+
+        // let currentPage = document.querySelector("#currentPage").value;
+        // let cntPerPage = document.querySelector("#cntPerPage").value;
+        // let pageSize = document.querySelector("#pageSize").value;
+        const queryParam = {
+            currentPage: currentPage,
+            cntPerPage: cntPerPage,
+            pageSize: pageSize,
+            state: state
+        }
+
+        let xhr = null;
+
+        function getInstance() {
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) { //IE
+                console.log("IE");
+            } else {
+                throw new Error("Ajax 비동기 지원하지 않아요");
+            }
+            return xhr;
+        }
+
+        function handlerStateChange() {
+            if (xhr.readyState == 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const fragment = xhr.responseText;
+                    console.log(fragment);
+                    document.getElementById("memberTable").innerHTML = fragment;
+                } else {
+                    console.log("비정상 응답 : " + xhr.status);
+                }
+            }
+        }
+
+        function sendData() {
+            xhr = getInstance();
+            xhr.onreadystatechange = handlerStateChange;
+
+            var url = "/admin/pay/async" + '?' + new URLSearchParams(queryParam).toString();
+
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        sendData(queryParam);
+    }
+</script>
+</body>
+</html>

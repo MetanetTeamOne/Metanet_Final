@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:fragment="head">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,33 +17,55 @@
 	<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js}"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+	<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+	<script th:src="@{https://unpkg.com/sweetalert/dist/sweetalert.min.js}"></script>
+    <script th:src="@{http://code.jquery.com/jquery-1.9.1.js}"></script>
+
+	<!-- Style.css -->
+	<link rel="stylesheet" th:href="@{/css/member/home.css}">
+	<link rel="stylesheet" th:href="@{/css/member/login.css}">
+	<link rel="stylesheet" th:href="@{/css/member/mypage.css}">
+	<link rel="stylesheet" th:href="@{/css/member/laundry_register.css}">
+	<link rel="stylesheet" th:href="@{/css/member/service_information.css}">
+	<link rel="stylesheet" th:href="@{/css/member/common.css}">
 	
-    <link rel="stylesheet" th:href="@{/css/member/home.css}">
-    <link rel="stylesheet" th:href="@{/css/member/login.css}">
-    <link rel="stylesheet" th:href="@{/css/member/mypage.css}">
-        <link rel="stylesheet" th:href="@{/css/member/laundry_register.css}">
-    <link rel="stylesheet" th:href="@{/css/member/service_information.css}">
+	<!-- Socket -->
+    <script th:src="@{/js/member/alarmClient.js}"></script>
 
-    	<link rel="stylesheet" th:href="@{/css/member/common.css}">
+	<!--Pay-->
+	<script th:src="@{https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js}" type="application/javascript"></script>
 
 
-
-    <!-- js -->
+	<!--jua 글씨체-->
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+		.field-error {
+			border-color: #dc3545;
+			color: #dc3545;
+		}
+	</style>
+	
+	<!-- JS -->
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<script th:src="@{http://code.jquery.com/jquery-1.9.1.js}"></script>
 	<script th:src="@{/js/member/header.js}" defer="defer"></script>
+	<script th:src="@{/js/member/sweetAlert.js}" defer="defer"></script>
+	<script th:src="@{/js/member/searchPost.js}"></script>
+	
+	<!-- WebSocket -->
+	<script th:src="@{https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js}"></script>
 
-    <script>
-        // 수정된 부분: function 키워드 제거
-        $(document).ready(function() {
-            scrollToTop();
-        });
+	<script>
+		// 수정된 부분: function 키워드 제거
+		$(document).ready(function () {
+			scrollToTop();
+		});
 
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
-    </script>
+		function scrollToTop() {
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth"
+			});
+		}
+	</script>
 </head>
-

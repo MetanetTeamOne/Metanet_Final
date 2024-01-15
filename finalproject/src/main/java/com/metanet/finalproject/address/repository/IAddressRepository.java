@@ -1,17 +1,22 @@
 package com.metanet.finalproject.address.repository;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.metanet.finalproject.address.model.Address;
 
+import java.util.List;
+
 @Repository
 @Mapper
 public interface IAddressRepository {
-	List<Address> getAddress(int memberId);
+	Address getAddress(int memberId);
+	Address getOneAddress(int addressId);
 	void insertAddress(Address address);
 	void updateAddress(Address address);
-	void deleteAddress(Address address);
+	void deleteAddress(int address);
+
+	Address getAddressByMemberId(@Param("memberId") int memberId);
+
 }

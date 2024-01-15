@@ -46,10 +46,15 @@ a.jumpcont {display: inline-block;font-size: 12px;vertical-align: bottom;z-index
 article,aside,audio,canvas,command,datalist,details,embed,figcaption,figure,footer,header,hgroup,keygen,meter,nav,output,progress,section,source,video {display: block;}
 mark,rp,rt,ruby,summary,time {display: inline;}
 .blue {color: #009de6;}
-input[placeholder] {color: #aaa;}
-
+/*input[placeholder] {color: #aaa;}
+*/
 
 /* Header */
+/*추가*/
+.title {
+    font-family: 'Jua', sans-serif;
+}
+
 #header .hlogo {
     position: absolute;
     top: 24px;
@@ -161,7 +166,7 @@ input[placeholder] {color: #aaa;}
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: var(--main);
+    background: var(--sub);
     z-index: 20;
     text-align: center;
     line-height: 20px;
@@ -516,10 +521,10 @@ input[placeholder] {color: #aaa;}
 }
 
 
-/* 츄츄 헤더 */
+/* 헤더 */
 #header .hlogo.chuchew a.chulogo{
     width:230px;
-    background:url(/img/member/logo.png) no-repeat center center / 100%;
+    background:url(/img/logo2.png) no-repeat center center / 100%;
     margin-top:8px;
 }
 
@@ -532,7 +537,7 @@ input[placeholder] {color: #aaa;}
     position: relative;
     width: 100%;
     margin: 0 auto;
-    z-index: 9999;
+    z-index: 10;
 }
 
 #header .hcon1090 {
@@ -578,7 +583,6 @@ input[placeholder] {color: #aaa;}
     display: block;
     width: 1px;
     height: 12px;
-    background: url(../../images/main/css_sprites_main.png) no-repeat -792px -88px
 }
 
 #header .hglobal ul li a {
@@ -599,7 +603,6 @@ input[placeholder] {color: #aaa;}
     display: block;
     width: 1px;
     height: 12px;
-    background: url(../../images/main/css_sprites_main.png) no-repeat -792px -88px
 }
 
 #header .hglobal ul li.l {
@@ -650,7 +653,6 @@ input[placeholder] {color: #aaa;}
     width: 22px;
     height: 22px;
     margin: 11px 0 0 -48px;
-    background: url(../img/css_sprites_main.png) no-repeat -548px -250px;
     text-indent: -9999px;
     filter: grayscale(1);
 }
@@ -683,7 +685,7 @@ input[placeholder] {color: #aaa;}
     padding: 0 13px;
 }
 #menuClickChu .txt {margin-left: 5px; font-size: 20px; color: #333333; font-weight: 700; line-height: 48px;}
-#menuClickChu .txt::before {display: inline-block; vertical-align: top; content: ""; width: 16px; height: 14px; margin-top: 18px; margin-right: 10px; background: url(../img/css_sprites_main.png) no-repeat -884px -57px}
+#menuClickChu .txt::before {display: inline-block; vertical-align: top; content: ""; width: 16px; height: 14px; margin-top: 18px; margin-right: 10px; background: url(/img/member/css_sprites_main.png) no-repeat -884px -57px }
 #header #chu_gnb.hgnb .gnbls>li>a{line-height:50px;}
 #header #chu_gnb.hgnb .gnbls>li:hover>a{color:var(--main)}
 
@@ -896,9 +898,9 @@ input {height:31px; padding:0 5px; color:#333333; border:1px solid #d6d6d6; line
 
 /* 취소*/
 .btn_member_cancel{width:150px; height:45px; color:#3e3d3c; font-weight:bold; font-size:13px; border:1px solid #cccccc; background:#fff; cursor:pointer;}
-.btn_member_cancel:hover{color:#333333; border:1px solid #bbbbbb;}
+.btn_member_cancel:hover{color:#333333; border:1px solid #bbbbbb; background-color: #dcdcdc;}
 .btn_comfirm{width:150px; height:45px; margin:0; color:#ffffff; font-size:14px; border:1px solid var(--sub); background:var(--sub); cursor:pointer; font-weight:bold;}
-.btn_comfirm:hover{border:1px solid var(--sub); color: #fff; background:var(--sub);}
+.btn_comfirm:hover{border:1px solid var(--sub); color: #fff; background:var(--main);}
 
 input[type="radio"]{width:13px; height:13px; vertical-align:top;}
 input[type="text"],
@@ -907,3 +909,204 @@ input[type="checkbox"]{width:13px;height:13px;vertical-align:top;}
 input[type="image"]{vertical-align:top;border:none;cursor:pointer;}
 input[type="button"]{border:none;background:none;cursor:pointer;}
 input[type="submit"]{cursor:pointer;vertical-align:top;font-size:100%;}
+
+
+.inputData{
+    font-size: 14px;
+    background-color: var(--sub-gray);
+} 
+
+.swal-button {
+  background-color: var(--sub);
+  margin: 5px;
+}
+.swal-button-cancel {
+    color: #3e3d3c;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 24px;
+    margin: 5px;
+}
+
+.swal-button-cancel:not([disabled]):hover {
+	color: #333333;
+    border: 1px solid #bbbbbb;
+    background-color: #dcdcdc;
+}
+
+.field-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.form-control {
+	width: 94%;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    border: 0;
+    border-radius: 0.25em;
+    background: initial;
+    background-color: #0e8ff2;
+    color: #fff;
+    font-size: 1em;
+}
+
+.form-select {
+	font-size: 0.8rem;
+}
+
+.input-group {
+	width: 24%;
+}
+.input-group2 {
+	width: 100%;
+}
+
+.paginate {
+    padding: 0;
+    line-height: normal;
+    text-align: center;
+    position: relative;
+    margin: 20px 0 20px 0;
+    z-index: 1;
+}
+
+.paginate .paging {
+    text-align: center;
+}
+
+.paginate .paging a, .paginate .paging strong {
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: #848484;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 12px;
+}
+
+.paginate .paging a:hover, .paginate .paging strong {
+    color: #DAA520;
+    font-weight: 600;
+    font-weight: normal;
+}
+
+.paginate .paging .direction {
+    z-index: 3;
+    vertical-align: middle;
+    background-color: none;
+    margin: 0 2px;
+    border: 1px solid #777;
+    border-radius: 2px;
+    width: 28px;
+}
+
+.paginate .paging .direction:hover {
+    border: 1px solid #C40639;
+}
+
+.paginate .paging .direction.prev {
+    margin-right: 4px;
+}
+
+.paginate .paging .direction.next {
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.paginate .paging img {
+    vertical-align: middle;
+}
+
+.paginate .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.bottom-left, .bottom-right {
+    position: relative;
+    z-index: 5;
+}
+
+.paginate ~ .bottom {
+    margin-top: -50px;
+}
+
+.bottom select {
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* paginate */
+.paginate {
+    padding: 0;
+    line-height: normal;
+    text-align: center;
+    position: relative;
+    margin: 20px 0 20px 0;
+}
+
+.paginate .paging {
+    text-align: center;
+}
+
+.paginate .paging a, .paginate .paging strong {
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    color: #999;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 14px;
+}
+
+.paginate .paging a:hover, .paginate .paging strong {
+    color: #C40639;
+    font-weight: 600;
+    font-weight: normal;
+}
+
+.paginate .paging .direction {
+    z-index: 3;
+    vertical-align: middle;
+    background-color: none;
+    margin: 0 2px;
+}
+
+.paginate .paging .direction:hover {
+    background-color: transparent;
+}
+
+.paginate .paging .direction.prev {
+    margin-right: 4px;
+}
+
+.paginate .paging .direction.next {
+    margin-left: 4px;
+}
+
+.paginate .paging img {
+    vertical-align: middle;
+}
+
+.paginate .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+

@@ -1,121 +1,96 @@
 package com.metanet.finalproject;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.metanet.finalproject.laundry.model.Laundry;
+import com.metanet.finalproject.laundry.service.ILaundryService;
+import com.metanet.finalproject.laundry_category.model.LaundryCategory;
+import com.metanet.finalproject.laundry_category.service.ILaundryCategoryService;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	ILaundryService laundryService;
+	
+	@Autowired
+	ILaundryCategoryService laundryCategoryService;
+
 
 	// 홈
 	@GetMapping("/")
 	public String home() {
-		System.out.println("home");
 		return "member/home";
 	}
-	
-	// 관리자 홈
-	@GetMapping("/admin")
-	public String admin() {
-		System.out.println("admin");
-		return "admin/index";
-	}
-	
-	// 로그인
-	@GetMapping("/login")
-	public String login() {
-		System.out.println("login");
-		return "member/login";
-	}
-	
-	// 회원가입
-	@GetMapping("/signup")
-	public String signup() {
-		System.out.println("signup");
-		return "member/signup";
-	}
-	
-	// 회원가입 완료
-	@GetMapping("/signupok")
-	public String signupOk() {
-		System.out.println("signupok");
-		return "member/signup_ok";
-	}
-	
+
 	// 서비스 안내
 	@GetMapping("/svcinfo")
 	public String serviceInformaion() {
-		System.out.println("svcinfo");
 		return "member/service_information";
 	}
 	
 	// 이용 방법
 	@GetMapping("/howuse")
-	public String howUse() {
-		System.out.println("howuse");
+	public String howUse(Model model) {
+		List<Laundry> laundrys = laundryService.getLaundry();
+		List<LaundryCategory> laundryCategorys = laundryCategoryService.getLaundryCategory();
+		model.addAttribute("laundrys",laundrys);
+		model.addAttribute("laundryCategorys",laundryCategorys);
 		return "member/how_use";
 	}
-
-	// 세탁 신청
-	@GetMapping("/register")
-	public String register() {
-		System.out.println("register");
-		return "member/laundry_register";
-	}
 	
-	// 마이페이지
-	@GetMapping("/mypage")
-	public String mypage() {
-		System.out.println("mypage");
-		return "member/mypage_account";
-	}
-	
-	// 마이페이지_계정관리
-		@GetMapping("/mypageaccount")
-		public String mypageAccount() {
-			System.out.println("mypageAccount");
-			return "member/mypage_account";
+	// 고객 센터
+		@GetMapping("/customer")
+		public String customer(Model model) {	
+			return "member/customer_center";
 		}
 	
-	// 마이페이지_비밀번호 관리
-	@GetMapping("/mypagepw")
-	public String mypagePassword() {
-		System.out.println("mypagePassword");
-		return "member/mypage_password";
+	/* 관리자 */
+	// 관리자 홈
+//	@GetMapping("/admin")
+//	public String adminHome() {
+//		return "admin/adminHome";
+//	}
+	
+	// 회원 관리
+//	@GetMapping("/admin/member")
+	public String adminMember() {
+		return "admin/adminMember";
 	}
 	
-	// 마이페이지_구독관리
-	@GetMapping("/mypagesub")
-	public String mypageSubscribe() {
-		System.out.println("mypageSubscribe");
-		return "member/mypage_subscribe";
-	}
+//	// 게시판 관리
+//	@GetMapping("/admin/board")
+//	public String adminBoard() {
+//		return "admin/adminBoard";
+//	}
 	
-	// 마이페이지_카드관리
-	@GetMapping("/mypagecard")
-	public String mypageCard() {
-		System.out.println("mypageCard");
-		return "member/mypage_card";
-	}
+	// 세탁물 관리
+//	@GetMapping("/admin/laundry")
+//	public String adminLaundry() {
+//		return "admin/adminLaundry";
+//	}
 	
-	// 마이페이지_주소관리
-	@GetMapping("/mypageaddr")
-	public String mypageAddress() {
-		System.out.println("mypageAddress");
-		return "member/mypage_address";
-	}
+	// 주문 관리
+//	@GetMapping("/admin/order")
+//	public String adminOrder() {
+//		return "admin/adminOrder";
+//	}
 	
-	// 마이페이지_주문내역
-	@GetMapping("/mypageorder")
-	public String mypageOrder() {
-		System.out.println("mypageOrder");
-		return "member/mypage_order";
-	}
+	// 결제 관리
+//	@GetMapping("/admin/pay")
+//	public String getPay() {
+//		return "admin/adminPay";
+//	}
 	
-	// 마이페이지_결제내역
-	@GetMapping("/mypagepay")
-	public String mypagePay() {
-		System.out.println("mypagePay");
-		return "member/mypage_pay";
+	// 매출 관리
+	@GetMapping("/admin/chart")
+	public String getCharts() {
+		return "admin/adminChart";
 	}
 
 }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{include/member/head :: head}"></head>
+<body>
+    <link rel="stylesheet" th:href="@{/css/member/orders.css}">
+
+    <!-- Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+            <!--Section left--> 
+            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+            
+            <!-- Section right -->
+            <div class="col-sm-9 col-md-9 col-lg-9">
+				<div class="mypage_right">
+					<div class="row">
+	                    <h2>문의 신청하기</h2>
+	                </div>
+	                
+	                <form class="needs-validation was-validated" method="post" th:action="@{/memhelp/insert}" id="memhelpForm">
+<!--					<div class="row g-3">-->
+						<input type="hidden" id="memberEmail" th:value="${memberEmail}">
+						<!--넘어가는 값-->
+<!--						<input type="hidden" name="ordersCount">-->
+<!--						<input type="hidden" name="ordersPrice">-->
+<!--						주문 후 수거진행이라서 그냥 디폴트로 1 넣음-->
+<!--						<input type="hidden" name="ordersStatus" value="1">-->
+<!--						<input type="hidden" name="memberId" th:value="${member.memberId}">-->
+<!--						<input type="hidden" name="laundryId" th:value="${laundryList[0].laundryId}">-->
+<!--						<input type="hidden" name="washId" th:value="${washId}">-->
+	                
+		                <div class="col-12" style="margin-top: 45px;">
+							<div class="col-md-4">
+								<label for="memhelpCategoryName" class="form-label title">문의 유형</label>
+								<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
+								<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
+								<select th:field="${memhelp.memCategoryNum}" class="form-select title" id="memhelpCategory" required="">
+<!--									<option value="">선택하세요.</option>-->
+									<option th:value=1>회원정보</option>
+									<option th:value=2>설정/보안/전송</option>
+									<option th:value=3>주문/결제</option>
+									<option th:value=4>취소/환불</option>
+									<option th:value=5>배송</option>
+									<option th:value=6>영수증</option>
+									<option th:value=7>고객의소리/기타</option>
+									<option th:value=8>세탁정보</option>
+								</select>
+								<div class="invalid-feedback title">
+									문의 유형 선택은 필수입니다.
+								</div>
+							</div>
+	
+							
+							<label for="memhelpTitleName" class="form-label title" style="margin-top: 20px;">제목</label>
+							<div class="input-group2 has-validation">
+	<!--								<input type="text" class="form-control title" id="username" placeholder="김워시"-->
+	<!--										name="memberName" th:value="${member.memberName}" required="">-->
+									<input th:field="${memhelp.memHelpTitle}" type="text" class="form-control title" id="memhelpTitle" name="memhelpTitle"  required="">
+								<div class="invalid-feedback title">
+									제목을 입력하세요
+								</div>
+							</div>
+							
+
+							<label for="memhelpContentName" class="form-label title" style="margin-top: 20px;">문의 내용</label>
+							<div class="input-group2 has-validation">
+
+								<!--								<input type="text" class="form-control title" id="username" placeholder="김워시"-->
+							<!--										name="memberName" th:value="${member.memberName}" required="">-->		
+							    <textarea th:field="${memhelp.memHelpContent}" class="form-control title" id="memhelpContent" name="memhelpContent" rows="5" required=""></textarea>
+							    <!-- rows="5"는 초기에 보여질 줄의 수를 지정합니다. 필요에 따라 조절하세요. -->
+							    <div class="invalid-feedback title">
+							        내용을 입력하세요
+							    </div>
+							</div>
+							
+							<div class="col-12" style="margin-top: 20px;">
+								<label for="ordersComment" class="form-label title">세탁물 사진 <span
+									class="text-body-secondary">(선택)</span></label>
+								<input th:field="${memhelp.memHelpFile}" type="file" class="form-control title" id="memHelpFile"
+									name="ordersImageData">
+							</div>
+							
+	<!--						<hr class="my-4">-->
+	
+	
+							<div class="btn_right_box" >
+								<button type="button" class="btn_member_cancel title"
+									th:onclick="|javascript:location.href='/memhelp'|">취소</button>
+	<!--							<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn"-->
+	<!--								th:onclick="|javascript:location.href='/memhelp'|">신청</button>-->
+								<button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" onclick="submitForm()">신청</button>
+							</div>
+						
+						</form>
+						
+						
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+
+    <!-- Top Button -->
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+
+    <!-- Footer -->
+    <div th:replace="~{include/member/footer :: footer}"></div>
+    
+    <style>
+	    .error-text {
+	        color: red;
+	    }
+	</style>
+    
+<script>
+
+    
+</script>
+    
+    
+</body>
+</html>

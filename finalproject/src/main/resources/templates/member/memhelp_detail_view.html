@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{include/member/head :: head}">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{include/member/header :: header}"></div>
+
+    <!-- Main -->
+    <div class="inner">
+        <div class="row mypage">
+        
+            <!-- Section left -->
+            <div th:replace="~{include/member/mypageNav :: mypageNav}"></div>
+            				
+			<!-- Section right -->
+            <div class="col-sm-9 col-md-9 col-lg-9">
+                
+                <label for="memhelpDetailTitle" class="form-label title">문의 사항 상세정보</label>
+                
+                
+                <div class="order-item" style="margin-top: 20px;">
+                <div class="mypage-table__wrap">
+                    <div class="mypage-table">
+                        <tr th:each="memhelp : ${memHelp}">
+	                        <div class="row gy-3" id="memHelpDetailForm1">
+		                        		<div class="col-md-4">
+											<label for="memHelpNum" class="form-label title">문의번호</label>
+											<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
+										<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
+											<span class="form-control title" th:text="'# '+${memhelp.memHelpNum}"></span>
+										</div>
+		
+										<div class="col-md-4">
+											<label for="memberId" class="form-label title">회원번호</label>
+											<span class="form-control title" th:text="'# '+${memhelp.memberId}"></span>
+										</div>
+										<div class="col-md-4">
+											<label for="memHelpState" class="form-label title">처리상태</label>
+											<span th:switch="${memhelp.memHelpState}">
+												<span th:case="0" class="form-control title">답변 대기</span>
+												<span th:case="1" class="form-control title">답변 완료</span>
+											</span>
+										</div>
+	                    		</div>
+	                   	 	<div class="row gy-2" id="memHelpDetailForm2" style="margin-top: 15px;">
+						    	<div class="col-md-6"> <!-- 변경: col-md-6으로 수정 -->
+							        <label for="memHelpCategoryNum" class="form-label title">문의 카테고리</label>
+							        <span th:switch="${memhelp.memCategoryNum}">
+										<span th:case="1" class="form-control title">1. 회원정보</span>
+										<span th:case="2" class="form-control title">2. 설정/보안/인증</span>
+										<span th:case="3" class="form-control title">3. 주문/결제</span>
+										<span th:case="4" class="form-control title">4. 취소/환불</span>
+										<span th:case="5" class="form-control title">5. 배송</span>
+										<span th:case="6" class="form-control title">6. 영수증</span>
+										<span th:case="7" class="form-control title">7. 고객의소리/기타</span>
+										<span th:case="8" class="form-control title">8. 세탁정보</span>
+									</span>
+						    	</div>
+						
+							    <div class="col-md-6"> <!-- 변경: col-md-6으로 수정 -->
+							        <label for="memHelpDate" class="form-label title">문의날짜</label>
+							        <span class="form-control title" th:text="${memhelp.memHelpDate}"></span>
+							    </div>
+							</div>
+						<div class="row gy-1" id="memHelpDetailForm3" style="margin-top: 15px;">
+						    <div class="col-md-12"> <!-- 변경: col-md-6으로 수정 -->
+						        <label for="memHelpTitle" class="form-label title">제목</label>
+						        <span class="form-control title" th:text="${memhelp.memHelpTitle}"></span>
+						    </div>
+						</div>
+						<div class="row gy-1" id="memHelpDetailForm4" style="margin-top: 15px;">
+						    <div class="col-md-12"> <!-- 변경: col-md-6으로 수정 -->
+						        <label for="memHelpContent" class="form-label title">문의내용</label>
+						        <span class="form-control title" th:text="${memhelp.memHelpContent}"></span>
+						    </div>
+						</div>
+						<div class="row gy-1" id="memHelpDetailForm5" style="margin-top: 15px;">
+						    <div class="col-md-12"> <!-- 변경: col-md-6으로 수정 -->
+						        <label for="memHelpFile" class="form-label title">첨부 파일</label>
+<!--						        <span class="form-control title" th:text="${memhelp.memHelpFile}"></span>-->
+						        <img th:src="'data:image/jpeg;base64,' + ${base64Image}" alt="User memHelp Image">
+						    </div>
+						</div>
+						<div th:if="${memhelp.memHelpState == 1}">
+							<tr th:each="reply : ${adminReply}">
+							    <div class="col-md-12" style="margin-top: 15px;">
+							        <label for="adminReplyDate" class="form-label title">관리자 답변 날짜</label>
+							        <span class="form-control title" th:text="${reply.repDate}"></span>
+							    </div>
+							    <div class="col-md-12" style="margin-top: 15px;">
+							        <label for="adminReplyContent" class="form-label title">관리자 답변 내용</label>
+							        <span class="form-control title" th:text="${reply.repContent}"></span>
+							    </div>
+							</tr>
+						</div>
+					</tr>
+                </div>
+            </div>
+            </div>
+               
+            
+        </div>
+    </div>
+
+    <!-- Top Button -->
+    <div th:replace="~{include/member/topButton :: topButton}"></div>
+    
+    <!-- Footer -->
+    <div th:replace="~{include/member/footer :: footer}"></div>
+
+</body>
+</html>
