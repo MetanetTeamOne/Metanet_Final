@@ -23,7 +23,7 @@ public class TestController {
 	}
 
 	//문자 인증
-	@PostMapping("/memberPhoneCheck")
+	@PostMapping("/memberphonecheck")
 	public @ResponseBody String memberPhoneCheck(@RequestParam(value="to") String to) throws CoolsmsException {
 			
 		return paymentService.PhoneNumberCheck(to);
