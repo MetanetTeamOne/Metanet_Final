@@ -2,22 +2,18 @@ package com.metanet.finalproject.orders.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
 
-import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
-import com.metanet.finalproject.files.model.Files;
-import com.metanet.finalproject.files.service.IFilesService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.service.ILaundryService;
@@ -39,6 +33,7 @@ import com.metanet.finalproject.orders.model.OrdersDetails;
 import com.metanet.finalproject.orders.model.OrdersInsert;
 import com.metanet.finalproject.orders.model.OrdersInsertList;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
@@ -67,9 +62,6 @@ public class OrdersController {
 
 	@Autowired
 	IMemberService memberService;
-
-	@Autowired
-	IFilesService fileService;
 
 	@Autowired
 	IAddressService addressService;

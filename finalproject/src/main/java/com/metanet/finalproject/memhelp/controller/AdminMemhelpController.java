@@ -1,29 +1,24 @@
 package com.metanet.finalproject.memhelp.controller;
 
-import com.metanet.finalproject.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.metanet.finalproject.address.service.IAddressService;
-import com.metanet.finalproject.files.model.Files;
-import com.metanet.finalproject.files.service.IFilesService;
-import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.laundry.service.ILaundryService;
 import com.metanet.finalproject.laundry_category.service.ILaundryCategoryService;
 import com.metanet.finalproject.member.service.IMemberService;
 import com.metanet.finalproject.memhelp.service.IMemhelpService;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.paging.Pagination;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -39,9 +34,6 @@ public class AdminMemhelpController {
 	IMemberService memberService;
 
 	@Autowired
-	IFilesService fileService;
-
-	@Autowired
 	IAddressService addressService;
 
 	@Autowired
@@ -52,8 +44,6 @@ public class AdminMemhelpController {
 	
 	@Autowired
 	IMemhelpService memhelpService;
-
-	Files files;
 	
 	@Operation(summary = "관리자 주문 관리 API")
 	@GetMapping("/admin/memhelp")
