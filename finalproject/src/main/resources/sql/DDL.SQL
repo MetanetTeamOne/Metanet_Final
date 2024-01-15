@@ -18,9 +18,9 @@ DROP TABLE ORDERS
 DROP TABLE PAY 
    CASCADE CONSTRAINTS;
 
-/* 파일 */
-DROP TABLE FILES 
-   CASCADE CONSTRAINTS;
+--/* 파일 */
+--DROP TABLE FILES 
+--   CASCADE CONSTRAINTS;
 
 /* 세탁물 */
 DROP TABLE LAUNDRY 
@@ -42,7 +42,7 @@ DROP TABLE HelpCategory
 DROP TABLE REPLY 
    CASCADE CONSTRAINTS;
     
-DROP SEQUENCE FILES_SEQ;
+--DROP SEQUENCE FILES_SEQ;
 
 DROP SEQUENCE LAUNDRY_SEQ;
 
@@ -138,19 +138,11 @@ CREATE TABLE ORDERS (
    orders_date DATE NOT NULL, /* 주문날짜 */
    orders_comment VARCHAR2(60), /* 요청사항 */
    orders_status VARCHAR2(30) NOT NULL, /* 진행상태 */
-	orders_check_date VARCHAR2(30) NOT NULL, /* 세탁시간 */
-
+	orders_check_date VARCHAR2(4) NOT NULL, /* 세탁시간 */
+    orders_dir_path VARCHAR2(200), /*파일 경로*/
    member_id NUMBER NOT NULL, /* 회원 ID */
    laundry_id NUMBER /* 세탁물 ID */
 );
-
-ALTER TABLE ORDERS
-ADD ORDERS_IMAGE_DATA BLOB;
-
-ALTER TABLE orders
-DROP COLUMN ORDERS_IMAGE_DATA;
-ALTER TABLE orders
-ADD orders_dir_path varchar2(200);
 
 CREATE UNIQUE INDEX PK_ORDERS
    ON ORDERS (
@@ -171,7 +163,7 @@ CREATE TABLE PAY (
    pay_money NUMBER NOT NULL, /* 결제 금액 */
    pay_date DATE NOT NULL, /* 결제 일자 */
    pay_state VARCHAR2(4) NOT NULL, /* 결제 상태 */
-   wash_id NUMBER NOT NULL, /* 주문 ID */
+   wash_id NUMBER NOT NULL, /* 세탁 ID */
    member_id number NOT NULL /* 회원 ID */
 );
 
@@ -198,27 +190,27 @@ ALTER TABLE PAY
         );
 
 /* 파일 */
-CREATE TABLE FILES (
-   files_id NUMBER NOT NULL, /* 파일 ID */
-   files_oname VARCHAR2(200) NOT NULL, /* 원본이름 */
-   files_nname VARCHAR2(200) NOT NULL, /* 저장이름 */
-   files_path VARCHAR2(200) NOT NULL, /* 파일경로 */
-   files_type VARCHAR2(50) NOT NULL, /* 파일타입 */
-    files_data BLOB NOT NULL,
-   orders_id NUMBER NOT NULL /* 주문 ID */
-);
-
-CREATE UNIQUE INDEX PK_FILES
-   ON FILES (
-      files_id ASC
-   );
-
-ALTER TABLE FILES
-   ADD
-      CONSTRAINT PK_FILES
-      PRIMARY KEY (
-         files_id
-      );
+--CREATE TABLE FILES (
+--   files_id NUMBER NOT NULL, /* 파일 ID */
+--   files_oname VARCHAR2(200) NOT NULL, /* 원본이름 */
+--   files_nname VARCHAR2(200) NOT NULL, /* 저장이름 */
+--   files_path VARCHAR2(200) NOT NULL, /* 파일경로 */
+--   files_type VARCHAR2(50) NOT NULL, /* 파일타입 */
+--    files_data BLOB NOT NULL,
+--   orders_id NUMBER NOT NULL /* 주문 ID */
+--);
+--
+--CREATE UNIQUE INDEX PK_FILES
+--   ON FILES (
+--      files_id ASC
+--   );
+--
+--ALTER TABLE FILES
+--   ADD
+--      CONSTRAINT PK_FILES
+--      PRIMARY KEY (
+--         files_id
+--      );
 
 /* 세탁물 */
 CREATE TABLE LAUNDRY (
@@ -362,15 +354,15 @@ ALTER TABLE ORDERS
          laundry_id
       ) ON DELETE CASCADE;
 
-ALTER TABLE FILES
-   ADD
-      CONSTRAINT FK_ORDERS_TO_FILES
-      FOREIGN KEY (
-         orders_id
-      )
-      REFERENCES ORDERS (
-         orders_id
-      )ON DELETE CASCADE;
+--ALTER TABLE FILES
+--   ADD
+--      CONSTRAINT FK_ORDERS_TO_FILES
+--      FOREIGN KEY (
+--         orders_id
+--      )
+--      REFERENCES ORDERS (
+--         orders_id
+--      )ON DELETE CASCADE;
 
 ALTER TABLE LAUNDRY
    ADD
@@ -448,14 +440,14 @@ CREATE SEQUENCE LAUNDRY_SEQ
        NOCACHE
        NOORDER;
        
-CREATE SEQUENCE FILES_SEQ
-       INCREMENT BY 1
-       START WITH 1
-       MINVALUE 1
-       MAXVALUE 9999
-       NOCYCLE
-       NOCACHE
-       NOORDER;
+--CREATE SEQUENCE FILES_SEQ
+--       INCREMENT BY 1
+--       START WITH 1
+--       MINVALUE 1
+--       MAXVALUE 9999
+--       NOCYCLE
+--       NOCACHE
+--       NOORDER;
        
        
 CREATE SEQUENCE MEMHELP_SEQ
@@ -487,11 +479,11 @@ COMMIT;
 --values (1, 'admin', 'admin@admin', 'admin', 'admin123', sysdate, '1', '1', sysdate, '1');
 
 -- 권한 (ROLE) 테이블 예시 데이터
-INSERT INTO ROLE (member_id, role_name)
-VALUES (1, 'ROLE_ADMIN');
-
-INSERT INTO ROLE (member_id, role_name)
-VALUES (2, 'ROLE_USER');
+--INSERT INTO ROLE (member_id, role_name)
+--VALUES (1, 'ROLE_ADMIN');
+--
+--INSERT INTO ROLE (member_id, role_name)
+--VALUES (2, 'ROLE_USER');
 
 -- 주소 (ADDRESS) 테이블 예시 데이터
 --INSERT INTO ADDRESS (address_id, address_zipcode, address_road, address_content, address_category, address_detail, member_id)
