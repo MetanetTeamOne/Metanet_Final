@@ -2,6 +2,7 @@ package com.metanet.finalproject.pay.controller;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
+@Slf4j
 @RequestMapping("/pay")
 @Tag(name = "Pay", description = "결제 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
@@ -94,6 +96,8 @@ public class PayController {
 		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
 		int payCount = payService.getPayCountByState(member.getMemberId(), payState);
 		pagination.setTotalRecordCount(payCount);
+		log.info("payCount: {}", payCount);
+		log.info("pagination: {}", pagination);
 		model.addAttribute("pagination", pagination);
 
 		List<Pay> pays = payService.getPagingMemberPayByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), payState);
