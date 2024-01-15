@@ -1,5 +1,7 @@
 package com.metanet.finalproject.orders.controller;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +41,34 @@ public class AdminHomeController {
 		String memberJoinState = member.getMemberJoinState();
 		int memberCount = memberService.getMemberCount(memberJoinState);
 		// System.out.println("memberCount >>>> "+memberCount);
-		int payMoney = pay.getPayMoney();
-		int totalPay = payService.sumPay(payMoney);
-		// System.out.println("totalPay>>>>"+totalPay);
-
+		//int payMoney = pay.getPayMoney();
+		int totalPay = payService.sumPay();
+		//System.out.println("totalPay>>>>"+totalPay);
+		
+		//System.out.println("pay.getPayId()>>"+pay.getPayId());
+		//System.out.println("list>>>>>>>>>>>>>>"+payService.getPay());
+		List<Pay> payList = payService.getPay();
+		List<Date> payDateList = new ArrayList<>();
+		List<Integer> payMoneyList = new ArrayList<>();
+		
+		for (Pay pay2 : payList) {
+		    Date payDate = pay2.getPayDate();
+		    payDateList.add(payDate);
+		}
+		
+		for (Pay pay2 : payList) {
+		    int payMoney = pay2.getPayMoney();
+		    payMoneyList.add(payMoney);
+		}
+		
+		//System.out.println("payDateList==========="+payDateList);
+		//System.out.println("payMoneyList====="+payMoneyList);
+		
 		String memHelpState = memhelp.getMemHelpState();
 		int totalHelp = memHelpService.countMemHelp(memHelpState);
 		
 		int totalCount = ordersService.countOrder();
-		System.out.println("totalCount============="+totalCount);
+		//System.out.println("totalCount============="+totalCount);
 		
 		List<Orders> ordersAllList = ordersService.searchOrdersList();
 		
@@ -57,6 +78,8 @@ public class AdminHomeController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("ordersAllList", ordersAllList);
 		model.addAttribute("memhelpList", memHelpService.searchAllMemhelp());
+		model.addAttribute("payDateList", payDateList);
+		model.addAttribute("payMoneyList", payMoneyList);
 		return "admin/adminHome";
 	}
 
