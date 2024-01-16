@@ -215,7 +215,7 @@ public class MemhelpController {
 		String file_name = file.getOriginalFilename();
 		
 		if(file_name!=null&!file_name.equals("")) {
-			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
+			String directoryPath = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
 			if (!new File(directoryPath).exists()) {
 				new File(directoryPath).mkdirs();
 			}
