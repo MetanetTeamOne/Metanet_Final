@@ -2,10 +2,8 @@ package com.metanet.finalproject.member.service;
 
 import java.util.List;
 
-
 import com.metanet.finalproject.member.model.Member;
 import com.metanet.finalproject.paging.Pagination;
-import org.apache.ibatis.annotations.Param;
 
 public interface IMemberService {
     public Member getMember(int memberId);
@@ -30,5 +28,6 @@ public interface IMemberService {
  	// 카드등록(등록상태 : 0,1) -> 카드등록상태가 1이면 구독 신청 가능
  	void insertCard(String memberEmail);
   	void deleteCard(String memberEmail);
-
+  	
+  	int getPhoneCount(String memberPhoneNumber);
 }

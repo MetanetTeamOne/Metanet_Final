@@ -100,4 +100,9 @@ public class MemberService implements IMemberService{
 		memberRepository.deleteCard(memberEmail);
 		
 	}
+
+	@Override
+	public int getPhoneCount(String memberPhoneNumber){
+		return memberRepository.getPhoneCount(memberPhoneNumber);
+	}
 }
