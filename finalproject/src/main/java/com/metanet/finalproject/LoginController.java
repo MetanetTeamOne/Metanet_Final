@@ -65,8 +65,13 @@ public class LoginController {
 		if (result.hasErrors()) {
 			return "member/login";
 		}
-//        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
 		Member member = memberService.selectMember(loginMember.getMemberEmail());
+		if (member == null) {
+			log.info("계정이 존재하지 않음");
+			result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");
+			return "member/login";
+		}
+//        log.info("email: {} password: {}", user.get("userid"), user.get("userpw"));
 //        log.info("member: {}", member);
 
 		if (roleRepository.getRoleName(member.getMemberId()).equals("ROLE_ADMIN")) {
@@ -89,11 +94,7 @@ public class LoginController {
 				return "member/login";
 			}
 		}
-		if (member == null) {
-			log.info("계정이 존재하지 않음");
-			result.rejectValue("memberEmail", null, "계정이 존재하지 않습니다.");
-			return "member/login";
-		}
+
 		if (member.getMemberJoinState().equals("0")) {
 			log.info("탈퇴한 회원입니다.");
 			result.rejectValue("memberEmail", null, "해당아이디는 탈퇴되었습니다.");
