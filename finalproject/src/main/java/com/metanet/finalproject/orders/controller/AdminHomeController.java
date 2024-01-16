@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -20,6 +21,9 @@ import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
 @Controller
+@CrossOrigin(origins = {"http://localhost:8085", 
+		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class AdminHomeController {
 
 	@Autowired

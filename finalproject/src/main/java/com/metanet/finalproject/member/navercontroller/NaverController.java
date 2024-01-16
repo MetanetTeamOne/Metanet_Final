@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/naver")
 @Tag(name = "Naver Login", description = "네이버 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 @Slf4j
 public class NaverController {
@@ -44,7 +44,7 @@ public class NaverController {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 	
-	private String naverRedirectId = "http://localhost:8085/naver/loginok";
+	private String naverRedirectId = "http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888/naver/loginok";
 	private String naverClientId = "CKbzHQEyk93DOF3jRkqO";
 	private String naverClientSecret = "3g3mWH19q6";
 	private String naverResponseType = "code";
@@ -209,14 +209,14 @@ public class NaverController {
 		        Cookie cookie_naver = new Cookie("naver_access_token", naverAccessToken);
 		        cookie_naver.setMaxAge(60 * 30);
 		        cookie_naver.setHttpOnly(true);
-		        cookie_naver.setSecure(true);
+//		        cookie_naver.setSecure(true);
 		        cookie_naver.setPath("/");
 		        response.addCookie(cookie_naver);
 			    
 		        Cookie cookie = new Cookie("token", token);
 		        cookie.setMaxAge(60 * 30);
 		        cookie.setHttpOnly(true);
-		        cookie.setSecure(true);
+//		        cookie.setSecure(true);
 		        cookie.setPath("/");
 		        response.addCookie(cookie);
 		        

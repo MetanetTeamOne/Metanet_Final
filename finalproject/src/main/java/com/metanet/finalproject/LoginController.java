@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @Tag(name = "Login", description = "로그인 API")
+@CrossOrigin(origins = {"http://localhost:8085", 
+		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class LoginController {
 	@Autowired
 	IMemberService memberService;
@@ -79,7 +83,7 @@ public class LoginController {
 //		쿠키 정보 가져오기 위해 주석처리 후 true->false로 변경
 				cookie.setHttpOnly(false);
 				//cookie.setHttpOnly(true);
-				cookie.setSecure(true);
+//				cookie.setSecure(true);
 				cookie.setPath("/");
 				response.addCookie(cookie);
 				log.info("로그인 성공...");
@@ -126,7 +130,7 @@ public class LoginController {
 //		쿠키 정보 가져오기 위해 주석처리 후 true->false로 변경
 		cookie.setHttpOnly(false);
 		//cookie.setHttpOnly(true);
-		cookie.setSecure(true);
+//		cookie.setSecure(true);
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		log.info("로그인 성공...");

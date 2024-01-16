@@ -1,5 +1,7 @@
 package com.metanet.finalproject.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +11,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.metanet.finalproject.jwt.JwtAuthenticationFilter;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
@@ -98,6 +103,21 @@ public class SecurityConfig {
       );
 
       return http.build();
+   }
+   
+   @Bean
+   public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+       CorsConfiguration configuration = new CorsConfiguration();
+       configuration.setAllowedOrigins(List.of("http://localhost:8085", "http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+   			"http://metawash.kro.kr:8888/"));
+       configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+       configuration.setAllowedHeaders(List.of("*"));
+       configuration.setExposedHeaders(List.of("Custom-Header"));
+       configuration.setAllowCredentials(true);
+
+       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+       source.registerCorsConfiguration("/**", configuration);
+       return source;
    }
 
 //   @Bean
