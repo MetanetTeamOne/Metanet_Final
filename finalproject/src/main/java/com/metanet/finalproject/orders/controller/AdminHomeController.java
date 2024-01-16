@@ -43,7 +43,7 @@ public class AdminHomeController {
 		// System.out.println("memberCount >>>> "+memberCount);
 		//int payMoney = pay.getPayMoney();
 		int totalPay = payService.sumPay();
-		//System.out.println("totalPay>>>>"+totalPay);
+		//System.out.println("totalPay>>>>>"+totalPay);
 		
 		//System.out.println("pay.getPayId()>>"+pay.getPayId());
 		//System.out.println("list>>>>>>>>>>>>>>"+payService.getPay());
