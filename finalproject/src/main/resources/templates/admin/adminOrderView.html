@@ -61,7 +61,7 @@
 							<i class="fas fa-table me-1"></i>
 							주문내역 상세조회
 						</div>
-						<form method="post" th:action="@{/admin/order}">
+						<form method="post" th:action="@{/admin/order/update}">
 							<input type="hidden" id="memberEmail" th:value="${memberEmail}">
 							<input type="hidden" name="washId" th:value="${orderList[0].washId}">
 
@@ -102,12 +102,13 @@
 													style="text-align: center;vertical-align: middle;">상태값 변경</td>
 												<td class="col-md-4 title" style="vertical-align: middle;">
 													<select id="ordersStatus" class="col-md-3">
-														<option value="1" name="ordersStatus">수거진행</option>
-														<option value="2" name="ordersStatus">수거완료</option>
-														<option value="3" name="ordersStatus">세탁진행</option>
-														<option value="4" name="ordersStatus">배송진행</option>
-														<option value="5" name="ordersStatus">배송완료</option>
+													    <option value="1" th:selected="${orderList[0].ordersStatus == '1'}" name="ordersStatus">수거진행</option>
+													    <option value="2" th:selected="${orderList[0].ordersStatus == '2'}" name="ordersStatus">수거완료</option>
+													    <option value="3" th:selected="${orderList[0].ordersStatus == '3'}" name="ordersStatus">세탁진행</option>
+													    <option value="4" th:selected="${orderList[0].ordersStatus == '4'}" name="ordersStatus">배송진행</option>
+													    <option value="5" th:selected="${orderList[0].ordersStatus == '5'}" name="ordersStatus">배송완료</option>
 													</select>
+
 													<input type="hidden" id="hiddenOrdersStatus" name="ordersStatus">
 													<button id="orderStateChangeButton" type="submit" class="btn btn-primary title"
 														onclick="updateStatus()" style="margin-left: 5px;">수정</button>
