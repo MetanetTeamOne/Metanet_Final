@@ -95,13 +95,14 @@ public class AddressController {
 	public String updateAddress(Model model, HttpServletRequest request) {
 		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
 		Address address = addressService.getAddress(memberId);
+		log.info("address: {}", address);
 		model.addAttribute("updateAddress", address);
 		return "member/address_update";
 	}
 	
 	@Operation(summary = "사용자 주소 수정")
 	@PostMapping("/update")
-	public String updateAddress(@Valid @ModelAttribute("address") Address address, BindingResult result) {
+	public String updateAddress(@Valid @ModelAttribute("updateAddress") Address address, BindingResult result) {
 		if (result.hasErrors()) {
 			log.info("errors: {}", result);
 			return "member/address_update";
