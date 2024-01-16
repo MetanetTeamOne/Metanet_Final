@@ -69,7 +69,7 @@
 														<div id="mail_number" name="mail_number" style="display: none">
 															<br>
 															<input type="text" name="number" id="number" class="title"
-																placeholder="인증번호 입력">
+																placeholder="인증번호 입력" style="width: 182px">
 															<button type="button" name="confirmBtn" id="confirmBtn"
 																class="title btn_post_search"
 																onclick="confirmNumber()">이메일
@@ -131,10 +131,10 @@
 															th:errorclass="field-error" id="to" name="memberPhoneNumber"
 															maxlength="12" placeholder="- 없이 입력하세요." class="title"
 															data-pattern="gdNum" value="" required>
-														<!--<button type="button" id="memberPhoneValid"
-															class="btn_post_search title">중복확인</button>-->
+														<button type="button" id="memberPhoneValid"
+															class="btn_post_search title">중복확인</button>
 														<button type="button" id="memberPhoneCheck"
-															class="btn_post_search title">인증번호 발송</button>
+															class="btn_post_search title" style="display: none;">인증번호 발송</button>
 													</div>
 
 													<!--<div class="address_postcode" style="margin-top: 5px;">
@@ -158,12 +158,12 @@
 														<button type="button" id="certifyCheck"
 															class="title btn_post_search">인증번호 확인</button>
 													</div>
-													<div class="form_element">
+													<!--<div class="form_element">
 														<input type="checkbox" id="smsFl" name="smsFl" value="y"
 															required>
 														<label for="smsFl" class="check_box title">정보/이벤트 SMS 수신에
 															동의합니다.</label>
-													</div>
+													</div>-->
 												</td>
 											</tr>
 											<tr>
@@ -215,7 +215,7 @@
 									th:onclick="|javascript:location.href='/'|">
 									홈
 								</button>
-								<button type="submit" class="btn_comfirm js_btn_join title">회원가입</button>
+								<button type="submit" class="btn_comfirm js_btn_join title" id="signupBtn">회원가입</button>
 							</div>
 						</form>
 					</div>
@@ -238,9 +238,10 @@
 	let submitCheck = false;
 	let authCheck = false;
 	let emailCheck = false;
+	let phoneCheck = false;
 
 	function valid() {
-		if (submitCheck && authCheck) { // true 가 되면 회원가입 버튼 동작함
+		if (submitCheck && authCheck && phoneCheck) { // true 가 되면 회원가입 버튼 동작함
 			return true;
 		} else if (submitCheck === false) {
 			alert('이메일 중복체크를 먼저 하세요');
@@ -248,6 +249,9 @@
 			return false; // 회원가입 버튼을 막는다
 		} else if (authCheck === false) { //이메일 인증안하면 가입 못함
 			alert('이메일 인증을 하세요')
+			return false;
+		} else if (phoneCheck === false){
+			alert('휴대폰 인증을 하세요')
 			return false;
 		}
 	}
@@ -315,9 +319,15 @@
 		}
 		var number1 = $("#number").val();
 		var number2 = $("#Confirm").val();
+		console.log('number1==',number1);
+		console.log('number2==',number2);
 		if (number1 === number2) {
 			alert("인증되었습니다.");
 			authCheck = true;
+			var mailNumberDiv = document.getElementById('mail_number');
+			if (mailNumberDiv) {
+				mailNumberDiv.style.display = 'none';
+			}
 		} else {
 			alert("번호가 다릅니다.");
 		}
@@ -331,14 +341,44 @@
 		return emailRegex.test(email);
 	}
 
-
+	
+	$('#memberPhoneValid').click(function(){
+		var to = $('input[name="memberPhoneNumber"]').val();
+		var phoneValid = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4}$)/;
+		console.log('to=======!!',to);
+		//console.log(typeof(to)); //string
+		$.ajax({
+			url:"/phone/check",
+			type:"GET",
+			data:{
+					memberPhoneNumber : to
+				},
+			dataType:"json",
+			success:function(data){
+				if(data==1){
+					alert('존재하는 전화번호입니다.');
+				} else{
+					if(to !== null && to.trim() !== "" && phoneValid.test(to)==true){
+						alert('사용 가능한 전화번호입니다.');
+						$('#memberPhoneCheck').css('display', 'block');
+					}else{
+						alert('올바른 전화번호를 입력하세요.');
+					}
+				}				
+			}, 
+			error:function(){
+				alert('에러에러에러');
+			}
+		});
+	});
+	
+	
 	$('#memberPhoneCheck').click(function () {
-
+		var to = $('input[name="memberPhoneNumber"]').val();
+		//var userNum = documnet.getElementById('userNum');
 		const showElement = document.getElementById('phoneCheckDiv');
 		//console.log('showElement>>>>',showElement);
 		showElement.style.display = 'block';
-
-		var to = $('input[name="memberPhoneNumber"]').val();
 		$.ajax({
 			url: "/memberphonecheck",
 			type: "POST",
@@ -346,8 +386,12 @@
 			dataType: "json",
 			success: function (data) {
 				const checkNum = data;
-				alert(to + '로 인증번호를 전송하였습니다.');
-
+				if(to != null || !to.isEmpty() || to!=""){
+					alert(to + '로 인증번호를 전송하였습니다.');	
+				} else{
+					alert('전화번호를 입력하세요');
+				}
+				
 				// 이전에 등록된 클릭 이벤트 핸들러 제거
 				$('#certifyCheck').off('click');
 
@@ -358,20 +402,25 @@
 						console.log("userNum>>", userNum.value);
 						if (checkNum == userNum.value) {
 							alert('인증이 성공적으로 완료되었습니다.');
+							phoneCheck = true;
+							showElement.style.display='none';
 						} else {
 							alert('인증에 실패하였습니다. \n다시 입력해주세요.');
+							phoneCheck = false;
 						}
 					} else {
 						alert('인증번호를 입력해주세요.');  // 입력값이 없는 경우에 대한 처리
+						phoneCheck = false;
 					}
 				});
 
 			},
 			error: function () {
-				alert("담당자 잔액 이슈");
+				alert("다시 한 번 시도해주세요.");
 			}
 		});
 	});
+	
 </script>
 
 </html>
