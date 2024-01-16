@@ -131,10 +131,10 @@
 															th:errorclass="field-error" id="to" name="memberPhoneNumber"
 															maxlength="12" placeholder="- 없이 입력하세요." class="title"
 															data-pattern="gdNum" value="" required>
-														<!--<button type="button" id="memberPhoneValid"
-															class="btn_post_search title">중복확인</button>-->
+														<button type="button" id="memberPhoneValid"
+															class="btn_post_search title">중복확인</button>
 														<button type="button" id="memberPhoneCheck"
-															class="btn_post_search title">인증번호 발송</button>
+															class="btn_post_search title" style="display: none;">인증번호 발송</button>
 													</div>
 
 													<!--<div class="address_postcode" style="margin-top: 5px;">
@@ -215,7 +215,7 @@
 									th:onclick="|javascript:location.href='/'|">
 									홈
 								</button>
-								<button type="submit" class="btn_comfirm js_btn_join title">회원가입</button>
+								<button type="submit" class="btn_comfirm js_btn_join title" id="signupBtn">회원가입</button>
 							</div>
 						</form>
 					</div>
@@ -331,14 +331,51 @@
 		return emailRegex.test(email);
 	}
 
-
+	
+	
+	
+	
+	//고쳐야 할 부분 : 전화번호 중복체크 => 중복이 안 되었을 때 인증번호 발송 가능하도록
+	// 인증번호 확인을 눌렀을 때 인증이 되어야만 회원가입이 가능하도록 변경
+	$('#memberPhoneValid').click(function(){
+		var to = $('input[name="memberPhoneNumber"]').val();
+		var phoneValid = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4}$)/;
+		$('#signupBtn').prop('disabled', true);
+		console.log('to=======!!',to);
+		//console.log(typeof(to)); //string
+		$.ajax({
+			url:"/phone/check",
+			type:"GET",
+			data:{
+					memberPhoneNumber : to
+				},
+			dataType:"json",
+			success:function(data){
+				if(data==1){
+					alert('존재하는 전화번호입니다.');
+				} else{
+					if(to !== null && to.trim() !== "" && phoneValid.test(to)==true){
+						alert('사용 가능한 전화번호입니다.');
+						$('#memberPhoneCheck').css('display', 'block');
+					}else{
+						alert('올바른 전화번호를 입력하세요.');
+					}
+				}				
+			}, 
+			error:function(){
+				alert('에러에러에러');
+			}
+		});
+	});
+	
+	
 	$('#memberPhoneCheck').click(function () {
-
+		var to = $('input[name="memberPhoneNumber"]').val();
+		//var userNum = documnet.getElementById('userNum');
 		const showElement = document.getElementById('phoneCheckDiv');
 		//console.log('showElement>>>>',showElement);
 		showElement.style.display = 'block';
-
-		var to = $('input[name="memberPhoneNumber"]').val();
+		
 		$.ajax({
 			url: "/memberphonecheck",
 			type: "POST",
@@ -346,7 +383,12 @@
 			dataType: "json",
 			success: function (data) {
 				const checkNum = data;
-				alert(to + '로 인증번호를 전송하였습니다.');
+				if(to != null || !to.isEmpty() || to!=""){
+					alert(to + '로 인증번호를 전송하였습니다.');	
+				} else{
+					alert('전화번호를 입력하세요');
+				}
+				
 
 				// 이전에 등록된 클릭 이벤트 핸들러 제거
 				$('#certifyCheck').off('click');
@@ -358,6 +400,7 @@
 						console.log("userNum>>", userNum.value);
 						if (checkNum == userNum.value) {
 							alert('인증이 성공적으로 완료되었습니다.');
+							$('#signupBtn').prop('disabled', false);
 						} else {
 							alert('인증에 실패하였습니다. \n다시 입력해주세요.');
 						}
@@ -372,6 +415,7 @@
 			}
 		});
 	});
+	
 </script>
 
 </html>

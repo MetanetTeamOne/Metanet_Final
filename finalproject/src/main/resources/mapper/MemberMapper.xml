@@ -1,63 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.metanet.finalproject.member.repository.IMemberRepository">
-    <select id="getMember" resultType="com.metanet.finalproject.member.model.Member">
-        select member_id as memberId, member_name as memberName, member_email as memberEmail,
-               member_phone_number as memberPhoneNumber, member_password as memberPassword,
-               member_join_date as memberJoinDate, member_join_state as memberJoinState,
-               member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
-               member_card as memberCard
-        from member
-        where member_id = #{memberId}
-    </select>
-    
-    <select id="searchMemberByPhonenumber" resultType="com.metanet.finalproject.member.model.Member">
-    	select member_id as memberId, member_name as memberName, member_email as memberEmail,
-               member_phone_number as memberPhoneNumber, member_password as memberPassword,
-               member_join_date as memberJoinDate, member_join_state as memberJoinState,
-               member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
-               member_card as memberCard
-        from member
-        where member_phone_number = #{memberPhonenumber}
-    </select>
+<mapper
+	namespace="com.metanet.finalproject.member.repository.IMemberRepository">
+	<select id="getMember"
+		resultType="com.metanet.finalproject.member.model.Member">
+		select member_id as memberId, member_name as memberName,
+		member_email as
+		memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as
+		memberJoinState,
+		member_subscribe as
+		memberSubscribe, member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		from member
+		where member_id = #{memberId}
+	</select>
 
-    <select id="getMemberList" resultType="com.metanet.finalproject.member.model.Member">
-        select member_id as memberId, member_name as memberName, member_email as memberEmail,
-               member_phone_number as memberPhoneNumber, member_password as memberPassword,
-               member_join_date as memberJoinDate, member_join_state as memberJoinState,
-               member_subscribe as memberSubscribe, member_subscribe_date as memberSubScribeDate,
-               member_card as memberCard
-        from member
-        order by member_id
-    </select>
+	<select id="searchMemberByPhonenumber"
+		resultType="com.metanet.finalproject.member.model.Member">
+		select member_id as memberId, member_name as memberName,
+		member_email as
+		memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as
+		memberJoinState,
+		member_subscribe as
+		memberSubscribe, member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		from member
+		where member_phone_number =
+		#{memberPhonenumber}
+	</select>
 
-    <insert id="insertMember">
-        <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
+	<select id="getMemberList"
+		resultType="com.metanet.finalproject.member.model.Member">
+		select member_id as memberId, member_name as memberName,
+		member_email as
+		memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as
+		memberJoinState,
+		member_subscribe as
+		memberSubscribe, member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		from member
+		order by member_id
+	</select>
+
+	<insert id="insertMember">
+		<selectKey keyProperty="memberId" resultType="int"
+			order="BEFORE">
 			select nvl(max(member_id), 0) + 1 from member
 		</selectKey>
-		insert into member(member_id, member_name, member_email, member_phone_number, member_password, member_join_date,
-		member_join_state, member_subscribe, member_subscribe_date, member_card)
-		values (#{memberId}, #{member.memberName}, #{member.memberEmail}, #{member.memberPhoneNumber},
-		#{member.memberPassword}, sysdate, #{member.memberJoinState}, #{member.memberSubscribe},
-		#{member.memberSubscribeDate}, #{member.memberCard})
-    </insert>
+		insert into member(member_id, member_name, member_email,
+		member_phone_number, member_password, member_join_date,
+		member_join_state, member_subscribe, member_subscribe_date,
+		member_card)
+		values (#{memberId}, #{member.memberName},
+		#{member.memberEmail}, #{member.memberPhoneNumber},
+		#{member.memberPassword}, sysdate, #{member.memberJoinState},
+		#{member.memberSubscribe},
+		#{member.memberSubscribeDate},
+		#{member.memberCard})
+	</insert>
 
-    <update id="updateMember">
-        update member
-        <set>
+	<update id="updateMember">
+		update member
+		<set>
 			<if test="member.memberName != null">member_name = #{member.memberName},</if>
 			<if test="member.memberPhoneNumber != null">member_phone_number = #{member.memberPhoneNumber},</if>
 			<if test="member.memberPassword != null">member_password = #{member.memberPassword},</if>
 		</set>
 		where member_email = #{member.memberEmail}
-    </update>
+	</update>
 
-    <update id="deleteMember">
-        update member
-        set member_join_state = #{state}, member_join_date = sysdate
-        where member_email = #{memberEmail}
-    </update>
+	<update id="deleteMember">
+		update member
+		set member_join_state = #{state},
+		member_join_date = sysdate
+		where member_email = #{memberEmail}
+	</update>
 
 	<delete id="deleteWithDrawMember">
 		delete
@@ -70,42 +100,51 @@
 		from member
 		where member_email = #{email}
 	</select>
-    
-	<select id="selectMember" parameterType="string" resultType="com.metanet.finalproject.member.model.Member">
-		select 
-			member_id as memberId,
-			member_name as memberName, 
-			member_email as memberEmail,
-			member_phone_number as memberPhoneNumber, 
-			member_password as memberPassword,
-			member_join_date as memberJoinDate, 
-			member_join_state as memberJoinState,
-			member_subscribe as memberSubscribe,
-			member_subscribe_date as memberSubScribeDate,
-			member_card as memberCard
+
+	<select id="selectMember" parameterType="string"
+		resultType="com.metanet.finalproject.member.model.Member">
+		select
+		member_id as memberId,
+		member_name as memberName,
+		member_email as
+		memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password
+		as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as memberJoinState,
+		member_subscribe as
+		memberSubscribe,
+		member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
 		from member
 		<if test="memberEmail != null">
-		where member_email=#{memberEmail}
+			where member_email=#{memberEmail}
 		</if>
-		
+
 	</select>
 
-	<select id="getPagingMemberListByState" resultType="com.metanet.finalproject.member.model.Member">
+	<select id="getPagingMemberListByState"
+		resultType="com.metanet.finalproject.member.model.Member">
 		SELECT *
 		FROM (
-			SELECT ROW_NUMBER() OVER(ORDER by member_id asc) as rnum,
-			member_id as memberId,
-			member_name as memberName,
-			member_email as memberEmail,
-			member_phone_number as memberPhoneNumber,
-			member_password as memberPassword,
-			member_join_date as memberJoinDate,
-			member_join_state as memberJoinState,
-			member_subscribe as memberSubscribe,
-			member_subscribe_date as memberSubScribeDate,
-			member_card as memberCard
-			FROM member
-			where member_join_state = #{state}
+		SELECT ROW_NUMBER() OVER(ORDER by member_id asc) as
+		rnum,
+		member_id as memberId,
+		member_name as memberName,
+		member_email as
+		memberEmail,
+		member_phone_number as memberPhoneNumber,
+		member_password
+		as memberPassword,
+		member_join_date as memberJoinDate,
+		member_join_state as memberJoinState,
+		member_subscribe as
+		memberSubscribe,
+		member_subscribe_date as memberSubScribeDate,
+		member_card as memberCard
+		FROM member
+		where member_join_state = #{state}
 		)
 		<if test="start != null and end != null">
 		<![CDATA[
@@ -115,49 +154,50 @@
 		</if>
 	</select>
 
-	<select id="getPagingMemberList" resultType="com.metanet.finalproject.member.model.Member">
+	<select id="getPagingMemberList"
+		resultType="com.metanet.finalproject.member.model.Member">
 		SELECT *
 		FROM (
 		SELECT ROW_NUMBER() OVER(ORDER by member_id asc) AS
 		row_num,
 		member_id as memberId,
 		member_name as memberName,
-		member_email as memberEmail,
+		member_email
+		as memberEmail,
 		member_phone_number as memberPhoneNumber,
 		member_password as memberPassword,
 		member_join_date as memberJoinDate,
 		member_join_state as memberJoinState,
-		member_subscribe as memberSubscribe,
+		member_subscribe as
+		memberSubscribe,
 		member_subscribe_date as memberSubScribeDate,
 		member_card as memberCard
 		FROM member
 		)
 		<if test="firstRecordIndex != null and lastRecordIndex != null">
-			WHERE row_num <![CDATA[>]]> #{firstRecordIndex} AND
-			row_num <![CDATA[<=]]> #{lastRecordIndex}
+			WHERE row_num <![CDATA[>]]>
+			#{firstRecordIndex} AND
+			row_num <![CDATA[<=]]>
+			#{lastRecordIndex}
 		</if>
 	</select>
 
 	<select id="getMemberCount" resultType="int">
 		SELECT count(*) FROM
-			member
-		    <if test="state != null">
-				where member_join_state = #{state}
-			</if>
+		member
+		<if test="state != null">
+			where member_join_state = #{state}
+		</if>
 	</select>
 
 	<!-- 구독신청) MEMBER_SUBSCRIBE : 1, MEMBER_SUBSCRIBE_DATE:sysdate로 update -->
-<!-- 	<update id="insertSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
-			update member
-			set MEMBER_SUBSCRIBE='1',
-				MEMBER_SUBSCRIBE_DATE=sysdate
-		<if test="memberEmail != null">
-			where MEMBER_EMAIL=#{memberEmail};
-		</if>
-	</update> -->
-	
+	<!-- <update id="insertSubscribe" parameterType="com.metanet.finalproject.member.model.Member"> 
+		update member set MEMBER_SUBSCRIBE='1', MEMBER_SUBSCRIBE_DATE=sysdate <if 
+		test="memberEmail != null"> where MEMBER_EMAIL=#{memberEmail}; </if> </update> -->
+
 	<!-- 구독해지) MEMBER_SUBSCRIBE : 0으로 update -->
-	<update id="updateSubscribe" parameterType="com.metanet.finalproject.member.model.Member">
+	<update id="updateSubscribe"
+		parameterType="com.metanet.finalproject.member.model.Member">
 		update member
 		<set>
 			MEMBER_SUBSCRIBE_DATE=sysdate,
@@ -170,16 +210,17 @@
 		</set>
 		where member_email=#{memberEmail}
 	</update>
-	
+
 	<!-- 구독 상태 조회 -->
-	<select id="selectSubscribe" parameterType="string" resultType="string">
+	<select id="selectSubscribe" parameterType="string"
+		resultType="string">
 		select MEMBER_SUBSCRIBE
-		from member 
+		from member
 		<if test="memberEmail != null">
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>
 	</select>
-	
+
 	<!-- 카드등록) MEMBER_CARD : 1로 update -->
 	<update id="insertCard">
 		update member
@@ -188,7 +229,7 @@
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>
 	</update>
-	
+
 	<update id="deleteCard">
 		update member
 		set MEMBER_CARD='0'
@@ -196,5 +237,14 @@
 			where MEMBER_EMAIL=#{memberEmail}
 		</if>
 	</update>
-	
+
+	<select id="getPhoneCount" parameterType="string"
+		resultType="int">
+		select count(MEMBER_PHONE_NUMBER)
+		from member
+		<if test="memberPhoneNumber">
+			where MEMBER_PHONE_NUMBER = #{memberPhoneNumber}
+		</if>
+	</select>
+
 </mapper>
