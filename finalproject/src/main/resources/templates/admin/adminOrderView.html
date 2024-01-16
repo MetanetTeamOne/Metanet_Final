@@ -61,7 +61,7 @@
 							<i class="fas fa-table me-1"></i>
 							주문내역 상세조회
 						</div>
-						<form method="post" th:action="@{/admin/order/update}">
+						<form method="post" th:action="@{/admin/order}">
 							<input type="hidden" id="memberEmail" th:value="${memberEmail}">
 							<input type="hidden" name="washId" th:value="${orderList[0].washId}">
 
