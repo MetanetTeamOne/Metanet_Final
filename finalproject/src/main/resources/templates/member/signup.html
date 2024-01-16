@@ -318,6 +318,10 @@
 		if (number1 === number2) {
 			alert("인증되었습니다.");
 			authCheck = true;
+			var mailNumberDiv = document.getElementById('mail_number');
+			if (mailNumberDiv) {
+				mailNumberDiv.style.display = 'none';
+			}
 		} else {
 			alert("번호가 다릅니다.");
 		}
