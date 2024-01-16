@@ -78,7 +78,10 @@ public class AddressController {
 	
 	@Operation(summary = "사용자 주소 입력")
 	@PostMapping("/insert")
-	public String insertAddress(HttpServletRequest request, Address address) {
+	public String insertAddress(HttpServletRequest request, @Valid @ModelAttribute("insertAddress") Address address, BindingResult result) {
+		if (result.hasErrors()) {
+			return "member/address_insert";
+		}
 		int memberId = memberService.selectMember(getTokenUserEmail(request)).getMemberId();
 		address.setAddressCategory("3");
 		address.setMemberId(memberId);
