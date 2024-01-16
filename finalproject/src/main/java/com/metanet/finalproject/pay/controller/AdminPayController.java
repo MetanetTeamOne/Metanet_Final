@@ -60,7 +60,7 @@ public class AdminPayController {
 	@GetMapping("")
 	public String getpay(Model model) {
 		List<Member> members = memberService.getMemberList();
-		int payCount = payService.getPayCount();
+		int payCount = payService.getPayCountByState("1");
 		log.info("payCount: {}", payCount);
 		Pagination pagination = new Pagination(1, 10, 10);
 		log.info("pagination: {}", pagination);

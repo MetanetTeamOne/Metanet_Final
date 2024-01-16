@@ -112,7 +112,8 @@ public class OrdersController {
 		model.addAttribute("pagination", pagination);
 
 //		List<OrdersDetails> orders = ordersService.searchMemOrder(member.getMemberId());
-		List<OrdersDetails> orders = ordersService.searchPagingMemOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId());
+		List<OrdersDetails> orders = ordersService.searchPagingMemMonthOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), 1);
+
 		log.info("orders: {}", orders);
 		if (member.getMemberSubscribe().equals("0")) {
 			for (OrdersDetails order : orders) {
@@ -177,18 +178,22 @@ public class OrdersController {
 	//	비동기
 	@Operation(summary = "회원 회차별 주문 조회")
 	@GetMapping("/month/{month}")
-	public String searchMonthOrder(HttpServletRequest request, Model model, @PathVariable int month) {
+	public String searchMonthOrder(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+								   @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+								   @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+								   HttpServletRequest request, Model model, @PathVariable int month) {
 		log.info("회원 월별 주문조회");
 		log.info("month: {}", month);
 		Member member = memberService.selectMember(getTokenUserEmail(request));
-		Pagination pagination = new Pagination(1, 10, 10);
+		Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
 		int orderCount = ordersService.getOrderCount(month, member.getMemberId());
+		log.info("orderCount: {}", orderCount);
 		pagination.setTotalRecordCount(orderCount);
 		model.addAttribute("pagination", pagination);
 
 
 //		List<OrdersDetails> orders = ordersService.searchMonthOrder(member.getMemberId(), month);
-		List<OrdersDetails> orders = ordersService.searchPagingMemMonthOrder(1, 10, member.getMemberId(), month);
+		List<OrdersDetails> orders = ordersService.searchPagingMemMonthOrder(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), member.getMemberId(), month);
 		if (member.getMemberSubscribe().equals("0")) {
 			for (OrdersDetails order : orders) {
 				order.setOrdersTotalPrice(order.getOrdersTotalPrice() + 2500);
