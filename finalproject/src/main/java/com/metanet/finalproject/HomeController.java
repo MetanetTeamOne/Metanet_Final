@@ -63,9 +63,9 @@ public class HomeController {
 	
 	// 회원 관리
 //	@GetMapping("/admin/member")
-	public String adminMember() {
-		return "admin/adminMember";
-	}
+//	public String adminMember() {
+//		return "admin/adminMember";
+//	}
 	
 //	// 게시판 관리
 //	@GetMapping("/admin/board")
@@ -91,10 +91,10 @@ public class HomeController {
 //		return "admin/adminPay";
 //	}
 	
-	// 매출 관리
-	@GetMapping("/admin/chart")
-	public String getCharts() {
-		return "admin/adminChart";
-	}
+//	// 매출 관리
+//	@GetMapping("/admin/chart")
+//	public String getCharts() {
+//		return "admin/adminChart";
+//	}
 
 }

@@ -494,35 +494,35 @@ public class MemberController {
 //	}
 
     // 카드 등록 폼
-    @GetMapping("/card/insert")
-    public String insertCard(HttpServletRequest request, Model model) {
-//  			if(memberEmail != null && !memberEmail.equals("")) {
-        Member member = memberService.selectMember(getTokenUserEmail(request));
-        model.addAttribute("member", member);
-        return "member/card_insert";
-//  			}else {
-//  				return "member/login";
-//  			}
-    }
-
-    // 카드 등록 처리
-    @PostMapping("/card/insert")
-    public String insertCard(Member member, Model model, String memberEmail) {
-        memberService.insertCard(memberEmail);
-        return "redirect:/member/card";
-    }
-
-    // 카드 해지 구현 필요
-    // 카드 등록 처리
-    @PostMapping("/card/delete")
-    public String deleteCard(Member member, Model model, String memberEmail) {
-        // 카드 해지 서비스 로직 필요
-        memberService.deleteCard(memberEmail);
-//		model.addAttribute("member", member);
-
-        System.out.println("===카드 해지 완료===");
-        return "redirect:/member/card";
-    }
+//    @GetMapping("/card/insert")
+//    public String insertCard(HttpServletRequest request, Model model) {
+////  			if(memberEmail != null && !memberEmail.equals("")) {
+//        Member member = memberService.selectMember(getTokenUserEmail(request));
+//        model.addAttribute("member", member);
+//        return "member/card_insert";
+////  			}else {
+////  				return "member/login";
+////  			}
+//    }
+//
+//    // 카드 등록 처리
+//    @PostMapping("/card/insert")
+//    public String insertCard(Member member, Model model, String memberEmail) {
+//        memberService.insertCard(memberEmail);
+//        return "redirect:/member/card";
+//    }
+//
+//    // 카드 해지 구현 필요
+//    // 카드 등록 처리
+//    @PostMapping("/card/delete")
+//    public String deleteCard(Member member, Model model, String memberEmail) {
+//        // 카드 해지 서비스 로직 필요
+//        memberService.deleteCard(memberEmail);
+////		model.addAttribute("member", member);
+//
+//        System.out.println("===카드 해지 완료===");
+//        return "redirect:/member/card";
+//    }
 
 
     // coolSMS 연결
