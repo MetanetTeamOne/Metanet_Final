@@ -52,7 +52,7 @@ public class AdminOrdersController {
 		log.info("pagination: {}", pagination);
 		pagination.setTotalRecordCount(orderCount);
 		model.addAttribute("pagination", pagination);
-		List<Orders> ordersAllList = ordersService.searchPagingOrdersList(1, 10);
+		List<Orders> ordersAllList = ordersService.searchPagingOrdersList(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex());
 		model.addAttribute("ordersAllList", ordersAllList);
 		return "admin/adminOrder";
 	}
