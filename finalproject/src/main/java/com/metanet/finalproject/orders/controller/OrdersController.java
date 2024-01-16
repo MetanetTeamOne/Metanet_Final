@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/orders")
 @Tag(name = "Orders", description = "주문 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class OrdersController {
 
@@ -264,7 +264,7 @@ public class OrdersController {
 			order.setOrdersCount(ord.getOrdersCount());
 			order.setOrdersPrice(laundry.getLaundryPrice() * ord.getOrdersCount());
 			total += laundry.getLaundryPrice() * ord.getOrdersCount();
-			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
+			String directoryPath = System.getProperty("user.dir") + "src/main/resources/static/upload/";
 			if (!new File(directoryPath).exists()) {
 				new File(directoryPath).mkdirs();
 			}
@@ -279,7 +279,7 @@ public class OrdersController {
 				e.printStackTrace();
 			}
 
-			order.setOrdersDirPath("/upload/" + fileName);
+			order.setOrdersDirPath(directoryPath + fileName);
 			
 			ordersService.insertOrder(order);
 		}

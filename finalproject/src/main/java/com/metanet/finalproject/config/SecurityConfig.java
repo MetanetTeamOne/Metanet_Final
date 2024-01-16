@@ -108,7 +108,7 @@ public class SecurityConfig {
    @Bean
    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
        CorsConfiguration configuration = new CorsConfiguration();
-       configuration.setAllowedOrigins(List.of("http://localhost:8085", "http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+       configuration.setAllowedOrigins(List.of("http://localhost:8085", "http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
    			"http://metawash.kro.kr:8888/"));
        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
        configuration.setAllowedHeaders(List.of("*"));

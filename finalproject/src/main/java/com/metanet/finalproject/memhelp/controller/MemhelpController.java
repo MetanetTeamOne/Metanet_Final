@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/memhelp")
 @Tag(name = "Memhelp", description = "문의사항 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class MemhelpController {
 	
@@ -156,6 +156,8 @@ public class MemhelpController {
 		
 		System.out.println("해당하는 문의사항 : " + searchMemhelpById);
 		
+		System.out.println("문의사항 불러온 사진 경로 : " + searchMemhelpById.getMemHelpFile());
+		
 		model.addAttribute("memHelp", searchMemhelpById);
 		
 		// 관리자 답변이 달렸을 경우 로직 처리
@@ -215,7 +217,7 @@ public class MemhelpController {
 		String file_name = file.getOriginalFilename();
 		
 		if(file_name!=null&!file_name.equals("")) {
-			String directoryPath = System.getProperty("user.dir") + "/src/main/resources/static/upload/";
+			String directoryPath = System.getProperty("user.dir") + "src/main/resources/static/upload/";
 			if (!new File(directoryPath).exists()) {
 				new File(directoryPath).mkdirs();
 			}
@@ -232,7 +234,7 @@ public class MemhelpController {
 				e.printStackTrace();
 			}
 			
-			insertMemhelp.setMemHelpFile("/upload/" + fileName);
+			insertMemhelp.setMemHelpFile(directoryPath + fileName);
 		}
 		else {
 			insertMemhelp.setMemHelpFile(file_name);

@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/kakao")
 @Tag(name = "Kakao Login", description = "카카오 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 @Slf4j
 public class KakaoController {
@@ -50,7 +50,7 @@ public class KakaoController {
 	private String KakaoClientId = "d1d24e8bdb4b98590806b33230fb32ef"; 
 	
 	// 공인 ip
-	private String KakaoRedirectUri = "http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888/kakao/loginok";
+	private String KakaoRedirectUri = "http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888/kakao/loginok";
 	private String KakaoResponseType = "code";
 	
 	private String KakaoGrantType = "authorization_code";

@@ -34,9 +34,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/naver")
 @Tag(name = "Naver Login", description = "네이버 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
- @Slf4j
+@Slf4j
 public class NaverController {
 	@Autowired
 	IMemberService memberService;
@@ -44,7 +44,7 @@ public class NaverController {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 	
-	private String naverRedirectId = "http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888/naver/loginok";
+	private String naverRedirectId = "http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888/naver/loginok";
 	private String naverClientId = "CKbzHQEyk93DOF3jRkqO";
 	private String naverClientSecret = "3g3mWH19q6";
 	private String naverResponseType = "code";

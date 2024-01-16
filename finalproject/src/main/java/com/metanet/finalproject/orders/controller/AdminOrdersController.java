@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 @Slf4j
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-37-210-134.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class AdminOrdersController {
 
