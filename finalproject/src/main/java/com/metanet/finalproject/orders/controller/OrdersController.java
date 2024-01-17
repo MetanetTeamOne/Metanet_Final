@@ -236,6 +236,9 @@ public class OrdersController {
 		int count = ordersService.countOrder(member.getMemberId());
 		int washId = count + 1;
 		Address addressList = addressService.getAddress(member.getMemberId());
+		if (addressList == null) {
+			return "member/orders_error";
+		}
 		List<LaundryCategory> laundryCategoryList = laundryCategoryService.getLaundryCategory();
 		System.out.println("laundryCategoryList>>>>" + laundryCategoryList);
 		// System.out.println("laundryCategoryList 길이>>>"+laundryCategoryList.size());
