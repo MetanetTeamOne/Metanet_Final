@@ -1,17 +1,10 @@
 package com.metanet.finalproject.member.controller;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
-import com.metanet.finalproject.paging.Pagination;
-
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,7 +35,6 @@ import com.metanet.finalproject.member.service.TestService;
 import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.Bootpay;
-import com.metanet.finalproject.pay.service.BootpayObject;
 import com.metanet.finalproject.pay.service.IPayService;
 import com.metanet.finalproject.role.model.Role;
 import com.metanet.finalproject.role.repository.IRoleRepository;

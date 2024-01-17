@@ -57,7 +57,7 @@ public class SchedulerService {
             	 payload.billingKey = member.getMemberCard();
             	 payload.orderId = "자동결제"+member.getMemberId()+new java.util.Date();
             	 payload.itemName = "자동결제";
-            	 payload.price = 100;
+            	 payload.price = 4900;
             	 payload.userInfo = new User();
             	 payload.userInfo.id =Integer.toString(member.getMemberId());
             	 payload.userInfo.username = member.getMemberName();
