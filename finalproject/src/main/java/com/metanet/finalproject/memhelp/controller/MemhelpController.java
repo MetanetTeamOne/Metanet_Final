@@ -158,14 +158,9 @@ public class MemhelpController {
 		System.out.println("해당하는 문의사항 : " + searchMemhelpById);
 		
 		System.out.println("문의사항 불러온 사진 경로 : " + searchMemhelpById.getMemHelpFile());
+				
 		
-		System.out.println("!!! 이게 뭐지 ? : " + searchMemhelpById.getMemHelpFile());
-		
-		String directoryPath = "." + System.getProperty("user.dir") + "img/";
-		
-		System.out.println("리눅스 파일 찾기 ::::: " + directoryPath + searchMemhelpById.getMemHelpFile());
-		
-		searchMemhelpById.setMemHelpFile(directoryPath + searchMemhelpById.getMemHelpFile());
+		searchMemhelpById.setMemHelpFile(searchMemhelpById.getMemHelpFile());
 		
 		model.addAttribute("memHelp", searchMemhelpById);
 		
@@ -248,10 +243,10 @@ public class MemhelpController {
 			}
 			catch (Exception e) {
 				e.printStackTrace();
-				insertMemhelp.setMemHelpFile(null);
+				insertMemhelp.setMemHelpFile(file.getOriginalFilename());
 			}
 		}else {
-			insertMemhelp.setMemHelpFile(null);
+			insertMemhelp.setMemHelpFile(file.getOriginalFilename());
 		}
 		
 //		if(file_name!=null&!file_name.equals("")) {

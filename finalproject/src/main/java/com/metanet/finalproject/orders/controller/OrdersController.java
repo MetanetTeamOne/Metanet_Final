@@ -302,10 +302,10 @@ public class OrdersController {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
-					order.setOrdersDirPath(null);
+					order.setOrdersDirPath(file.getOriginalFilename());
 				}
 			}else {
-				order.setOrdersDirPath(null);
+				order.setOrdersDirPath(file.getOriginalFilename());
 			}
 			
 			
