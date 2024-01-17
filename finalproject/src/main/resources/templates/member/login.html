@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{include/member/head :: head}"></head>
 <body>
+	<script th:src="@{/js/member/saveLoginId.js}"></script>		
+
     <!-- Header -->
     <div th:replace="~{include/member/header :: header}"></div>
 
@@ -35,7 +37,7 @@
                             <div class="ipt_wrap">
                                 <div class="chks chk_agree fl">
                                     <label class="chkcon" id="chk_saveid">
-                                        <input type="checkbox" title="아이디저장" name="saveid" value="Y">
+                                        <input type="checkbox" id="checkId" title="아이디저장" name="saveid" value="Y">
                                         <span class="txt title">아이디저장</span>
                                         <span class="bl"></span>
                                     </label>
