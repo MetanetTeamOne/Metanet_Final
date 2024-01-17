@@ -59,28 +59,28 @@ function subscribeAlarm(){
 
 function memReply(){
 	$('#insertBtn').click(function(e){
-	let memberEmail = document.getElementById('memberEmail');
+	let memberEmail = document.getElementById('memberEmail').value;
     ws.send("memReply"+","+memberEmail.value+","+"문의답변"+","+"문의 답변이 달렸습니다.");	
 	});
 };
 
 function orderState(){
 	$('#orderStateChangeButton').click(function(e){
-	let memberEmail = document.getElementById('memberEmail');
+	let memberEmail = document.getElementById('memberEmail').value;
 	let orderStatus = document.getElementById('hiddenOrdersStatus');
 	if (orderStatus.value == '1' ){
-		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"수거 진행중입니다.");	
+		ws.send("ordState"+","+memberEmail+","+"주문상태"+","+"수거 진행중입니다.");	
 	} else if (orderStatus.value == '2' ) {
-		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"수거 완료되었습니다.");	
+		ws.send("ordState"+","+memberEmail+","+"주문상태"+","+"수거 완료되었습니다.");	
 
 	} else if (orderStatus.value == '3' ) {
-		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"세탁 진행중입니다.");	
+		ws.send("ordState"+","+memberEmail+","+"주문상태"+","+"세탁 진행중입니다.");	
 
 	} else if (orderStatus.value == '4' ) {
-		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"배송 진행중입니다.");	
+		ws.send("ordState"+","+memberEmail+","+"주문상태"+","+"배송 진행중입니다.");	
 
 	} else {
-		ws.send("ordState"+","+'wldmx@naver.com'+","+"주문상태"+","+"배송 완료되었습니다.");	
+		ws.send("ordState"+","+memberEmail+","+"주문상태"+","+"배송 완료되었습니다.");	
 
 	}
 	});
