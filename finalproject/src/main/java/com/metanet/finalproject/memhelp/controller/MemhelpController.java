@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/memhelp")
 @Tag(name = "Memhelp", description = "문의사항 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class MemhelpController {
 	
@@ -157,6 +157,11 @@ public class MemhelpController {
 		
 		System.out.println("해당하는 문의사항 : " + searchMemhelpById);
 		
+		System.out.println("문의사항 불러온 사진 경로 : " + searchMemhelpById.getMemHelpFile());
+				
+		
+		searchMemhelpById.setMemHelpFile(searchMemhelpById.getMemHelpFile());
+		
 		model.addAttribute("memHelp", searchMemhelpById);
 		
 		// 관리자 답변이 달렸을 경우 로직 처리
@@ -213,7 +218,9 @@ public class MemhelpController {
 		
 		System.out.println("사진이 null이여야함 데이터 확인 : " + file.getOriginalFilename());
 		
+
 		if(file.getOriginalFilename()!=null&!file.getOriginalFilename().equals("")) {
+
 			try {
 				UUID uuid = UUID.randomUUID();
 				String fileName = uuid.toString() + "_" + file.getOriginalFilename();
@@ -236,10 +243,10 @@ public class MemhelpController {
 			}
 			catch (Exception e) {
 				e.printStackTrace();
-				insertMemhelp.setMemHelpFile(null);
+				insertMemhelp.setMemHelpFile(file.getOriginalFilename());
 			}
 		}else {
-			insertMemhelp.setMemHelpFile(null);
+			insertMemhelp.setMemHelpFile(file.getOriginalFilename());
 		}
 		
 //		if(file_name!=null&!file_name.equals("")) {

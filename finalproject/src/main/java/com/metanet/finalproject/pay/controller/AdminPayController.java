@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/admin/pay")
 @Tag(name = "Pay", description = "결제 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class AdminPayController {
 
