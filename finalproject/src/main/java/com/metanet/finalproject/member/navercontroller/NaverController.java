@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,10 +45,30 @@ public class NaverController {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 	
-	private String naverRedirectId = "http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888/naver/loginok";
-	private String naverClientId = "CKbzHQEyk93DOF3jRkqO";
-	private String naverClientSecret = "3g3mWH19q6";
-	private String naverResponseType = "code";
+	@Value("${naver.redirect-id}")
+	private String naverRedirectId;
+	
+	@Value("${naver.client-id}")
+	private String naverClientId;
+	
+	@Value("${naver.client-secret}")
+	private String naverClientSecret;
+	
+	@Value("${naver.response-type}")
+	private String naverResponseType;
+	
+	@Value("${naver.grant-type}")
+	private String naverGrantType;
+		
+	@Value("${naver.getnaveraccesstoken-url}")
+	private String getNaverAccessTokenURL;
+	
+	@Value("${naver.getnavergetuserinfo-url}")
+	private String getNaverGetUserInfoURL;
+		
+	@Value("${naver.logout-url}")
+	private String naver_logout_URL;
+
 	
 	private String naverCallbackCode = "";
 	
@@ -55,17 +76,8 @@ public class NaverController {
 	private String naverRefreshToken = "";
 	private String naverTokenType = "";
 	
-	private String getNaverAccessTokenURL = "https://nid.naver.com/oauth2.0/token?";
-	
-	private String naverGrantType = "authorization_code";
-	
-	private String getNaverGetUserInfoURL = "https://openapi.naver.com/v1/nid/me";
-	
 	private String naver_user_email = "";
 	private String naver_user_phonenumber = "";
-	
-	private String naver_logout_URL = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&access_token=ACCESS_TOKEN";
-
 	
 	// https://nid.naver.com/oauth2.0/authorize?redirect_uri=http://localhost:8085/naver/loginok&client_id=CKbzHQEyk93DOF3jRkqO&response_type=code
 	

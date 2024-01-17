@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,15 +48,26 @@ public class KakaoController {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 	
-	private String KakaoClientId = "d1d24e8bdb4b98590806b33230fb32ef"; 
+	@Value("${kakao.client-id}")
+	private String KakaoClientId; 
 	
-	// 공인 ip
-	private String KakaoRedirectUri = "http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888/kakao/loginok";
-	private String KakaoResponseType = "code";
+	@Value("${kakao.redirect-uri}")
+	private String KakaoRedirectUri;
 	
-	private String KakaoGrantType = "authorization_code";
+	@Value("${kakao.response-type}")
+	private String KakaoResponseType;
 	
-	private String KakaoClientSecret = "DfSiEk2HPIIb12aRBBH3WHguUugUKzlm";
+	@Value("${kakao.grant-type}")
+	private String KakaoGrantType;
+	
+	@Value("${kakao.client-secret}")
+	private String KakaoClientSecret;
+	
+	@Value("${kakao.getaccesstoken-url}")
+	private String getAccessTokenURL;
+    
+	@Value("${kakao.getkakaouserinfo-url}")
+	private String getKakaoUserInfoURL;
 	
 	
 	private String KakaoUserAuthorizationCode = null;
@@ -65,10 +77,7 @@ public class KakaoController {
 	public String access_token = "";
 	private String refresh_token = "";
 	private String token_type = "";
-	private String getAccessTokenURL = "https://kauth.kakao.com/oauth/token";
-    
-	private String getKakaoUserInfoURL = "https://kapi.kakao.com/v2/user/me";
-	
+		
 	// 조회된 카카오 로그인 유저 정보
 	private String user_name = null;
 	private String user_email = null;
