@@ -98,12 +98,12 @@ public class AdminOrdersController {
 //	}
 
 	
-//	@PostMapping("/admin/order/update")
-//	public String updateStatus(@RequestParam("washId") int washId, @RequestParam("ordersStatus") String ordersStatus) {
-//		System.out.println("washId"+washId);
-//		System.out.println("ordersStatus"+ordersStatus);
-//		ordersService.updateStatus(washId, ordersStatus);
-//		return "redirect:/admin/order";
-//	}
+	@PostMapping("/admin/order/update")
+	public String updateStatus(@RequestParam("washId") int washId, @RequestParam("ordersStatus") String ordersStatus) {
+		System.out.println("washId"+washId);
+		System.out.println("ordersStatus"+ordersStatus);
+		ordersService.updateStatus(washId, ordersStatus);
+		return "redirect:/admin/order";
+	}
 	
 }
