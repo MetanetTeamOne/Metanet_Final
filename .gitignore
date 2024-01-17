@@ -1,3 +1,5 @@
 .idea/
 .project
-./finalproject/src/main/resources/application.properites
+
+
+application.properites
