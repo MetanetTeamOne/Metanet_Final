@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Tag(name = "AdminReply", description = "관리자 - 문의사항 답변 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class AdminReplyController {
 	@Autowired

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.laundry.service.ILaundryService;
@@ -43,33 +46,31 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/memhelp")
 @Tag(name = "Memhelp", description = "문의사항 관리 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class MemhelpController {
 	
 //	@Value("${file.upload.directory}")
 //	private String uploadDirectory;
 	
-	@Autowired
-	IOrdersService ordersService;
 	
 	@Autowired
 	IMemberService memberService;
-
-	@Autowired
-	IAddressService addressService;
-
-	@Autowired
-	ILaundryCategoryService laundryCategoryService;
-
-	@Autowired
-	ILaundryService laundryService;
 	
 	@Autowired
 	IMemhelpService memhelpService;
 	
 	@Autowired
 	IReplyService replyService;
+	
+	@Autowired
+	private AmazonS3Client amazonS3Client;
+	
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
+	
+	@Value("${cloud.aws.region.static}")
+	private String region;
 
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
@@ -156,6 +157,11 @@ public class MemhelpController {
 		
 		System.out.println("해당하는 문의사항 : " + searchMemhelpById);
 		
+		System.out.println("문의사항 불러온 사진 경로 : " + searchMemhelpById.getMemHelpFile());
+				
+		
+		searchMemhelpById.setMemHelpFile(searchMemhelpById.getMemHelpFile());
+		
 		model.addAttribute("memHelp", searchMemhelpById);
 		
 		// 관리자 답변이 달렸을 경우 로직 처리
@@ -212,31 +218,60 @@ public class MemhelpController {
 		
 		System.out.println("사진이 null이여야함 데이터 확인 : " + file.getOriginalFilename());
 		
-		String file_name = file.getOriginalFilename();
-		
-		if(file_name!=null&!file_name.equals("")) {
-			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
-			if (!new File(directoryPath).exists()) {
-				new File(directoryPath).mkdirs();
-			}
 
-			UUID uuid = UUID.randomUUID();
-			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
-			File saveFile = new File(directoryPath, fileName);
-			
-			System.out.println("파일 저장 이름은 : " + fileName);
+		if(file.getOriginalFilename()!=null&!file.getOriginalFilename().equals("")) {
 
 			try {
-				file.transferTo(saveFile);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
+				UUID uuid = UUID.randomUUID();
+				String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+				
+				System.out.println("bucket 이름 : " + bucket);
+//				https://washwashbucket.s3.ap-northeast-2.amazonaws.com/A004745449_01-1.jpg
+							
+				String fileUrl = "https://" + bucket + ".s3." + region + ".amazonaws.com/" + fileName;
+				
+				System.out.println(fileUrl);
+				
+				ObjectMetadata metadata = new ObjectMetadata();
+				
+				metadata.setContentType(file.getContentType());
+				metadata.setContentLength(file.getSize());
+				
+				amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+				
+				insertMemhelp.setMemHelpFile(fileUrl);
 			}
-			
-			insertMemhelp.setMemHelpFile("/upload/" + fileName);
+			catch (Exception e) {
+				e.printStackTrace();
+				insertMemhelp.setMemHelpFile(file.getOriginalFilename());
+			}
+		}else {
+			insertMemhelp.setMemHelpFile(file.getOriginalFilename());
 		}
-		else {
-			insertMemhelp.setMemHelpFile(file_name);
-		}
+		
+//		if(file_name!=null&!file_name.equals("")) {
+//			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
+//			if (!new File(directoryPath).exists()) {
+//				new File(directoryPath).mkdirs();
+//			}
+//
+//			UUID uuid = UUID.randomUUID();
+//			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+//			File saveFile = new File(directoryPath, fileName);
+//			
+//			System.out.println("파일 저장 이름은 : " + fileName);
+//
+//			try {
+//				file.transferTo(saveFile);
+//			} catch (IllegalStateException | IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			insertMemhelp.setMemHelpFile("/upload/" + fileName);
+//		}
+//		else {
+//			insertMemhelp.setMemHelpFile(file_name);
+//		}
 		
 		insertMemhelp.setMemHelpState("0");
 		insertMemhelp.setMemHelpDate(new java.sql.Date(now.getTime()));

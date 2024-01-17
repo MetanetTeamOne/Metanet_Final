@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/kakao")
 @Tag(name = "Kakao Login", description = "카카오 로그인 API")
 @CrossOrigin(origins = {"http://localhost:8085", 
-		"http://ec2-3-39-151-127.ap-northeast-2.compute.amazonaws.com:8888/",
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
 		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 @Slf4j
 public class KakaoController {
@@ -47,13 +48,26 @@ public class KakaoController {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 	
-	private String KakaoClientId = "2e5a8c7c7c5bae987fd68ea4def1c608"; 
-	private String KakaoRedirectUri = "http://localhost:8085/kakao/loginok";
-	private String KakaoResponseType = "code";
+	@Value("${kakao.client-id}")
+	private String KakaoClientId; 
 	
-	private String KakaoGrantType = "authorization_code";
+	@Value("${kakao.redirect-uri}")
+	private String KakaoRedirectUri;
 	
-	private String KakaoClientSecret = "oHH6Rh6LEfzyTcGOlBaZA0tvW0pGymYB";
+	@Value("${kakao.response-type}")
+	private String KakaoResponseType;
+	
+	@Value("${kakao.grant-type}")
+	private String KakaoGrantType;
+	
+	@Value("${kakao.client-secret}")
+	private String KakaoClientSecret;
+	
+	@Value("${kakao.getaccesstoken-url}")
+	private String getAccessTokenURL;
+    
+	@Value("${kakao.getkakaouserinfo-url}")
+	private String getKakaoUserInfoURL;
 	
 	
 	private String KakaoUserAuthorizationCode = null;
@@ -63,10 +77,7 @@ public class KakaoController {
 	public String access_token = "";
 	private String refresh_token = "";
 	private String token_type = "";
-	private String getAccessTokenURL = "https://kauth.kakao.com/oauth/token";
-    
-	private String getKakaoUserInfoURL = "https://kapi.kakao.com/v2/user/me";
-	
+		
 	// 조회된 카카오 로그인 유저 정보
 	private String user_name = null;
 	private String user_email = null;
@@ -221,14 +232,14 @@ public class KakaoController {
 		        Cookie cookie_kakao = new Cookie("kakao_access_token", access_token);
 		        cookie_kakao.setMaxAge(60 * 30);
 		        cookie_kakao.setHttpOnly(true);
-		        cookie_kakao.setSecure(true);
+//		        cookie_kakao.setSecure(true);
 		        cookie_kakao.setPath("/");
 		        response.addCookie(cookie_kakao);
 			    
 		        Cookie cookie = new Cookie("token", token);
 		        cookie.setMaxAge(60 * 30);
 		        cookie.setHttpOnly(true);
-		        cookie.setSecure(true);
+//		        cookie.setSecure(true);
 		        cookie.setPath("/");
 		        response.addCookie(cookie);
 		        

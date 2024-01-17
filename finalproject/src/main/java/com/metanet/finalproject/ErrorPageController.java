@@ -5,10 +5,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 //@Controller
 @Slf4j
+@CrossOrigin(origins = {"http://localhost:8085", 
+		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
+		"http://metawash.kro.kr:8888/"}, allowedHeaders = "*", allowCredentials = "true")
 public class ErrorPageController implements ErrorController {
 
     @RequestMapping(value = "/error")
