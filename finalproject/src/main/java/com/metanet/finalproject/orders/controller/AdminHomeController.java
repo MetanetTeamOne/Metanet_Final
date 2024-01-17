@@ -17,9 +17,13 @@ import com.metanet.finalproject.memhelp.model.Memhelp;
 import com.metanet.finalproject.memhelp.service.IMemhelpService;
 import com.metanet.finalproject.orders.model.Orders;
 import com.metanet.finalproject.orders.service.IOrdersService;
+import com.metanet.finalproject.paging.Pagination;
 import com.metanet.finalproject.pay.model.Pay;
 import com.metanet.finalproject.pay.service.IPayService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @CrossOrigin(origins = {"http://localhost:8085", 
 		"http://ec2-43-201-12-132.ap-northeast-2.compute.amazonaws.com:8888",
@@ -38,6 +42,8 @@ public class AdminHomeController {
 	@Autowired
 	IOrdersService ordersService;
 	
+	@Autowired
+	IMemhelpService memhelpService;
 
 	@GetMapping("/admin")
 	public String adminHome(Model model, @ModelAttribute("member") Member member, @ModelAttribute("pay") Pay pay,
@@ -74,14 +80,32 @@ public class AdminHomeController {
 		int totalCount = ordersService.countOrder();
 		//System.out.println("totalCount============="+totalCount);
 		
-		List<Orders> ordersAllList = ordersService.searchOrdersList();
+		//List<Orders> ordersAllList = ordersService.searchOrdersList();
+		
+		int orderCount = ordersService.getOrderCount();
+		log.info("orderCount: {}", orderCount);
+		Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(orderCount);
+		model.addAttribute("pagination", pagination);
+		List<Orders> ordersAllList = ordersService.searchPagingOrdersList(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex());
+		//model.addAttribute("ordersAllList", ordersAllList);
+		
+		int memHelpCount = memhelpService.getAdminMemHelpCount();
+		log.info("memHelpCount: {}", memHelpCount);
+	//	Pagination pagination = new Pagination(1, 10, 10);
+		log.info("pagination: {}", pagination);
+		pagination.setTotalRecordCount(memHelpCount);
+		model.addAttribute("pagination", pagination);
+//		model.addAttribute("memhelpList", memhelpService.searchAllMemhelp());
+		model.addAttribute("memhelpList", memhelpService.searchPagingAllMemhelp(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex()));
+		
 		
 		model.addAttribute("memberCount", memberCount);
 		model.addAttribute("totalPay", totalPay);
 		model.addAttribute("totalHelp", totalHelp);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("ordersAllList", ordersAllList);
-		model.addAttribute("memhelpList", memHelpService.searchAllMemhelp());
 		model.addAttribute("payDateList", payDateList);
 		model.addAttribute("payMoneyList", payMoneyList);
 		return "admin/adminHome";
