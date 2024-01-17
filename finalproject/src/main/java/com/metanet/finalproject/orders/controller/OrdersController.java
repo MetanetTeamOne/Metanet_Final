@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
@@ -71,11 +74,20 @@ public class OrdersController {
 
 	@Autowired
 	ILaundryService laundryService;
+	
+	@Autowired
+	private AmazonS3Client amazonS3Client;
 
 	Files files;
 
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
+	
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
+	
+	@Value("${cloud.aws.region.static}")
+	private String region;
 
 	// Header에서 Token으로 사용자 이메일 획득
 	private String getTokenUserEmail(HttpServletRequest request) {
@@ -263,22 +275,55 @@ public class OrdersController {
 			order.setOrdersCount(ord.getOrdersCount());
 			order.setOrdersPrice(laundry.getLaundryPrice() * ord.getOrdersCount());
 			total += laundry.getLaundryPrice() * ord.getOrdersCount();
-			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
-			if (!new File(directoryPath).exists()) {
-				new File(directoryPath).mkdirs();
+			
+			System.out.println("사진이 null이여야함 데이터 확인 : " + file.getOriginalFilename());
+			
+			if(file.getOriginalFilename()!=null&!file.getOriginalFilename().equals("")) {
+				try {
+					UUID uuid = UUID.randomUUID();
+					String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+					
+					System.out.println("bucket 이름 : " + bucket);
+//					https://washwashbucket.s3.ap-northeast-2.amazonaws.com/A004745449_01-1.jpg
+								
+					String fileUrl = "https://" + bucket + ".s3." + region + ".amazonaws.com/" + fileName;
+					
+					System.out.println(fileUrl);
+					
+					ObjectMetadata metadata = new ObjectMetadata();
+					
+					metadata.setContentType(file.getContentType());
+					metadata.setContentLength(file.getSize());
+					
+					amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+					
+					order.setOrdersDirPath(fileUrl);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+					order.setOrdersDirPath(null);
+				}
+			}else {
+				order.setOrdersDirPath(null);
 			}
-
-			UUID uuid = UUID.randomUUID();
-			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
-			File saveFile = new File(directoryPath, fileName);
-
-			try {
-				file.transferTo(saveFile);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-
-			order.setOrdersDirPath("/upload/" + fileName);
+			
+			
+//			String directoryPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\";
+//			if (!new File(directoryPath).exists()) {
+//				new File(directoryPath).mkdirs();
+//			}
+//
+//			UUID uuid = UUID.randomUUID();
+//			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+//			File saveFile = new File(directoryPath, fileName);
+//
+//			try {
+//				file.transferTo(saveFile);
+//			} catch (IllegalStateException | IOException e) {
+//				e.printStackTrace();
+//			}
+//
+//			order.setOrdersDirPath("/upload/" + fileName);
 			
 			ordersService.insertOrder(order);
 		}
@@ -372,7 +417,7 @@ public class OrdersController {
 	@Operation(summary = "주문 삭제")
 	@PostMapping("/delete/{washId}")
 	public String deleteWashIdOrder(@PathVariable("washId") int washId) {
-		ordersService.deleteWashOrder(washId);
+		ordersService.deleteWashOrder(washId);		
 		Pay pay = new Pay();
 		pay.setPayState("2");
 		pay.setWashId(washId);
