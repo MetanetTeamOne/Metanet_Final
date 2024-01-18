@@ -14,7 +14,7 @@
 		            <li class="join title">
 		            <a th:href="@{/member/insert}">회원가입</a>
 		            </li>
-		        	<li class="title"><a href="/customer">고객센터</a></li>
+		        	<!--<li class="title"><a href="/customer">고객센터</a></li>-->
 		        <li class="l"><a href="#" class="redzone">레드존</a></li>
 		        </ul>
 		        <ul sec:authorize="isAuthenticated()">
@@ -81,15 +81,15 @@
                                                     <h3 class="cate_feed title"><a th:href="@{/svcinfo}">서비스 안내</a></h3>
                                                     <ul>
                                                         <li class="title"><a th:onclick="scrollToElement('section2')" th:href="@{/svcinfo}">서비스 소개</a></li>
-                                                        <li class="title"><a href="#">서비스 종류</a></li>
-                                                        <li class="title"><a href="#">서비스 지역</a></li>
+                                                        <li class="title"><a th:href="@{/svcinfo#section2}">서비스 종류</a></li>
+                                                        <li class="title"><a th:href="@{/svcinfo#section3}">서비스 지역</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="cate_list">
                                                     <h3 class="cate_feed title"><a th:href="@{/howuse}">이용 방법</a></h3>
                                                     <ul>
-                                                        <li class="title"><a href="#">이용 안내</a></li>
-                                                        <li class="title"><a href="#">가격 정보</a></li>
+                                                        <li class="title"><a th:href="@{/howuse#how_use_section1}">이용 안내</a></li>
+                                                        <li class="title"><a th:href="@{/howuse#how_use_section2}">가격 정보</a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="cate_list">
