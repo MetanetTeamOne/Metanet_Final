@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 function connectWs(){
     // 웹소켓 연결
-	ws = new WebSocket('ws://43.201.12.132:8888/ws/alarm');
+	ws = new WebSocket('ws://localhost:8085/ws/alarm');
 
 	ws.onopen = function() {
 		console.log("연결완료");
@@ -58,9 +58,9 @@ function subscribeAlarm(){
 };
 
 function memReply(){
-	$('#insertBtn').click(function(e){
+	$('#memberHelpInsertBtn').click(function(e){
 	let memberEmail = document.getElementById('memberEmail').value;
-    ws.send("memReply"+","+memberEmail.value+","+"문의답변"+","+"문의 답변이 달렸습니다.");	
+    ws.send("memReply"+","+memberEmail+","+"문의답변"+","+"문의 답변이 달렸습니다.");	
 	});
 };
 
