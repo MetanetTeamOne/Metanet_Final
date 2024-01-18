@@ -5,9 +5,11 @@
 	#datatablesSimple:hover {
 		cursor: pointer;
 	}
+	
 </style>
 
 <body class="sb-nav-fixed">
+	
 	<nav th:replace="~{include/admin/header :: header}"></nav>
 
 	<div id="layoutSidenav">
@@ -18,7 +20,11 @@
 				<div class="container-fluid px-4">
 					<h1 class="mt-4 title">워시워시</h1>
 					<ol class="breadcrumb mb-4">
+<<<<<<< HEAD
 						<li class="breadcrumb-item active title">관리자 메인 페이지</li>
+=======
+						<li class="breadcrumb-item active">메인 페이지</li>
+>>>>>>> stash
 					</ol>
 
 					<div class="row">
@@ -70,10 +76,15 @@
 					</div>
 
 					<div class="row mb-4">
-						<div class="col-xl-4 col-md-3" style="margin-bottom: 30px;">
+						<div class="col-xl-6 col-md-6" style="margin-bottom: 30px;">
 							<div class="card mb-6">
+<<<<<<< HEAD
 								<div class="card-header title">
 									<i class="fas fa-chart-area me-1"></i>
+=======
+								<div class="card-header">
+									<!--<i class="fas fa-chart-area me-1"></i>-->
+>>>>>>> stash
 									<input id="payDate" type="hidden" th:value="${payDateList}">
 									<input id="payMoney" type="hidden" th:value="${payMoneyList}">
 									월별 매출 통계
@@ -83,9 +94,15 @@
 								</div>
 							</div>
 						</div>
+<<<<<<< HEAD
 						<div class="card col-xl-8" style="padding-left: 0;padding-right: 0;">
 							<div class="card-header title">
 								<i class="fas fa-table me-1"></i>
+=======
+						<div class="card col-xl-6 col-md-6" style="padding-left: 0;padding-right: 0;">
+							<div class="card-header">
+								<!--<i class="fas fa-table me-1"></i>-->
+>>>>>>> stash
 								전체 주문내역 조회
 							</div>
 							<div class="card-body">
@@ -126,10 +143,15 @@
 
 					</div>
 					<div class="row mb-4">
-						<div class="col-xl-4 col-md-3" style="margin-bottom: 30px;">
+						<div class="col-xl-6 col-md-6" style="margin-bottom: 30px;">
 							<div class="card mb-6">
+<<<<<<< HEAD
 								<div class="card-header title">
 									<i class="fas fa-chart-area me-1"></i>
+=======
+								<div class="card-header">
+									<!--<i class="fas fa-chart-area me-1"></i>-->
+>>>>>>> stash
 									목표 매출액 진척도
 								</div>
 								<div class="card-body" style="align-items: center!important; max-width: 500px;">
@@ -137,9 +159,15 @@
 								</div>
 							</div>
 						</div>
+<<<<<<< HEAD
 						<div class="card col-xl-8" style="padding-left: 0;padding-right: 0;">
 							<div class="card-header title">
 								<i class="fas fa-table me-1"></i>
+=======
+						<div class="card col-xl-6 col-md-6" style="padding-left: 0;padding-right: 0;">
+							<div class="card-header">
+								<!--<i class="fas fa-table me-1"></i>-->
+>>>>>>> stash
 								문의내역
 							</div>
 							<div class="card-body" id="memberTable" th:fragment="memberTable">

@@ -65,7 +65,7 @@ function onMessage(evt){
 };	
 
 function memHelp(){
-	$('#insertBtn').click(function(e){
+	$('#memberHelpInsertBtn').click(function(e){
 		
 	let memberEmail = "admin@admin.com";
     //cmd, send 계정, title, content

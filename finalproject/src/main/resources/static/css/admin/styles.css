@@ -97,7 +97,7 @@
 }
 /*추가*/
 .title {
-    font-family: 'Jua', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -105,6 +105,10 @@
     scroll-behavior: smooth;
   }
 }
+
+body, h1, h2, h3, h4, h5, h6, p, span {
+    font-family: 'Noto Sans KR' !important;
+  }
 
 body {
   margin: 0;
@@ -260,8 +264,8 @@ sup {
 }
 
 a {
-  color: var(--bs-link-color);
-  text-decoration: underline;
+  /*color: var(--bs-link-color);*/
+  text-decoration: none;
 }
 a:hover {
   color: var(--bs-link-hover-color);
@@ -4527,6 +4531,9 @@ textarea.form-control-lg {
 }
 .breadcrumb-item.active {
   color: var(--bs-breadcrumb-item-active-color);
+  font-size: 22px;
+  padding-left: 20px;
+
 }
 
 .pagination, .datatable-pagination ul {
@@ -11448,10 +11455,24 @@ body {
 
 
 #msgStack {
-	    display: flex;
+	display: flex;
     position: fixed;
     min-width: 300px;
     bottom: 110px;
     right: 0px;
 }
 
+<<<<<<< HEAD
+=======
+.card {
+    border-radius: 0;
+    
+}
+
+.card-header{
+	background-color: #fff;
+	color: #545353;
+	padding: 12px 20px;
+}
+
+>>>>>>> stash
