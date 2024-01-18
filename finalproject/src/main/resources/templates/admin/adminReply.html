@@ -16,7 +16,7 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">워시워시</li>
                         </ol>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Primary Card</div>
@@ -53,8 +53,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                        </div>-->
+                        <!--<div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
@@ -73,41 +73,41 @@
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 문의 - 답변
                             </div>
 		                        		<div class="col-md-12" style="margin-top: 10px;">
-											<label for="memHelpNum" class="form-label title">회원 ID</label>
+											<label for="memHelpNum" class="form-label">회원 ID</label>
 											<!--<input type="text" class="form-control" id="cc-name" placeholder="" required="">
 										<small class="text-body-secondary">국민, 신한, 농협, BC카드 결제 가능합니다.</small>-->
-											<span class="form-control title" th:text="'# '+${memberId}"></span>
+											<span class="form-control" th:text="'# '+${memberId}"></span>
 										</div>
 		
 										<div class="col-md-12" style="margin-top: 10px;">
-											<label for="memberId" class="form-label title">제목</label>
-											<span class="form-control title" th:text="${memHelpTitle}"></span>
+											<label for="memberId" class="form-label">제목</label>
+											<span class="form-control" th:text="${memHelpTitle}"></span>
 										</div>
 										<div class="col-md-12" style="margin-top: 10px;">
-											<label for="memHelpState" class="form-label title">문의내용</label>
-											<span class="form-control title" th:text="${memHelpContent}"></span>
+											<label for="memHelpState" class="form-label">문의내용</label>
+											<span class="form-control" th:text="${memHelpContent}"></span>
 										</div>
 										<div class="col-md-12" style="margin-top: 10px;"> <!-- 변경: col-md-6으로 수정 -->
-									        <label for="memHelpFile" class="form-label title">첨부 파일</label>
-											<img class="form-control title" style="width: 200px; height: auto;" th:src="${memHelpFile}"
+									        <label for="memHelpFile" class="form-label">첨부 파일</label>
+											<img class="form-control" style="width: 200px; height: auto;" th:src="${memHelpFile}"
 															onerror="this.onerror=null; this.src='/img/ImgError1.png';">
 									    </div>
 	 
                             <div class="card-body">
                                 <form class="needs-validation was-validated" method="post" th:action="@{/admin/reply/insert}" id="replyForm">
 									<input type="hidden" id="memberEmail" th:value="${memberEmail}">
-									<label for="memhelpContentName" class="form-label title" style="margin-top: 20px;">답변 내용</label>
+									<label for="memhelpContentName" class="form-label" style="margin-top: 20px;">답변 내용</label>
 										<div class="input-group2 has-validation">
 											<input type="hidden" th:field="${replyDto.memHelpNum}" id="memHelpNum" name="memHelpNum" />
-										    <textarea th:field="${replyDto.repContent}" class="form-control title" id="repContent" name="repContent" rows="5" required=""></textarea>
-										    <div class="invalid-feedback title">
+										    <textarea th:field="${replyDto.repContent}" class="form-control" id="repContent" name="repContent" rows="5" required=""></textarea>
+										    <div class="invalid-feedback">
 										        내용을 입력하세요
 										    </div>
 										</div>
@@ -119,9 +119,9 @@
 	
 							<div style="width: 100%; text-align: right;">
 							    <div class="btn_right_box" style="margin-top: 15px;">
-							        <button type="button" class="btn_member_cancel title" th:onclick="|javascript:location.href='/admin/memhelp'|">취소</button>
-							        <!-- <button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" th:onclick="|javascript:location.href='/memhelp'|">신청</button> -->
-							        <button type="submit" class="btn_comfirm js_btn_join title" id="insertBtn" onclick="submitForm()">등록하기</button>
+							        <button type="button" class="btn_member_cancel" th:onclick="|javascript:location.href='/admin/memhelp'|">취소</button>
+							        <!-- <button type="submit" class="btn_comfirm js_btn_join" id="insertBtn" th:onclick="|javascript:location.href='/memhelp'|">신청</button> -->
+							        <button type="submit" class="btn_comfirm js_btn_join" id="insertBtn" onclick="submitForm()">등록하기</button>
 							    </div>
 							</div>
 						</form>

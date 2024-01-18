@@ -3,42 +3,42 @@
     <nav class="sb-sidenav accordion bg-primary" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading title">홈</div>
-                <a class="nav-link title" th:href="@{/admin}">
+                <div class="sb-sidenav-menu-heading">홈</div>
+                <a class="nav-link" th:href="@{/admin}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     메인 페이지
                 </a>
                 <!--회원 관리-->
-                <div class="sb-sidenav-menu-heading title">관리</div>
-                <a class="nav-link collapsed title" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                <div class="sb-sidenav-menu-heading">관리</div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     회원
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link title" th:href="@{/admin/member}">회원 관리</a>
-                        <a class="nav-link title" th:href="@{/admin/memhelp}">문의 사항</a>
+                        <a class="nav-link" th:href="@{/admin/member}">회원 관리</a>
+                        <a class="nav-link" th:href="@{/admin/memhelp}">문의 사항</a>
                     </nav>
                 </div>
                 <!--서비스 관리 -->
-                <a class="nav-link collapsed title" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon title"><i class="fas fa-book-open"></i></div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                    	서비스
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link title" th:href="@{/admin/laundry}">세탁물 관리</a>
-                        <a class="nav-link title" th:href="@{/admin/order}">주문 관리</a>
-                        <a class="nav-link title" th:href="@{/admin/pay}">결제 관리</a>
+                        <a class="nav-link" th:href="@{/admin/laundry}">세탁물 관리</a>
+                        <a class="nav-link" th:href="@{/admin/order}">주문 관리</a>
+                        <a class="nav-link" th:href="@{/admin/pay}">결제 관리</a>
                     </nav>
                 </div>
-                <div class="sb-sidenav-menu-heading title">매출</div>
-                <a class="nav-link title" th:href="@{/admin/chart}">
+                <!--<div class="sb-sidenav-menu-heading">매출</div>
+                <a class="nav-link" th:href="@{/admin/chart}">
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     매출 관리
-                </a>
+                </a>-->
             </div>
         </div>
     </nav>
