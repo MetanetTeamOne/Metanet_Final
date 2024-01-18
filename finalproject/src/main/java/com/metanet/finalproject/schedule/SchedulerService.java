@@ -18,7 +18,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-@Transactional
+
 @Service
 @Slf4j
 public class SchedulerService {
