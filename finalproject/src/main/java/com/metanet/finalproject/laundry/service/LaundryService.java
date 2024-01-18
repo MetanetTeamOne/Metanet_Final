@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.repository.ILaundryRepository;
 
+@Transactional
 @Service
 public class LaundryService implements ILaundryService{
 

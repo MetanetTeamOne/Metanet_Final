@@ -58,9 +58,9 @@ function subscribeAlarm(){
 };
 
 function memReply(){
-	$('#insertBtn').click(function(e){
+	$('#memberHelpInsertBtn').click(function(e){
 	let memberEmail = document.getElementById('memberEmail').value;
-    ws.send("memReply"+","+memberEmail.value+","+"문의답변"+","+"문의 답변이 달렸습니다.");	
+    ws.send("memReply"+","+memberEmail+","+"문의답변"+","+"문의 답변이 달렸습니다.");	
 	});
 };
 

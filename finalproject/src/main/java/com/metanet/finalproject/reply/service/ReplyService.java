@@ -2,10 +2,12 @@ package com.metanet.finalproject.reply.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.metanet.finalproject.reply.model.Reply;
 import com.metanet.finalproject.reply.repository.IReplyRepository;
 
+@Transactional
 @Service
 public class ReplyService implements IReplyService{
 	
