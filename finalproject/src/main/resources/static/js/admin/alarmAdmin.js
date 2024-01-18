@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 function connectWs(){
     // 웹소켓 연결
-	ws = new WebSocket('ws://43.201.12.132:8085/ws/alarm');
+	ws = new WebSocket('ws://43.201.12.132:8888/ws/alarm');
 
 	ws.onopen = function() {
 		console.log("연결완료");
