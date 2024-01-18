@@ -3,6 +3,9 @@ package com.metanet.finalproject.orders.controller;
 import java.util.List;
 
 import com.metanet.finalproject.paging.Pagination;
+import com.metanet.finalproject.pay.model.Pay;
+import com.metanet.finalproject.pay.service.IPayService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.metanet.finalproject.address.model.Address;
+import com.metanet.finalproject.address.service.IAddressService;
 import com.metanet.finalproject.jwt.JwtTokenProvider;
 import com.metanet.finalproject.laundry.model.Laundry;
 import com.metanet.finalproject.laundry.service.ILaundryService;
@@ -41,6 +46,12 @@ public class AdminOrdersController {
 	
 	@Autowired
 	ILaundryService laundryService;
+	
+	@Autowired
+	IAddressService addressService;
+	
+	@Autowired
+	IPayService payService;
 	
 	@GetMapping("/admin/order")
 	public String searchOrdersList(Model model) {
@@ -87,9 +98,18 @@ public class AdminOrdersController {
 		List<Orders> orderList = ordersService.searchOrder(memberId, washId);
 		List<Laundry> laundryList = laundryService.getLaundry();
 		String memberEmail = memberService.getMember(memberId).getMemberEmail();
+		Address address = addressService.getAddressByMemberId(memberId);
+		List<Pay> payList = payService.getMemberPay(memberId);
+		System.out.println("laundryList======"+laundryList);
+		System.out.println("address============="+address);
+		Pay pay = payService.getWashIdPay(washId);
+		
 		model.addAttribute("memberEmail", memberEmail);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("laundryList", laundryList);
+		model.addAttribute("address", address);
+		model.addAttribute("payList", payList);
+		model.addAttribute("pay", pay);
 		return "admin/adminOrderView";
 	}
 	
