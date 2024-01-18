@@ -2,12 +2,14 @@ package com.metanet.finalproject.address.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.metanet.finalproject.address.model.Address;
 import com.metanet.finalproject.address.repository.IAddressRepository;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class AddressService implements IAddressService{
 
