@@ -29,8 +29,7 @@ public class AdminMemberController {
     public String memberList(@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
                              @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
                              @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize, Model model) {
-        String state = null;
-        int memberCount = memberService.getMemberCount(state);
+        int memberCount = memberService.getMemberCount("1");
         //log.info("memberCount: {}", memberCount);
         Pagination pagination = new Pagination(currentPage, cntPerPage, pageSize);
         pagination.setTotalRecordCount(memberCount);
@@ -38,7 +37,7 @@ public class AdminMemberController {
         //log.info("memberCount: {}", memberCount);
         //log.info("pagination: {}", pagination);
         model.addAttribute("pagination", pagination);
-        List<Member> memberList = memberService.getPagingMemberList(pagination);
+        List<Member> memberList = memberService.getPagingMemberListByState(pagination.getFirstRecordIndex(), pagination.getLastRecordIndex(), "1");
         //log.info("memberList: {}", memberList);
         model.addAttribute("list", memberList);
         return "admin/adminMember";
